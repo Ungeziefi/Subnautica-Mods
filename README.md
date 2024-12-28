@@ -1,0 +1,1 @@
+Credits to [Tweaks and Fixes](https://github.com/qqqbbb/Tweaks-and-Fixes) by [qqqbbb](https://github.com/qqqbbb) for the ideas and parts of the code. Read the corresponding .md files for a list of features and, in the case of the Fixes plugin, a list of differences with the original mod.
