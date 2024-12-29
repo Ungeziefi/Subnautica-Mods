@@ -1,3 +1,5 @@
+Built with [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Templates).
+
 ### Credits
 - [Tweaks and Fixes](https://github.com/qqqbbb/Tweaks-and-Fixes) by [qqqbbb](https://github.com/qqqbbb) for most ideas and parts of the code.
 - [MrOshaw](https://github.com/mroshaw) for the [Subnautica Modding Guide](https://mroshaw.github.io/).
