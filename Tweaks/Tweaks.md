@@ -11,9 +11,11 @@
 - Disables eating and using medkits underwater.
 - Swivel chairs now can swivel. (Improved by adding acceleration, deceleration, and inertia.)
 - The bladderfish description now mentions it can be used as a source of oxygen.
+- Breaking outcrops requires a tool.
 
 ### Completed (New Features)
 - Randomizes the size of certain creatures. (Check Tweaks.cs#L81 for a list of them.)
+- Harvesting plants requires a knife or Thermoblade.
 
 ### To-Do
 - Reefbacks no longer surface.
@@ -23,7 +25,6 @@
 - In the main menu, you can use the mouse wheel to select the next or previous savegame slot.
 - When your life pod is damaged, you can open the top hatch to let the smoke out.
 - The tool you are holding in your hand is now saved when you save your game.
-- You can break outcrops by slashing them with a knife.
 - You can use both the repulsion and propulsion cannons to move the mobile vehicle bay.
 - You can push your life pod with the Seamoth or Cyclops.
 - Gaspods attracted by the grav trap do not explode.

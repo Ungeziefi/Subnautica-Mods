@@ -185,13 +185,16 @@ namespace Ungeziefi.Fixes
             var pos = new Vector3Int((int)__instance.transform.position.x, (int)__instance.transform.position.y, (int)__instance.transform.position.z);
             var slot = SaveLoadManager.main.currentSlot;
             if (!openedWreckDoors.ContainsKey(slot))
+            {
                 openedWreckDoors[slot] = new HashSet<Vector3Int>();
+            }    
 
             if (__instance.opened)
             {
                 openedWreckDoors[slot].Remove(pos);
                 // Main.Logger.LogInfo($"Door at {pos} in slot {slot} closed and state saved.");
             }
+
             else
             {
                 openedWreckDoors[slot].Add(pos);

@@ -132,8 +132,7 @@ namespace Ungeziefi.Tweaks
         }
     }
 
-
-    // Swivel chairs now swivel
+    // Swivel chairs can now swivel
     [HarmonyPatch(typeof(Bench))]
     public class TweakBenchSwivel
     {
@@ -149,7 +148,6 @@ namespace Ungeziefi.Tweaks
         static void Postfix(Bench __instance)
         {
             var tt = CraftData.GetTechType(__instance.gameObject);
-
             // Main.Logger.LogInfo("Sitting on " + tt);
 
             // Check if the bench is a swivel chair

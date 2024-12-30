@@ -32,5 +32,8 @@ namespace Ungeziefi.Tweaks
 
         [Toggle(Label = "Bladderfish tooltip", Tooltip = "Adds a tooltip about the Bladderfish providing oxygen if consumed raw.")]
         public bool BladderfishTooltip = true;
+
+        [Toggle(Label = "Barehands harvesting", Tooltip = "Allows harvesting outcrops and flora without any tool equipped.")]
+        public bool BarehandsHarvesting = true;
     }
 }
