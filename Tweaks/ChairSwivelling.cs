@@ -15,8 +15,9 @@ namespace Ungeziefi.Tweaks
         // Current direction of rotation: 1 for right, -1 for left, 0 for none
         private static int currentDirection = 0;
 
+        [HarmonyPostfix]
         [HarmonyPatch(nameof(Bench.EnterSittingMode))]
-        static void Postfix(Bench __instance)
+        static void EnterSittingMode(Bench __instance)
         {
             var tt = CraftData.GetTechType(__instance.gameObject);
             // Main.Logger.LogInfo("Sitting on " + tt);
@@ -26,6 +27,15 @@ namespace Ungeziefi.Tweaks
             {
                 swivelChair = __instance;
             }
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch(nameof(Bench.ExitSittingMode))]
+        static void ExitSittingMode(Bench __instance)
+        {
+            // Reset rotation speed and direction when exiting the chair
+            currentRotSpeed = 0f;
+            currentDirection = 0;
         }
 
         [HarmonyPatch(nameof(Bench.OnUpdate))]
