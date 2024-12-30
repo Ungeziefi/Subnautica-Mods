@@ -17,13 +17,14 @@ namespace Ungeziefi.Fixes
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
-        private void Awake()
+        public void Awake()
         {
-            // set project-scoped logger instance
+            // Set project-scoped logger instance
             Logger = base.Logger;
 
-            // register harmony patches, if there are any
+            // Register harmony patches
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
+
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
         }
     }

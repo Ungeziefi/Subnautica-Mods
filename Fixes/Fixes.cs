@@ -127,6 +127,7 @@ namespace Ungeziefi.Fixes
             if (PDAScanner.mapping.ContainsKey(TechType.MediumKoosh))
             {
                 var entryData = PDAScanner.mapping[TechType.MediumKoosh];
+
                 if (!PDAScanner.mapping.ContainsKey(TechType.LargeKoosh))
                     PDAScanner.mapping.Add(TechType.LargeKoosh, entryData);
 

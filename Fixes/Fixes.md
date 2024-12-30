@@ -1,11 +1,30 @@
-﻿### To Do
+﻿### Notes
+- Features involving text are only enabled when the game is in English.
+- All features are forced on.
+- Completed features have any important differences with the original mod in parenthesis.
+
+### Completed
+- The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint.)
+- Leviathans now don't attack the player on land. (Improved by using GetOceanLevel instead of 1f.)
+- The flashlight now does not illuminate anything behind it.
+- The Grub basket, Bulbo tree, speckled rattler, pink cap, and Ming plant now do not animate. (Improved by applying this only indoors.)
+- The nuclear waste disposal bin is now called exactly that, not "trash can". (Also corrected it from "Use Trashcan" to "Use Trash can" for consistency and capitalized the "Use" string globally. Not localized.)
+- You can now scan pygmy (SmallKoosh) and large bulb bush (LargeKoosh).
+- Now, when you look at a cut-open sealed wreck door, the UI does not tell you that you can cut it open.
+- The state of wreck doors that you open manually is now saved.
+- The beacon now faces you when you deploy it.
+- Now you can't climb the Mobile Vehicle Bay when standing on it. (Improved by using GetOceanLevel instead of 1f.)
+- When the Cyclops is destroyed with the player in it, the player now respawns correctly by triggering an actual death.
+- The Cyclops' steering wheel animation has three states: default position, turn right 100%, turn left 100%. Now it uses correct analog values if you are using a controller.
+- When running silent, your Cyclops consumes energy even if the engine is off.
+
+### To-Do
 - When you load your game, the Cyclops' speed is wrong until you switch speed modes.
 - The Cyclops hatch flaps now always close when you enter it.
 - The "doors opening" sound effect plays when you approach the Cyclops docking bay in a vehicle while another one is docked.
 - When the Cyclops is unpowered, its HUD and screens are off.
 - The Reaper pushes your Cyclops instead of attacking it.
 - The state of doors inside the Cyclops is now saved.
-
 - Creatures always flee to the origin coordinates when attacked.
 - You can now destroy drooping stingers with a knife.
 - When your Seamoth hits any object at a very low speed, a "fish splat" sound plays.
@@ -14,7 +33,7 @@
 - Stalkers now drop whatever they are holding in their jaws when attacked.
 - When you damage a creature with a knife, two instances of the damage particle effect spawn.
 - The creature decoy works only for Leviathans. Now it works for every predator.
-- The Creepvine seed light is now removed after you pick all seeds from a creepvine.
+- The Creepvine seed light updates according to the remaining seeds.
 - The brain coral, planter, tiger plant, lantern fruit tree, and Bulbo tree can't be moved with the propulsion or repulsion cannon.
 - The drill arm sound effect stops when it is working but not hitting anything.
 - When you save the game while taking poison damage, your health does not restore after reloading.
@@ -36,29 +55,14 @@
 - Dead fish are removed from containers when loading a saved game.
 - Items that you place in your base don't fade in.
 
-### Won't Do
-- ~~When looking at a creature, the UI now tells you if it's dead.~~ (Out of scope.)
-- ~~Eggs in your alien containment (AC) now disappear when they hatch.~~ (Can't reproduce.)
-- ~~Wild lantern tree fruits do not respawn.~~ (Intentional balance feature.)
-- ~~Wild blood oil does not respawn.~~ (Intentional balance feature.)
-- ~~The Sulfur Plant at coordinates (280, -40, -195) has the wrong rotation.~~ (Can't get it to spawn.)
-- ~~Boulders that block some cave entrances in the safe shallows now do not disappear forever when you move away from them.~~ (Can't reproduce.)
-- ~~Removed the ridiculous light from Land_tree_01.~~ (Can't reproduce.)
-- ~~The Mobile Vehicle Bay now sinks when not deployed.~~ (Vanilla feature.)
-- ~~Peepers close their eyes when near the player.~~ (Out of scope.)
-- ~~Equipped dead fish's position changes if it is in your inventory when the game is loaded.~~ (Can't reproduce.)
-
-### Done
-- The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint.)
-- Leviathans now don't attack the player on land. (Improved by using GetOceanLevel instead of 1f.)
-- The flashlight now does not illuminate anything behind it.
-- The Grub basket, Bulbo tree, speckled rattler, pink cap, and Ming plant now do not animate. (Improved by applying this only indoors.)
-- The nuclear waste disposal bin is now called exactly that, not "trash can". (Also corrected it from "Use Trashcan" to "Use Trash can" for consistency and capitalized the "Use" string globally. Not localized.)
-- You can now scan pygmy and large bulb bush.
-- Now, when you look at a cut-open sealed wreck door, the UI does not tell you that you can cut it open.
-- The state of wreck doors that you open manually is now saved.
-- The beacon now faces you when you deploy it.
-- Now you can't climb the Mobile Vehicle Bay when standing on it. (Improved by using GetOceanLevel instead of 1f.)
-- When the Cyclops is destroyed with the player in it, the player now respawns correctly by triggering an actual death.
-- The Cyclops' steering wheel animation has three states: default position, turn right 100%, turn left 100%. Now it uses correct analog values if you are using a controller.
-- When running silent, your Cyclops consumes energy even if the engine is off.
+### Won't Add
+- When looking at a creature, the UI now tells you if it's dead. (Out of scope.)
+- Eggs in your alien containment (AC) now disappear when they hatch. (Can't reproduce.)
+- Wild lantern tree fruits do not respawn. (Intentional balance feature.)
+- Wild blood oil does not respawn. (Intentional balance feature.)
+- The Sulfur Plant at coordinates (280, -40, -195) has the wrong rotation. (Can't get it to spawn.)
+- Boulders that block some cave entrances in the safe shallows now do not disappear forever when you move away from them. (Can't reproduce.)
+- Removed the ridiculous light from Land_tree_01. (Can't reproduce.)
+- The Mobile Vehicle Bay now sinks when not deployed. (Vanilla feature.)
+- Peepers close their eyes when near the player. (Out of scope.)
+- Equipped dead fish's position changes if it is in your inventory when the game is loaded. (Can't reproduce.)
