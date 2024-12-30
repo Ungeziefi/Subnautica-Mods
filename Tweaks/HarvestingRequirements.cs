@@ -2,7 +2,7 @@
 
 namespace Ungeziefi.Tweaks
 {
-    public class TweakBarehandsHarvesting
+    public class TweakHarvestingRequirements
     {
         // Outcrops
         // Determines if the player should be prevented from breaking outcrops without a tool equipped
@@ -10,7 +10,7 @@ namespace Ungeziefi.Tweaks
         {
             Exosuit exosuit = Player.main.GetVehicle() as Exosuit;
             return Language.main.GetCurrentLanguage() == "English" &&
-                   !Main.Config.BarehandsHarvesting &&
+                   Main.Config.HarvestingRequirements &&
                    Inventory.main.GetHeldTool() == null &&
                    !exosuit;
         }
@@ -52,7 +52,7 @@ namespace Ungeziefi.Tweaks
             HeatBlade heatblade = Inventory.main.GetHeldTool() as HeatBlade;
             Exosuit exosuit = Player.main.GetVehicle() as Exosuit;
             return Language.main.GetCurrentLanguage() == "English" &&
-                   !Main.Config.BarehandsHarvesting &&
+                   Main.Config.HarvestingRequirements &&
                    !exosuit &&
                    (knife == null && heatblade == null);
         }
@@ -65,7 +65,7 @@ namespace Ungeziefi.Tweaks
             {
                 if (ShouldPreventAction_Plants())
                 {
-                    HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "A knife needs to be equipped");
+                    HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "A knife or Thermoblade needs to be equipped");
                     return false;
                 }
                 return true;

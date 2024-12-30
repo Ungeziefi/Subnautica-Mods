@@ -1,9 +1,4 @@
-﻿### Notes
-- Features involving text are only enabled when the game is in English.
-- All features are forced on.
-- Completed features have any important differences with the original mod in parenthesis.
-
-### Completed
+﻿### Completed
 - The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint.)
 - Leviathans now don't attack the player on land. (Improved by using GetOceanLevel instead of 1f.)
 - The flashlight now does not illuminate anything behind it.

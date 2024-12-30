@@ -1,0 +1,6 @@
+- Features involving text are only enabled when the game is in English.
+- Fixes cannot be toggled.
+- Tweaks default to on but can be toggled in the config file or through the game's options.
+  - Multipliers default to my preferences.
+- Completed features have any important differences with the original mod in parenthesis.
+- Larger features are split into their own file.

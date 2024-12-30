@@ -1,9 +1,3 @@
-### Notes
-- Features involving text are only enabled when the game is in English.
-- Completed features have any important differences with the original mod in parenthesis.
-- All features can be toggled in the config file or through the game's options.
-- Subjective features are off by default.
-
 ### Completed
 - Adds a push feature to the Seamoth.
 - Multiplies the build time of structures.
@@ -12,6 +6,7 @@
 - Swivel chairs now can swivel. (Improved by adding acceleration, deceleration, and inertia.)
 - The bladderfish description now mentions it can be used as a source of oxygen.
 - Breaking outcrops requires a tool.
+- Newly crafted power cells now match the charge of the batteries used to craft them. (Improved by supporting any number of batteries instead of hardcoding to 2.)
 
 ### Completed (New Features)
 - Randomizes the size of certain creatures. (Check Tweaks.cs#L81 for a list of them.)
@@ -19,7 +14,6 @@
 
 ### To-Do
 - Reefbacks no longer surface.
-- Newly crafted power cells now match the charge of the batteries used to craft them.
 - Cyclops speed mode is now saved.
 - In the main menu, you can press the 'escape' key to close the options menu.
 - In the main menu, you can use the mouse wheel to select the next or previous savegame slot.
