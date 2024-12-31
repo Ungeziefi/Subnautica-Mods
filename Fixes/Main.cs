@@ -18,7 +18,7 @@ namespace Ungeziefi.Fixes
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
-        new internal static FixesConfig FixesConfig { get; } = OptionsPanelHandler.RegisterModOptions<FixesConfig>();
+        internal static FixesConfig FixesConfig { get; } = OptionsPanelHandler.RegisterModOptions<FixesConfig>();
         public void Awake()
         {
             // Set project-scoped logger instance
