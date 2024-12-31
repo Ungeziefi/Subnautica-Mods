@@ -13,10 +13,10 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(typeof(CrafterLogic))]
         public class TweakPowerCellChargeFromBatteries_CrafterLogic
         {
-            [HarmonyPatch(nameof(CrafterLogic.NotifyCraftEnd))]
-            public static void Postfix(CrafterLogic __instance, GameObject target, TechType techType)
+            [HarmonyPatch(nameof(CrafterLogic.NotifyCraftEnd)), HarmonyPostfix]
+            public static void NotifyCraftEnd(CrafterLogic __instance, GameObject target, TechType techType)
             {
-                if (!Main.Config.PowerCellChargeFromBatteries)
+                if (!Main.TweaksConfig.PowerCellChargeFromBatteries)
                 {
                     return;
                 }
@@ -45,15 +45,15 @@ namespace Ungeziefi.Tweaks
         public class TweakPowerCellChargeFromBatteries_Inventory
         {
             // Clear the list of used batteries before crafting
-            [HarmonyPatch(nameof(Inventory.ConsumeResourcesForRecipe))]
-            public static void Prefix(Inventory __instance, TechType techType)
+            [HarmonyPatch(nameof(Inventory.ConsumeResourcesForRecipe)), HarmonyPrefix]
+            public static void ConsumeResourcesForRecipe(Inventory __instance, TechType techType)
             {
                 batteriesUsedForCrafting.Clear();
             }
 
             // Add removed batteries to the list
-            [HarmonyPatch(nameof(Inventory.OnRemoveItem))]
-            public static void Postfix(Inventory __instance, InventoryItem item)
+            [HarmonyPatch(nameof(Inventory.OnRemoveItem)), HarmonyPostfix]
+            public static void OnRemoveItem(Inventory __instance, InventoryItem item)
             {
                 // Get the Battery component from the removed item
                 Battery battery = item.item.GetComponent<Battery>();

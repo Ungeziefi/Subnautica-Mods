@@ -7,10 +7,10 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch(typeof(ScannerTool))]
     public class FixScannerToolChargeLevel
     {
-        [HarmonyPatch(nameof(ScannerTool.Update))]
-        public static bool Prefix(ScannerTool __instance)
+        [HarmonyPatch(nameof(ScannerTool.Update)), HarmonyPrefix]
+        public static bool Update(ScannerTool __instance)
         {
-            if (__instance.isDrawn)
+            if (Main.FixesConfig.ScannerChargeIndicator && __instance.isDrawn)
             {
                 if (__instance.idleTimer > 0f)
                 {

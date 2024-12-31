@@ -6,10 +6,10 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch(typeof(PDAScanner))]
     public class FixPDAScannerKoosh
     {
-        [HarmonyPatch(nameof(PDAScanner.Initialize))]
-        public static void Postfix()
+        [HarmonyPatch(nameof(PDAScanner.Initialize)), HarmonyPostfix]
+        public static void Initialize()
         {
-            if (PDAScanner.mapping.ContainsKey(TechType.MediumKoosh))
+            if (Main.FixesConfig.AddMissingBulbBushDataEntries && PDAScanner.mapping.ContainsKey(TechType.MediumKoosh))
             {
                 var entryData = PDAScanner.mapping[TechType.MediumKoosh];
 
@@ -21,10 +21,10 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(PDAScanner.Unlock))]
-        public static void Postfix(PDAScanner.EntryData entryData)
+        [HarmonyPatch(nameof(PDAScanner.Unlock)), HarmonyPostfix]
+        public static void Unlock(PDAScanner.EntryData entryData)
         {
-            if (entryData.key == TechType.MediumKoosh || entryData.key == TechType.SmallKoosh || entryData.key == TechType.LargeKoosh)
+            if (Main.FixesConfig.AddMissingBulbBushDataEntries && entryData.key == TechType.MediumKoosh || entryData.key == TechType.SmallKoosh || entryData.key == TechType.LargeKoosh)
             {
                 PDAScanner.complete.Add(TechType.LargeKoosh);
                 PDAScanner.complete.Add(TechType.SmallKoosh);

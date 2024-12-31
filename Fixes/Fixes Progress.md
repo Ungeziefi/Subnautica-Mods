@@ -1,16 +1,16 @@
-﻿### Completed
+﻿# T&F Ports
+### Done
 - The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint.)
 - Leviathans now don't attack the player on land. (Improved by using GetOceanLevel instead of 1f.)
 - The flashlight now does not illuminate anything behind it.
 - The Grub basket, Bulbo tree, speckled rattler, pink cap, and Ming plant now do not animate. (Improved by applying this only indoors.)
-- The nuclear waste disposal bin is now called exactly that, not "trash can". (Also corrected it from "Use Trashcan" to "Use Trash can" for consistency and capitalized the "Use" string globally. Not localized.)
+- The Nuclear waste disposal bin is now called exactly that, not "trash can".
 - You can now scan pygmy (SmallKoosh) and large bulb bush (LargeKoosh).
 - Now, when you look at a cut-open sealed wreck door, the UI does not tell you that you can cut it open.
-- The state of wreck doors that you open manually is now saved.
 - The beacon now faces you when you deploy it.
 - Now you can't climb the Mobile Vehicle Bay when standing on it. (Improved by using GetOceanLevel instead of 1f.)
 - When the Cyclops is destroyed with the player in it, the player now respawns correctly by triggering an actual death.
-- The Cyclops' steering wheel animation has three states: default position, turn right 100%, turn left 100%. Now it uses correct analog values if you are using a controller.
+- The Cyclops' steering wheel animation has three states: default position, turn right 100%, turn left 100%. Now it uses correct analog values with a controller.
 - When running silent, your Cyclops consumes energy even if the engine is off.
 
 ### To-Do
@@ -49,6 +49,7 @@
 - Fish you release from your hand don't fade in.
 - Dead fish are removed from containers when loading a saved game.
 - Items that you place in your base don't fade in.
+- The state of wreck doors that you open manually is now saved.
 
 ### Won't Add
 - When looking at a creature, the UI now tells you if it's dead. (Out of scope.)
@@ -61,3 +62,10 @@
 - The Mobile Vehicle Bay now sinks when not deployed. (Vanilla feature.)
 - Peepers close their eyes when near the player. (Out of scope.)
 - Equipped dead fish's position changes if it is in your inventory when the game is loaded. (Can't reproduce.)
+
+
+---
+
+# New
+### Done
+- Anisotropic filtering is now forced on every texture.

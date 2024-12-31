@@ -1,16 +1,15 @@
-### Completed
+# T&F Ports
+### Done
 - Adds a push feature to the Seamoth.
 - Multiplies the build time of structures.
 - Multiplies the craft time of items.
 - Disables eating and using medkits underwater.
 - Swivel chairs now can swivel. (Improved by adding acceleration, deceleration, and inertia.)
-- The bladderfish description now mentions it can be used as a source of oxygen.
 - Breaking outcrops requires a tool.
 - Newly crafted power cells now match the charge of the batteries used to craft them. (Improved by supporting any number of batteries instead of hardcoding to 2.)
-
-### Completed (New Features)
-- Randomizes the size of certain creatures. (Check Tweaks.cs#L81 for a list of them.)
-- Harvesting plants requires a knife or Thermoblade.
+- Removed the epilepsy warning during startup.  
+**Minor Tweaks**
+  - The bladderfish description now mentions it can be used as a source of oxygen.
 
 ### To-Do
 - Reefbacks no longer surface.
@@ -73,5 +72,15 @@
 - When your Seamoth or Prawn Suit gets destroyed, items stored in it will drop. (Not interested.)
 - New storage UI system: you no longer have to target a certain part of a container to rename it. (Not interested and the original implementation has a bug that resets the name.)
 - You can now name your lockers, Cyclops lockers, and lockers from the Decorations mod. (Not interested.)
-- Removed the epilepsy warning at game start. (Already done by [No Epilepsy Warning](https://www.nexusmods.com/subnautica/mods/1435?tab=files).)
 - Creepvine seed clusters can now be eaten. (Not interested.)
+
+
+---
+
+# New
+### Done
+- Randomizes the size of certain creatures. (Check Tweaks.cs#L81 for a list of them.)
+- Harvesting plants requires a knife or Thermoblade.  
+**Minor Tweaks**
+  - "Use Trashcan" -> "Use Trash can" for consistency with its recipe.
+  - Capitalized the "Use" string globally.

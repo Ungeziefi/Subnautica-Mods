@@ -2,6 +2,7 @@
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using Nautilus.Handlers;
 
 namespace Ungeziefi.Fixes
 {
@@ -17,6 +18,7 @@ namespace Ungeziefi.Fixes
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
+        new internal static FixesConfig FixesConfig { get; } = OptionsPanelHandler.RegisterModOptions<FixesConfig>();
         public void Awake()
         {
             // Set project-scoped logger instance

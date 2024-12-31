@@ -20,25 +20,29 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch(typeof(CyclopsSilentRunningAbilityButton))]
     public class FixCyclopsSilentRunningAbilityButtonPowerDrain
     {
-        [HarmonyPatch(nameof(CyclopsSilentRunningAbilityButton.SilentRunningIteration))]
-        public static bool Prefix(CyclopsSilentRunningAbilityButton __instance)
+        [HarmonyPatch(nameof(CyclopsSilentRunningAbilityButton.SilentRunningIteration)), HarmonyPrefix]
+        public static bool SilentRunningIteration(CyclopsSilentRunningAbilityButton __instance)
         {
-            // Don't consume power when the engine is off
-            if (Player.main.currentSub != null && Player.main.currentSub.noiseManager != null && Player.main.currentSub.noiseManager.noiseScalar == 0f)
+            if (Main.FixesConfig.SilentRunningNoIdleCost)
             {
+                // Don't consume power when the engine is off
+                if (Player.main.currentSub != null && Player.main.currentSub.noiseManager != null && Player.main.currentSub.noiseManager.noiseScalar == 0f)
+                {
+                    return false;
+                }
+
+                // Consume energy for silent running mode
+                if (__instance.subRoot.powerRelay.ConsumeEnergy(__instance.subRoot.silentRunningPowerCost, out float amountConsumed))
+                {
+                    // Power consumption successful, continue silent running
+                    return false;
+                }
+
+                // Turn off silent running if power consumption fails
+                __instance.TurnOffSilentRunning();
                 return false;
             }
-
-            // Consume energy for silent running mode
-            if (__instance.subRoot.powerRelay.ConsumeEnergy(__instance.subRoot.silentRunningPowerCost, out float amountConsumed))
-            {
-                // Power consumption successful, continue silent running
-                return false;
-            }
-
-            // Turn off silent running if power consumption fails
-            __instance.TurnOffSilentRunning();
-            return false;
+            return true;
         }
     }
 }

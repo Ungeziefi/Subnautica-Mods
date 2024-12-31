@@ -10,7 +10,7 @@ namespace Ungeziefi.Tweaks
         private static bool IsPushable(Vehicle vehicle)
         {
             return Language.main.GetCurrentLanguage() == "English" &&
-                   Main.Config.SeamothPushing &&
+                   Main.TweaksConfig.SeamothPushing &&
                    vehicle.onGround &&
                    !Inventory.main.GetHeld() &&
                    vehicle is SeaMoth &&
@@ -25,8 +25,8 @@ namespace Ungeziefi.Tweaks
             rb.AddForce(direction * 3333f, ForceMode.Impulse);
         }
 
-        [HarmonyPatch(nameof(Vehicle.OnHandHover))]
-        public static void Postfix(Vehicle __instance)
+        [HarmonyPatch(nameof(Vehicle.OnHandHover)), HarmonyPostfix]
+        public static void OnHandHover(Vehicle __instance)
         {
             if (IsPushable(__instance))
             {

@@ -15,8 +15,7 @@ namespace Ungeziefi.Tweaks
         // Current direction of rotation: 1 for right, -1 for left, 0 for none
         private static int currentDirection = 0;
 
-        [HarmonyPostfix]
-        [HarmonyPatch(nameof(Bench.EnterSittingMode))]
+        [HarmonyPatch(nameof(Bench.EnterSittingMode)), HarmonyPostfix]
         static void EnterSittingMode(Bench __instance)
         {
             var tt = CraftData.GetTechType(__instance.gameObject);
@@ -29,8 +28,7 @@ namespace Ungeziefi.Tweaks
             }
         }
 
-        [HarmonyPostfix]
-        [HarmonyPatch(nameof(Bench.ExitSittingMode))]
+        [HarmonyPatch(nameof(Bench.ExitSittingMode)), HarmonyPostfix]
         static void ExitSittingMode(Bench __instance)
         {
             // Reset rotation speed and direction when exiting the chair
@@ -38,8 +36,8 @@ namespace Ungeziefi.Tweaks
             currentDirection = 0;
         }
 
-        [HarmonyPatch(nameof(Bench.OnUpdate))]
-        public static bool Prefix(Bench __instance)
+        [HarmonyPatch(nameof(Bench.OnUpdate)), HarmonyPrefix]
+        public static bool OnUpdate(Bench __instance)
         {
             var tt = CraftData.GetTechType(__instance.gameObject);
 
@@ -67,7 +65,7 @@ namespace Ungeziefi.Tweaks
                 HandReticle.main.SetText(HandReticle.TextType.Use, "StandUp", true, GameInput.Button.Exit);
 
                 // Handle chair rotation if the swivel tweak is enabled
-                if (Language.main.GetCurrentLanguage() == "English" && Main.Config.ChairSwivelling && __instance == swivelChair)
+                if (Language.main.GetCurrentLanguage() == "English" && Main.TweaksConfig.ChairSwivelling && __instance == swivelChair)
                 {
                     bool isRotating = false;
 

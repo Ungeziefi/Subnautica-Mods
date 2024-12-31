@@ -18,7 +18,8 @@ namespace Ungeziefi.Tweaks
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
-        new internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static TweaksConfig TweaksConfig { get; } = OptionsPanelHandler.RegisterModOptions<TweaksConfig>();
+        internal static MinorTweaksConfig MinorTweaksConfig { get; } = OptionsPanelHandler.RegisterModOptions<MinorTweaksConfig>();
 
         public void Awake()
         {
@@ -28,8 +29,8 @@ namespace Ungeziefi.Tweaks
             // Register harmony patches
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
 
-            // Apply the Bladderfish tooltip tweak
-            TweakBladderfishTooltip.ApplyBladderfishTooltip();
+            // Apply all miscellaneous tweaks
+            MiscTweaks.ApplyAllTweaks();
 
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
         }

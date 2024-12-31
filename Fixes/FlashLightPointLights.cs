@@ -7,14 +7,17 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch(typeof(FlashLight))]
     public class FixFlashLightPointLights
     {
-        [HarmonyPatch(nameof(FlashLight.Start))]
-        public static void Prefix(FlashLight __instance)
+        [HarmonyPatch(nameof(FlashLight.Start)), HarmonyPrefix]
+        public static void Start(FlashLight __instance)
         {
-            var lights = __instance.GetComponentsInChildren<Light>(true);
-            for (int i = lights.Length - 1; i >= 0; i--)
+            if (Main.FixesConfig.FlashlightNoLightBehind)
             {
-                if (lights[i].type == LightType.Point)
-                    lights[i].enabled = false;
+                var lights = __instance.GetComponentsInChildren<Light>(true);
+                for (int i = lights.Length - 1; i >= 0; i--)
+                {
+                    if (lights[i].type == LightType.Point)
+                        lights[i].enabled = false;
+                }
             }
         }
     }

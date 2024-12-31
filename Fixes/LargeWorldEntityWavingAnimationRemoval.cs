@@ -27,13 +27,16 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(LargeWorldEntity.Awake))]
-        public static void Prefix(LargeWorldEntity __instance)
+        [HarmonyPatch(nameof(LargeWorldEntity.Awake)), HarmonyPrefix]
+        public static void Awake(LargeWorldEntity __instance)
         {
-            var tt = CraftData.GetTechType(__instance.gameObject);
-            if (techTypesToRemoveWavingShader.Contains(tt) && __instance.gameObject.GetComponentInParent<Base>(true))
+            if (Main.FixesConfig.NoPlantAnimationsIndoors)
             {
-                DisableWavingShader(__instance);
+                var tt = CraftData.GetTechType(__instance.gameObject);
+                if (techTypesToRemoveWavingShader.Contains(tt) && __instance.gameObject.GetComponentInParent<Base>(true))
+                {
+                    DisableWavingShader(__instance);
+                }
             }
         }
     }

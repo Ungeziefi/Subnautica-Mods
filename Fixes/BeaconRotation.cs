@@ -7,12 +7,15 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch(typeof(Beacon))]
     public class FixBeaconRotation
     {
-        [HarmonyPatch(nameof(Beacon.Throw))]
-        public static void Postfix(Beacon __instance)
+        [HarmonyPatch(nameof(Beacon.Throw)), HarmonyPostfix]
+        public static void Throw(Beacon __instance)
         {
-            var cameraRotation = Camera.main.transform.rotation;
-            __instance.transform.rotation = cameraRotation;
-            __instance.transform.Rotate(0f, 180f, 0f);
+            if (Main.FixesConfig.BeaconFacePlayer)
+            {
+                var cameraRotation = Camera.main.transform.rotation;
+                __instance.transform.rotation = cameraRotation;
+                __instance.transform.Rotate(0f, 180f, 0f);
+            }
         }
     }
 }
