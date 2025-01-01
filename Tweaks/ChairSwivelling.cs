@@ -7,9 +7,9 @@ namespace Ungeziefi.Tweaks
     [HarmonyPatch(typeof(Bench))]
     public class TweakChairSwivelling
     {
-        private static float maxChairRotSpeed = 100f;
-        private static float chairRotAcceleration = 60f;
-        private static float chairRotDeceleration = 80f;
+        private static float maxChairRotSpeed = 300f;
+        private static float chairRotAcceleration = 80f;
+        private static float chairRotDeceleration = 40f;
         private static float currentRotSpeed = 0f;
         // Current direction of rotation: 1 for right, -1 for left, 0 for none
         private static int currentDirection = 0;

@@ -64,6 +64,7 @@
 - You can light a flare in your hand without throwing it.
 
 ### Won't Add
+- Most of what's under T&F's "Settings in the mod's options menu:" section on [Nexus Mods](https://www.nexusmods.com/subnautica/mods/722).
 - The coffee vending machine now spawns coffee properly. (Can't reproduce.)
 - Added a key bind to select the next or previous PDA tab. (Not interested.)
 - Added a key bind to cycle tools in your current quickslot. (Not interested.)

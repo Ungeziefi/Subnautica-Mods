@@ -20,4 +20,4 @@ Built with [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Temp
 - [Tweaks and Fixes](https://github.com/qqqbbb/Tweaks-and-Fixes) by [qqqbbb](https://github.com/qqqbbb) for most ideas and parts of the code.
 - [MrOshaw](https://github.com/mroshaw) for the [Subnautica Modding Guide](https://mroshaw.github.io/).
 #### Disclaimer
-All of the code ported from Tweaks and Fixes was cleaned, improved, and commented where suitable. Differences worth noting are mentioned in the 2 files linked above.
+All of the code ported from Tweaks and Fixes was cleaned, improved, and commented where suitable. User-facing differences worth noting are mentioned in the 2 files linked above.

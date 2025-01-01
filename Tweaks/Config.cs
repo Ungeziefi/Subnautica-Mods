@@ -47,6 +47,9 @@ namespace Ungeziefi.Tweaks
 
         [Toggle(Label = "Plant rotation randomizer", Tooltip = "Randomizes the rotation of plants.")]
         public bool PlantRotationRandomizer = true;
+
+        //[Slider(Label = "Fruit growth time multiplier", Tooltip = "Multiplier for the growth time of fruits.", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
+        //public float FruitGrowthTimeMultiplier = 1f;
     }
 
     [Menu("Minor Tweaks")]

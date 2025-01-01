@@ -24,8 +24,8 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Add missing Bulb Bush data entries", Tooltip = "Allows scanning the pygmy and large bulb bush to get the Bulb Bush data entry.")]
         public bool AddMissingBulbBushDataEntries = true;
 
-        [Toggle(Label = "Cut doors no prompt", Tooltip = "Removes the laser cutting prompt from already cut doors.")]
-        public bool CutDoorsNoPrompt = true;
+        [Toggle(Label = "No prompt on cut doors", Tooltip = "Removes the laser cutting prompt from already cut doors.")]
+        public bool NoPromptOnCutDoors = true;
 
         [Toggle(Label = "Beacon faces the player", Tooltip = "Makes the beacon face the player when deployed.")]
         public bool BeaconFacePlayer = true;
@@ -44,5 +44,8 @@ namespace Ungeziefi.Fixes
 
         [Toggle(Label = "Force anisotropic filtering", Tooltip = "Forces anisotropic filtering on every texture.")]
         public bool ForceAnisotropicFiltering = true;
+
+        [Toggle(Label = "Seamoth storage modules gap", Tooltip = "Fixes the gap between the Seamoth and its lower storage modules.")]
+        public bool SeamothStorageModulesGap = true;
     }
 }

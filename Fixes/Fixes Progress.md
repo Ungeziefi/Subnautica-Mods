@@ -1,17 +1,18 @@
 ﻿# T&F Ports
 ### Done
 - The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint and by not using bool Prefix.)
-- Leviathans now don't attack the player on land. (Improved by using GetOceanLevel instead of 1f.)
+- Leviathans now don't attack the player on land. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
 - The flashlight now does not illuminate anything behind it.
 - The Grub basket, Bulbo tree, speckled rattler, pink cap, and Ming plant now do not animate. (Improved by applying this only indoors.)
 - The Nuclear waste disposal bin is now called exactly that, not "trash can".
 - You can now scan pygmy (SmallKoosh) and large bulb bush (LargeKoosh).
 - Now, when you look at a cut-open sealed wreck door, the UI does not tell you that you can cut it open.
 - The beacon now faces you when you deploy it.
-- Now you can't climb the Mobile Vehicle Bay when standing on it. (Improved by using GetOceanLevel instead of 1f.)
+- Now you can't climb the Mobile Vehicle Bay when standing on it. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
 - When the Cyclops is destroyed with the player in it, the player now respawns correctly by triggering an actual death.
 - The Cyclops' steering wheel animation has three states: default position, turn right 100%, turn left 100%. Now it uses correct analog values with a controller.
 - Silent running now does not consume power when the Cyclops is off. (Improved by not using bool Prefix.)
+- Fixed the gap between the Seamoth and its lower storage modules.
 
 ### To-Do
 - When you load your game, the Cyclops' speed is wrong until you switch speed modes.
@@ -35,7 +36,6 @@
 - The heat blade can now damage lava lizards.
 - When the prawn suit jumps from or lands on anything, you get particle effects as if it was sand.
 - After reloading, the first-person model is used for waterproof lockers that are not in the inventory.
-- Fixed the gap between the Seamoth and its lower storage modules.
 - The Sulfur Plant can't be moved with the propulsion or repulsion cannon.
 - The Bulbo tree LOD meshes look different.
 - Fixed the coffee-drinking sound.
