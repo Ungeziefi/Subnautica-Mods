@@ -132,5 +132,15 @@ namespace Ungeziefi.Tweaks
             }
             return false;
         }
+
+        // Allow sitting on the chair even if there's no room
+        [HarmonyPatch(nameof(Bench.CanSit)), HarmonyPostfix]
+        public static void CanSit(ref bool __result)
+        {
+            if (Main.TweaksConfig.NoObstacleCheckWhenSitting)
+            {
+                __result = true;
+            }
+        }
     }
 }

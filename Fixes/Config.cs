@@ -12,11 +12,11 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Leviathans don't attack land targets", Tooltip = "Stops leviathans from trying to attack targets on land.")]
         public bool LeviathansDontAttackLandTargets = true;
 
-        [Toggle(Label = "Flashlight no light behind", Tooltip = "Stops the flashlight from lighting the enviroment around it.")]
-        public bool FlashlightNoLightBehind = true;
+        [Toggle(Label = "No Flashlight point lights", Tooltip = "Stops the flashlight from lighting the enviroment around it.")]
+        public bool NoFlashlightPointLights = true;
 
-        [Toggle(Label = "No plant animations indoors", Tooltip = "Removes the waving animation from indoor plants.")]
-        public bool NoPlantAnimationsIndoors = true;
+        [Toggle(Label = "No plant waving indoors", Tooltip = "Removes the waving animation from indoor plants.")]
+        public bool NoPlantWavingIndoors = true;
 
         [Toggle(Label = "Nuclear waste disposal name", Tooltip = "Corrected the Nuclear waste disposal bin's name and added the missing space to \"Trashcan\".")]
         public bool NuclearWasteDisposalName = true;

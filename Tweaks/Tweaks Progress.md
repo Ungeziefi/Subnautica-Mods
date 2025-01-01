@@ -4,10 +4,11 @@
 - Multiplies the build time of structures.
 - Multiplies the craft time of items.
 - Disables eating and using medkits underwater.
-- Swivel chairs now can swivel. (Improved by adding acceleration, deceleration, and inertia.)
+- Swivel chairs now can swivel. (Improved by adding acceleration, deceleration, and inertia. Still not happy with it until the model is replaced to split the base. Might also remove the space check or implement spinning by hand while not sitting, which would need new icons.)
 - Breaking outcrops requires a tool.
 - Newly crafted power cells now match the charge of the batteries used to craft them. (Improved by supporting any number of batteries instead of hardcoding to 2.)
-- Removed the epilepsy warning during startup.  
+- Removed the epilepsy warning during startup.
+- The rotation of plants in planters is now randomized.
 **Minor Tweaks**
   - The bladderfish description now mentions it can be used as a source of oxygen.
 
@@ -28,7 +29,6 @@
 - When you get a blueprint from a databox, the light around it will be removed.
 - You can now toggle the exosuit light.
 - Voice notifications no longer play during loading.
-- The rotation of plants in planters is now randomized.
 - You can now toggle base lights.
 - When you open a container that allows only certain types of items, you can easily see those items in your inventory.
 - Locker doors now open and close.
@@ -79,8 +79,9 @@
 
 # New
 ### Done
-- Randomizes the size of certain creatures. (Check Tweaks.cs#L81 for a list of them.)
-- Harvesting plants requires a knife or Thermoblade.  
+- Randomizes the size of certain creatures. (I didn't like how [Random Creature Size](https://www.nexusmods.com/subnautica/mods/138) affects all creatures. Check Tweaks.cs#L81 for a list of them.)
+- Harvesting plants requires a knife or Thermoblade.
+- Removes the check for obstacles when sitting to avoid getting locked out of the swivel chair when you spin it too close to an object then stand up.
 **Minor Tweaks**
   - "Use Trashcan" -> "Use Trash can" for consistency with its recipe.
   - Capitalized the "Use" string globally.

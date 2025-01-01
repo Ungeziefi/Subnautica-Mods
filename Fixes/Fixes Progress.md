@@ -68,4 +68,4 @@
 
 # New
 ### Done
-- Anisotropic filtering is now forced on every texture.
+- Anisotropic filtering is now forced on every texture. (I know [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185) exists but I remade it for an in-game toggle.)

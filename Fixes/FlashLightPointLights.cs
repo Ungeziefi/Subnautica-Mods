@@ -10,7 +10,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(FlashLight.Start)), HarmonyPrefix]
         public static void Start(FlashLight __instance)
         {
-            if (Main.FixesConfig.FlashlightNoLightBehind)
+            if (Main.FixesConfig.NoFlashlightPointLights)
             {
                 var lights = __instance.GetComponentsInChildren<Light>(true);
                 for (int i = lights.Length - 1; i >= 0; i--)

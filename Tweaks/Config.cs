@@ -24,6 +24,9 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Chair swivelling", Tooltip = "Allows you to swivel the chair.")]
         public bool ChairSwivelling = true;
 
+        [Toggle(Label = "No obstacle check when sitting", Tooltip = "Allows sitting even if there's an object in the way.")]
+        public bool NoObstacleCheckWhenSitting = true;
+
         [Toggle(Label = "Harvesting requirements", Tooltip = "Harvesting outcrops and flora requires tools.")]
         public bool HarvestingRequirements = true;
 
@@ -33,11 +36,17 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Skip epilepsy warning", Tooltip = "Skips the epilepsy warning during startup.")]
         public bool SkipEpilepsyWarning = true;
 
+        [Toggle(Label = "Creature size randomizer", Tooltip = "Randomizes the size of small critters based on the multipliers below.")]
+        public bool CreatureSizeRandomizer = true;
+
         [Slider(Label = "Minimum creature size", Tooltip = "Minimum size multiplier for certain creatures (1-10, divided by 10 for the actual value).", DefaultValue = 5, Min = 1, Max = 10, Step = 1)]
         public int MinCreatureSize = 5;
 
         [Slider(Label = "Maximum creature size", Tooltip = "Maximum size multiplier for certain creatures (10-20, divided by 10 for the actual value).", DefaultValue = 15, Min = 10, Max = 20, Step = 1)]
         public int MaxCreatureSize = 15;
+
+        [Toggle(Label = "Plant rotation randomizer", Tooltip = "Randomizes the rotation of plants.")]
+        public bool PlantRotationRandomizer = true;
     }
 
     [Menu("Minor Tweaks")]

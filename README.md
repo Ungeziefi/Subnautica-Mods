@@ -10,7 +10,7 @@ Built with [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Temp
 
 ### Notes
 - Features involving text are only enabled when the game is in English. Feel free to PR localization improvements.
-- **All features can be toggled** in the config file or through the game's options.
+- **All features can be toggled** in the config file or through the game's options. Some might need a game restart.
   - Toggles are all enabled by default, multipliers are set to 1.
 - Read the [Tweaks](https://github.com/Ungeziefi/Subnautica-Mods/blob/main/Tweaks/Tweaks%20Progress.md) and [Fixes](https://github.com/Ungeziefi/Subnautica-Mods/blob/main/Fixes/Fixes%20Progress.md) files for more information on the features themselves, future plans, and things that won't be implemented.
 
