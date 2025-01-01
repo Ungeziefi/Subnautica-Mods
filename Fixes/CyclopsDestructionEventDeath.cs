@@ -2,7 +2,6 @@
 
 namespace Ungeziefi.Fixes
 {
-    // Prevent the player from respawning inside the Cyclops when it's destroyed
     [HarmonyPatch(typeof(CyclopsDestructionEvent))]
     public class FixCyclopsDestructionEventDeath
     {

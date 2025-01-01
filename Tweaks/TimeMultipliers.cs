@@ -2,7 +2,6 @@
 
 namespace Ungeziefi.Tweaks
 {
-    // Multiplies the build time of structures
     [HarmonyPatch(typeof(Constructable))]
     public class TweakConstructableBuildTimeMultiplier
     {
@@ -17,7 +16,6 @@ namespace Ungeziefi.Tweaks
         }
     }
 
-    // Multiplies the craft time of items
     [HarmonyPatch(typeof(CrafterLogic))]
     public class TweakCrafterLogicCraftTimeMultiplier
     {

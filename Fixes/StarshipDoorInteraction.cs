@@ -3,7 +3,6 @@ using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
-    // Prevent interaction with cut-open doors
     [HarmonyPatch(typeof(StarshipDoor))]
     public class FixStarshipDoorInteraction
     {

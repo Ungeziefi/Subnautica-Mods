@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
-    // Randomizes the size of creatures
     [HarmonyPatch(typeof(Creature))]
     public class TweakCreatureSizeRandomizer
     {
+        // Should probably serialize this
         private static readonly HashSet<TechType> targetCreatures = new HashSet<TechType>
                         {
                             TechType.CaveCrawler,

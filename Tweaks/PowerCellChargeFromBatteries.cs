@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
-    // Sets the charge level of newly crafted power cells based on the charge level of the batteries used for crafting
     public class TweakPowerCellChargeFromBatteries
     {
         // List of batteries used for crafting
@@ -31,11 +30,13 @@ namespace Ungeziefi.Tweaks
                     {
                         totalCharge += b.charge;
                     }
+
                     // Calculate the average charge and set it to the new battery
                     float averageCharge = totalCharge / batteriesUsedForCrafting.Count;
                     float newCharge = Mathf.Clamp(averageCharge, 0, battery.capacity);
                     battery.charge = newCharge;
                 }
+
                 // Clear the list of used batteries after crafting
                 batteriesUsedForCrafting.Clear();
             }

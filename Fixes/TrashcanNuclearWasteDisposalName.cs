@@ -2,7 +2,6 @@
 
 namespace Ungeziefi.Fixes
 {
-    // From "Use Trashcan" to "Use Nuclear waste disposal"
     [HarmonyPatch(typeof(Trashcan))]
     public class FixTrashcanNuclearWasteDisposalName
     {

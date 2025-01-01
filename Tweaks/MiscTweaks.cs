@@ -28,7 +28,6 @@ namespace Ungeziefi.Tweaks
         {
             if (Main.MinorTweaksConfig.TrashcanNameConsistency && Language.main.GetCurrentLanguage() == "English")
             {
-                // Override localization strings at runtime using Nautilus
                 LanguageHandler.SetLanguageLine("Trashcan", "Trash can");
             }
         }

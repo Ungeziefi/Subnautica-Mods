@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
-    // Adds a push feature to the Seamoth
     [HarmonyPatch(typeof(Vehicle))]
     public class TweakVehiclePush
     {

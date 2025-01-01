@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    // Removed point lights from the flashlight to prevent illuminating behind the player
     [HarmonyPatch(typeof(FlashLight))]
     public class FixFlashLightPointLights
     {

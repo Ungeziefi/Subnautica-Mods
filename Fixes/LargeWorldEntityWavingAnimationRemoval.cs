@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    // Removed waving animations from indoor plants
     [HarmonyPatch(typeof(LargeWorldEntity))]
     public class FixLargeWorldEntityWavingAnimationRemoval
     {
@@ -35,6 +34,7 @@ namespace Ungeziefi.Fixes
                 return;
             }
 
+            // Only disable for plants that are in a base
             var tt = CraftData.GetTechType(__instance.gameObject);
             if (techTypesToRemoveWavingShader.Contains(tt) && __instance.gameObject.GetComponentInParent<Base>(true))
             {

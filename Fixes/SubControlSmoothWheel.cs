@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    // Fix for the Cyclops' steering wheel only having 100% left or right when using a controller
     [HarmonyPatch(typeof(SubControl))]
     public class FixSubControlSmoothWheel
     {

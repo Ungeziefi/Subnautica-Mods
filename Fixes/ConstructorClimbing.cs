@@ -2,7 +2,6 @@
 
 namespace Ungeziefi.Fixes
 {
-    // Fix being able to climb the constructor when standing on it
     [HarmonyPatch(typeof(Constructor))]
     public class FixConstructorClimbing
     {

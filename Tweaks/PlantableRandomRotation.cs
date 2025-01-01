@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
-    // Randomizes the rotation of plants
     [HarmonyPatch(typeof(Plantable))]
     public class TweakPlantableRandomRotation
     {

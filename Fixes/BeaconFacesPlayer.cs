@@ -3,9 +3,8 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    // Fix beacon rotation when thrown
     [HarmonyPatch(typeof(Beacon))]
-    public class FixBeaconRotation
+    public class FixBeaconFacesPlayer
     {
         [HarmonyPatch(nameof(Beacon.Throw)), HarmonyPostfix]
         public static void Throw(Beacon __instance)

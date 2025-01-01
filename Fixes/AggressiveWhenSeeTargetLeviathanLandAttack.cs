@@ -3,8 +3,7 @@ using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Fixes
-{
-    // Fixed leviathans trying to attack targets on land  
+{ 
     [HarmonyPatch(typeof(AggressiveWhenSeeTarget))]
     public class FixAggressiveWhenSeeTargetLeviathanLandAttack
     {

@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
-    // Swivel chairs can now swivel
     [HarmonyPatch(typeof(Bench))]
     public class TweakChairSwivelling
     {
@@ -17,7 +16,6 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Bench.ExitSittingMode)), HarmonyPostfix]
         static void ExitSittingMode(Bench __instance)
         {
-            // Reset rotation speed and direction when exiting the chair
             currentRotSpeed = 0f;
             currentDirection = 0;
         }
@@ -25,7 +23,6 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Bench.OnUpdate)), HarmonyPostfix]
         public static void OnUpdate(Bench __instance)
         {
-            // Guard clause to check if chair swivelling is enabled and if it's a swivel chair
             if (!Main.TweaksConfig.ChairSwivelling || CraftData.GetTechType(__instance.gameObject) != TechType.StarshipChair)
             {
                 return;
@@ -75,7 +72,7 @@ namespace Ungeziefi.Tweaks
                 }
             }
 
-            // Decelerate chair rotation if no rotation input
+            // Decelerate if there's no input
             if (!isRotating)
             {
                 currentRotSpeed = Mathf.Max(currentRotSpeed - chairRotDeceleration * Time.deltaTime, 0f);
@@ -90,7 +87,6 @@ namespace Ungeziefi.Tweaks
             }
         }
 
-        // Allow sitting on chairs even if there's an obstacle
         [HarmonyPatch(nameof(Bench.CanSit)), HarmonyPostfix]
         public static void CanSit(ref bool __result)
         {

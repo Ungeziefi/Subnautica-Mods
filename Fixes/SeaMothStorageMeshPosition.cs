@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    // Fix the gap between the Seamoth and its lower storage modules
     [HarmonyPatch(typeof(SeaMoth))]
     public class FixSeaMothStorageMeshPosition
     {

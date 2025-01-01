@@ -2,11 +2,10 @@
 
 namespace Ungeziefi.Fixes
 {
-    // Print the current power drain of the Cyclops
     [HarmonyPatch(typeof(PowerRelay))]
     public class HelperPowerRelayOriginalPowerCost
     {
-        public static float originalPowerCost = -1f; // Sentinel value to indicate it has not been set
+        public static float originalPowerCost = -1f;
 
         [HarmonyPatch(nameof(PowerRelay.ModifyPower)), HarmonyPostfix]
         public static void Postfix(PowerRelay __instance, float amount, float modified)
@@ -26,7 +25,6 @@ namespace Ungeziefi.Fixes
         }
     }
 
-    // Prevent power drain when using the silent mode of the Cyclops
     [HarmonyPatch(typeof(CyclopsSilentRunningAbilityButton))]
     public class FixCyclopsSilentRunningAbilityButtonPowerDrain
     {

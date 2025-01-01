@@ -2,7 +2,6 @@
 
 namespace Ungeziefi.Fixes
 {
-    // Allow scanning the pygmy and large bulb bush
     [HarmonyPatch(typeof(PDAScanner))]
     public class FixPDAScannerKoosh
     {
@@ -14,6 +13,7 @@ namespace Ungeziefi.Fixes
                 return;
             }
 
+            // Add missing mapping entries
             if (PDAScanner.mapping.ContainsKey(TechType.MediumKoosh))
             {
                 var entryData = PDAScanner.mapping[TechType.MediumKoosh];
@@ -34,6 +34,7 @@ namespace Ungeziefi.Fixes
                 return;
             }
 
+            // Add missing complete entries
             if (entryData.key == TechType.MediumKoosh || entryData.key == TechType.SmallKoosh || entryData.key == TechType.LargeKoosh)
             {
                 PDAScanner.complete.Add(TechType.LargeKoosh);

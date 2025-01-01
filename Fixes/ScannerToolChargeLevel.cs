@@ -4,7 +4,6 @@ using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
-    // Fixed missing charge level when equipping the scanner
     [HarmonyPatch(typeof(ScannerTool))]
     public class FixScannerToolChargeLevel
     {
