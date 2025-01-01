@@ -3,19 +3,28 @@
 namespace Ungeziefi.Fixes
 {
     // Print the current power drain of the Cyclops
-    //[HarmonyPatch(typeof(PowerRelay))]
-    //public class DebugCyclopsPowerDrain
-    //{
-    //    [HarmonyPatch(nameof(PowerRelay.ModifyPower)), HarmonyPostfix]
-    //    public static void Postfix(PowerRelay __instance, float amount, float modified)
-    //    {
-    //        var subRoot = __instance.GetComponent<SubRoot>();
-    //        if (subRoot != null && subRoot.isCyclops)
-    //        {
-    //            Main.Logger.LogInfo($"Cyclops power modification: {amount}, modified: {modified}");
-    //        }
-    //    }
-    //}
+    [HarmonyPatch(typeof(PowerRelay))]
+    public class HelperPowerRelayOriginalPowerCost
+    {
+        public static float originalPowerCost = -1f; // Sentinel value to indicate it has not been set
+
+        [HarmonyPatch(nameof(PowerRelay.ModifyPower)), HarmonyPostfix]
+        public static void Postfix(PowerRelay __instance, float amount, float modified)
+        {
+            var subRoot = __instance.GetComponent<SubRoot>();
+            if (subRoot != null && subRoot.isCyclops)
+            {
+                // Main.Logger.LogInfo($"Cyclops power modification: {amount}, modified: {modified}");
+
+                // Store the original power cost when it's initialized
+                if (originalPowerCost == -1f)
+                {
+                    originalPowerCost = subRoot.silentRunningPowerCost;
+                    // Main.Logger.LogInfo($"Original power cost is: {originalPowerCost}");
+                }
+            }
+        }
+    }
 
     // Prevent power drain when using the silent mode of the Cyclops
     [HarmonyPatch(typeof(CyclopsSilentRunningAbilityButton))]
@@ -38,7 +47,7 @@ namespace Ungeziefi.Fixes
             else
             {
                 // Restore the original power cost if the engine is on
-                __instance.subRoot.silentRunningPowerCost = 5f;
+                __instance.subRoot.silentRunningPowerCost = HelperPowerRelayOriginalPowerCost.originalPowerCost;
                 // Main.Logger.LogInfo($"Current power cost is {__instance.subRoot.silentRunningPowerCost}");
             }
         }
