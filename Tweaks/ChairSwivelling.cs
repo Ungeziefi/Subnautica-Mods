@@ -25,71 +25,67 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Bench.OnUpdate)), HarmonyPostfix]
         public static void OnUpdate(Bench __instance)
         {
-            if (!Main.TweaksConfig.ChairSwivelling)
+            // Guard clause to check if chair swivelling is enabled and if it's a swivel chair
+            if (!Main.TweaksConfig.ChairSwivelling || CraftData.GetTechType(__instance.gameObject) != TechType.StarshipChair)
             {
                 return;
             }
 
-            // Handle chair rotation if it's a swivel chair
-            var tt = CraftData.GetTechType(__instance.gameObject);
-            if (tt == TechType.StarshipChair)
+            bool isRotating = false;
+
+            // Rotate chair to the right
+            if (GameInput.GetButtonHeld(GameInput.Button.MoveRight))
             {
-                bool isRotating = false;
-
-                // Rotate chair to the right
-                if (GameInput.GetButtonHeld(GameInput.Button.MoveRight))
+                if (currentDirection != 1)
                 {
-                    if (currentDirection != 1)
+                    // Decelerate in the opposite direction first
+                    currentRotSpeed = Mathf.Max(currentRotSpeed - chairRotDeceleration * 2 * Time.deltaTime, 0f);
+                    if (currentRotSpeed == 0f)
                     {
-                        // Decelerate in the opposite direction first
-                        currentRotSpeed = Mathf.Max(currentRotSpeed - chairRotDeceleration * 2 * Time.deltaTime, 0f);
-                        if (currentRotSpeed == 0f)
-                        {
-                            currentDirection = 1;
-                        }
-                    }
-
-                    if (currentDirection == 1)
-                    {
-                        currentRotSpeed = Mathf.Min(currentRotSpeed + chairRotAcceleration * Time.deltaTime, maxChairRotSpeed);
-                        __instance.transform.Rotate(Vector3.up * currentRotSpeed * Time.deltaTime);
-                        isRotating = true;
+                        currentDirection = 1;
                     }
                 }
 
-                // Rotate chair to the left
-                else if (GameInput.GetButtonHeld(GameInput.Button.MoveLeft))
+                if (currentDirection == 1)
                 {
-                    if (currentDirection != -1)
-                    {
-                        // Decelerate in the opposite direction first
-                        currentRotSpeed = Mathf.Max(currentRotSpeed - chairRotDeceleration * 2 * Time.deltaTime, 0f);
-                        if (currentRotSpeed == 0f)
-                        {
-                            currentDirection = -1;
-                        }
-                    }
+                    currentRotSpeed = Mathf.Min(currentRotSpeed + chairRotAcceleration * Time.deltaTime, maxChairRotSpeed);
+                    __instance.transform.Rotate(Vector3.up * currentRotSpeed * Time.deltaTime);
+                    isRotating = true;
+                }
+            }
 
-                    if (currentDirection == -1)
+            // Rotate chair to the left
+            else if (GameInput.GetButtonHeld(GameInput.Button.MoveLeft))
+            {
+                if (currentDirection != -1)
+                {
+                    // Decelerate in the opposite direction first
+                    currentRotSpeed = Mathf.Max(currentRotSpeed - chairRotDeceleration * 2 * Time.deltaTime, 0f);
+                    if (currentRotSpeed == 0f)
                     {
-                        currentRotSpeed = Mathf.Min(currentRotSpeed + chairRotAcceleration * Time.deltaTime, maxChairRotSpeed);
-                        __instance.transform.Rotate(-Vector3.up * currentRotSpeed * Time.deltaTime);
-                        isRotating = true;
+                        currentDirection = -1;
                     }
                 }
 
-                // Decelerate chair rotation if no rotation input
-                if (!isRotating)
+                if (currentDirection == -1)
                 {
-                    currentRotSpeed = Mathf.Max(currentRotSpeed - chairRotDeceleration * Time.deltaTime, 0f);
-                    if (currentRotSpeed > 0f)
-                    {
-                        __instance.transform.Rotate(Vector3.up * currentRotSpeed * Time.deltaTime * currentDirection);
-                    }
-                    else
-                    {
-                        currentDirection = 0;
-                    }
+                    currentRotSpeed = Mathf.Min(currentRotSpeed + chairRotAcceleration * Time.deltaTime, maxChairRotSpeed);
+                    __instance.transform.Rotate(-Vector3.up * currentRotSpeed * Time.deltaTime);
+                    isRotating = true;
+                }
+            }
+
+            // Decelerate chair rotation if no rotation input
+            if (!isRotating)
+            {
+                currentRotSpeed = Mathf.Max(currentRotSpeed - chairRotDeceleration * Time.deltaTime, 0f);
+                if (currentRotSpeed > 0f)
+                {
+                    __instance.transform.Rotate(Vector3.up * currentRotSpeed * Time.deltaTime * currentDirection);
+                }
+                else
+                {
+                    currentDirection = 0;
                 }
             }
         }
