@@ -12,20 +12,22 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(StarshipDoor.OnHandHover)), HarmonyPrefix]
         public static bool OnHandHover(StarshipDoor __instance)
         {
-            if (Main.FixesConfig.CutDoorsNoPrompt)
+            if (!Main.FixesConfig.CutDoorsNoPrompt)
             {
-                if (cutOpenedDoors.Contains(__instance))
-                {
-                    return false;
-                }
-
-                var laserCutObject = __instance.GetComponent<LaserCutObject>();
-                if (laserCutObject != null && laserCutObject.isCutOpen)
-                {
-                    cutOpenedDoors.Add(__instance);
-                    return false;
-                }
+                return true;
             }
+
+            var laserCutObject = __instance.GetComponent<LaserCutObject>();
+            if (laserCutObject != null && laserCutObject.isCutOpen)
+            {
+                cutOpenedDoors.Add(__instance);
+            }
+
+            if (cutOpenedDoors.Contains(__instance))
+            {
+                return false;
+            }
+
             return true;
         }
     }

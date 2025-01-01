@@ -6,43 +6,41 @@ namespace Ungeziefi.Fixes
     //[HarmonyPatch(typeof(PowerRelay))]
     //public class DebugCyclopsPowerDrain
     //{
-    //    [HarmonyPatch(nameof(PowerRelay.ModifyPower))]
+    //    [HarmonyPatch(nameof(PowerRelay.ModifyPower)), HarmonyPostfix]
     //    public static void Postfix(PowerRelay __instance, float amount, float modified)
     //    {
-    //        if (__instance.GetComponent<SubRoot>() is SubRoot sub && sub.isCyclops)
+    //        var subRoot = __instance.GetComponent<SubRoot>();
+    //        if (subRoot != null && subRoot.isCyclops)
     //        {
     //            Main.Logger.LogInfo($"Cyclops power modification: {amount}, modified: {modified}");
     //        }
     //    }
     //}
 
-    // Prevent power drain when using the silent mode of the submarine
+    // Prevent power drain when using the silent mode of the Cyclops
     [HarmonyPatch(typeof(CyclopsSilentRunningAbilityButton))]
     public class FixCyclopsSilentRunningAbilityButtonPowerDrain
     {
         [HarmonyPatch(nameof(CyclopsSilentRunningAbilityButton.SilentRunningIteration)), HarmonyPrefix]
-        public static bool SilentRunningIteration(CyclopsSilentRunningAbilityButton __instance)
+        public static void SilentRunningIteration(CyclopsSilentRunningAbilityButton __instance)
         {
-            if (Main.FixesConfig.SilentRunningNoIdleCost)
+            if (!Main.FixesConfig.SilentRunningNoIdleCost)
             {
-                // Don't consume power when the engine is off
-                if (Player.main.currentSub != null && Player.main.currentSub.noiseManager != null && Player.main.currentSub.noiseManager.noiseScalar == 0f)
-                {
-                    return false;
-                }
-
-                // Consume energy for silent running mode
-                if (__instance.subRoot.powerRelay.ConsumeEnergy(__instance.subRoot.silentRunningPowerCost, out float amountConsumed))
-                {
-                    // Power consumption successful, continue silent running
-                    return false;
-                }
-
-                // Turn off silent running if power consumption fails
-                __instance.TurnOffSilentRunning();
-                return false;
+                return;
             }
-            return true;
+
+            // Set silentRunningPowerCost to 0 when the engine is off
+            if (__instance.subRoot.noiseManager?.noiseScalar == 0f)
+            {
+                __instance.subRoot.silentRunningPowerCost = 0f;
+                // Main.Logger.LogInfo($"Current power cost is {__instance.subRoot.silentRunningPowerCost}");
+            }
+            else
+            {
+                // Restore the original power cost if the engine is on
+                __instance.subRoot.silentRunningPowerCost = 5f;
+                // Main.Logger.LogInfo($"Current power cost is {__instance.subRoot.silentRunningPowerCost}");
+            }
         }
     }
 }

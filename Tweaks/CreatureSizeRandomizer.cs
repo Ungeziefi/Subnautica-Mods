@@ -21,17 +21,19 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Creature.Start)), HarmonyPostfix]
         public static void Start(Creature __instance)
         {
-            if (Main.TweaksConfig.CreatureSizeRandomizer)
+            if (!Main.TweaksConfig.CreatureSizeRandomizer)
             {
-                var tt = CraftData.GetTechType(__instance.gameObject);
-                // Main.Logger.LogInfo($"Creature TechType: {tt}");
+                return;
+            }
 
-                if (targetCreatures.Contains(tt))
-                {
-                    float size = Random.Range(Main.TweaksConfig.MinCreatureSize / 10f, Main.TweaksConfig.MaxCreatureSize / 10f);
-                    __instance.transform.localScale *= size;
-                    // Main.Logger.LogInfo($"Applied size for {tt}: {__instance.transform.localScale}");
-                } 
+            var tt = CraftData.GetTechType(__instance.gameObject);
+            // Main.Logger.LogInfo($"Creature TechType: {tt}");
+
+            if (targetCreatures.Contains(tt))
+            {
+                float size = Random.Range(Main.TweaksConfig.MinCreatureSize / 10f, Main.TweaksConfig.MaxCreatureSize / 10f);
+                __instance.transform.localScale *= size;
+                // Main.Logger.LogInfo($"Applied size for {tt}: {__instance.transform.localScale}");
             }
         }
     }

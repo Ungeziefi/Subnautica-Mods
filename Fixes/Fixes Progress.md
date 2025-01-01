@@ -1,6 +1,6 @@
 ﻿# T&F Ports
 ### Done
-- The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint.)
+- The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint and by not using bool Prefix.)
 - Leviathans now don't attack the player on land. (Improved by using GetOceanLevel instead of 1f.)
 - The flashlight now does not illuminate anything behind it.
 - The Grub basket, Bulbo tree, speckled rattler, pink cap, and Ming plant now do not animate. (Improved by applying this only indoors.)
@@ -11,7 +11,7 @@
 - Now you can't climb the Mobile Vehicle Bay when standing on it. (Improved by using GetOceanLevel instead of 1f.)
 - When the Cyclops is destroyed with the player in it, the player now respawns correctly by triggering an actual death.
 - The Cyclops' steering wheel animation has three states: default position, turn right 100%, turn left 100%. Now it uses correct analog values with a controller.
-- When running silent, your Cyclops consumes energy even if the engine is off.
+- Silent running now does not consume power when the Cyclops is off. (Improved by not using bool Prefix.)
 
 ### To-Do
 - When you load your game, the Cyclops' speed is wrong until you switch speed modes.

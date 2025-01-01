@@ -19,14 +19,14 @@ namespace Ungeziefi.Tweaks
 
         public static void ApplyBladderfishTooltip()
         {
-            if (Language.main.GetCurrentLanguage() == "English" && Main.MinorTweaksConfig.BladderfishTooltip)
+            if (Main.MinorTweaksConfig.BladderfishTooltip && Language.main.GetCurrentLanguage() == "English")
             {
                 LanguageHandler.SetTechTypeTooltip(TechType.Bladderfish, Language.main.Get("Tooltip_Bladderfish") + " Provides some oxygen when consumed raw.");
             }
         }
         public static void ApplyTrashcanNameConsistency()
         {
-            if (Language.main.GetCurrentLanguage() == "English" && Main.MinorTweaksConfig.TrashcanNameConsistency)
+            if (Main.MinorTweaksConfig.TrashcanNameConsistency && Language.main.GetCurrentLanguage() == "English")
             {
                 // Override localization strings at runtime using Nautilus
                 LanguageHandler.SetLanguageLine("Trashcan", "Trash can");
@@ -34,7 +34,7 @@ namespace Ungeziefi.Tweaks
         }
         public static void ApplyCapitalizeUseString()
         {
-            if (Language.main.GetCurrentLanguage() == "English" && Main.MinorTweaksConfig.CapitalizeUseString)
+            if (Main.MinorTweaksConfig.CapitalizeUseString && Language.main.GetCurrentLanguage() == "English")
             {
                 LanguageHandler.SetLanguageLine("Use", "Use");
             }

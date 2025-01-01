@@ -10,7 +10,6 @@ namespace Ungeziefi.Tweaks
         {
             if (Main.TweaksConfig.SkipEpilepsyWarning)
             {
-                // Main.Logger.LogInfo("Epilepsy warning skipped");
                 return false;
             }
             return true;

@@ -13,7 +13,7 @@ namespace Ungeziefi.Fixes
             if (Main.FixesConfig.ForceAnisotropicFiltering)
             {
                 QualitySettings.anisotropicFiltering = AnisotropicFiltering.ForceEnable;
-                Main.Logger.LogInfo("Anisotropic filtering is now forced enabled."); 
+                // Main.Logger.LogInfo("Anisotropic filtering is now forced enabled."); 
             }
         }
     }

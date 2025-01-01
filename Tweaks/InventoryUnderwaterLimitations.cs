@@ -24,7 +24,8 @@ namespace Ungeziefi.Tweaks
             // Disables using medkits underwater
             if (tt == TechType.FirstAidKit && __result == ItemAction.Use)
             {
-                if ((Main.TweaksConfig.NoMedkitsUnderwater && Player.main.IsUnderwater()) ||
+                if ((Main.TweaksConfig.NoMedkitsUnderwater &&
+                    Player.main.IsUnderwater()) ||
                     Player.main.GetComponent<LiveMixin>().maxHealth - Player.main.GetComponent<LiveMixin>().health < 0.01f)
                 {
                     __result = ItemAction.None;

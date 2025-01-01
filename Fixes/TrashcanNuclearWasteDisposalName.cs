@@ -9,7 +9,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(Trashcan.OnEnable)), HarmonyPrefix]
         public static void OnEnable(Trashcan __instance)
         {
-            if (Language.main.GetCurrentLanguage() == "English" && Main.FixesConfig.NuclearWasteDisposalName)
+            if (Main.FixesConfig.NuclearWasteDisposalName && Language.main.GetCurrentLanguage() == "English")
             {
                 var usePrefix = Language.main.Get("Use") + " ";
                 __instance.storageContainer.hoverText = usePrefix + (__instance.biohazard ? Language.main.Get("LabTrashcan") : Language.main.Get("Trashcan"));
