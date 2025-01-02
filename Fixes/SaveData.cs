@@ -5,6 +5,6 @@ namespace Ungeziefi.Fixes
 {
     public class SaveData : SaveDataCache
     {
-        public Dictionary<string, bool> OpenWreckDoors = new Dictionary<string, bool>();
+        public HashSet<string> OpenWreckDoors = new HashSet<string>();
     }
 }

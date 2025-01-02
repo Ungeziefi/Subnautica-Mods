@@ -22,14 +22,16 @@ namespace Ungeziefi.Fixes
 
             string doorCoords = GetDoorCoords(pos);
 
+            // Open the door
             if (!__instance.opened)
             {
-                // Open the door
-                Main.SaveData.OpenWreckDoors[doorCoords] = true;
+                Main.SaveData.OpenWreckDoors.Add(doorCoords);
             }
+
+            // Close the door
             else
             {
-                // Close the door
+                // No point in saving it as closed because it's the default state
                 Main.SaveData.OpenWreckDoors.Remove(doorCoords);
             }
         }
@@ -51,7 +53,7 @@ namespace Ungeziefi.Fixes
             string doorKey = GetDoorCoords(pos);
 
             // Check if this door was saved as open
-            if (Main.SaveData.OpenWreckDoors.TryGetValue(doorKey, out bool isOpen) && isOpen)
+            if (Main.SaveData.OpenWreckDoors.Contains(doorKey))
             {
                 __instance.initiallyOpen = true;
             }
