@@ -15,13 +15,13 @@
 - Fixed the gap between the Seamoth and its lower storage modules.
 - The Cyclops docking bay sounds now don't play if the bay is already occupied. (Improved by not using bool Prefix.)
 - The state of wreck doors that you open manually is now saved.
+- The state of doors inside the Cyclops is now saved.
 
 ### To-Do
 - When you load your game, the Cyclops' speed is wrong until you switch speed modes.
 - The Cyclops hatch flaps now always close when you enter it.
 - When the Cyclops is unpowered, its HUD and screens are off.
 - The Reaper pushes your Cyclops instead of attacking it.
-- The state of doors inside the Cyclops is now saved.
 - Creatures always flee to the origin coordinates when attacked.
 - You can now destroy drooping stingers with a knife.
 - When your Seamoth hits any object at a very low speed, a "fish splat" sound plays.

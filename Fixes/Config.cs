@@ -50,15 +50,15 @@ namespace Ungeziefi.Fixes
 
         [Toggle(Label = "Docking bay sound checks", Tooltip = "Stops the Cyclops docking bay sounds from playing if it's already occupied.")]
         public bool DockingBaySoundChecks = true;
-
-        [Toggle(Label = "Save open wreck doors", Tooltip = "Saves the state of wreck doors (open/closed) between game sessions.")]
-        public bool SaveOpenWreckDoors = true;
     }
 
     [Menu("Persistence Fixes")]
     public class PersistenceConfig : ConfigFile
     {
-        [Toggle(Label = "Save open wreck doors", Tooltip = "Saves the state of wreck doors (open/closed) between game sessions.")]
+        [Toggle(Label = "Save open wreck doors", Tooltip = "Saves which doors in wrecks are open.")]
         public bool SaveOpenWreckDoors = true;
+
+        [Toggle(Label = "Save closed Cyclops doors", Tooltip = "Saves which doors in the Cyclops are closed.")]
+        public bool SaveClosedCyclopsDoors = true;
     }
 }

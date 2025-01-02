@@ -8,7 +8,9 @@ namespace Ungeziefi.Fixes
     {
         private static string GetDoorCoords(Vector3Int position)
         {
+            #pragma warning disable Harmony003 // Harmony non-ref patch parameters modified
             return $"{position.x},{position.y},{position.z}";
+            #pragma warning restore Harmony003 // Harmony non-ref patch parameters modified
         }
 
         [HarmonyPatch(nameof(BulkheadDoor.OnHandClick))]
@@ -39,7 +41,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(BulkheadDoor.Awake))]
         public static void Prefix(BulkheadDoor __instance)
         {
-            if (!Main.Config.SaveOpenWreckDoors)
+            if (!Main.PersistenceConfig.SaveOpenWreckDoors)
             {
                 return;
             }
