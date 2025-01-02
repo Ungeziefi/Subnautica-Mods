@@ -8,7 +8,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(CyclopsDestructionEvent.DestroyCyclops)), HarmonyPrefix]
         public static void DestroyCyclops(CyclopsDestructionEvent __instance)
         {
-            if (Main.FixesConfig.DeadlyCyclopsExplosion)
+            if (Main.Config.DeadlyCyclopsExplosion)
             {
                 __instance.subLiveMixin.Kill();
             }

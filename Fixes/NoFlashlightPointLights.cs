@@ -9,7 +9,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(FlashLight.Start)), HarmonyPrefix]
         public static void Start(FlashLight __instance)
         {
-            if (!Main.FixesConfig.NoFlashlightPointLights)
+            if (!Main.Config.NoFlashlightPointLights)
             {
                 return;
             }

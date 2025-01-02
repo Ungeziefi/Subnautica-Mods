@@ -8,11 +8,11 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Constructable.GetConstructInterval)), HarmonyPostfix]
         public static void GetConstructInterval(ref float __result)
         {
-            if (Main.TweaksConfig.BuildTimeMultiplier == 1f || NoCostConsoleCommand.main.fastBuildCheat || !GameModeUtils.RequiresIngredients())
+            if (Main.Config.BuildTimeMultiplier == 1f || NoCostConsoleCommand.main.fastBuildCheat || !GameModeUtils.RequiresIngredients())
             {
                 return;
             }
-            __result *= Main.TweaksConfig.BuildTimeMultiplier;
+            __result *= Main.Config.BuildTimeMultiplier;
         }
     }
 }

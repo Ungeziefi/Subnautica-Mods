@@ -14,11 +14,13 @@ namespace Ungeziefi.Fixes
         public const string PLUGIN_NAME = "Fixes";
         public const string PLUGIN_VERSION = "1.0.0";
 
-        public new static ManualLogSource Logger { get; private set; }
-
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
-        internal static FixesConfig FixesConfig { get; } = OptionsPanelHandler.RegisterModOptions<FixesConfig>();
+        internal static new ManualLogSource Logger { get; private set; }
+        internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static PersistenceConfig PersistenceConfig { get; } = OptionsPanelHandler.RegisterModOptions<PersistenceConfig>();
+        internal static SaveData SaveData { get; private set; }
+
         public void Awake()
         {
             // Set project-scoped logger instance
@@ -28,6 +30,8 @@ namespace Ungeziefi.Fixes
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
 
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
+
+            SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();
         }
     }
 }

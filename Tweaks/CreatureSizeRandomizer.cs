@@ -21,7 +21,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Creature.Start)), HarmonyPostfix]
         public static void Start(Creature __instance)
         {
-            if (!Main.TweaksConfig.CreatureSizeRandomizer)
+            if (!Main.Config.CreatureSizeRandomizer)
             {
                 return;
             }
@@ -31,7 +31,7 @@ namespace Ungeziefi.Tweaks
 
             if (targetCreatures.Contains(tt))
             {
-                float size = Random.Range(Main.TweaksConfig.MinCreatureSize / 10f, Main.TweaksConfig.MaxCreatureSize / 10f);
+                float size = Random.Range(Main.Config.MinCreatureSize / 10f, Main.Config.MaxCreatureSize / 10f);
                 __instance.transform.localScale *= size;
                 // Main.Logger.LogInfo($"Applied size for {tt}: {__instance.transform.localScale}");
             }

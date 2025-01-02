@@ -9,7 +9,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(Beacon.Throw)), HarmonyPostfix]
         public static void Throw(Beacon __instance)
         {
-            if (Main.FixesConfig.BeaconFacePlayer)
+            if (Main.Config.BeaconFacePlayer)
             {
                 var cameraRotation = Camera.main.transform.rotation;
                 __instance.transform.rotation = cameraRotation;

@@ -11,7 +11,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(StarshipDoor.OnHandHover)), HarmonyPrefix]
         public static bool OnHandHover(StarshipDoor __instance)
         {
-            if (!Main.FixesConfig.NoPromptOnCutDoors)
+            if (!Main.Config.NoPromptOnCutDoors)
             {
                 return true;
             }

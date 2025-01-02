@@ -9,7 +9,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Plantable.Spawn)), HarmonyPostfix]
         public static void Spawn(ref GameObject __result)
         {
-            if (Main.TweaksConfig.PlantRotationRandomizer)
+            if (Main.Config.PlantRotationRandomizer)
             {
                 float randomYRotation = Random.Range(0, 360);
                 __result.transform.Rotate(0, randomYRotation, 0);

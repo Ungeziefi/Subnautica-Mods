@@ -4,7 +4,7 @@ using Nautilus.Options.Attributes;
 namespace Ungeziefi.Tweaks
 {
     [Menu("Tweaks")]
-    public class TweaksConfig : ConfigFile
+    public class Config : ConfigFile
     {
         [Toggle(Label = "Seamoth pushing", Tooltip = "Allows pushing the Seamoth when it's on land.")]
         public bool SeamothPushing = true;
@@ -53,7 +53,7 @@ namespace Ungeziefi.Tweaks
     }
 
     [Menu("Minor Tweaks")]
-    public class MinorTweaksConfig : ConfigFile
+    public class MinorConfig : ConfigFile
     {
         [Toggle(Label = "Bladderfish tooltip", Tooltip = "Adds a tooltip about the Bladderfish providing oxygen if consumed raw.")]
         public bool BladderfishTooltip = true;

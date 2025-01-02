@@ -31,7 +31,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(CyclopsSilentRunningAbilityButton.SilentRunningIteration)), HarmonyPrefix]
         public static void SilentRunningIteration(CyclopsSilentRunningAbilityButton __instance)
         {
-            if (!Main.FixesConfig.SilentRunningNoIdleCost)
+            if (!Main.Config.SilentRunningNoIdleCost)
             {
                 return;
             }

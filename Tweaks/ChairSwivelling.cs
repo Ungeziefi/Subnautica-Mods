@@ -23,7 +23,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Bench.OnUpdate)), HarmonyPostfix]
         public static void OnUpdate(Bench __instance)
         {
-            if (!Main.TweaksConfig.ChairSwivelling || CraftData.GetTechType(__instance.gameObject) != TechType.StarshipChair)
+            if (!Main.Config.ChairSwivelling || CraftData.GetTechType(__instance.gameObject) != TechType.StarshipChair)
             {
                 return;
             }

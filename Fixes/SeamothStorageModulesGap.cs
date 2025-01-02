@@ -31,7 +31,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(SeaMoth.OnUpgradeModuleChange)), HarmonyPostfix]
         static void OnUpgradeModuleChange(SeaMoth __instance, int slotID, TechType techType, bool added)
         {
-            if (!Main.FixesConfig.SeamothStorageModulesGap)
+            if (!Main.Config.SeamothStorageModulesGap)
             {
                 ResetStoragePosition(__instance, slotID);
                 return;

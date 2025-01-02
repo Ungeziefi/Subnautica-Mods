@@ -4,7 +4,7 @@ using Nautilus.Options.Attributes;
 namespace Ungeziefi.Fixes
 {
     [Menu("Fixes")]
-    public class FixesConfig : ConfigFile
+    public class Config : ConfigFile
     {
         [Toggle(Label = "Scanner charge indicator", Tooltip = "Adds the missing charge level when using the Scanner.")]
         public bool ScannerChargeIndicator = true;
@@ -50,5 +50,15 @@ namespace Ungeziefi.Fixes
 
         [Toggle(Label = "Docking bay sound checks", Tooltip = "Stops the Cyclops docking bay sounds from playing if it's already occupied.")]
         public bool DockingBaySoundChecks = true;
+
+        [Toggle(Label = "Save open wreck doors", Tooltip = "Saves the state of wreck doors (open/closed) between game sessions.")]
+        public bool SaveOpenWreckDoors = true;
+    }
+
+    [Menu("Persistence Fixes")]
+    public class PersistenceConfig : ConfigFile
+    {
+        [Toggle(Label = "Save open wreck doors", Tooltip = "Saves the state of wreck doors (open/closed) between game sessions.")]
+        public bool SaveOpenWreckDoors = true;
     }
 }

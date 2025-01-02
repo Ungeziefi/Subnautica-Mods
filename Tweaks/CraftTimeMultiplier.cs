@@ -9,11 +9,11 @@ namespace Ungeziefi.Tweaks
         public static void Craft(ref float craftTime)
         {
             GameModeUtils.GetGameMode(out GameModeOption mode, out GameModeOption cheats);
-            if (Main.TweaksConfig.CraftTimeMultiplier == 1f || mode == GameModeOption.Creative)
+            if (Main.Config.CraftTimeMultiplier == 1f || mode == GameModeOption.Creative)
             {
                 return;
             }
-            craftTime *= Main.TweaksConfig.CraftTimeMultiplier;
+            craftTime *= Main.Config.CraftTimeMultiplier;
         }
     }
 }

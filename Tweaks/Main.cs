@@ -14,12 +14,11 @@ namespace Ungeziefi.Tweaks
         public const string PLUGIN_NAME = "Tweaks";
         public const string PLUGIN_VERSION = "1.0.0";
 
-        public new static ManualLogSource Logger { get; private set; }
-
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
 
-        internal static TweaksConfig TweaksConfig { get; } = OptionsPanelHandler.RegisterModOptions<TweaksConfig>();
-        internal static MinorTweaksConfig MinorTweaksConfig { get; } = OptionsPanelHandler.RegisterModOptions<MinorTweaksConfig>();
+        internal static new ManualLogSource Logger { get; private set; }
+        internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static MinorConfig MinorConfig { get; } = OptionsPanelHandler.RegisterModOptions<MinorConfig>();
 
         public void Awake()
         {

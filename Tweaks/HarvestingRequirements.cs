@@ -12,7 +12,7 @@ namespace Ungeziefi.Tweaks
             Knife knife = Inventory.main.GetHeldTool() as Knife;
             HeatBlade heatblade = Inventory.main.GetHeldTool() as HeatBlade;
 
-            if (Main.TweaksConfig.HarvestingRequirements &&
+            if (Main.Config.HarvestingRequirements &&
                 Language.main.GetCurrentLanguage() == "English" &&
                 mode == GameModeOption.Creative &&
                 !exosuit)

@@ -14,6 +14,7 @@
 - Silent running now does not consume power when the Cyclops is off. (Improved by not using bool Prefix.)
 - Fixed the gap between the Seamoth and its lower storage modules.
 - The Cyclops docking bay sounds now don't play if the bay is already occupied. (Improved by not using bool Prefix.)
+- The state of wreck doors that you open manually is now saved.
 
 ### To-Do
 - When you load your game, the Cyclops' speed is wrong until you switch speed modes.
@@ -48,7 +49,6 @@
 - Fish you release from your hand don't fade in.
 - Dead fish are removed from containers when loading a saved game.
 - Items that you place in your base don't fade in.
-- The state of wreck doors that you open manually is now saved.
 
 ### Won't Add
 - When looking at a creature, the UI now tells you if it's dead. (Out of scope.)

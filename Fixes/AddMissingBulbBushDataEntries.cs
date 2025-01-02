@@ -8,7 +8,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(PDAScanner.Initialize)), HarmonyPostfix]
         public static void Initialize()
         {
-            if (!Main.FixesConfig.AddMissingBulbBushDataEntries)
+            if (!Main.Config.AddMissingBulbBushDataEntries)
             {
                 return;
             }
@@ -29,7 +29,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(PDAScanner.Unlock)), HarmonyPostfix]
         public static void Unlock(PDAScanner.EntryData entryData)
         {
-            if (!Main.FixesConfig.AddMissingBulbBushDataEntries)
+            if (!Main.Config.AddMissingBulbBushDataEntries)
             {
                 return;
             }

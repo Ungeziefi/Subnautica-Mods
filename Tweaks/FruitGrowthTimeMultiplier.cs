@@ -10,12 +10,12 @@
 //        [HarmonyPatch("Start"), HarmonyPrefix]
 //        public static void Start(FruitPlant __instance)
 //        {
-//            if (Main.TweaksConfig.FruitGrowthTimeMultiplier == 1)
+//            if (Main.Config.FruitGrowthTimeMultiplier == 1)
 //            {
 //                return;
 //            }
 
-//            __instance.fruitSpawnInterval *= Main.TweaksConfig.FruitGrowthTimeMultiplier * DayNightCycle.kDayLengthSeconds;
+//            __instance.fruitSpawnInterval *= Main.Config.FruitGrowthTimeMultiplier * DayNightCycle.kDayLengthSeconds;
 //        }
 //    }
 //}

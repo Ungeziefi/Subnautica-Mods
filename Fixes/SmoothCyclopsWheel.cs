@@ -9,7 +9,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(SubControl.UpdateAnimation)), HarmonyPrefix]
         public static bool UpdateAnimation(SubControl __instance)
         {
-            if (!Main.FixesConfig.SmoothCyclopsWheel)
+            if (!Main.Config.SmoothCyclopsWheel)
             {
                 return false;
             }

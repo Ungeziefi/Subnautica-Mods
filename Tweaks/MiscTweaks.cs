@@ -19,21 +19,21 @@ namespace Ungeziefi.Tweaks
 
         public static void ApplyBladderfishTooltip()
         {
-            if (Main.MinorTweaksConfig.BladderfishTooltip && Language.main.GetCurrentLanguage() == "English")
+            if (Main.MinorConfig.BladderfishTooltip && Language.main.GetCurrentLanguage() == "English")
             {
                 LanguageHandler.SetTechTypeTooltip(TechType.Bladderfish, Language.main.Get("Tooltip_Bladderfish") + " Provides some oxygen when consumed raw.");
             }
         }
         public static void ApplyTrashcanNameConsistency()
         {
-            if (Main.MinorTweaksConfig.TrashcanNameConsistency && Language.main.GetCurrentLanguage() == "English")
+            if (Main.MinorConfig.TrashcanNameConsistency && Language.main.GetCurrentLanguage() == "English")
             {
                 LanguageHandler.SetLanguageLine("Trashcan", "Trash can");
             }
         }
         public static void ApplyCapitalizeUseString()
         {
-            if (Main.MinorTweaksConfig.CapitalizeUseString && Language.main.GetCurrentLanguage() == "English")
+            if (Main.MinorConfig.CapitalizeUseString && Language.main.GetCurrentLanguage() == "English")
             {
                 LanguageHandler.SetLanguageLine("Use", "Use");
             }

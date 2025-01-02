@@ -10,7 +10,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(VehicleDockingBay.LaunchbayAreaEnter)), HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> LaunchbayAreaEnter(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
-            if (!Main.FixesConfig.DockingBaySoundChecks)
+            if (!Main.Config.DockingBaySoundChecks)
             {
                 return instructions;
             }
@@ -48,7 +48,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(VehicleDockingBay.LaunchbayAreaExit)), HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> LaunchbayAreaExit(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
-            if (!Main.FixesConfig.DockingBaySoundChecks)
+            if (!Main.Config.DockingBaySoundChecks)
             {
                 return instructions;
             }

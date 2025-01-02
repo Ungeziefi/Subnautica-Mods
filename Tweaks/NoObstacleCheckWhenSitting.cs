@@ -8,7 +8,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Bench.CanSit)), HarmonyPostfix]
         public static void CanSit(ref bool __result)
         {
-            if (Main.TweaksConfig.NoObstacleCheckWhenSitting)
+            if (Main.Config.NoObstacleCheckWhenSitting)
             {
                 __result = true;
             }

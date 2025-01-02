@@ -9,7 +9,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(MainCameraControl.Awake)), HarmonyPostfix]
         public static void Awake(ScannerTool __instance)
         {
-            if (Main.FixesConfig.ForceAnisotropicFiltering)
+            if (Main.Config.ForceAnisotropicFiltering)
             {
                 QualitySettings.anisotropicFiltering = AnisotropicFiltering.ForceEnable;
             }

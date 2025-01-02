@@ -8,7 +8,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(StartScreen.TryToShowDisclaimer)), HarmonyPrefix]
         public static bool TryToShowDisclaimer(StartScreen __instance)
         {
-            if (Main.TweaksConfig.SkipEpilepsyWarning)
+            if (Main.Config.SkipEpilepsyWarning)
             {
                 return false;
             }

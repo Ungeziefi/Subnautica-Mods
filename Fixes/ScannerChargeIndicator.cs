@@ -10,7 +10,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(ScannerTool.Update)), HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Update(IEnumerable<CodeInstruction> instructions)
         {
-            if (!Main.FixesConfig.ScannerChargeIndicator)
+            if (!Main.Config.ScannerChargeIndicator)
             {
                 // Return the original instructions
                 return instructions;

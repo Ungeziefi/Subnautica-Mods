@@ -11,7 +11,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(new Type[] { typeof(GameObject) })]
         public static void IsTargetValid(AggressiveWhenSeeTarget __instance, ref bool __result, GameObject target)
         {
-            if (!Main.FixesConfig.LeviathansDontAttackLandTargets)
+            if (!Main.Config.LeviathansDontAttackLandTargets)
             {
                 return;
             }

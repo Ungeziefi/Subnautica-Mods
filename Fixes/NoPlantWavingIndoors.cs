@@ -29,7 +29,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(LargeWorldEntity.Awake)), HarmonyPrefix]
         public static void Awake(LargeWorldEntity __instance)
         {
-            if (!Main.FixesConfig.NoPlantWavingIndoors)
+            if (!Main.Config.NoPlantWavingIndoors)
             {
                 return;
             }
