@@ -21,4 +21,4 @@ Built with [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Temp
 - [MrOshaw](https://github.com/mroshaw) for the [Subnautica Modding Guide](https://mroshaw.github.io/).
 - The [Subnautica Modding](https://discord.com/invite/subnautica-modding-324207629784186882) Discord server for their help and resources, especially EldritchCarMaker and Essence.
 #### Disclaimer
-All of the code ported from Tweaks and Fixes was cleaned, improved, and commented where suitable. User-facing differences worth noting are mentioned in the 2 files linked above.
+All of the code ported from Tweaks and Fixes was optimized and commented. User-facing differences worth noting are mentioned in the 2 files linked above.

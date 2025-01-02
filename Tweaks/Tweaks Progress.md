@@ -4,7 +4,7 @@
 - Multiplies the build time of structures.
 - Multiplies the craft time of items.
 - Disables eating and using medkits underwater.
-- Swivel chairs now can swivel. (Improved by adding acceleration, deceleration, and inertia. Also improved by not using bool Prefix.)
+- Swivel chairs now can swivel. (Improved by adding acceleration, deceleration, and inertia. Better compatibility by not using bool Prefix.)
 - Breaking outcrops requires a tool.
 - Newly crafted power cells now match the charge of the batteries used to craft them. (Improved by supporting any number of batteries instead of hardcoding to 2.)
 - Removed the epilepsy warning during startup.

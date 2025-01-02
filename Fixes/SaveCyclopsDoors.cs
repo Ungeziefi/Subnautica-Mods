@@ -1,5 +1,5 @@
-using HarmonyLib;
 using System.Collections.Generic;
+using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Fixes
@@ -10,15 +10,15 @@ namespace Ungeziefi.Fixes
         private static readonly Dictionary<string, float> closedDoorsYAngle = new Dictionary<string, float>
         {
             { "submarine_hatch_01", 270f },
-            { "submarine_hatch_02 1", 180f },
             { "submarine_hatch_02", 180f },
-            { "submarine_hatch_02 7", 0f },
+            { "submarine_hatch_02 1", 180f },
             { "submarine_hatch_02 3", 180f },
-            { "submarine_hatch_02 4", 0f }
+            { "submarine_hatch_02 4", 0f },
+            { "submarine_hatch_02 7", 0f }
         };
 
-        [HarmonyPatch(nameof(Openable.OnHandClick))]
-        public static void Postfix(Openable __instance)
+        [HarmonyPatch(nameof(Openable.OnHandClick)), HarmonyPostfix]
+        public static void OnHandClick(Openable __instance)
         {
             var name = __instance.name;
 
@@ -45,8 +45,8 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(Openable.Start))]
-        public static void Prefix(Openable __instance)
+        [HarmonyPatch(nameof(Openable.Start)), HarmonyPrefix]
+        public static void Start(Openable __instance)
         {
             if (!Main.PersistenceConfig.SaveClosedCyclopsDoors)
             {
@@ -54,7 +54,7 @@ namespace Ungeziefi.Fixes
             }
 
             // Check if this door has a defined closing angle and if it's in the closed doors list
-            if (closedDoorsYAngle.ContainsKey(__instance.name) && 
+            if (closedDoorsYAngle.ContainsKey(__instance.name) &&
                 Main.SaveData.CyclopsClosedDoors.Contains(__instance.name))
             {
                 CloseDoor(__instance);

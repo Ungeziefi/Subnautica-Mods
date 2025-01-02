@@ -13,8 +13,8 @@ namespace Ungeziefi.Fixes
             #pragma warning restore Harmony003 // Harmony non-ref patch parameters modified
         }
 
-        [HarmonyPatch(nameof(BulkheadDoor.OnHandClick))]
-        public static void Postfix(BulkheadDoor __instance)
+        [HarmonyPatch(nameof(BulkheadDoor.OnHandClick)), HarmonyPostfix]
+        public static void OnHandClick(BulkheadDoor __instance)
         {
             var pos = new Vector3Int(
                 Mathf.RoundToInt(__instance.transform.position.x),
@@ -38,8 +38,8 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(BulkheadDoor.Awake))]
-        public static void Prefix(BulkheadDoor __instance)
+        [HarmonyPatch(nameof(BulkheadDoor.Awake)), HarmonyPrefix]
+        public static void Awake(BulkheadDoor __instance)
         {
             if (!Main.PersistenceConfig.SaveOpenWreckDoors)
             {

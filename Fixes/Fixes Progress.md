@@ -1,6 +1,6 @@
 ﻿# T&F Ports
 ### Done
-- The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint and by not using bool Prefix.)
+- The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint and better compatibility by not using bool Prefix.)
 - Leviathans now don't attack the player on land. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
 - The flashlight now does not illuminate anything behind it.
 - The Grub basket, Bulbo tree, speckled rattler, pink cap, and Ming plant now do not animate. (Improved by applying this only indoors.)
@@ -11,9 +11,9 @@
 - Now you can't climb the Mobile Vehicle Bay when standing on it. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
 - When the Cyclops is destroyed with the player in it, the player now respawns correctly by triggering an actual death.
 - The Cyclops' steering wheel animation has three states: default position, turn right 100%, turn left 100%. Now it uses correct analog values with a controller.
-- Silent running now does not consume power when the Cyclops is off. (Improved by not using bool Prefix.)
+- Silent running now does not consume power when the Cyclops is off. (Better compatibility by not using bool Prefix.)
 - Fixed the gap between the Seamoth and its lower storage modules.
-- The Cyclops docking bay sounds now don't play if the bay is already occupied. (Improved by not using bool Prefix.)
+- The Cyclops docking bay sounds now don't play if the bay is already occupied. (Better compatibility by not using bool Prefix.)
 - The state of wreck doors that you open manually is now saved.
 - The state of doors inside the Cyclops is now saved.
 
