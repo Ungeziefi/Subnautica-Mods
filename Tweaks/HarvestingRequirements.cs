@@ -2,7 +2,7 @@
 
 namespace Ungeziefi.Tweaks
 {
-    public class TweakHarvestingRequirements
+    public class HarvestingRequirements
     {
         // Determines if the player should be prevented from breaking outcrops and picking fruits without a tool equipped
         private static bool ShouldPreventAction(bool isOutcrop)
@@ -35,7 +35,7 @@ namespace Ungeziefi.Tweaks
 
         // Outcrops
         [HarmonyPatch(typeof(BreakableResource))]
-        public class TweakBarehandsHarvesting_BreakableResourceOnHandHover
+        public class HarvestingRequirements_BreakableResource
         {
             [HarmonyPatch(nameof(BreakableResource.OnHandHover)), HarmonyPrefix]
             public static bool OnHandHover(BreakableResource __instance)
@@ -61,7 +61,7 @@ namespace Ungeziefi.Tweaks
 
         // Plants
         [HarmonyPatch(typeof(PickPrefab))]
-        public class TweakBarehandsHarvesting_PickPrefab
+        public class HarvestingRequirements_PickPrefab
         {
             [HarmonyPatch(nameof(PickPrefab.OnHandHover)), HarmonyPrefix]
             public static bool OnHandHover(PickPrefab __instance)

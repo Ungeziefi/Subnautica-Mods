@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch(typeof(Plantable))]
-    public class TweakPlantableRandomRotation
+    public class PlantRotationRandomizer
     {
         [HarmonyPatch(nameof(Plantable.Spawn)), HarmonyPostfix]
         public static void Spawn(ref GameObject __result)

@@ -3,7 +3,7 @@
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(PDAScanner))]
-    public class FixPDAScannerKoosh
+    public class AddMissingBulbBushDataEntries
     {
         [HarmonyPatch(nameof(PDAScanner.Initialize)), HarmonyPostfix]
         public static void Initialize()

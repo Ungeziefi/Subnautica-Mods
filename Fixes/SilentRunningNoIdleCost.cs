@@ -3,7 +3,7 @@
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(PowerRelay))]
-    public class HelperPowerRelayOriginalPowerCost
+    public class SilentRunningNoIdleCost_PowerRelay
     {
         public static float originalPowerCost = -1f;
 
@@ -26,7 +26,7 @@ namespace Ungeziefi.Fixes
     }
 
     [HarmonyPatch(typeof(CyclopsSilentRunningAbilityButton))]
-    public class FixCyclopsSilentRunningAbilityButtonPowerDrain
+    public class SilentRunningNoIdleCost
     {
         [HarmonyPatch(nameof(CyclopsSilentRunningAbilityButton.SilentRunningIteration)), HarmonyPrefix]
         public static void SilentRunningIteration(CyclopsSilentRunningAbilityButton __instance)
@@ -45,7 +45,7 @@ namespace Ungeziefi.Fixes
             else
             {
                 // Restore the original power cost if the engine is on
-                __instance.subRoot.silentRunningPowerCost = HelperPowerRelayOriginalPowerCost.originalPowerCost;
+                __instance.subRoot.silentRunningPowerCost = SilentRunningNoIdleCost_PowerRelay.originalPowerCost;
                 // Main.Logger.LogInfo($"Current power cost is {__instance.subRoot.silentRunningPowerCost}");
             }
         }

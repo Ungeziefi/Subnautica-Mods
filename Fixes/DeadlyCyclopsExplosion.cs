@@ -3,7 +3,7 @@
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(CyclopsDestructionEvent))]
-    public class FixCyclopsDestructionEventDeath
+    public class DeadlyCyclopsExplosion
     {
         [HarmonyPatch(nameof(CyclopsDestructionEvent.DestroyCyclops)), HarmonyPrefix]
         public static void DestroyCyclops(CyclopsDestructionEvent __instance)

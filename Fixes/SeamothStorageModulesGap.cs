@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(SeaMoth))]
-    public class FixSeaMothStorageMeshPosition
+    public class SeamothStorageModulesGap
     {
         // Allow toggling the fix off without restarting the game
         private static readonly Vector3 originalLeftPosition = new Vector3(0f, 0f, 0f);

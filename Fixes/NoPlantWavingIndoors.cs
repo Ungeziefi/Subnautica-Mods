@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(LargeWorldEntity))]
-    public class FixLargeWorldEntityWavingAnimationRemoval
+    public class NoPlantWavingIndoors
     {
         private static readonly HashSet<TechType> techTypesToRemoveWavingShader = new HashSet<TechType>
             {

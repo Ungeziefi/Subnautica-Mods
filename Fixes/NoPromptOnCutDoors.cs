@@ -4,7 +4,7 @@ using HarmonyLib;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(StarshipDoor))]
-    public class FixStarshipDoorInteraction
+    public class NoPromptOnCutDoors
     {
         private static readonly HashSet<StarshipDoor> cutOpenedDoors = new HashSet<StarshipDoor>();
 

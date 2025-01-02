@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
-    public class TweakPowerCellChargeFromBatteries
+    public class PowerCellChargeFromBatteries
     {
         // List of batteries used for crafting
         private static List<Battery> batteriesUsedForCrafting = new List<Battery>();
 
         [HarmonyPatch(typeof(CrafterLogic))]
-        public class TweakPowerCellChargeFromBatteries_CrafterLogic
+        public class PowerCellChargeFromBatteries_CrafterLogic
         {
             [HarmonyPatch(nameof(CrafterLogic.NotifyCraftEnd)), HarmonyPostfix]
             public static void NotifyCraftEnd(CrafterLogic __instance, GameObject target, TechType techType)
@@ -43,7 +43,7 @@ namespace Ungeziefi.Tweaks
         }
 
         [HarmonyPatch(typeof(Inventory))]
-        public class TweakPowerCellChargeFromBatteries_Inventory
+        public class PowerCellChargeFromBatteries_Inventory
         {
             // Clear the list of used batteries before crafting
             [HarmonyPatch(nameof(Inventory.ConsumeResourcesForRecipe)), HarmonyPrefix]

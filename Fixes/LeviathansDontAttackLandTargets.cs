@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Ungeziefi.Fixes
 { 
     [HarmonyPatch(typeof(AggressiveWhenSeeTarget))]
-    public class FixAggressiveWhenSeeTargetLeviathanLandAttack
+    public class LeviathansDontAttackLandTargets
     {
         [HarmonyPatch(nameof(AggressiveWhenSeeTarget.IsTargetValid)), HarmonyPostfix]
         [HarmonyPatch(new Type[] { typeof(GameObject) })]

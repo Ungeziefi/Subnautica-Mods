@@ -3,7 +3,7 @@
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(Constructor))]
-    public class FixConstructorClimbing
+    public class NoRedundantMobileVehicleBayClimbing
     {
         [HarmonyPatch(nameof(Constructor.Update)), HarmonyPostfix]
         public static void Update(Constructor __instance)

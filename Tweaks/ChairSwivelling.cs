@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch(typeof(Bench))]
-    public class TweakChairSwivelling
+    public class ChairSwivelling
     {
         private static float maxChairRotSpeed = 300f;
         private static float chairRotAcceleration = 80f;
@@ -84,15 +84,6 @@ namespace Ungeziefi.Tweaks
                 {
                     currentDirection = 0;
                 }
-            }
-        }
-
-        [HarmonyPatch(nameof(Bench.CanSit)), HarmonyPostfix]
-        public static void CanSit(ref bool __result)
-        {
-            if (Main.TweaksConfig.NoObstacleCheckWhenSitting)
-            {
-                __result = true;
             }
         }
     }

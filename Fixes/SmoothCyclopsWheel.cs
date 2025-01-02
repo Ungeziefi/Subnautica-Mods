@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(SubControl))]
-    public class FixSubControlSmoothWheel
+    public class SmoothCyclopsWheel
     {
         [HarmonyPatch(nameof(SubControl.UpdateAnimation)), HarmonyPrefix]
         public static bool UpdateAnimation(SubControl __instance)

@@ -5,7 +5,7 @@ using HarmonyLib;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(ScannerTool))]
-    public class FixScannerToolChargeLevel
+    public class ScannerChargeIndicator
     {
         [HarmonyPatch(nameof(ScannerTool.Update)), HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Update(IEnumerable<CodeInstruction> instructions)

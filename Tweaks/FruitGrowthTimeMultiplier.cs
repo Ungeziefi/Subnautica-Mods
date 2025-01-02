@@ -5,7 +5,7 @@
 //namespace Ungeziefi.Tweaks
 //{
 //    [HarmonyPatch(typeof(FruitPlant))]
-//    internal class TweakFruitPlantGrowthTimeMultiplier
+//    internal class FruitGrowthTimeMultiplier
 //    {
 //        [HarmonyPatch("Start"), HarmonyPrefix]
 //        public static void Start(FruitPlant __instance)

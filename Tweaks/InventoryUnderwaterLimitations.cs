@@ -3,7 +3,7 @@
 namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch(typeof(Inventory))]
-    public class TweakInventoryUnderwaterLimitations
+    public class InventoryUnderwaterLimitations
     {
         [HarmonyPatch(nameof(Inventory.GetItemAction)), HarmonyPostfix]
         public static void GetItemAction(Inventory __instance, ref ItemAction __result, InventoryItem item)
@@ -11,7 +11,7 @@ namespace Ungeziefi.Tweaks
             var pickupable = item.item;
             var tt = pickupable.GetTechType();
 
-            // Disables eating underwater
+            // No eating underwater
             if (Main.TweaksConfig.NoEatingUnderwater &&
                 Player.main.IsUnderwater() &&
                 __result == ItemAction.Eat &&
@@ -21,7 +21,7 @@ namespace Ungeziefi.Tweaks
                 return;
             }
 
-            // Disables using medkits underwater
+            // No medkits underwater
             if (tt == TechType.FirstAidKit && __result == ItemAction.Use)
             {
                 if ((Main.TweaksConfig.NoMedkitsUnderwater &&

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch(typeof(Vehicle))]
-    public class TweakVehiclePush
+    public class SeamothPushing
     {
         private static bool IsPushable(Vehicle vehicle)
         {

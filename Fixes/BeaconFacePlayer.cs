@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(Beacon))]
-    public class FixBeaconFacesPlayer
+    public class BeaconFacePlayer
     {
         [HarmonyPatch(nameof(Beacon.Throw)), HarmonyPostfix]
         public static void Throw(Beacon __instance)

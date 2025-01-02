@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(FlashLight))]
-    public class FixFlashLightPointLights
+    public class NoFlashlightPointLights
     {
         [HarmonyPatch(nameof(FlashLight.Start)), HarmonyPrefix]
         public static void Start(FlashLight __instance)

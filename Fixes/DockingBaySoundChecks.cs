@@ -5,7 +5,7 @@ using HarmonyLib;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(VehicleDockingBay))]
-    public class FixVehicleDockingBayChecks
+    public class DockingBaySoundChecks
     {
         [HarmonyPatch(nameof(VehicleDockingBay.LaunchbayAreaEnter)), HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> LaunchbayAreaEnter(IEnumerable<CodeInstruction> instructions, ILGenerator generator)

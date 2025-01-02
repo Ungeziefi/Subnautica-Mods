@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(MainCameraControl))]
-    public class FixMainCameraControlAF
+    public class ForceAnisotropicFiltering
     {
         [HarmonyPatch(nameof(MainCameraControl.Awake)), HarmonyPostfix]
         public static void Awake(ScannerTool __instance)
