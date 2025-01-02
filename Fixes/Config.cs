@@ -47,5 +47,8 @@ namespace Ungeziefi.Fixes
 
         [Toggle(Label = "Seamoth storage modules gap", Tooltip = "Fixes the gap between the Seamoth and its lower storage modules.")]
         public bool SeamothStorageModulesGap = true;
+
+        [Toggle(Label = "Docking bay sound checks", Tooltip = "Stops the Cyclops docking bay sounds from playing if it's already occupied.")]
+        public bool DockingBaySoundChecks = true;
     }
 }

@@ -8,7 +8,7 @@
 - Breaking outcrops requires a tool.
 - Newly crafted power cells now match the charge of the batteries used to craft them. (Improved by supporting any number of batteries instead of hardcoding to 2.)
 - Removed the epilepsy warning during startup.
-- The rotation of plants in planters is now randomized.
+- The rotation of plants in planters is now randomized.  
 **Minor Tweaks**
   - The bladderfish description now mentions it can be used as a source of oxygen.
 
@@ -64,7 +64,7 @@
 - You can light a flare in your hand without throwing it.
 
 ### Won't Add
-- Most of what's under T&F's "Settings in the mod's options menu:" section on [Nexus Mods](https://www.nexusmods.com/subnautica/mods/722).
+- Most of what's under T&F's "Settings in the mod's options menu" section on [Nexus Mods](https://www.nexusmods.com/subnautica/mods/722).
 - The coffee vending machine now spawns coffee properly. (Can't reproduce.)
 - Added a key bind to select the next or previous PDA tab. (Not interested.)
 - Added a key bind to cycle tools in your current quickslot. (Not interested.)
@@ -75,14 +75,13 @@
 - You can now name your lockers, Cyclops lockers, and lockers from the Decorations mod. (Not interested.)
 - Creepvine seed clusters can now be eaten. (Not interested.)
 
-
 ---
 
 # New
 ### Done
 - Randomizes the size of certain creatures. (I didn't like how [Random Creature Size](https://www.nexusmods.com/subnautica/mods/138) affects all creatures. Check Tweaks.cs#L81 for a list of them.)
 - Harvesting plants requires a knife or Thermoblade.
-- Removes the check for obstacles when sitting to avoid getting locked out of the swivel chair when you spin it too close to an object then stand up.
+- Removes the check for obstacles when sitting to avoid getting locked out of the swivel chair when you spin it too close to an object then stand up.  
 **Minor Tweaks**
   - "Use Trashcan" -> "Use Trash can" for consistency with its recipe.
   - Capitalized the "Use" string globally.

@@ -13,11 +13,11 @@
 - The Cyclops' steering wheel animation has three states: default position, turn right 100%, turn left 100%. Now it uses correct analog values with a controller.
 - Silent running now does not consume power when the Cyclops is off. (Improved by not using bool Prefix.)
 - Fixed the gap between the Seamoth and its lower storage modules.
+- The Cyclops docking bay sounds now don't play if the bay is already occupied. (Improved by not using bool Prefix.)
 
 ### To-Do
 - When you load your game, the Cyclops' speed is wrong until you switch speed modes.
 - The Cyclops hatch flaps now always close when you enter it.
-- The "doors opening" sound effect plays when you approach the Cyclops docking bay in a vehicle while another one is docked.
 - When the Cyclops is unpowered, its HUD and screens are off.
 - The Reaper pushes your Cyclops instead of attacking it.
 - The state of doors inside the Cyclops is now saved.
@@ -33,7 +33,6 @@
 - The brain coral, planter, tiger plant, lantern fruit tree, and Bulbo tree can't be moved with the propulsion or repulsion cannon.
 - The drill arm sound effect stops when it is working but not hitting anything.
 - When you save the game while taking poison damage, your health does not restore after reloading.
-- The heat blade can now damage lava lizards.
 - When the prawn suit jumps from or lands on anything, you get particle effects as if it was sand.
 - After reloading, the first-person model is used for waterproof lockers that are not in the inventory.
 - The Sulfur Plant can't be moved with the propulsion or repulsion cannon.
@@ -62,7 +61,7 @@
 - The Mobile Vehicle Bay now sinks when not deployed. (Vanilla feature.)
 - Peepers close their eyes when near the player. (Out of scope.)
 - Equipped dead fish's position changes if it is in your inventory when the game is loaded. (Can't reproduce.)
-
+- The Thermoblade can now damage Lava Lizards. (Intentional balance feature.)
 
 ---
 
