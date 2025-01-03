@@ -12,9 +12,9 @@
 - The bladderfish description now mentions it can be used as a source of oxygen.
 
 #### Multipliers
-- Build time multiplier.
-- Craft time multiplier.
-- Plant growth time multiplier.
+- Build time.
+- Craft time.
+- Plant growth time.
 
 ### To-Do
 - Reefbacks no longer surface.
