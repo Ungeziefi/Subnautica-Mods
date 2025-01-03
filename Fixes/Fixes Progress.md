@@ -1,4 +1,4 @@
-﻿# T&F Ports
+﻿# From T&F
 ### Done
 - The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint and better compatibility by not using bool Prefix.)
 - Leviathans now don't attack the player on land. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
@@ -48,6 +48,10 @@
 - Fish you release from your hand don't fade in.
 - Items that you place in your base don't fade in.
 - Dead fish are removed from containers when loading a saved game.
+- The state of Seaglide, Prawn Suit, and Cyclops lights is now saved.
+- The state of the Seaglide holomap is now saved.
+- The Cyclops lighting state is now saved.
+- The tool you are holding in your hand is now saved when you save your game.
 
 ### Won't Add
 - When looking at a creature, the UI now tells you if it's dead. (Out of scope.)

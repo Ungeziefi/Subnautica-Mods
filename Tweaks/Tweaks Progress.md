@@ -1,4 +1,4 @@
-# T&F Ports
+# From T&F
 ### Done
 - Adds a push feature to the Seamoth.
 - Disables eating and using medkits underwater.
@@ -18,11 +18,9 @@
 
 ### To-Do
 - Reefbacks no longer surface.
-- Cyclops speed mode is now saved.
 - In the main menu, you can press the 'escape' key to close the options menu.
 - In the main menu, you can use the mouse wheel to select the next or previous savegame slot.
 - When your life pod is damaged, you can open the top hatch to let the smoke out.
-- The tool you are holding in your hand is now saved when you save your game.
 - You can use both the repulsion and propulsion cannons to move the mobile vehicle bay.
 - You can push your life pod with the Seamoth or Cyclops.
 - Gaspods attracted by the grav trap do not explode.
@@ -41,11 +39,8 @@
 - Overheated Cyclops engines can catch fire anytime, not only when you are piloting. You have to turn the engine off to avoid catching fire.
 - Lava geysers now cook dead fish.
 - The Prawn Suit can now open supply chests.
-- Improved the script that deals damage when your vehicles collide with things.
+- Improved the code that deals damage when your vehicles collide with things.
 - Lava geysers now push objects up.
-- The state of Seaglide, Prawn Suit, and Cyclops lights is now saved.
-- The state of the Seaglide holomap is now saved.
-- The Cyclops lighting state is now saved.
 - Tooltips for batteries and power cells now show their description.
 - Cooked rotten fish now has no food value.
 - The creature decoy can now be launched from the Seamoth and Prawn Suit.
