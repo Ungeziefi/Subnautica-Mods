@@ -1,5 +1,4 @@
 using HarmonyLib;
-using static Ungeziefi.Fixes.SaveData;
 
 namespace Ungeziefi.Fixes
 {
