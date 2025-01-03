@@ -22,3 +22,8 @@ Built with [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Temp
 - The [Subnautica Modding](https://discord.com/invite/subnautica-modding-324207629784186882) Discord server for their help and resources, especially EldritchCarMaker and Essence.
 #### Disclaimer
 All of the code ported from Tweaks and Fixes was optimized and commented. User-facing differences worth noting are mentioned in the 2 files linked above.
+
+---
+
+### Contact
+@ungeziefi on Discord, you can find me in the [Subnautica Modding](https://discord.com/invite/subnautica-modding-324207629784186882) server.
