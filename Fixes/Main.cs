@@ -15,7 +15,6 @@ namespace Ungeziefi.Fixes
         public const string PLUGIN_VERSION = "1.0.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
-
         internal static new ManualLogSource Logger { get; private set; }
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
         internal static SaveData SaveData { get; private set; }

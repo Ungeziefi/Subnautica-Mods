@@ -17,9 +17,12 @@
 - The Thermoblade now only emits smoke particles when not in the water.
 
 #### Persistence Fixes
+I'm not sure if the original implementation did this but mine supports multiple Cyclopses by differentiating them by ID and properly cleans data if destroyed.
+
 - The state of wreck doors that you open manually is now saved.
 - The state of doors inside the Cyclops is now saved.
-- The Cyclops' speed mode is now saved. (Not sure if the original implementation did this but this one supports multiple Cyclopses and properly cleans data after a Cyclops is destroyed.)
+- The Cyclops' speed mode is now saved.
+- The Cyclops lighting state is now saved. (Cyclopses are created with the floodlight turned on, that won't be saved until you toggle it manually.)
 
 ### To-Do
 - When the Cyclops is unpowered, its HUD and screens are off.
@@ -50,7 +53,6 @@
 - Dead fish are removed from containers when loading a saved game.
 - The state of Seaglide, Prawn Suit, and Cyclops lights is now saved.
 - The state of the Seaglide holomap is now saved.
-- The Cyclops lighting state is now saved.
 - The tool you are holding in your hand is now saved when you save your game.
 
 ### Won't Add
@@ -74,3 +76,4 @@
 # New
 ### Done
 - Anisotropic filtering is now forced on every texture. (I know [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185) exists but I remade it for an in-game toggle.)
+- Clamps the vehicle power percentage to 0-100 to fix an underflow when no cells are inserted.

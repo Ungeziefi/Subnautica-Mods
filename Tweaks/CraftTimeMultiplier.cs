@@ -13,6 +13,7 @@ namespace Ungeziefi.Tweaks
             {
                 return;
             }
+
             craftTime *= Main.Config.CraftTimeMultiplier;
         }
     }

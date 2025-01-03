@@ -54,8 +54,11 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Thermoblade dynamic particles", Tooltip = "Applies the correct particle effects from the Thermoblade depending on whether the player is underwater or not.")]
         public bool ThermobladeDynamicParticles = true;
 
+        [Toggle(Label = "Vehicle power percentage clamp", Tooltip = "Clamps the vehicle power percentage to 0-100 to fix an underflow (very low negative number) when no cells are inserted.")]
+        public bool VehiclePowerPercentageClamp = true;
+
         [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool Persistence_Fixes_Divider;
+        public bool PersistenceFixesDivider;
 
         [Toggle(Label = "Save open wreck doors")]
         public bool SaveOpenWreckDoors = true;
@@ -65,5 +68,11 @@ namespace Ungeziefi.Fixes
 
         [Toggle(Label = "Save Cyclops speed mode")]
         public bool SaveCyclopsSpeedMode = true;
+
+        [Toggle(Label = "Save Cyclops internal lights")]
+        public bool SaveCyclopsInternalLights = true;
+
+        [Toggle(Label = "Save Cyclops floodlights")]
+        public bool SaveCyclopsFloodlights = true;
     }
 }

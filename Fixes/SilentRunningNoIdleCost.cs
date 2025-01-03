@@ -42,9 +42,10 @@ namespace Ungeziefi.Fixes
                 __instance.subRoot.silentRunningPowerCost = 0f;
                 // Main.Logger.LogInfo($"Current power cost is {__instance.subRoot.silentRunningPowerCost}");
             }
+
+            // Restore the original power cost if the engine is on
             else
             {
-                // Restore the original power cost if the engine is on
                 __instance.subRoot.silentRunningPowerCost = SilentRunningNoIdleCost_PowerRelay.originalPowerCost;
                 // Main.Logger.LogInfo($"Current power cost is {__instance.subRoot.silentRunningPowerCost}");
             }

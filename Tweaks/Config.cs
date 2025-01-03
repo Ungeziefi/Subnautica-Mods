@@ -42,8 +42,8 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Plant rotation randomizer")]
         public bool PlantRotationRandomizer = true;
 
-        [Toggle("<color=#f1c353>Minor Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool Minor_Fixes_Divider;
+        [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool miscellaneousTweakerDivider;
 
         [Toggle(Label = "Bladderfish tooltip", Tooltip = "Adds a tooltip about the Bladderfish providing oxygen if consumed raw.")]
         public bool BladderfishTooltip = true;
@@ -55,7 +55,7 @@ namespace Ungeziefi.Tweaks
         public bool CapitalizeUseString = true;
 
         [Toggle("<color=#f1c353>Multipliers</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool Multipliers_Divider;
+        public bool MultipliersDivider;
 
         [Slider(Label = "Build time multiplier", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
         public float BuildTimeMultiplier = 1f;

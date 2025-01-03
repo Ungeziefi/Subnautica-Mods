@@ -12,7 +12,6 @@ namespace Ungeziefi.Fixes
         {
             if (!Main.Config.ScannerChargeIndicator)
             {
-                // Return the original instructions
                 return instructions;
             }
 

@@ -22,7 +22,11 @@ namespace Ungeziefi.Fixes
 
         public static void FixHeatBlade()
         {
-            if (heatBladeParticles == null || heatBladeParticles.Length != 3 || heatBladeParticles[0] == null || heatBladeParticles[0].gameObject == null || !heatBladeParticles[0].gameObject.activeInHierarchy)
+            if (heatBladeParticles == null ||
+                heatBladeParticles.Length != 3 ||
+                heatBladeParticles[0] == null ||
+                heatBladeParticles[0].gameObject == null ||
+                !heatBladeParticles[0].gameObject.activeInHierarchy)
             {
                 return;
             }

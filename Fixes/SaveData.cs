@@ -10,5 +10,10 @@ namespace Ungeziefi.Fixes
         public HashSet<string> CyclopsClosedDoors = new HashSet<string>();
 
         public Dictionary<string, int> CyclopsSpeedMode = new Dictionary<string, int>();
+
+        public HashSet<string> CyclopsesWithInternalLightOff = new HashSet<string>();
+
+        public HashSet<string> CyclopsesWithFloodlightsOn = new HashSet<string>();
+
     }
 }

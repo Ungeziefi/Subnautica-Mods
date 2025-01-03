@@ -7,6 +7,11 @@ namespace Ungeziefi.Fixes
     public class NoPromptOnCutDoors
     {
         private static readonly HashSet<StarshipDoor> cutOpenedDoors = new HashSet<StarshipDoor>();
+        private static bool IsDoorCutOpen(StarshipDoor door)
+        {
+            var laserCutObject = door.GetComponent<LaserCutObject>();
+            return laserCutObject != null && laserCutObject.isCutOpen;
+        }
 
         [HarmonyPatch(nameof(StarshipDoor.OnHandHover)), HarmonyPrefix]
         public static bool OnHandHover(StarshipDoor __instance)
@@ -16,18 +21,13 @@ namespace Ungeziefi.Fixes
                 return true;
             }
 
-            var laserCutObject = __instance.GetComponent<LaserCutObject>();
-            if (laserCutObject != null && laserCutObject.isCutOpen)
+            if (IsDoorCutOpen(__instance))
             {
                 cutOpenedDoors.Add(__instance);
-            }
-
-            if (cutOpenedDoors.Contains(__instance))
-            {
                 return false;
             }
 
-            return true;
+            return !cutOpenedDoors.Contains(__instance);
         }
     }
 }
