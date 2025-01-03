@@ -1,6 +1,6 @@
-This project is aimed at porting the majority of features from [Tweaks and Fixes](https://github.com/qqqbbb/Tweaks-and-Fixes) by [qqqbbb](https://github.com/qqqbbb) to a **clean and optimized codebase** that is easier to maintain or contribute to. It is also **more compatible**, largely thanks to avoiding `bool Prefix` patches that skip the original code and by making **every feature optional**.
+This project is mainly aimed at porting the majority of features from [Tweaks and Fixes](https://github.com/qqqbbb/Tweaks-and-Fixes) by [qqqbbb](https://github.com/qqqbbb) to a **clean and optimized** codebase that is easier to maintain or contribute to. It is also **more compatible**, largely thanks to avoiding `bool Prefix` patches that skip the original code and by making **every feature optional**.
 
-You can find more information on what this mod currently does and how it differs from T&F in [Tweaks.md](https://github.com/Ungeziefi/Subnautica-Mods/blob/main/Tweaks/Tweaks%20Progress.md) and [Fixes.md](https://github.com/Ungeziefi/Subnautica-Mods/blob/main/Fixes/Fixes%20Progress.md), including notes about features that should not be included.
+You can find more information on what this mod currently does and how it differs from T&F in [Tweaks.md](https://github.com/Ungeziefi/Subnautica-Mods/blob/main/Tweaks/Tweaks%20Progress.md) and [Fixes.md](https://github.com/Ungeziefi/Subnautica-Mods/blob/main/Fixes/Fixes%20Progress.md).
 
 Built with [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Templates) and [Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/community/).
 
