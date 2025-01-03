@@ -14,7 +14,7 @@
 - Silent running now does not consume power when the Cyclops is off. (Better compatibility by not using bool Prefix.)
 - Fixed the gap between the Seamoth and its lower storage modules.
 - The Cyclops docking bay sounds now don't play if the bay is already occupied. (Better compatibility by not using bool Prefix.)
-- The Thermoblade now only emits smoke particles when above water.
+- The Thermoblade now only emits smoke particles when not in the water.
 
 #### Persistence Fixes
 - The state of wreck doors that you open manually is now saved.
