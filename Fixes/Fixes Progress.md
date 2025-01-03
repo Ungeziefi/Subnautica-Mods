@@ -76,4 +76,4 @@ I'm not sure if the original implementation did this but mine supports multiple 
 # New
 ### Done
 - Anisotropic filtering is now forced on every texture. (I know [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185) exists but I remade it for an in-game toggle.)
-- Clamps the vehicle power percentage to 0-100 to fix an underflow when no cells are inserted.
+- Clamps the Cyclops power percentage to 0-100 to fix an underflow when no cells are inserted.

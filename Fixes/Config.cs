@@ -54,8 +54,8 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Thermoblade dynamic particles", Tooltip = "Applies the correct particle effects from the Thermoblade depending on whether the player is underwater or not.")]
         public bool ThermobladeDynamicParticles = true;
 
-        [Toggle(Label = "Vehicle power percentage clamp", Tooltip = "Clamps the vehicle power percentage to 0-100 to fix an underflow (very low negative number) when no cells are inserted.")]
-        public bool VehiclePowerPercentageClamp = true;
+        [Toggle(Label = "Cyclops power percentage clamp", Tooltip = "Fixes an underflow (very low negative number) when no cells are inserted.")]
+        public bool CyclopsPowerPercentageClamp = true;
 
         [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PersistenceFixesDivider;
