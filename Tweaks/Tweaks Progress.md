@@ -1,16 +1,20 @@
 # T&F Ports
 ### Done
 - Adds a push feature to the Seamoth.
-- Multiplies the build time of structures.
-- Multiplies the craft time of items.
 - Disables eating and using medkits underwater.
 - Swivel chairs now can swivel. (Improved by adding acceleration, deceleration, and inertia. Better compatibility by not using bool Prefix.)
 - Breaking outcrops requires a tool.
 - Newly crafted power cells now match the charge of the batteries used to craft them. (Improved by supporting any number of batteries instead of hardcoding to 2.)
 - Removed the epilepsy warning during startup.
-- The rotation of plants in planters is now randomized.  
-**Minor Tweaks**
-  - The bladderfish description now mentions it can be used as a source of oxygen.
+- The rotation of plants in planters is now randomized.
+
+#### Minor Tweaks
+- The bladderfish description now mentions it can be used as a source of oxygen.
+
+#### Multipliers
+- Build time multiplier.
+- Craft time multiplier.
+- Plant growth time multiplier.
 
 ### To-Do
 - Reefbacks no longer surface.
@@ -81,7 +85,9 @@
 ### Done
 - Randomizes the size of certain creatures. (I didn't like how [Random Creature Size](https://www.nexusmods.com/subnautica/mods/138) affects all creatures. Check Tweaks.cs#L81 for a list of them.)
 - Harvesting plants requires a knife or Thermoblade.
-- Removes the check for obstacles when sitting to avoid getting locked out of the swivel chair when you spin it too close to an object then stand up.  
-**Minor Tweaks**
-  - "Use Trashcan" -> "Use Trash can" for consistency with its recipe.
-  - Capitalized the "Use" string globally.
+- Removes the check for obstacles when sitting to avoid getting locked out of the swivel chair when you spin it too close to an object then stand up.
+
+
+#### Minor Tweaks
+- "Use Trashcan" -> "Use Trash can" for consistency with its recipe.
+- Capitalized the "Use" string globally.

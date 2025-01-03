@@ -14,12 +14,14 @@
 - Silent running now does not consume power when the Cyclops is off. (Better compatibility by not using bool Prefix.)
 - Fixed the gap between the Seamoth and its lower storage modules.
 - The Cyclops docking bay sounds now don't play if the bay is already occupied. (Better compatibility by not using bool Prefix.)
+- The Thermoblade now only emits smoke particles when above water.
+
+#### Persistence Fixes
 - The state of wreck doors that you open manually is now saved.
 - The state of doors inside the Cyclops is now saved.
+- The Cyclops' speed mode is now saved. (Not sure if the original implementation did this but this one supports multiple Cyclopses and properly cleans data after a Cyclops is destroyed.)
 
 ### To-Do
-- When you load your game, the Cyclops' speed is wrong until you switch speed modes.
-- The Cyclops hatch flaps now always close when you enter it.
 - When the Cyclops is unpowered, its HUD and screens are off.
 - The Reaper pushes your Cyclops instead of attacking it.
 - Creatures always flee to the origin coordinates when attacked.
@@ -40,15 +42,12 @@
 - The Bulbo tree LOD meshes look different.
 - Fixed the coffee-drinking sound.
 - Fixed unused lava geyser particles spawning on every game load.
-- Fixed the Databank entry scroll.
 - The Gasopod in a stasis field does not attack you.
 - Gasopods in a stasis field do not explode.
-- You can see your neck when using the Seaglide with a high FOV.
-- The Thermoblade now uses the proper particle effect. You don't see bubbles when you equip it inside. You don't see smoke when you equip it underwater.
 - Resources from harvesting nodes don't fade in when you break nodes.
 - Fish you release from your hand don't fade in.
-- Dead fish are removed from containers when loading a saved game.
 - Items that you place in your base don't fade in.
+- Dead fish are removed from containers when loading a saved game.
 
 ### Won't Add
 - When looking at a creature, the UI now tells you if it's dead. (Out of scope.)
@@ -62,6 +61,9 @@
 - Peepers close their eyes when near the player. (Out of scope.)
 - Equipped dead fish's position changes if it is in your inventory when the game is loaded. (Can't reproduce.)
 - The Thermoblade can now damage Lava Lizards. (Intentional balance feature.)
+- The Cyclops hatch flaps now always close when you enter it. (Inconsequential.)
+- You can see your neck when using the Seaglide with a high FOV. (Very complex, not worth the effort.)
+- Fixed the Databank entry scroll. (Can't reproduce.)
 
 ---
 

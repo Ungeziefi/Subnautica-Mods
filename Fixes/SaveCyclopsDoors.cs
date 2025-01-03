@@ -27,6 +27,7 @@ namespace Ungeziefi.Fixes
             {
                 Main.SaveData.CyclopsClosedDoors.Add(name);
             }
+
             // Close the door
             else
             {
@@ -48,7 +49,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(Openable.Start)), HarmonyPrefix]
         public static void Start(Openable __instance)
         {
-            if (!Main.PersistenceConfig.SaveClosedCyclopsDoors)
+            if (!Main.Config.SaveClosedCyclopsDoors)
             {
                 return;
             }

@@ -50,15 +50,20 @@ namespace Ungeziefi.Fixes
 
         [Toggle(Label = "Docking bay sound checks", Tooltip = "Stops the Cyclops docking bay sounds from playing if it's already occupied.")]
         public bool DockingBaySoundChecks = true;
-    }
 
-    [Menu("Persistence Fixes")]
-    public class PersistenceConfig : ConfigFile
-    {
-        [Toggle(Label = "Save open wreck doors", Tooltip = "Saves which doors in wrecks are open.")]
+        [Toggle(Label = "Thermoblade dynamic particles", Tooltip = "Applies the correct particle effects from the Thermoblade depending on whether the player is underwater or not.")]
+        public bool ThermobladeDynamicParticles = true;
+
+        [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool Persistence_Fixes_Divider;
+
+        [Toggle(Label = "Save open wreck doors")]
         public bool SaveOpenWreckDoors = true;
 
-        [Toggle(Label = "Save closed Cyclops doors", Tooltip = "Saves which doors in the Cyclops are closed.")]
+        [Toggle(Label = "Save closed Cyclops doors")]
         public bool SaveClosedCyclopsDoors = true;
+
+        [Toggle(Label = "Save Cyclops speed mode")]
+        public bool SaveCyclopsSpeedMode = true;
     }
 }

@@ -9,19 +9,13 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Seamoth pushing", Tooltip = "Allows pushing the Seamoth when it's on land.")]
         public bool SeamothPushing = true;
 
-        [Slider(Label = "Build time multiplier", Tooltip = "Multiplier for the build time of structures.", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
-        public float BuildTimeMultiplier = 1f;
-
-        [Slider(Label = "Craft time multiplier", Tooltip = "Multiplier for the craft time of items.", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
-        public float CraftTimeMultiplier = 1f;
-
-        [Toggle(Label = "No eating underwater", Tooltip = "Disables eating underwater.")]
+        [Toggle(Label = "No eating underwater")]
         public bool NoEatingUnderwater = true;
 
-        [Toggle(Label = "No medkits underwater", Tooltip = "Disables using medkits underwater.")]
+        [Toggle(Label = "No medkits underwater")]
         public bool NoMedkitsUnderwater = true;
 
-        [Toggle(Label = "Chair swivelling", Tooltip = "Allows you to swivel the chair.")]
+        [Toggle(Label = "Chair swivelling")]
         public bool ChairSwivelling = true;
 
         [Toggle(Label = "No obstacle check when sitting", Tooltip = "Allows sitting even if there's an object in the way.")]
@@ -33,28 +27,24 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Power cell charge from batteries", Tooltip = "Sets the charge level of newly crafted power cells based on the charge level of the batteries used for crafting.")]
         public bool PowerCellChargeFromBatteries = true;
 
-        [Toggle(Label = "Skip epilepsy warning", Tooltip = "Skips the epilepsy warning during startup.")]
+        [Toggle(Label = "Skip epilepsy warning")]
         public bool SkipEpilepsyWarning = true;
 
         [Toggle(Label = "Creature size randomizer", Tooltip = "Randomizes the size of small critters based on the multipliers below.")]
         public bool CreatureSizeRandomizer = true;
 
-        [Slider(Label = "Minimum creature size", Tooltip = "Minimum size multiplier for certain creatures (1-10, divided by 10 for the actual value).", DefaultValue = 5, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Minimum creature size", Tooltip = "Divide by 10 for the actual value.", DefaultValue = 5, Min = 1, Max = 10, Step = 1)]
         public int MinCreatureSize = 5;
 
-        [Slider(Label = "Maximum creature size", Tooltip = "Maximum size multiplier for certain creatures (10-20, divided by 10 for the actual value).", DefaultValue = 15, Min = 10, Max = 20, Step = 1)]
+        [Slider(Label = "Maximum creature size", Tooltip = "Divide by 10 for the actual value.", DefaultValue = 15, Min = 10, Max = 20, Step = 1)]
         public int MaxCreatureSize = 15;
 
-        [Toggle(Label = "Plant rotation randomizer", Tooltip = "Randomizes the rotation of plants.")]
+        [Toggle(Label = "Plant rotation randomizer")]
         public bool PlantRotationRandomizer = true;
 
-        //[Slider(Label = "Fruit growth time multiplier", Tooltip = "Multiplier for the growth time of fruits.", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
-        //public float FruitGrowthTimeMultiplier = 1f;
-    }
+        [Toggle("<color=#f1c353>Minor Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool Minor_Fixes_Divider;
 
-    [Menu("Minor Tweaks")]
-    public class MinorConfig : ConfigFile
-    {
         [Toggle(Label = "Bladderfish tooltip", Tooltip = "Adds a tooltip about the Bladderfish providing oxygen if consumed raw.")]
         public bool BladderfishTooltip = true;
 
@@ -63,5 +53,17 @@ namespace Ungeziefi.Tweaks
 
         [Toggle(Label = "Capitalize \"Use\"", Tooltip = "Capitalizes the \"Use\" string globally.")]
         public bool CapitalizeUseString = true;
+
+        [Toggle("<color=#f1c353>Multipliers</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool Multipliers_Divider;
+
+        [Slider(Label = "Build time multiplier", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
+        public float BuildTimeMultiplier = 1f;
+
+        [Slider(Label = "Craft time multiplier", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
+        public float CraftTimeMultiplier = 1f;
+
+        [Slider(Label = "Plant growth time multiplier", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
+        public float PlantGrowthTimeMultiplier = 1f;
     }
 }

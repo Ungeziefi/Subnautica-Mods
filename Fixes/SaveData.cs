@@ -8,5 +8,7 @@ namespace Ungeziefi.Fixes
         public HashSet<string> OpenWreckDoors = new HashSet<string>();
 
         public HashSet<string> CyclopsClosedDoors = new HashSet<string>();
+
+        public Dictionary<string, int> CyclopsSpeedMode = new Dictionary<string, int>();
     }
 }

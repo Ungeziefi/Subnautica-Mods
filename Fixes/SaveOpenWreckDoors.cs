@@ -41,7 +41,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(BulkheadDoor.Awake)), HarmonyPrefix]
         public static void Awake(BulkheadDoor __instance)
         {
-            if (!Main.PersistenceConfig.SaveOpenWreckDoors)
+            if (!Main.Config.SaveOpenWreckDoors)
             {
                 return;
             }

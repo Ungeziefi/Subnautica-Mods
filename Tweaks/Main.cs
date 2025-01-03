@@ -18,7 +18,6 @@ namespace Ungeziefi.Tweaks
 
         internal static new ManualLogSource Logger { get; private set; }
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-        internal static MinorConfig MinorConfig { get; } = OptionsPanelHandler.RegisterModOptions<MinorConfig>();
 
         public void Awake()
         {

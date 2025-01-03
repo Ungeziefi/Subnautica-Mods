@@ -18,7 +18,6 @@ namespace Ungeziefi.Fixes
 
         internal static new ManualLogSource Logger { get; private set; }
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-        internal static PersistenceConfig PersistenceConfig { get; } = OptionsPanelHandler.RegisterModOptions<PersistenceConfig>();
         internal static SaveData SaveData { get; private set; }
 
         public void Awake()
