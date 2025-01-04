@@ -1,11 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fixes", "Fixes\Fixes.csproj", "{D4E87290-C938-4C36-B292-E4EF1182B754}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweaks", "Tweaks\Tweaks.csproj", "{7BA4FA81-18B7-4289-BFF1-DA62341AA0D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{05003A53-F680-436D-B8F8-A9F9BE855465}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Fixes.md = Docs\Fixes.md
+		Docs\README.md = Docs\README.md
+		Docs\Tweaks.md = Docs\Tweaks.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
