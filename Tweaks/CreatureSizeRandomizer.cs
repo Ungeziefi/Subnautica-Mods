@@ -7,7 +7,7 @@ namespace Ungeziefi.Tweaks
     [HarmonyPatch(typeof(Creature))]
     public class CreatureSizeRandomizer
     {
-        // Should probably serialize this
+        // Should probably serialize this for easier editing
         private static readonly HashSet<TechType> targetCreatures = new HashSet<TechType>
                         {
                             TechType.CaveCrawler,

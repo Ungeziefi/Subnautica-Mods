@@ -57,6 +57,12 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Cyclops power percentage clamp", Tooltip = "Fixes an underflow (very low negative number) when no cells are inserted.")]
         public bool CyclopsPowerPercentageClamp = true;
 
+        [Toggle(Label = "Force engine shutdown", Tooltip = "Automatically shuts down the Cyclops engine when the power is off.")]
+        public bool ForceEngineShutdown = true;
+
+        [Toggle(Label = "Frozen Gas Pods in stasis", Tooltip = "Prevents Gas Pods from exploding while in stasis.")]
+        public bool FrozenGasPodsInStasis = true;
+
         [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PersistenceFixesDivider;
 
