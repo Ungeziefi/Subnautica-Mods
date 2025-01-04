@@ -1,17 +1,17 @@
 ﻿# From T&F
 ### Done
 - The scanner tool now shows the charge level when equipped. (Improved by keeping the self-scan hint and better compatibility by not using bool Prefix.)
-- Leviathans now don't attack the player on land. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
-- The flashlight now does not illuminate anything behind it.
+- Leviathans now don't attack targets on land. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
+- The flashlight now doesn't use point lighting, preventing it from illuminating things behind.
 - The Grub basket, Bulbo tree, speckled rattler, pink cap, and Ming plant now do not animate. (Improved by applying this only indoors.)
 - The Nuclear waste disposal bin is now called exactly that, not "trash can".
-- You can now scan pygmy (SmallKoosh) and large bulb bush (LargeKoosh).
-- Now, when you look at a cut-open sealed wreck door, the UI does not tell you that you can cut it open.
-- The beacon now faces you when you deploy it.
+- You can now scan pygmy and large bulb bushes.
+- The laser cutting prompt now only shows for doors that are still sealed.
+- The beacon now faces the player when deployed.
 - Now you can't climb the Mobile Vehicle Bay when standing on it. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
-- When the Cyclops is destroyed with the player in it, the player now respawns correctly by triggering an actual death.
-- The Cyclops' steering wheel animation has three states: default position, turn right 100%, turn left 100%. Now it uses correct analog values with a controller.
-- Silent running now does not consume power when the Cyclops is off. (Better compatibility by not using bool Prefix.)
+- The player now actually dies when the Cyclops is destroyed.
+- The Cyclops' steering wheel now uses correct analog values with a controller.
+- Silent running now does not consume power when the engine is off. (Better compatibility by not using bool Prefix.)
 - Fixed the gap between the Seamoth and its lower storage modules.
 - The Cyclops docking bay sounds now don't play if the bay is already occupied. (Better compatibility by not using bool Prefix.)
 - The Thermoblade now only emits smoke particles when not in the water.
@@ -19,10 +19,10 @@
 #### Persistence Fixes
 I'm not sure if the original implementation did this but mine supports multiple Cyclopses by differentiating them by ID and properly cleans data if destroyed.
 
-- The state of wreck doors that you open manually is now saved.
-- The state of doors inside the Cyclops is now saved.
+- Open wreck doors are now saved.
+- Open Cyclops doors are now saved.
 - The Cyclops' speed mode is now saved.
-- The Cyclops lighting state is now saved. (Cyclopses are created with the floodlight turned on, that won't be saved until you toggle it manually.)
+- The state of both Cyclops lights is now saved. (Cyclopses are created with the floodlight turned on, that won't be saved until you toggle it manually.)
 
 ### To-Do
 - When the Cyclops is unpowered, its HUD and screens are off.
@@ -51,29 +51,29 @@ I'm not sure if the original implementation did this but mine supports multiple 
 - Fish you release from your hand don't fade in.
 - Items that you place in your base don't fade in.
 - Dead fish are removed from containers when loading a saved game.
-- The state of Seaglide, Prawn Suit, and Cyclops lights is now saved.
+- The state of Seaglide and Prawn Suit lights is now saved.
 - The state of the Seaglide holomap is now saved.
-- The tool you are holding in your hand is now saved when you save your game.
+- The tool you are holding in your hand is now saved.
 
 ### Won't Add
 - When looking at a creature, the UI now tells you if it's dead. (Out of scope.)
 - Eggs in your alien containment (AC) now disappear when they hatch. (Can't reproduce.)
-- Wild lantern tree fruits do not respawn. (Intentional balance feature.)
-- Wild blood oil does not respawn. (Intentional balance feature.)
-- The Sulfur Plant at coordinates (280, -40, -195) has the wrong rotation. (Can't get it to spawn.)
-- Boulders that block some cave entrances in the safe shallows now do not disappear forever when you move away from them. (Can't reproduce.)
-- Removed the ridiculous light from Land_tree_01. (Can't reproduce.)
+- Wild lantern tree fruits now respawn. (Balance change.)
+- Wild blood oil now respawns. (Balance change.)
+- Corrected the rotation of the Sulfur Plant at coordinates (280, -40, -195). (Can't get it to spawn.)
+- Boulders that block some cave entrances in the safe shallows now do not despawn when you move away from them. (Can't reproduce.)
+- Removed the excessive light from Land_tree_01. (Can't reproduce.)
 - The Mobile Vehicle Bay now sinks when not deployed. (Vanilla feature.)
 - Peepers close their eyes when near the player. (Out of scope.)
-- Equipped dead fish's position changes if it is in your inventory when the game is loaded. (Can't reproduce.)
-- The Thermoblade can now damage Lava Lizards. (Intentional balance feature.)
-- The Cyclops hatch flaps now always close when you enter it. (Inconsequential.)
-- You can see your neck when using the Seaglide with a high FOV. (Very complex, not worth the effort.)
-- Fixed the Databank entry scroll. (Can't reproduce.)
+- Dead fish in your inventory now stay in the same position on reload. (Can't reproduce.)
+- The Thermoblade can now damage Lava Lizards. (Balance change.)
+- The Cyclops hatch flaps now always close when you enter it. (Inconsequential, you can't see a closed flap from inside.)
+- Fixed the visible neck when using the Seaglide with a high FOV. (Very complex, not worth the effort.)
+- Fixed the Databank entry scroll. (Can't reproduce, what is this even referring to?)
 
 ---
 
 # New
 ### Done
-- Anisotropic filtering is now forced on every texture. (I know [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185) exists but I remade it for an in-game toggle.)
-- Clamps the Cyclops power percentage to 0-100 to fix an underflow when no cells are inserted.
+- Anisotropic filtering is now forced on. (I know [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185) exists but I remade it for an in-game toggle.)
+- The Cyclops power percentage is now clamped between 0 and 100 to fix an underflow when no cells are inserted.
