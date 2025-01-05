@@ -17,10 +17,10 @@
 - **Frozen Gas Pods in stasis**: Prevents Gas Pods from exploding while in stasis.
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but this supports multiple Cyclopses by differentiating them by ID and properly cleans data if it is destroyed.
-- **Save open wreck doors.**
-- **Save closed Cyclops doors.**
-- **Save Cyclops speed mode.**
-- **Save Cyclops internal lights.**
+- **Save open wreck doors**.
+- **Save closed Cyclops doors**.
+- **Save Cyclops speed mode**.
+- **Save Cyclops internal lights**.
 - **Save Cyclops floodlights**. (Cyclopses are created with the floodlight turned on, that won't be saved until you toggle it manually.)
 
 ---
@@ -41,28 +41,28 @@
 - **Matching Bulbo Tree LOD**.
 - **Add missing VFXSurface**: All plants now have the proper VFXSurface component.
 - **Sulfur Plant rotation**: Fixes the rotation of the Sulfur Plant at coordinates 280 -40 -195.
-- **Keep dead raw fish stored.**
-- **Save Seaglide light.**
-- **Save Seaglide holomap.**
-- **Save PRAWN Suit light.**
-- **Save last held tool.**
+- **Keep dead raw fish stored**.
+- **Save Seaglide light**.
+- **Save Seaglide holomap**.
+- **Save PRAWN Suit light**.
+- **Save last held tool**.
+- **Land_tree_01 less light**.
 
 ---
 
 ### <span style="color: red;">Won't Do</span>
 #### Can't reproduce the bug
 - **No boulder despawn**: Boulders that block some cave entrances in the safe shallows now do not despawn when you move away from them.
-- **Land_tree_01 less light.**
 - **No dead fish shuffling**: Dead fish in your inventory now stay in the same position on reload.
-- **Restore missing drill particles**: Fixes the missing particles when drilling resources.
+- **Keep drill particles on load**: Fixes the missing drilling particles when drilling directly after loading and while the drill was already pointed at the deposit.
 #### Vanilla feature
 - **AC eggs cleanup**: Eggs in your alien containment (AC) now disappear when they hatch.
-- **Sink undeployed MVB.**
-- **Stalkers drop items when attacked.**
+- **Sink undeployed MVB**.
+- **Stalkers drop items when attacked**.
 #### Balance implications
-- **Wild Lantern Tree fruits respawn.**
-- **Wild Blood Oil respawn.**
-- **Thermoblade can damage Lava Lizards.**
+- **Wild Lantern Tree fruits respawn**.
+- **Wild Blood Oil respawn**.
+- **Thermoblade can damage Lava Lizards**.
 #### Other reasons
 - **Always close hatch flaps**: The Cyclops hatch flaps now always close when you enter it. (Inconsequential, you can't see a closed flap from inside.)
 - **Seaglide no visible neck**: Fixed the visible neck when using the Seaglide with a high FOV. (Very complex, not worth the effort.)

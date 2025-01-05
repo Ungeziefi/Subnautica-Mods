@@ -4,4 +4,3 @@
 - Fixed the coffee-drinking sound.
 - Creatures always flee to the origin coordinates when attacked.
 - Fixed Databank scrolling.
-- Resources from harvesting nodes don't fade in when you break nodes.
