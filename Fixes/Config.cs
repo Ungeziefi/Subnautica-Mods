@@ -63,6 +63,12 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Frozen Gas Pods in stasis", Tooltip = "Prevents Gas Pods from exploding while in stasis.")]
         public bool FrozenGasPodsInStasis = true;
 
+        [Toggle(Label = "Coffee drinking sound", Tooltip = "Changes the consume sound of coffee from eating to drinking.")]
+        public bool CoffeeDrinkingSound = true;
+
+        [Toggle(Label = "Drill sound with no target", Tooltip = "Prevents the drill sounds from stopping when nothing is being drilled.")]
+        public bool DrillSoundWithNoTarget = true;
+
         [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PersistenceFixesDivider;
 

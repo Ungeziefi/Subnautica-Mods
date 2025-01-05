@@ -20,16 +20,11 @@ namespace Ungeziefi.Tweaks
 
         public void Awake()
         {
-            // Set project-scoped logger instance
             Logger = base.Logger;
-
-            // Register harmony patches
-            Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
-
-            // Apply all miscellaneous tweaks
-            MiscTweaks.ApplyAllTweaks();
-
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
+
+            Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
+            MiscTweaks.ApplyAllTweaks();
         }
     }
 }

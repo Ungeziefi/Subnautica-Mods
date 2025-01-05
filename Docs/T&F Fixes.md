@@ -11,12 +11,14 @@
 - **Deadly Cyclops explosion**: Stops the player from respawning inside the Cyclops after its destruction.
 - **Smooth Cyclops wheel**: Makes the Cyclops' wheel movement smooth when using a controller.
 - **Silent Running no idle power drain**: Stops Silent Running from draining power when the engine is off. (Better compatibility by not using bool Prefix.)
-- **Seamoth storage modules gap**: Fixes the gap between the Seamoth and its lower storage modules.
+- **Seamoth storage modules gap**: Removes the gap between the Seamoth and its lower storage modules.
 - **Docking bay sound checks**: Stops the Cyclops docking bay sounds from playing if it's already occupied. (Better compatibility by not using bool Prefix.)
 - **Thermoblade dynamic particles**: Applies the correct particle effects from the Thermoblade depending on whether the player is underwater or not.
 - **Frozen Gas Pods in stasis**: Prevents Gas Pods from exploding while in stasis.
+- **Coffee drinking sound**: Changes the consume sound of coffee from eating to drinking.
+- **Drill sound with no target**: Prevents the drill sounds from stopping when nothing is being drilled. (Better compatibility by not using bool Prefix.)
 #### Persistence Fixes
-**Note**: I'm not sure if T&F does this but this supports multiple Cyclopses by differentiating them by ID and properly cleans data if it is destroyed.
+**Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.
 - **Save closed Cyclops doors**.
 - **Save Cyclops speed mode**.
@@ -35,7 +37,6 @@
 - **Universal creature decoy**: Makes the creature decoy work on all predators.
 - **Dynamic Creepvine light**: Updates the Creepvine seed light according to the amount of remaining seeds.
 - **Add missing cannon items**: Allows moving the Sulfur Plant, Brain Coral, Planter, Tiger Plant, Lantern Fruit, and Bulbo Tree with the propulsion or repulsion cannon.
-- **Keep drill sounds**: Prevents the drill sounds from stopping when nothing is being drilled.
 - **Restore health after poison**: Allows health to be restored after reloading the game while poison was active.
 - **Limited PRAWN landing particles**: Prevents PRAWN Suit landings from spawning particles if not on sand.
 - **Matching Bulbo Tree LOD**.
@@ -47,6 +48,7 @@
 - **Save PRAWN Suit light**.
 - **Save last held tool**.
 - **Land_tree_01 less light**.
+- **Keep drill particles on load**: Fixes the missing drilling particles when drilling directly after loading and while the drill was already pointed at the deposit.
 
 ---
 
@@ -54,7 +56,6 @@
 #### Can't reproduce the bug
 - **No boulder despawn**: Boulders that block some cave entrances in the safe shallows now do not despawn when you move away from them.
 - **No dead fish shuffling**: Dead fish in your inventory now stay in the same position on reload.
-- **Keep drill particles on load**: Fixes the missing drilling particles when drilling directly after loading and while the drill was already pointed at the deposit.
 #### Vanilla feature
 - **AC eggs cleanup**: Eggs in your alien containment (AC) now disappear when they hatch.
 - **Sink undeployed MVB**.

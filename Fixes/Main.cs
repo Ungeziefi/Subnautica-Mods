@@ -21,14 +21,11 @@ namespace Ungeziefi.Fixes
 
         public void Awake()
         {
-            // Set project-scoped logger instance
             Logger = base.Logger;
-
-            // Register harmony patches
-            Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
-
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
 
+            Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
+            MiscFixes.ApplyAllFixes();
             SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();
         }
     }

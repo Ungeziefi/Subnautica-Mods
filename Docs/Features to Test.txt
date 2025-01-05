@@ -1,6 +1,7 @@
-- After reloading, the first-person model is used for waterproof lockers that are not in the inventory.
 - Fixed unused lava geyser particles spawning on every game load.
-- The coffee vending machine now spawns coffee properly.
-- Fixed the coffee-drinking sound.
 - Creatures always flee to the origin coordinates when attacked.
+
+Can't find bug:
+- After reloading, the first-person model is used for waterproof lockers that are not in the inventory.
+- The coffee vending machine now spawns coffee properly.
 - Fixed Databank scrolling.

@@ -26,7 +26,7 @@ namespace Ungeziefi.Tweaks
         }
 
         [MiscTweak]
-        public static void ApplyBladderfishTooltip()
+        public static void BladderfishTooltip()
         {
             if (Main.Config.BladderfishTooltip && Language.main.GetCurrentLanguage() == "English")
             {
@@ -35,7 +35,7 @@ namespace Ungeziefi.Tweaks
         }
 
         [MiscTweak]
-        public static void ApplyTrashcanNameConsistency()
+        public static void TrashcanNameConsistency()
         {
             if (Main.Config.TrashcanNameConsistency && Language.main.GetCurrentLanguage() == "English")
             {
@@ -44,7 +44,7 @@ namespace Ungeziefi.Tweaks
         }
 
         [MiscTweak]
-        public static void ApplyCapitalizeUseString()
+        public static void CapitalizeUseString()
         {
             if (Main.Config.CapitalizeUseString && Language.main.GetCurrentLanguage() == "English")
             {

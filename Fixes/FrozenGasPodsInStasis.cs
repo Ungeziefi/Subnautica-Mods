@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(StasisSphere))]
-    public static class FrozenGasPodsInStasis_StasisSphere
+    public class FrozenGasPodsInStasis_StasisSphere
     {
         public static List<Rigidbody> stasisTargets = new List<Rigidbody>();
 
@@ -17,7 +17,7 @@ namespace Ungeziefi.Fixes
     }
 
     [HarmonyPatch(typeof(GasPod))]
-    public static class FrozenGasPodsInStasis
+    public class FrozenGasPodsInStasis
     {
         [HarmonyPatch(nameof(GasPod.Update)), HarmonyPrefix]
         static bool Update(GasPod __instance)
