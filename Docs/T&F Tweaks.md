@@ -57,6 +57,7 @@
 - **No resources fading**: Resources spawned by breaking outcrops now don't fade in.
 - **No fish release fading**: Released fish now don't fade in.
 - **No base items fading**: Items placed in bases now don't fade in.
+- **Land_tree_01 no light**.
 
 ---
 

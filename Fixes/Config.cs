@@ -69,6 +69,9 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Drill sound with no target", Tooltip = "Prevents the drill sounds from stopping when nothing is being drilled.")]
         public bool DrillSoundWithNoTarget = true;
 
+        [Toggle(Label = "Keep drill particles on load", Tooltip = "Fixes the missing drilling particles when drilling directly after loading and while the drill was already pointed at the deposit.")]
+        public bool KeepDrillParticlesOnLoad = true;
+
         [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PersistenceFixesDivider;
 
