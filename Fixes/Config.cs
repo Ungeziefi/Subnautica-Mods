@@ -78,7 +78,7 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "No Seamoth drip particles")]
         public bool NoSeamothDripParticles = true;
 
-        [Toggle(Label = "No used terminal prompt")]
+        [Toggle(Label = "No used terminal prompt", Tooltip = "Data terminals don't show the download prompt after downloading.")]
         public bool NoUsedTerminalPrompt = true;
 
         [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
