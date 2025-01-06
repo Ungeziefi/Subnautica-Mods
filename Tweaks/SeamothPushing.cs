@@ -25,7 +25,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Vehicle.OnHandHover)), HarmonyPostfix]
         public static void OnHandHover(Vehicle __instance)
         {
-            if (!Main.Config.SeamothPushing || !(Language.main.GetCurrentLanguage() == "English"))
+            if (!Main.Config.SeamothPushing)
             {
                 return;
             }

@@ -13,7 +13,6 @@ namespace Ungeziefi.Tweaks
             HeatBlade heatblade = Inventory.main.GetHeldTool() as HeatBlade;
 
             if (Main.Config.HarvestingRequirements &&
-                Language.main.GetCurrentLanguage() == "English" &&
                 mode == GameModeOption.Creative &&
                 !exosuit)
             {

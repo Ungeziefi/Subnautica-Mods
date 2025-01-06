@@ -1,5 +1,6 @@
 ﻿using Nautilus.Json;
 using Nautilus.Options.Attributes;
+using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
@@ -57,6 +58,15 @@ namespace Ungeziefi.Tweaks
 
         [Slider(Label = "Maximum multiplier", DefaultValue = 1.5f, Min = 1f, Max = 2f, Step = 0.1f, Format = "{0:0.0}")]
         public float MaxCreatureSize = 1.5f;
+
+        [Toggle("<color=#f1c353>Rotatable ladders</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool RotatableLaddersDivider;
+
+        [Toggle(Label = "Rotatable ladders")]
+        public bool RotatableLadders = false;
+
+        [Keybind(Label = "Rotate key")]
+        public KeyCode RotateLadderKey = KeyCode.R;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool miscellaneousTweakerDivider;

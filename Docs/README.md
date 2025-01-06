@@ -15,7 +15,7 @@ Built with [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Temp
 ---
 
 ### Notes
-- Features involving text are enabled only when the game is in English. Feel free to PR localization.
+- Features involving text use hardcoded strings in English. Feel free to PR localization.
 - By default, all fixes are enabled and tweaks are disabled. You can change this in the respective config file or through the in-game Mod menu.
 
 ---

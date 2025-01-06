@@ -28,7 +28,7 @@ namespace Ungeziefi.Tweaks
         [MiscTweak]
         public static void BladderfishTooltip()
         {
-            if (Main.Config.BladderfishTooltip && Language.main.GetCurrentLanguage() == "English")
+            if (Main.Config.BladderfishTooltip)
             {
                 LanguageHandler.SetTechTypeTooltip(TechType.Bladderfish, Language.main.Get("Tooltip_Bladderfish") + " Provides some oxygen when consumed raw.");
             }
@@ -37,7 +37,7 @@ namespace Ungeziefi.Tweaks
         [MiscTweak]
         public static void TrashcanNameConsistency()
         {
-            if (Main.Config.TrashcanNameConsistency && Language.main.GetCurrentLanguage() == "English")
+            if (Main.Config.TrashcanNameConsistency)
             {
                 LanguageHandler.SetLanguageLine("Trashcan", "Trash can");
             }
@@ -46,7 +46,7 @@ namespace Ungeziefi.Tweaks
         [MiscTweak]
         public static void CapitalizeUseString()
         {
-            if (Main.Config.CapitalizeUseString && Language.main.GetCurrentLanguage() == "English")
+            if (Main.Config.CapitalizeUseString)
             {
                 LanguageHandler.SetLanguageLine("Use", "Use");
             }
