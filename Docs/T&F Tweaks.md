@@ -26,7 +26,6 @@
 - **Lighter Seamoth collisions**: Reduces the mass of Spadefish and Shuttlebug to prevent them from damaging your Seamoth upon collision.
 - **Transfer all items key**.
 - **Transfer all similar items key**.
-- **No lingering databox light**.
 - **PRAWN Suit light toggle**.
 - **Base lights toggle**.
 - **No voice while loading**.
