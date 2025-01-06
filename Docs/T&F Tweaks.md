@@ -43,7 +43,6 @@
 - **Mobile Vehicle Bay beacon**.
 - **No collision with small plants**: Removes collision from the Veined Nettle, Writhing Weed, and some other unnamed plants.
 - **Propulsion Cannon fast transfer**: Holding Table Coral with the Propulsion Cannon allows you to put it in your inventory directly.
-- **No Seamoth rain particles**.
 - **No remote leaking notifications**: Base leak notifications are sent only if you're in that base.
 - **Less Cyclops collisions**: Removed collision sounds from Brain Coral bubbles and small fish hitting the Cyclops.
 - **Creepvine unlocks Fiber Mesh**: Scanning Creepvine unlocks the Fiber Mesh.

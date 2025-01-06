@@ -75,6 +75,9 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "No lingering Data Box light")]
         public bool NoLingeringDataBoxLight = true;
 
+        [Toggle(Label = "No Seamoth drip particles")]
+        public bool NoSeamothDripParticles = true;
+
         [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PersistenceFixesDivider;
 
