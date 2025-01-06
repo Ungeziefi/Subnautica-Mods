@@ -46,7 +46,6 @@
 - **No remote leaking notifications**: Base leak notifications are sent only if you're in that base.
 - **Less Cyclops collisions**: Removed collision sounds from Brain Coral bubbles and small fish hitting the Cyclops.
 - **Creepvine unlocks Fiber Mesh**: Scanning Creepvine unlocks the Fiber Mesh.
-- **No lingering terminal prompt**: Data terminals only show the download prompt once.
 - **Full inventory harvesting**: Harvesting with a full inventory will drop the items.
 - **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in if graphics quality is set to high.
 - **No deposit pop in**: Resource deposits no longer pop in if graphics detail is set to high.

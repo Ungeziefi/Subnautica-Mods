@@ -72,11 +72,14 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Keep drill particles on load", Tooltip = "Fixes the missing drilling particles when drilling directly after loading and while the drill was already pointed at the deposit.")]
         public bool KeepDrillParticlesOnLoad = true;
 
-        [Toggle(Label = "No lingering Data Box light")]
-        public bool NoLingeringDataBoxLight = true;
+        [Toggle(Label = "No used Data Box light")]
+        public bool NoUsedDataBoxLight = true;
 
         [Toggle(Label = "No Seamoth drip particles")]
         public bool NoSeamothDripParticles = true;
+
+        [Toggle(Label = "No used terminal prompt")]
+        public bool NoUsedTerminalPrompt = true;
 
         [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PersistenceFixesDivider;

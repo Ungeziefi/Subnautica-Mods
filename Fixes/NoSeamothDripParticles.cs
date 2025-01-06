@@ -22,13 +22,9 @@ namespace Ungeziefi.Fixes
                 new CodeMatch(OpCodes.Ldarg_0),
                 new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(VFXSeamothDamages), "dripsParticles")),
                 new CodeMatch(OpCodes.Ldloc_0),
-                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(VFXSeamothDamages), "UpdateParticlesEmission")));
+                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(VFXSeamothDamages), "UpdatePArticlesEmission")));
 
-            matcher.SetOpcodeAndAdvance(OpCodes.Nop);
-            matcher.SetOpcodeAndAdvance(OpCodes.Nop);
-            matcher.SetOpcodeAndAdvance(OpCodes.Nop);
-            matcher.SetOpcodeAndAdvance(OpCodes.Nop);
-            matcher.SetOpcodeAndAdvance(OpCodes.Nop);
+            matcher.RemoveInstructions(5);
 
             //foreach (var item in matcher.InstructionEnumeration())
             //{

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch(typeof(GenericHandTarget))]
-    public class NoLingeringDataBoxLight
+    public class NoUsedDataBoxLight
     {
         // Keeps track of all databox lights in the game
         public static HashSet<GameObject> databoxLights = new HashSet<GameObject>();
@@ -13,7 +13,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(GenericHandTarget.OnHandClick))]
         public static void Postfix(GenericHandTarget __instance)
         {
-            if (!Main.Config.NoLingeringDataBoxLight || !__instance.GetComponent<BlueprintHandTarget>())
+            if (!Main.Config.NoUsedDataBoxLight || !__instance.GetComponent<BlueprintHandTarget>())
             {
                 return;
             }
@@ -53,7 +53,7 @@ namespace Ungeziefi.Fixes
     }
 
     [HarmonyPatch(typeof(VFXVolumetricLight))]
-    public class NoLingeringDataBoxLight_VFXVolumetricLight
+    public class NoUsedDataBoxLight_VFXVolumetricLight
     {
         // When a volumetric light is created, check if it's a Data Box light
         [HarmonyPatch(nameof(VFXVolumetricLight.Awake)), HarmonyPostfix]
@@ -62,7 +62,7 @@ namespace Ungeziefi.Fixes
             // Add to the tracking list
             if (__instance.transform.parent && __instance.transform.parent.name.StartsWith("DataboxLight"))
             {
-                NoLingeringDataBoxLight.databoxLights.Add(__instance.transform.parent.gameObject);
+                NoUsedDataBoxLight.databoxLights.Add(__instance.transform.parent.gameObject);
             }
         }
     }
