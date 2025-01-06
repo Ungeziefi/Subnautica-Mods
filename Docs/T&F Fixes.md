@@ -67,4 +67,4 @@
 #### Other reasons
 - **Always close hatch flaps**: The Cyclops hatch flaps now always close when you enter it. (Inconsequential, you can't see a closed flap from inside.)
 - **Seaglide no visible neck**: Fixed the visible neck when using the Seaglide with a high FOV. (Very complex, not worth the effort.)
-- **No creature attacks in stasis**. ([Use Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255).)
+- **No creature attacks in stasis**. (Use [Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255).)
