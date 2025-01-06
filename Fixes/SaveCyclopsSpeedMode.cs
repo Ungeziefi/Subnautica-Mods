@@ -14,7 +14,7 @@ namespace Ungeziefi.Fixes
         // Helper method to update the speed mode state
         private static void UpdateSpeedMode(string cyclopsId, CyclopsMotorMode.CyclopsMotorModes mode)
         {
-            // Remove the entry if the mode is Standard
+            // Don't save the default mode
             if (mode == CyclopsMotorMode.CyclopsMotorModes.Standard)
             {
                 Main.SaveData.CyclopsSpeedMode.Remove(cyclopsId);
@@ -31,7 +31,7 @@ namespace Ungeziefi.Fixes
         public static void OnClick(CyclopsMotorModeButton __instance)
         {
             string cyclopsId = GetCyclopsId(__instance);
-            if (cyclopsId == null)
+            if (!Main.Config.SaveCyclopsSpeedMode || cyclopsId == null)
             {
                 return;
             }

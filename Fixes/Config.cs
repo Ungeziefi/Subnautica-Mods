@@ -21,7 +21,7 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Nuclear waste disposal name", Tooltip = "Corrected the Nuclear waste disposal bin's name and added the missing space to \"Trashcan\".")]
         public bool NuclearWasteDisposalName = true;
 
-        [Toggle(Label = "Add missing Bulb Bush data entries", Tooltip = "Allows scanning the pygmy and large bulb bush to get the Bulb Bush data entry.")]
+        [Toggle(Label = "Add missing Bulb Bush data entries", Tooltip = "Allows scanning any type of Bulb Bush to unlock its data entry.")]
         public bool AddMissingBulbBushDataEntries = true;
 
         [Toggle(Label = "No prompt on cut doors", Tooltip = "Removes the laser cutting prompt from already cut doors.")]

@@ -19,7 +19,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(BaseLadder.OnHandHover)), HarmonyPostfix]
         public static void OnHandHover(BaseLadder __instance, GUIHand hand)
         {
-            if (__instance == null || !__instance.enabled)
+            if (!Main.Config.RotatableLadders || __instance == null || !__instance.enabled)
             {
                 return;
             }
@@ -40,7 +40,7 @@ namespace Ungeziefi.Tweaks
                 float newYRotation = (parent.localRotation.eulerAngles.y + 90f) % 360f;
                 parent.localRotation = Quaternion.Euler(0f, newYRotation, 0f);
 
-                // If rotation is back to default (0), remove the saved data
+                // Don't save the default rotation
                 if (newYRotation == 0f)
                 {
                     if (Main.SaveData.RotatedLadders.ContainsKey(coords))
@@ -49,9 +49,10 @@ namespace Ungeziefi.Tweaks
                         // Main.Logger.LogInfo($"Removed rotation data for ladder at {coords}");
                     }
                 }
+
+                // Save the new rotation
                 else
                 {
-                    // Otherwise save the new rotation
                     Main.SaveData.RotatedLadders[coords] = newYRotation;
                 }
             }

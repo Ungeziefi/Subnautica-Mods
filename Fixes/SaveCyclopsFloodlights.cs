@@ -12,10 +12,13 @@ namespace Ungeziefi.Fixes
 
         private static void UpdateExternalLightState(string cyclopsId, bool externalOn)
         {
+            // Save when turning on
             if (externalOn)
             {
                 Main.SaveData.CyclopsesWithFloodlightsOn.Add(cyclopsId);
             }
+
+            // Dont save when turning off
             else
             {
                 Main.SaveData.CyclopsesWithFloodlightsOn.Remove(cyclopsId);
@@ -35,6 +38,11 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(CyclopsLightingPanel.ToggleFloodlights)), HarmonyPostfix]
         public static void ToggleFloodlights(CyclopsLightingPanel __instance)
         {
+            if (!Main.Config.SaveCyclopsFloodlights)
+            {
+                return;
+            }
+
             string cyclopsId = GetCyclopsId(__instance);
             if (cyclopsId != null)
             {

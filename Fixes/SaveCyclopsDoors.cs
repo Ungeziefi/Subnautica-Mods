@@ -20,18 +20,22 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(Openable.OnHandClick)), HarmonyPostfix]
         public static void OnHandClick(Openable __instance)
         {
+            if (!Main.Config.SaveClosedCyclopsDoors)
+            {
+                return;
+            }
+
             var name = __instance.name;
 
-            // Open the door
+            // Save when opening
             if (!__instance.isOpen && !__instance.IsSealed())
             {
                 Main.SaveData.CyclopsClosedDoors.Add(name);
             }
 
-            // Close the door
+            // Don't save when closing
             else
             {
-                // No point in saving it as closed because it's the default state
                 Main.SaveData.CyclopsClosedDoors.Remove(name);
             }
         }

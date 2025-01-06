@@ -18,7 +18,9 @@ namespace Ungeziefi.Fixes
             for (int i = lights.Length - 1; i >= 0; i--)
             {
                 if (lights[i].type == LightType.Point)
+                {
                     lights[i].enabled = false;
+                }
             }
         }
     }

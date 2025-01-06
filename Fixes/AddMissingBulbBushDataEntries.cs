@@ -13,7 +13,7 @@ namespace Ungeziefi.Fixes
                 return;
             }
 
-            // Add missing mapping entries
+            // Add the missing mapping entries
             if (PDAScanner.mapping.ContainsKey(TechType.MediumKoosh))
             {
                 var entryData = PDAScanner.mapping[TechType.MediumKoosh];
@@ -36,7 +36,7 @@ namespace Ungeziefi.Fixes
                 return;
             }
 
-            // Add missing complete entries
+            // Unlock the other entries when unlocking any of them
             if (entryData.key == TechType.MediumKoosh || entryData.key == TechType.SmallKoosh || entryData.key == TechType.LargeKoosh)
             {
                 PDAScanner.complete.Add(TechType.LargeKoosh);

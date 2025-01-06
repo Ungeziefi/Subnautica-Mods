@@ -30,7 +30,7 @@ namespace Ungeziefi.Fixes
             var rb = __instance.GetComponent<Rigidbody>();
             if (rb && FrozenGasPodsInStasis_StasisSphere.stasisTargets.Contains(rb))
             {
-                Main.Logger.LogInfo("Gas Pod is in stasis.");
+                // Main.Logger.LogInfo("Gas Pod is in stasis.");
                 return false;
             }
             return true;

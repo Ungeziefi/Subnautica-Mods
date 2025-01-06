@@ -12,10 +12,13 @@ namespace Ungeziefi.Fixes
 
         private static void UpdateInternalLightState(string cyclopsId, bool internalOff)
         {
+            // Save when turning off
             if (internalOff)
             {
                 Main.SaveData.CyclopsesWithInternalLightOff.Add(cyclopsId);
             }
+
+            // Dont save when turning on
             else
             {
                 Main.SaveData.CyclopsesWithInternalLightOff.Remove(cyclopsId);
@@ -35,6 +38,11 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(nameof(CyclopsLightingPanel.ToggleInternalLighting)), HarmonyPostfix]
         public static void ToggleInternalLighting(CyclopsLightingPanel __instance)
         {
+            if (!Main.Config.SaveCyclopsInternalLights)
+            {
+                return;
+            }
+
             string cyclopsId = GetCyclopsId(__instance);
             if (cyclopsId != null)
             {

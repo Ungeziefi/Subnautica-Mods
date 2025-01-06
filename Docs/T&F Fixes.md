@@ -4,7 +4,7 @@
 - **No Flashlight point lights**: Stops the flashlight from lighting the environment around it.
 - **No plant waving indoors**: Removes the waving animation from indoor plants. (T&F applied this globally instead.)
 - **Nuclear waste disposal name**: Corrected the Nuclear waste disposal bin's name and added the missing space to "Trashcan".
-- **Add missing Bulb Bush data entries**: Allows scanning the pygmy and large bulb bush to get the Bulb Bush data entry.
+- **Add missing Bulb Bush data entries**: Allows scanning any type of Bulb Bush to unlock its data entry.
 - **No prompt on cut doors**: Removes the laser cutting prompt from already cut doors.
 - **Beacon faces the player**: Makes the beacon face the player when deployed.
 - **No redundant climb prompt**: Removes the prompt to climb the Mobile Vehicle Bay while already standing on it. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
