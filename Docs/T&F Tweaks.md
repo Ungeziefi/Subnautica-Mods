@@ -7,6 +7,7 @@
 - **Power cell charge from batteries**: Sets the charge level of newly crafted power cells based on the charge level of the batteries used for crafting**: (Improved by supporting any number of batteries instead of hardcoding to 2.)
 - **Skip epilepsy warning**.
 - **Plant rotation randomizer**.
+- **Mobile Vehicle Bay beacon**.
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -40,7 +41,6 @@
 - **Batteries tooltip description**.
 - **No rotten food value**: Removes food value from rotten cooked fish.
 - **Torpedo launcher creature decoy**: Allows the Seamoth and PRAWN Suit to launch Creature Decoys.
-- **Mobile Vehicle Bay beacon**.
 - **No collision with small plants**: Removes collision from the Veined Nettle, Writhing Weed, and some other unnamed plants.
 - **Propulsion Cannon fast transfer**: Holding Table Coral with the Propulsion Cannon allows you to put it in your inventory directly.
 - **No remote leaking notifications**: Base leak notifications are sent only if you're in that base.

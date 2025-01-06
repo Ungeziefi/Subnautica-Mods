@@ -43,6 +43,9 @@ namespace Ungeziefi.Tweaks
         [Choice(Label = "No bundled batteries", Tooltip = "Tools and vehicles don't include batteries.", Options = new[] { "Disabled", "Vanilla recipes", "All recipes" })]
         public NoBundledBatteriesOption NoBundledBatteries = NoBundledBatteriesOption.Disabled;
 
+        [Toggle(Label = "Mobile Vehicle Bay beacon")]
+        public bool MobileVehicleBayBeacon = false;
+
         [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CreatureSizeRandomizerDivider;
 
