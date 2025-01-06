@@ -30,15 +30,6 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Skip epilepsy warning")]
         public bool SkipEpilepsyWarning = false;
 
-        [Toggle(Label = "Creature size randomizer", Tooltip = "Randomizes the size of Cave Crawlers, Lava Larvas, Bleeders, Rockgrubs, Blighters, and Floaters.")]
-        public bool CreatureSizeRandomizer = false;
-
-        [Slider(Label = "Minimum creature size", Tooltip = "Divide by 10 for the actual value.", DefaultValue = 5, Min = 1, Max = 10, Step = 1)]
-        public int MinCreatureSize = 5;
-
-        [Slider(Label = "Maximum creature size", Tooltip = "Divide by 10 for the actual value.", DefaultValue = 15, Min = 10, Max = 20, Step = 1)]
-        public int MaxCreatureSize = 15;
-
         [Toggle(Label = "Plant rotation randomizer")]
         public bool PlantRotationRandomizer = false;
 
@@ -51,6 +42,18 @@ namespace Ungeziefi.Tweaks
 
         [Choice(Label = "No bundled batteries", Tooltip = "Tools and vehicles don't include batteries.", Options = new[] { "Disabled", "Vanilla recipes", "All recipes" })]
         public NoBundledBatteriesOption NoBundledBatteries = NoBundledBatteriesOption.Disabled;
+
+        [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool CreatureSizeRandomizerDivider;
+
+        [Toggle(Label = "Creature size randomizer", Tooltip = "Randomizes the size of Cave Crawlers, Lava Larvas, Bleeders, Rockgrubs, Blighters, and Floaters. Configurable through the sliders below.")]
+        public bool CreatureSizeRandomizer = false;
+
+        [Slider(Label = "Minimum multiplier", DefaultValue = 0.5f, Min = 0.1f, Max = 1f, Step = 0.1f, Format = "{0:0.0}")]
+        public float MinCreatureSize = 0.5f;
+
+        [Slider(Label = "Maximum multiplier", DefaultValue = 1.5f, Min = 1f, Max = 2f, Step = 0.1f, Format = "{0:0.0}")]
+        public float MaxCreatureSize = 1.5f;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool miscellaneousTweakerDivider;

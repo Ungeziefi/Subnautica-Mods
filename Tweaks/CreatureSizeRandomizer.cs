@@ -31,7 +31,7 @@ namespace Ungeziefi.Tweaks
 
             if (targetCreatures.Contains(tt))
             {
-                float size = Random.Range(Main.Config.MinCreatureSize / 10f, Main.Config.MaxCreatureSize / 10f);
+                float size = Random.Range(Main.Config.MinCreatureSize, Main.Config.MaxCreatureSize);
                 __instance.transform.localScale *= size;
                 // Main.Logger.LogInfo($"Applied size for {tt}: {__instance.transform.localScale}");
             }
