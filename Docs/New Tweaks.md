@@ -3,7 +3,9 @@
 - **Harvesting requirements**: Harvesting plants requires tools.
 - **No obstacle check when sitting**: Allows sitting even if there's an object in the way.
 - **No bundled batteries**: Tools and vehicles don't include batteries. (Inspired by [Deathrun](https://www.nexusmods.com/subnautica/mods/1495).)
-- **Rotatable ladders**. (Due to a skill issue, it doesn't clean up data for ladders that no longer exist. Currently, the only cleanup is when a ladder is set back to its default rotation.)
+- **Rotatable ladders**. (<span style="color: red;">Known issue</span>: no cleanup for ladders that no longer exist. The only cleanup it performs is when a ladder is set back to its default rotation. It should also be rewritten to allow rotation while building.)
+- **Custom Sunbeam countdown**: Allows changing the position and scale of the countdown message. Default settings prevent clipping with pinned recipes.
+- **Cyclops camera zoom**. (<span style="color: red;">Known issue</span>: the changed FOV while in the camera mode will also affect the pause menu UI.)
 #### Minor Tweaks
 - **From "Use Trashcan" to "Use Trash can"**: Adds a missing space to the Trashcan prompt for consistency with its recipe name.
 - **Capitalize "Use"**: Capitalizes the "Use" prompt for consistency with other prompts.

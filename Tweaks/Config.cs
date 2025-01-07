@@ -65,8 +65,44 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Rotatable ladders")]
         public bool RotatableLadders = false;
 
-        [Keybind(Label = "Rotate key")]
+        [Keybind(Label = "Rotate ladder key")]
         public KeyCode RotateLadderKey = KeyCode.R;
+
+        [Toggle("<color=#f1c353>Custom Sunbeam countdown</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool CustomSunbeamCountdownDivider;
+
+        [Toggle(Label = "Custom Sunbeam countdown", Tooltip = "Allows changing the position and scale of the countdown message. Default settings prevent clipping with pinned recipes.")]
+        public bool CustomSunbeamCountdown = false;
+
+        [Slider(Label = "X position", DefaultValue = 1f, Min = 0f, Max = 1f, Step = 0.01f, Format = "{0:0.00}")]
+        public float CSCXPosition = 1f;
+
+        [Slider(Label = "Y position", DefaultValue = 1f, Min = 0f, Max = 1f, Step = 0.01f, Format = "{0:0.00}")]
+        public float CSCYPosition = 1f;
+
+        [Slider(Label = "Scale", DefaultValue = 0.70f, Min = 0.5f, Max = 2f, Step = 0.01f, Format = "{0:0.00}")]
+        public float CSCScale = 0.70f;
+
+        [Toggle("<color=#f1c353>Cyclops camera zoom</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool CyclopsCameraZoomDivider;
+
+        [Toggle(Label = "Cyclops camera zoom")]
+        public bool CyclopsCameraZoom = false;
+
+        [Keybind(Label = "Zoom in key")]
+        public KeyCode CCZZoomInKey = KeyCode.LeftShift;
+
+        [Keybind(Label = "Zoom out key")]
+        public KeyCode CCZZoomOutKey = KeyCode.LeftControl;
+
+        [Slider(Label = "Minimum FOV", DefaultValue = 10, Min = 10, Max = 60, Step = 1)]
+        public int CCZMinimumFOV = 1;
+
+        [Slider(Label = "Maximum FOV", DefaultValue = 90, Min = 60, Max = 90, Step = 1)]
+        public int CCZMaximumFOV = 1;
+
+        [Slider(Label = "Zoom speed", DefaultValue = 30, Min = 1, Max = 100, Step = 1)]
+        public int CCZZoomSpeed = 1;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool miscellaneousTweakerDivider;
@@ -84,12 +120,12 @@ namespace Ungeziefi.Tweaks
         public bool MultipliersDivider;
 
         [Slider(Label = "Build time multiplier", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
-        public float BuildTimeMultiplier = 1f;
+        public int BuildTimeMultiplier = 1;
 
         [Slider(Label = "Craft time multiplier", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
-        public float CraftTimeMultiplier = 1f;
+        public int CraftTimeMultiplier = 1;
 
         [Slider(Label = "Plant growth time multiplier", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
-        public float PlantGrowthTimeMultiplier = 1f;
+        public int PlantGrowthTimeMultiplier = 1;
     }
 }

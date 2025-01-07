@@ -19,7 +19,6 @@
 
 ### <span style="color: orange;">To-Do</span>
 - **No reefback surfacing**.
-- **Escape closes options**.
 - **Save file scrolling**: Allows using the scroll wheel to scroll through save files.
 - **Smoke clears on open**: Opening the top hatch of the life pod clears the smoke inside.
 - **Moveable Mobile Vehicle Bay**: Allows the repulsion and propulsion cannons to move the Mobile Vehicle Bay.
@@ -58,7 +57,8 @@
 
 ---
 
-### <span style="color: red;">Not interested</span>
+### <span style="color: red;">Won't Do</span>
+#### Not interested
 - Most of what's under T&F's "Settings in the mod's options menu" section on [Nexus Mods](https://www.nexusmods.com/subnautica/mods/722).
 - **Change PDA tab key**.
 - **Cycle tools key**: Adds a key to cycling tools in your quickbar.
@@ -75,3 +75,5 @@
 - **Reefbacks avoid life pod**. (No reefback surfacing make this pointless.)
 - **No PDA delay**.
 - **Dead creature indicator**: When looking at a creature, the UI now tells you if it's dead.
+#### Vanilla feature
+- **Escape closes options**.
