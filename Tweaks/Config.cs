@@ -89,10 +89,10 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Cyclops camera zoom")]
         public bool CyclopsCameraZoom = false;
 
-        [Keybind(Label = "Zoom in key")]
+        [Keybind(Label = "Zoom in key", Tooltip = "Zoom in key in addition to moving forward.")]
         public KeyCode CCZZoomInKey = KeyCode.LeftShift;
 
-        [Keybind(Label = "Zoom out key")]
+        [Keybind(Label = "Zoom out key", Tooltip = "Zoom in key in addition to moving backward.")]
         public KeyCode CCZZoomOutKey = KeyCode.LeftControl;
 
         [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]
@@ -119,13 +119,13 @@ namespace Ungeziefi.Tweaks
         [Toggle("<color=#f1c353>Multipliers</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool MultipliersDivider;
 
-        [Slider(Label = "Build time multiplier", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Build time", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
         public int BuildTimeMultiplier = 1;
 
-        [Slider(Label = "Craft time multiplier", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Craft time ", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
         public int CraftTimeMultiplier = 1;
 
-        [Slider(Label = "Plant growth time multiplier", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Plant growth time", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
         public int PlantGrowthTimeMultiplier = 1;
     }
 }

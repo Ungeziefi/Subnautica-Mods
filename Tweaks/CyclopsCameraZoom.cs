@@ -51,11 +51,11 @@ namespace Ungeziefi.Tweaks
             var config = Main.Config;
             float zoomDirection = 0f;
 
-            if (Input.GetKey(config.CCZZoomInKey))
+            if (Input.GetKey(Main.Config.CCZZoomInKey) || GameInput.GetButtonHeld(GameInput.Button.MoveForward))
             {
                 zoomDirection = -1f;
             }
-            else if (Input.GetKey(config.CCZZoomOutKey))
+            else if (Input.GetKey(Main.Config.CCZZoomOutKey) || GameInput.GetButtonHeld(GameInput.Button.MoveBackward))
             {
                 zoomDirection = 1f;
             }
