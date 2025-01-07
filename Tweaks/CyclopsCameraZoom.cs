@@ -49,18 +49,18 @@ namespace Ungeziefi.Tweaks
             }
 
             var config = Main.Config;
-            float zoomDirection = 0f;
+            int zoomDirection = 0; // 0 = no zoom, 1 = zoom out, -1 = zoom in
 
             if (Input.GetKey(Main.Config.CCZZoomInKey) || GameInput.GetButtonHeld(GameInput.Button.MoveForward))
             {
-                zoomDirection = -1f;
+                zoomDirection = -1;
             }
             else if (Input.GetKey(Main.Config.CCZZoomOutKey) || GameInput.GetButtonHeld(GameInput.Button.MoveBackward))
             {
-                zoomDirection = 1f;
+                zoomDirection = 1;
             }
 
-            if (zoomDirection != 0f)
+            if (zoomDirection != 0)
             {
                 float previousFOV = MiscSettings.fieldOfView;
                 float newFOV = Mathf.Clamp(
