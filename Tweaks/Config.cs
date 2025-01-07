@@ -95,14 +95,14 @@ namespace Ungeziefi.Tweaks
         [Keybind(Label = "Zoom out key")]
         public KeyCode CCZZoomOutKey = KeyCode.LeftControl;
 
-        [Slider(Label = "Minimum FOV", DefaultValue = 10, Min = 10, Max = 60, Step = 1)]
-        public int CCZMinimumFOV = 1;
+        [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]
+        public float CCZMinimumFOV = 10f;
 
-        [Slider(Label = "Maximum FOV", DefaultValue = 90, Min = 60, Max = 90, Step = 1)]
-        public int CCZMaximumFOV = 1;
+        [Slider(Label = "Maximum FOV", DefaultValue = 90f, Min = 60f, Max = 90f, Step = 1)]
+        public float CCZMaximumFOV = 90f;
 
-        [Slider(Label = "Zoom speed", DefaultValue = 30, Min = 1, Max = 100, Step = 1)]
-        public int CCZZoomSpeed = 1;
+        [Slider(Label = "Zoom speed", DefaultValue = 30f, Min = 1f, Max = 100f, Step = 1)]
+        public float CCZZoomSpeed = 30f;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool miscellaneousTweakerDivider;
