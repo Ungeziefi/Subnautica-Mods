@@ -1,6 +1,6 @@
-This project is mainly aimed at porting the majority of features from [Tweaks and Fixes](https://github.com/qqqbbb/Tweaks-and-Fixes) by [qqqbbb](https://github.com/qqqbbb) to a **clean and optimized** codebase that is easier to maintain or contribute to. It is also **more compatible**, largely thanks to avoiding `bool Prefix` patches that skip the original code and by making **every feature optional**. Some new features are included as well.
+This project is mainly aimed at porting the majority of features from [Tweaks and Fixes](https://github.com/qqqbbb/Tweaks-and-Fixes) by [qqqbbb](https://github.com/qqqbbb) to a **clean and optimized** codebase that is easier to maintain or contribute to. It is also **more compatible**, largely thanks to avoiding `bool Prefix` patches that skip the original code and by making **every feature optional**.
 
-You can find a complete list of current, planned, and unplanned features in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/Docs), along with notes on any user-facing differences in how the features are implemented.
+You can find a complete list of current, planned, and unplanned features in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/Docs), along with notes on any user-facing differences in how the features are implemented. Some new features are included as well.
 
 <small>**Disclaimer**: None of the T&F code was a direct copy, assuming the feature isn't simple to the point it can't be implemented any differently.</small>
 
