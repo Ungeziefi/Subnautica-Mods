@@ -13,10 +13,10 @@ namespace Ungeziefi.Camera_Zoom
         [Toggle(Label = "Enable feature")]
         public bool CCEnableFeature = true;
 
-        [Keybind(Label = "Zoom in key", Tooltip = "Configurable key in addition to moving forward.")]
+        [Keybind(Label = "Zoom in key", Tooltip = "Zoom in key in addition to moving forward.")]
         public KeyCode CCZoomInKey = KeyCode.LeftShift;
 
-        [Keybind(Label = "Zoom out key", Tooltip = "Configurable key in addition to moving backward.")]
+        [Keybind(Label = "Zoom out key", Tooltip = "Zoom in key in addition to moving backward.")]
         public KeyCode CCZoomOutKey = KeyCode.LeftControl;
 
         [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]
@@ -52,7 +52,7 @@ namespace Ungeziefi.Camera_Zoom
         [Slider(Label = "Target FOV", Tooltip = "Going too low will cause clipping with the mask.", DefaultValue = 30f, Min = 10f, Max = 40f, Step = 1)]
         public float PCTargetFOV = 30f;
 
-        [Slider(Label = "Zoom speed", DefaultValue = 5f, Min = 1f, Max = 100f, Step = 1)]
+        [Slider(Label = "Zoom speed", DefaultValue = 5f, Min = 1f, Max = 10f, Step = 1)]
         public float PCZoomSpeed = 5f;
     }
 }

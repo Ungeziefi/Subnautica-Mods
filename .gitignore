@@ -1,5 +1,11 @@
 .vs
 
+Release
+
+Media
+
+Ideas.txt
+
 Fixes/bin
 Fixes/obj
 
@@ -15,4 +21,5 @@ Custom Sunbeam Countdown/obj
 Rotatable Ladders/bin
 Rotatable Ladders/obj
 
-Release
+Seamoth Barrel Roll/bin
+Seamoth Barrel Roll/obj

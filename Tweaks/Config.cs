@@ -4,6 +4,13 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
+    public enum NoBundledBatteriesOption
+    {
+        Disabled,
+        VanillaRecipes,
+        AllRecipes
+    }
+
     [Menu("Tweaks")]
     public class Config : ConfigFile
     {
@@ -34,15 +41,10 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Plant rotation randomizer")]
         public bool PlantRotationRandomizer = false;
 
-        public enum NoBundledBatteriesOption
-        {
-            Disabled,
-            VanillaRecipes,
-            AllRecipes
-        }
-
-        [Choice(Label = "No bundled batteries", Tooltip = "Tools and vehicles don't include batteries. Vanilla recipes are the Cyclops, PRAWN Suit, and Repair Tool.", Options = new[] { "Disabled", "Vanilla recipes", "All recipes" })]
-        public NoBundledBatteriesOption NoBundledBatteries = NoBundledBatteriesOption.Disabled;
+        [Choice(Label = "No bundled batteries",
+            Options = new[] { "Disabled", "Vanilla recipes", "All recipes" },
+            Tooltip = "Tools and vehicles don't include batteries.\nVanilla recipes: Cyclops, PRAWN Suit, and Repair Tool.")]
+        public NoBundledBatteriesOption NoBundledBatteriesOption = NoBundledBatteriesOption.Disabled;
 
         [Toggle("<color=#f1c353>Critter size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CritterSizeRandomizerDivider;

@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom Sunbeam Countdown", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rotatable Ladders", "Rotatable Ladders\Rotatable Ladders.csproj", "{091DFAA9-51A9-426D-A3D0-FF6E5E5D52A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seamoth Barrel Roll", "Seamoth Barrel Roll\Seamoth Barrel Roll.csproj", "{63621229-EBA6-4308-8B35-BB52D73537C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{091DFAA9-51A9-426D-A3D0-FF6E5E5D52A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{091DFAA9-51A9-426D-A3D0-FF6E5E5D52A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{091DFAA9-51A9-426D-A3D0-FF6E5E5D52A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63621229-EBA6-4308-8B35-BB52D73537C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63621229-EBA6-4308-8B35-BB52D73537C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63621229-EBA6-4308-8B35-BB52D73537C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63621229-EBA6-4308-8B35-BB52D73537C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
