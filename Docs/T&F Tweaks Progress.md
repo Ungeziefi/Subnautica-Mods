@@ -7,7 +7,6 @@
 - **Power cell charge from batteries**: Sets the charge level of newly crafted power cells based on the charge level of the batteries used for crafting**: (Improved by supporting any number of batteries instead of hardcoding to 2.)
 - **Skip epilepsy warning**.
 - **Plant rotation randomizer**.
-- **Mobile Vehicle Bay beacon**.
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -54,6 +53,7 @@
 - **No fish release fading**: Released fish now don't fade in.
 - **No base items fading**: Items placed in bases now don't fade in.
 - **Land_tree_01 no light**.
+- **Mobile Vehicle Bay beacon**.
 
 ---
 

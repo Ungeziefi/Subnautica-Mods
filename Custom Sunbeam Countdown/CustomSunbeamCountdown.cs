@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Tweaks
+namespace Ungeziefi.Custom_Sunbeam_Countdown
 {
     [HarmonyPatch(typeof(uGUI_SunbeamCountdown))]
     public class CustomSunbeamCountdown
@@ -9,15 +9,15 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(uGUI_SunbeamCountdown.ShowInterface)), HarmonyPostfix]
         static void ShowInterface(uGUI_SunbeamCountdown __instance)
         {
-            if (!Main.Config.CustomSunbeamCountdown)
+            if (!Main.Config.EnableFeature)
             {
                 return;
             }
 
             var config = Main.Config;
-            float xPos = config.CSCXPosition;
-            float yPos = config.CSCYPosition;
-            float scale = config.CSCScale;
+            float xPos = config.XPosition;
+            float yPos = config.YPosition;
+            float scale = config.Scale;
 
             RectTransform rectTransform = __instance.countdownHolder.GetComponent<RectTransform>();
             if (rectTransform != null)

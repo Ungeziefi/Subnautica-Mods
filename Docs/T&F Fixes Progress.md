@@ -58,6 +58,8 @@
 #### Can't reproduce the bug
 - **No boulder despawn**: Boulders that block some cave entrances in the safe shallows now do not despawn when you move away from them.
 - **No dead fish shuffling**: Dead fish in your inventory now stay in the same position on reload.
+- "The coffee vending machine now spawns coffee properly". (Possibly fixed with Living Large.)
+- "After reloading, the first-person model is used for waterproof lockers that are not in the inventory."
 #### Vanilla feature
 - **AC eggs cleanup**: Eggs in your alien containment (AC) now disappear when they hatch.
 - **Sink undeployed MVB**.
@@ -69,4 +71,4 @@
 #### Other reasons
 - **Always close hatch flaps**: The Cyclops hatch flaps now always close when you enter it. (Inconsequential, you can't see a closed flap from inside.)
 - **Seaglide no visible neck**: Fixed the visible neck when using the Seaglide with a high FOV. (Very complex, not worth the effort.)
-- **No creature attacks in stasis**. (Use [Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255).)
+- **No creature attacks in stasis**. ([Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255) already does it.)

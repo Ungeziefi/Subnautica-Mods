@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Tweaks
+namespace Ungeziefi.Rotatable_Ladders
 {
     [HarmonyPatch(typeof(BaseLadder))]
     public class RotatableLadders
@@ -19,14 +19,22 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(BaseLadder.OnHandHover)), HarmonyPostfix]
         public static void OnHandHover(BaseLadder __instance, GUIHand hand)
         {
-            if (!Main.Config.RotatableLadders || __instance == null || !__instance.enabled)
+            if (!Main.Config.EnableFeature || __instance == null || !__instance.enabled)
             {
                 return;
             }
 
-            HandReticle.main.SetText(HandReticle.TextType.HandSubscript, $"Press {Main.Config.RotateLadderKey} to rotate", false, GameInput.Button.None);
+            if (GameInput.GetPrimaryDevice() == GameInput.Device.Controller)
+            {
+                HandReticle.main.SetText(HandReticle.TextType.HandSubscript, "Press to rotate", false, GameInput.Button.AltTool);
+            }
+            else
+            {
+                HandReticle.main.SetText(HandReticle.TextType.HandSubscript, $"Press {Main.Config.RotateLadderKey} to rotate", false, GameInput.Button.None);
+            }
 
-            if (Input.GetKeyDown(Main.Config.RotateLadderKey))
+            if (Input.GetKeyDown(Main.Config.RotateLadderKey) ||
+                ((GameInput.GetPrimaryDevice() == GameInput.Device.Controller) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
             {
                 Transform parent = __instance.transform.parent;
                 if (parent == null)
@@ -63,7 +71,7 @@ namespace Ungeziefi.Tweaks
         {
             Transform parent = __instance.transform.parent;
 
-            if (!Main.Config.RotatableLadders || __instance == null || parent == null)
+            if (!Main.Config.EnableFeature || __instance == null || parent == null)
             {
                 return;
             }

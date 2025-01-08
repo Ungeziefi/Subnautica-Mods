@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch(typeof(Creature))]
-    public class CreatureSizeRandomizer
+    public class CritterSizeRandomizer
     {
         // Should probably serialize this for easier editing
         private static readonly HashSet<TechType> targetCreatures = new HashSet<TechType>
@@ -21,7 +21,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(Creature.Start)), HarmonyPostfix]
         public static void Start(Creature __instance)
         {
-            if (!Main.Config.CreatureSizeRandomizer)
+            if (!Main.Config.CSREnableFeature)
             {
                 return;
             }

@@ -41,68 +41,20 @@ namespace Ungeziefi.Tweaks
             AllRecipes
         }
 
-        [Choice(Label = "No bundled batteries", Tooltip = "Tools and vehicles don't include batteries.", Options = new[] { "Disabled", "Vanilla recipes", "All recipes" })]
+        [Choice(Label = "No bundled batteries", Tooltip = "Tools and vehicles don't include batteries. Vanilla recipes are the Cyclops, PRAWN Suit, and Repair Tool.", Options = new[] { "Disabled", "Vanilla recipes", "All recipes" })]
         public NoBundledBatteriesOption NoBundledBatteries = NoBundledBatteriesOption.Disabled;
 
-        [Toggle(Label = "Mobile Vehicle Bay beacon")]
-        public bool MobileVehicleBayBeacon = false;
+        [Toggle("<color=#f1c353>Critter size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool CritterSizeRandomizerDivider;
 
-        [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool CreatureSizeRandomizerDivider;
-
-        [Toggle(Label = "Creature size randomizer", Tooltip = "Randomizes the size of Cave Crawlers, Lava Larvas, Bleeders, Rockgrubs, Blighters, and Floaters. Configurable through the sliders below.")]
-        public bool CreatureSizeRandomizer = false;
+        [Toggle(Label = "Enable feature", Tooltip = "Randomizes the size of Cave Crawlers, Lava Larvas, Bleeders, Rockgrubs, Blighters, and Floaters.")]
+        public bool CSREnableFeature = false;
 
         [Slider(Label = "Minimum multiplier", DefaultValue = 0.5f, Min = 0.1f, Max = 1f, Step = 0.1f, Format = "{0:0.0}")]
         public float MinCreatureSize = 0.5f;
 
         [Slider(Label = "Maximum multiplier", DefaultValue = 1.5f, Min = 1f, Max = 2f, Step = 0.1f, Format = "{0:0.0}")]
         public float MaxCreatureSize = 1.5f;
-
-        [Toggle("<color=#f1c353>Rotatable ladders</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool RotatableLaddersDivider;
-
-        [Toggle(Label = "Rotatable ladders")]
-        public bool RotatableLadders = false;
-
-        [Keybind(Label = "Rotate ladder key")]
-        public KeyCode RotateLadderKey = KeyCode.R;
-
-        [Toggle("<color=#f1c353>Custom Sunbeam countdown</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool CustomSunbeamCountdownDivider;
-
-        [Toggle(Label = "Custom Sunbeam countdown", Tooltip = "Allows changing the position and scale of the countdown message. Default settings prevent clipping with pinned recipes.")]
-        public bool CustomSunbeamCountdown = false;
-
-        [Slider(Label = "X position", DefaultValue = 1f, Min = 0f, Max = 1f, Step = 0.01f, Format = "{0:0.00}")]
-        public float CSCXPosition = 1f;
-
-        [Slider(Label = "Y position", DefaultValue = 1f, Min = 0f, Max = 1f, Step = 0.01f, Format = "{0:0.00}")]
-        public float CSCYPosition = 1f;
-
-        [Slider(Label = "Scale", DefaultValue = 0.70f, Min = 0.5f, Max = 2f, Step = 0.01f, Format = "{0:0.00}")]
-        public float CSCScale = 0.70f;
-
-        [Toggle("<color=#f1c353>Cyclops camera zoom</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool CyclopsCameraZoomDivider;
-
-        [Toggle(Label = "Cyclops camera zoom")]
-        public bool CyclopsCameraZoom = false;
-
-        [Keybind(Label = "Zoom in key", Tooltip = "Zoom in key in addition to moving forward.")]
-        public KeyCode CCZZoomInKey = KeyCode.LeftShift;
-
-        [Keybind(Label = "Zoom out key", Tooltip = "Zoom in key in addition to moving backward.")]
-        public KeyCode CCZZoomOutKey = KeyCode.LeftControl;
-
-        [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]
-        public float CCZMinimumFOV = 10f;
-
-        [Slider(Label = "Maximum FOV", DefaultValue = 90f, Min = 60f, Max = 90f, Step = 1)]
-        public float CCZMaximumFOV = 90f;
-
-        [Slider(Label = "Zoom speed", DefaultValue = 30f, Min = 1f, Max = 100f, Step = 1)]
-        public float CCZZoomSpeed = 30f;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool miscellaneousTweakerDivider;

@@ -1,0 +1,2 @@
+- [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185).
+- [Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255).

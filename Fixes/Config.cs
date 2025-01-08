@@ -42,9 +42,6 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Silent Running no idle power drain", Tooltip = "Stops Silent Running from draining power when the engine is off.")]
         public bool SilentRunningNoIdleCost = true;
 
-        [Toggle(Label = "Force anisotropic filtering", Tooltip = "Forces anisotropic filtering on every texture.")]
-        public bool ForceAnisotropicFiltering = true;
-
         [Toggle(Label = "Seamoth storage modules gap", Tooltip = "Fixes the gap between the Seamoth and its lower storage modules.")]
         public bool SeamothStorageModulesGap = true;
 

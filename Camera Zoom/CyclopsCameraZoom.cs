@@ -1,16 +1,16 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Tweaks
+namespace Ungeziefi.Camera_Zoom
 {
     [HarmonyPatch(typeof(uGUI_CameraCyclops))]
     public class CyclopsCameraZoom
     {
         private static Camera Camera => SNCameraRoot.main.mainCamera;
-        private static readonly float minFOV = Main.Config.CCZMinimumFOV;
-        private static readonly float maxFOV = Main.Config.CCZMaximumFOV;
-        private static readonly float zoomSpeed = Main.Config.CCZZoomSpeed;
-        private static bool isCameraActive;
+        private static readonly float minFOV = Main.Config.CCMinimumFOV;
+        private static readonly float maxFOV = Main.Config.CCMaximumFOV;
+        private static readonly float zoomSpeed = Main.Config.CCZoomSpeed;
+        internal static bool isCameraActive;
         private static float previousFOV;
 
         // Camera switch
@@ -43,7 +43,8 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(nameof(uGUI_CameraCyclops.Update)), HarmonyPostfix]
         public static void Update()
         {
-            if (!Main.Config.CyclopsCameraZoom || !isCameraActive || Camera == null)
+            bool isInMenu = Cursor.visible;
+            if (!Main.Config.CCEnableFeature || !isCameraActive || Camera == null || isInMenu)
             {
                 return;
             }
@@ -51,11 +52,11 @@ namespace Ungeziefi.Tweaks
             var config = Main.Config;
             int zoomDirection = 0; // 0 = no zoom, 1 = zoom out, -1 = zoom in
 
-            if (Input.GetKey(Main.Config.CCZZoomInKey) || GameInput.GetButtonHeld(GameInput.Button.MoveForward))
+            if (Input.GetKey(Main.Config.CCZoomInKey) || GameInput.GetButtonHeld(GameInput.Button.MoveForward))
             {
                 zoomDirection = -1;
             }
-            else if (Input.GetKey(Main.Config.CCZZoomOutKey) || GameInput.GetButtonHeld(GameInput.Button.MoveBackward))
+            else if (Input.GetKey(Main.Config.CCZoomOutKey) || GameInput.GetButtonHeld(GameInput.Button.MoveBackward))
             {
                 zoomDirection = 1;
             }
