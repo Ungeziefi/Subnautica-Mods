@@ -9,3 +9,6 @@ All features have extensive configuration options and should be compatible with 
 
 ### Rotatable Ladders
 - **Rotatable ladders**. (<span style="color: red;">Known issue</span>: no cleanup for ladders that no longer exist. The only cleanup it performs is when a ladder is set back to its default rotation. It should also be rewritten to allow rotation while building.)
+
+### Seamoth Barrel Roll
+- **Seamoth barrel roll**. (Also allows customizing the stabilization system.)
