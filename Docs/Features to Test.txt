@@ -1,8 +1,0 @@
-- Fixed unused lava geyser particles spawning on every game load.
-- Creatures always flee to the origin coordinates when attacked.
-
-Notes from Discord:
-- Everything flees to 0/0/0 instead of away from you or the leash point or whatever else the intention was.
-- Sometimes scrolling in the databank is incredibly unresponsive.
-- Random chance via LootDistribution
-- When you select a different entry in databank it would be scrolled down to the spot you had on the previous entry instead of starting at the top.
