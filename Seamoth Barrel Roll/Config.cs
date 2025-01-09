@@ -33,5 +33,8 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
 
         [Slider(Label = "Roll acceleration", Tooltip = "How quickly the roll builds up.", DefaultValue = 20f, Min = 10f, Max = 100f, Step = 1)]
         public float RollAcceleration = 20f;
+
+        [Toggle(Label = "Allow airborne rolling")]
+        public bool AllowAirborneRolling = false;
     }
 }

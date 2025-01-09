@@ -48,7 +48,14 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 return;
             }
 
+            // Check if the Seamoth is being piloted
             if (!(__instance is SeaMoth seamoth) || !seamoth.GetPilotingMode())
+            {
+                return;
+            }
+
+            // Check if rolling in the air is allowed
+            if (!Main.Config.AllowAirborneRolling && seamoth.transform.position.y > Ocean.GetOceanLevel())
             {
                 return;
             }
