@@ -36,5 +36,11 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
 
         [Toggle(Label = "Allow airborne rolling")]
         public bool AllowAirborneRolling = false;
+
+        [Toggle(Label = "Rolling requires power")]
+        public bool RollingRequiresPower = true;
+
+        [Toggle(Label = "Stabilization requires power")]
+        public bool StabilizationRequiresPower = true;
     }
 }

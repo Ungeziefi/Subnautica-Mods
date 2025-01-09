@@ -1,6 +1,6 @@
-﻿using HarmonyLib;
+﻿using System.Collections.Generic;
+using HarmonyLib;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace Ungeziefi.Seamoth_Barrel_Roll
 {
@@ -17,15 +17,34 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             public bool wasRolling = false;        // (for sound transitions)
         }
 
+        private static bool HasPower(Vehicle vehicle)
+        {
+            if (vehicle == null)
+            {
+                return false;
+            }
+
+            var energyMixin = vehicle.GetComponent<EnergyMixin>();
+            return energyMixin != null && energyMixin.charge > 0f;
+        }
+
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.StabilizeRoll)), HarmonyPrefix]
         public static bool StabilizeRoll(Vehicle __instance)
         {
+            // If set to normal mode, don't interfere with the default stabilization
             if (!Main.Config.EnableFeature || Main.Config.StabilizationMode == StabilizationMode.Normal)
             {
                 return true;
             }
 
+            // Check if stabilization is disabled
             if (Main.Config.StabilizationMode == StabilizationMode.Disabled)
+            {
+                return false;
+            }
+
+            // Check if stabilization requires power
+            if (Main.Config.StabilizationRequiresPower && !HasPower(__instance))
             {
                 return false;
             }
@@ -54,8 +73,21 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 return;
             }
 
+            // Check if rolling requires power
+            if (Main.Config.RollingRequiresPower && !HasPower(seamoth))
+            {
+                return;
+            }
+
             // Check if rolling in the air is allowed
             if (!Main.Config.AllowAirborneRolling && seamoth.transform.position.y > Ocean.GetOceanLevel())
+            {
+                return;
+            }
+
+            // Check if the Seamoth is powered
+            PowerRelay powerRelay = __instance.GetComponent<PowerRelay>();
+            if (powerRelay != null && powerRelay.GetPowerStatus() == PowerSystem.Status.Offline)
             {
                 return;
             }
@@ -152,15 +184,20 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             // Apply immediate stabilization force when exiting if in OnlyWhenEmpty mode
             if (Main.Config.StabilizationMode == StabilizationMode.OnlyWhenEmpty)
             {
-                // Calculate the current roll angle
-                float zAngle = __instance.transform.eulerAngles.z;
-                if (zAngle > 180f) zAngle -= 360f;  // Convert to -180 to 180 range
+                // Check if stabilization requires power
+                if (Main.Config.StabilizationRequiresPower && !HasPower(__instance))
+                {
+                    activeRolls.Remove(__instance);
+                    return;
+                }
 
-                // Apply stabilization if tilted more than 2 degrees
+                // Convert from Euler angles to -180 to 180 range
+                float zAngle = __instance.transform.eulerAngles.z;
+                if (zAngle > 180f) zAngle -= 360f;
+
                 if (Mathf.Abs(zAngle) > 2f)
                 {
-                    float stabilizeForce = Mathf.Sign(zAngle);
-                    __instance.useRigidbody.AddTorque(-__instance.transform.forward * stabilizeForce,
+                    __instance.useRigidbody.AddTorque(-__instance.transform.forward * Mathf.Sign(zAngle),
                         ForceMode.VelocityChange);
                 }
             }
