@@ -38,7 +38,6 @@
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
 - **Add missing PRAWN sounds**: Adds collision sounds to the PRAWN Suit.
 - **No doubled knife particle**: Removes the 2nd particle from knife attacks on creatures.
-- **Universal creature decoy**: Makes the creature decoy work on all predators.
 - **Dynamic Creepvine light**: Updates the Creepvine seed light according to the amount of remaining seeds.
 - **Add missing cannon items**: Allows moving the Sulfur Plant, Brain Coral, Planter, Tiger Plant, Lantern Fruit, and Bulbo Tree with the propulsion or repulsion cannon.
 - **Restore health after poison**: Allows health to be restored after reloading the game while poison was active.

@@ -54,6 +54,7 @@
 - **No base items fading**: Items placed in bases now don't fade in.
 - **Land_tree_01 no light**.
 - **Mobile Vehicle Bay beacon**.
+- **Universal creature decoy**: Makes the creature decoy work on all predators.
 
 ---
 

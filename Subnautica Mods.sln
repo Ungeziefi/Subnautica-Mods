@@ -9,13 +9,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweaks", "Tweaks\Tweaks.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{F4BF2276-F474-472D-BDFF-1E386A76462F}"
 	ProjectSection(SolutionItems) = preProject
+		Docs\Features to Test.txt = Docs\Features to Test.txt
+		Docs\Ideas.txt = Docs\Ideas.txt
 		Docs\New Features.md = Docs\New Features.md
 		Docs\New Fixes.md = Docs\New Fixes.md
 		Docs\New Tweaks.md = Docs\New Tweaks.md
 		Docs\README.md = Docs\README.md
-		Docs\T&F Tweaks Progress.md = Docs\T&F Tweaks Progress.md
 		Docs\Recommended Additional Fixes.md = Docs\Recommended Additional Fixes.md
 		Docs\T&F Fixes Progress.md = Docs\T&F Fixes Progress.md
+		Docs\T&F Tweaks Progress.md = Docs\T&F Tweaks Progress.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Camera Zoom", "Camera Zoom\Camera Zoom.csproj", "{7F1F7910-8E99-48E1-88F7-8F768983CC3A}"
