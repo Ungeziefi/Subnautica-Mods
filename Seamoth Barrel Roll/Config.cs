@@ -18,7 +18,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
         public bool EnableFeature = true;
 
         [Choice(Label = "Stabilization mode",
-               Tooltip = "Disabled: No stabilization at all.\nNormal: Default game behavior.\nOnly when empty: Only stabilizes when exiting the Seamoth.",
+               Tooltip = "Disabled: No stabilization at all.\nNormal: Default game behaviour.\nOnly when empty: Only stabilizes when exiting the Seamoth.",
                 Options = new[] { "Disabled", "Normal", "Only when empty" })]
         public StabilizationMode StabilizationMode = StabilizationMode.OnlyWhenEmpty;
 
