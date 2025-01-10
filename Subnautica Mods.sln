@@ -28,6 +28,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rotatable Ladders", "Rotata
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seamoth Barrel Roll", "Seamoth Barrel Roll\Seamoth Barrel Roll.csproj", "{63621229-EBA6-4308-8B35-BB52D73537C5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{ABCEE064-5777-4DCE-99FC-8C3A8F25E0ED}"
+	ProjectSection(SolutionItems) = preProject
+		Testing\Knife Attacks Debug.cs = Testing\Knife Attacks Debug.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -46,6 +46,12 @@ namespace Ungeziefi.Tweaks
             Tooltip = "Tools and vehicles don't include batteries.\nVanilla recipes: Cyclops, PRAWN Suit, and Repair Tool.")]
         public NoBundledBatteriesOption NoBundledBatteriesOption = NoBundledBatteriesOption.Disabled;
 
+        [Toggle(Label = "No floodlights on build", Tooltip = "Stops the floodlights from being defaulted to on when a Cyclops is built.")]
+        public bool NoFloodlightsOnBuild = false;
+
+        [Toggle(Label = "Mobile Vehicle Bay beacon")]
+        public bool MobileVehicleBayBeacon = false;
+
         [Toggle("<color=#f1c353>Critter size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CritterSizeRandomizerDivider;
 

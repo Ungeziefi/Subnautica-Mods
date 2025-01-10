@@ -50,6 +50,16 @@ namespace Ungeziefi.Fixes
             }
         }
 
+        [HarmonyPatch(nameof(CyclopsLightingPanel.SubConstructionComplete)), HarmonyPostfix]
+        public static void SubConstructionComplete(CyclopsLightingPanel __instance)
+        {
+            string cyclopsId = GetCyclopsId(__instance);
+            if (!Main.Config.SaveCyclopsFloodlights || cyclopsId != null)
+            {
+                UpdateExternalLightState(cyclopsId, __instance.floodlightsOn);
+            }
+        }
+
         [HarmonyPatch(nameof(CyclopsLightingPanel.Start)), HarmonyPostfix]
         public static void Start(CyclopsLightingPanel __instance)
         {

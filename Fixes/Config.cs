@@ -78,6 +78,30 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "No used terminal prompt", Tooltip = "Data terminals don't show the download prompt after downloading.")]
         public bool NoUsedTerminalPrompt = true;
 
+        [Toggle(Label = "Sulfur plant rotation", Tooltip = "Fixes the rotation of 2 Sulfur Plants (280 -40 -195 and 272 -41 -199).")]
+        public bool SulfurPlantRotation = true;
+
+        [Toggle(Label = "Reset Databank scroll", Tooltip = "Makes Databank entries always start at the top when opened instead of keeping the previous scroll position.")]
+        public bool ResetDatabankScroll = true;
+
+        [Toggle(Label = "Cyclops HUD needs power")]
+        public bool CyclopsHUDNeedsPower = true;
+
+        [Toggle(Label = "No invisible Cyclops buttons", Tooltip = "Disables the Cyclops helm buttons when the power is off, preventing them from being clickable while hidden.")]
+        public bool NoInvisibleCyclopsButtons = true;
+
+        [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool NoFleeingToOriginDivider;
+
+        [Toggle(Label = "Enable feature", Tooltip = "Stops creatures from returning to the origin coordinates (0, 0, 0) when fleeing.")]
+        public bool NFTODEnableFeature = true;
+
+        [Slider(Label = "Damage to distance ratio", Tooltip = "How far creatures flee per point of damage taken. Higher values make creatures flee farther when hit.", DefaultValue = 0.033f, Min = 0.01f, Max = 0.1f, Step = 0.001f, Format = "{0:0.000}")]
+        public float DamageToDistanceRatio = 0.033f;
+
+        [Slider(Label = "Maximum damage based distance", Tooltip = "The maximum extra distance creatures will flee regardless of damage taken. Prevents fleeing too far away.", DefaultValue = 50f, Min = 10f, Max = 100f, Step = 5f, Format = "{0:0}")]
+        public float MaxDamageBasedDistance = 50f;
+
         [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PersistenceFixesDivider;
 
@@ -95,5 +119,8 @@ namespace Ungeziefi.Fixes
 
         [Toggle(Label = "Save Cyclops floodlights")]
         public bool SaveCyclopsFloodlights = true;
+
+        [Toggle(Label = "Save Seaglide toggles", Tooltip ="Saves the state of both the light and map.")]
+        public bool SaveSeaglideToggles = true;
     }
 }

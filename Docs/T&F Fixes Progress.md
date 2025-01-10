@@ -18,21 +18,26 @@
 - **Coffee drinking sound**: Changes the consume sound of coffee from eating to drinking.
 - **Drill sound with no target**: Prevents the drill sounds from stopping when nothing is being drilled. (Better compatibility by not using bool Prefix.)
 - **Keep drill particles on load**: Fixes the missing drilling particles when drilling directly after loading and while the drill was already pointed at the deposit. (Better compatibility by not using bool Prefix.)
-- **No used Data Box light**. (Picks the closest light instead of the first light it finds within range.)
+- **No used Data Box light**. (Improved by picking the closest light instead of the first light it finds within range.)
 - **No Seamoth drip particles**.
 - **No used terminal prompt**: Data terminals don't show the download prompt after downloading. (Better compatibility by not using bool Prefix.)
+- **No fleeing to origin**: Makes fleeing use the direction vector by adding it to the creature's current position, with configurable damage/distance ratio and ceiling (which fixes excessive fleeing distances).
+  - To be more specific, the old behaviour was `destination = WhereIAm - WhereDamageCameFrom` and the new one is `destination = WhereIAm + normalized(WhereIAm - WhereDamageCameFrom) * fleeDistance`. Credits to [Mikjaw](https://next.nexusmods.com/profile/Mikjaw) for the pointer on why this happens.
+- **Sulfur Plant rotation**: Fixes the rotation of 2 Sulfur Plants (`280 -40 -195` and `272 -41 -199`).
+- **Reset Databank scroll**: Makes Databank entries always start at the top when opened instead of keeping the previous scroll position.
+- **Cyclops HUD needs power**. (Improved by covering all the missing interfaces and light sources. The full list is: Sonar, compass, decoy screen, storage terminal, upgrade console, lights control panel, edit screen, and light statics.)
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.
 - **Save closed Cyclops doors**.
 - **Save Cyclops speed mode**.
 - **Save Cyclops internal lights**.
-- **Save Cyclops floodlights**. (Cyclopses are created with the floodlight turned on, that won't be saved until you toggle it manually.)
+- **Save Cyclops floodlights**.
+- **Save Seaglide toggles**.
 
 ---
 
 ### <span style="color: orange;">To-Do</span>
-- **Cyclops HUD needs power**.
 - **Reapers can attack Cyclops**: Allows Reaper leviathans to attack the Cyclops instead of just pushing it.
 - **Destructable Drooping Stingers**: Allows destroying Drooping Stingers with a knife.
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
@@ -42,12 +47,9 @@
 - **Add missing cannon items**: Allows moving the Sulfur Plant, Brain Coral, Planter, Tiger Plant, Lantern Fruit, and Bulbo Tree with the propulsion or repulsion cannon.
 - **Restore health after poison**: Allows health to be restored after reloading the game while poison was active.
 - **Limited PRAWN landing particles**: Prevents PRAWN Suit landings from spawning particles if not on sand.
-- **Matching Bulbo Tree LOD**.
+- **Matching Bulbo Tree LOD**: Makes the Bulbo Tree LOD model match its high quality model.
 - **Add missing VFXSurface**: All plants now have the proper VFXSurface component.
-- **Sulfur Plant rotation**: Fixes the rotation of the Sulfur Plant at coordinates 280 -40 -195.
 - **Keep dead raw fish stored**.
-- **Save Seaglide light**.
-- **Save Seaglide holomap**.
 - **Save PRAWN Suit light**.
 - **Save last held tool**.
 
