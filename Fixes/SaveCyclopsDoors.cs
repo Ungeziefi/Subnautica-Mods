@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(Openable))]
+    [HarmonyPatch]
     public class SaveCyclopsClosedDoors
     {
         private static readonly Dictionary<string, float> closedDoorsYAngle = new Dictionary<string, float>
@@ -16,9 +16,18 @@ namespace Ungeziefi.Fixes
             { "submarine_hatch_02 4", 0f },
             { "submarine_hatch_02 7", 0f }
         };
+        private static void CloseDoor(Openable openable)
+        {
+            openable.isOpen = false;
+            Vector3 rot = openable.transform.localEulerAngles;
+            if (closedDoorsYAngle.TryGetValue(openable.name, out float y))
+            {
+                openable.transform.localEulerAngles = new Vector3(rot.x, y, rot.z);
+            }
+        }
 
-        [HarmonyPatch(nameof(Openable.OnHandClick)), HarmonyPostfix]
-        public static void OnHandClick(Openable __instance)
+        [HarmonyPatch(typeof(Openable), nameof(Openable.OnHandClick)), HarmonyPostfix]
+        public static void Openable_OnHandClick(Openable __instance)
         {
             if (!Main.Config.SaveClosedCyclopsDoors)
             {
@@ -40,25 +49,15 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        private static void CloseDoor(Openable openable)
-        {
-            openable.isOpen = false;
-            Vector3 rot = openable.transform.localEulerAngles;
-            if (closedDoorsYAngle.TryGetValue(openable.name, out float y))
-            {
-                openable.transform.localEulerAngles = new Vector3(rot.x, y, rot.z);
-            }
-        }
-
-        [HarmonyPatch(nameof(Openable.Start)), HarmonyPrefix]
-        public static void Start(Openable __instance)
+        [HarmonyPatch(typeof(Openable), nameof(Openable.Start)), HarmonyPrefix]
+        public static void Openable_Start(Openable __instance)
         {
             if (!Main.Config.SaveClosedCyclopsDoors)
             {
                 return;
             }
 
-            // Check if this door has a defined closing angle and if it's in the closed doors list
+            // Close if saved as closed
             if (closedDoorsYAngle.ContainsKey(__instance.name) &&
                 Main.SaveData.CyclopsClosedDoors.Contains(__instance.name))
             {

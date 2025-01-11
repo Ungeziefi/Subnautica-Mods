@@ -2,11 +2,11 @@
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(Trashcan))]
+    [HarmonyPatch]
     public class NuclearWasteDisposalName
     {
-        [HarmonyPatch(nameof(Trashcan.OnEnable)), HarmonyPrefix]
-        public static void OnEnable(Trashcan __instance)
+        [HarmonyPatch(typeof(Trashcan), nameof(Trashcan.OnEnable)), HarmonyPrefix]
+        public static void Trashcan_OnEnable(Trashcan __instance)
         {
             if (Main.Config.NuclearWasteDisposalName)
             {

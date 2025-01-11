@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(LargeWorldEntity))]
+    [HarmonyPatch]
     public class SulfurPlantRotation
     {
-        [HarmonyPatch(nameof(LargeWorldEntity.Awake)), HarmonyPostfix]
-        public static void Awake(LargeWorldEntity __instance)
+        [HarmonyPatch(typeof(LargeWorldEntity), nameof(LargeWorldEntity.Awake)), HarmonyPostfix]
+        public static void LargeWorldEntity_Awake(LargeWorldEntity __instance)
         {
             if (!Main.Config.SulfurPlantRotation)
             {

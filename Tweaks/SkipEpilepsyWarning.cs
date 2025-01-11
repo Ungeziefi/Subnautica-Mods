@@ -2,11 +2,11 @@
 
 namespace Ungeziefi.Tweaks
 {
-    [HarmonyPatch(typeof(StartScreen))]
+    [HarmonyPatch]
     public class SkipEpilepsyWarning
     {
-        [HarmonyPatch(nameof(StartScreen.TryToShowDisclaimer)), HarmonyPrefix]
-        public static bool TryToShowDisclaimer(StartScreen __instance)
+        [HarmonyPatch(typeof(StartScreen), nameof(StartScreen.TryToShowDisclaimer)), HarmonyPrefix]
+        public static bool StartScreen_TryToShowDisclaimer(StartScreen __instance)
         {
             if (Main.Config.SkipEpilepsyWarning)
             {

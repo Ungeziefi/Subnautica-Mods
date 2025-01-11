@@ -12,7 +12,6 @@ namespace Ungeziefi.Fixes
 
     public class MiscFixes
     {
-        // Apply all fixes by invoking methods marked with the MiscFix attribute
         public static void ApplyAllFixes()
         {
             MethodInfo[] methods = typeof(MiscFixes).GetMethods(BindingFlags.Public | BindingFlags.Static);

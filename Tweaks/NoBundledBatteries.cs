@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
-    [HarmonyPatch(typeof(EnergyMixin))]
+    [HarmonyPatch]
     public class NoBundledBatteries
     {
-        [HarmonyPatch(nameof(EnergyMixin.OnCraftEnd)), HarmonyPrefix]
-        private static bool OnCraftEnd(ref EnergyMixin __instance)
+        [HarmonyPatch(typeof(EnergyMixin), nameof(EnergyMixin.OnCraftEnd)), HarmonyPrefix]
+        private static bool EnergyMixin_OnCraftEnd(ref EnergyMixin __instance)
         {
             GameModeUtils.GetGameMode(out GameModeOption mode, out GameModeOption cheats);
             var config = Main.Config.NoBundledBatteriesOption;

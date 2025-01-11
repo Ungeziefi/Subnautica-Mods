@@ -2,7 +2,7 @@ using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(CyclopsLightingPanel))]
+    [HarmonyPatch]
     public class SaveCyclopsFloodlights
     {
         private static string GetCyclopsId(CyclopsLightingPanel panel)
@@ -35,8 +35,9 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(CyclopsLightingPanel.ToggleFloodlights)), HarmonyPostfix]
-        public static void ToggleFloodlights(CyclopsLightingPanel __instance)
+        // Save state on toggle
+        [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.ToggleFloodlights)), HarmonyPostfix]
+        public static void CyclopsLightingPanel_ToggleFloodlights(CyclopsLightingPanel __instance)
         {
             if (!Main.Config.SaveCyclopsFloodlights)
             {
@@ -50,8 +51,9 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(CyclopsLightingPanel.SubConstructionComplete)), HarmonyPostfix]
-        public static void SubConstructionComplete(CyclopsLightingPanel __instance)
+        // Save state on build
+        [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.SubConstructionComplete)), HarmonyPostfix]
+        public static void CyclopsLightingPanel_SubConstructionComplete(CyclopsLightingPanel __instance)
         {
             string cyclopsId = GetCyclopsId(__instance);
             if (!Main.Config.SaveCyclopsFloodlights || cyclopsId != null)
@@ -60,8 +62,9 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(CyclopsLightingPanel.Start)), HarmonyPostfix]
-        public static void Start(CyclopsLightingPanel __instance)
+        // Load state
+        [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.Start)), HarmonyPostfix]
+        public static void CyclopsLightingPanel_Start(CyclopsLightingPanel __instance)
         {
             string cyclopsId = GetCyclopsId(__instance);
             if (!Main.Config.SaveCyclopsFloodlights || cyclopsId != null)

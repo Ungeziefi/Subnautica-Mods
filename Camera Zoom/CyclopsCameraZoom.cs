@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Ungeziefi.Camera_Zoom
 {
-    [HarmonyPatch(typeof(uGUI_CameraCyclops))]
+    [HarmonyPatch]
     public class CyclopsCameraZoom
     {
         private static Camera Camera => SNCameraRoot.main.mainCamera;
@@ -12,25 +12,38 @@ namespace Ungeziefi.Camera_Zoom
         private static readonly float zoomSpeed = Main.Config.CCZoomSpeed;
         internal static bool isCameraActive;
         private static float previousFOV;
-
-        // Camera switch
-        [HarmonyPatch(nameof(uGUI_CameraCyclops.SetCamera)), HarmonyPostfix]
-        public static void SetCamera()
+        private static void ResetAndDisable(bool disable)
         {
-            // Main.Logger.LogInfo("Camera SetCamera called.");
-            ResetAndDisable(false);
+            if (Camera == null)
+            {
+                return;
+            }
+
+            if (disable)
+            {
+                isCameraActive = false;
+                MiscSettings.fieldOfView = previousFOV;
+                SNCameraRoot.main.SyncFieldOfView(previousFOV);
+                // Main.Logger.LogInfo($"Exiting camera, reverting to original FOV: {previousFOV}");
+            }
+            else
+            {
+                MiscSettings.fieldOfView = maxFOV;
+                SNCameraRoot.main.SyncFieldOfView(maxFOV);
+                // Main.Logger.LogInfo($"Switching camera, resetting FOV to maximum: {maxFOV}");
+            }
         }
 
-        // Save the FOV when entering camera mode
+        // Save FOV when entering camera mode
         [HarmonyPatch(typeof(CyclopsExternalCamsButton), nameof(CyclopsExternalCamsButton.CameraButtonActivated)), HarmonyPrefix]
-        public static void CameraButtonActivated(CyclopsExternalCamsButton __instance)
+        public static void CyclopsExternalCamsButton_CameraButtonActivated(CyclopsExternalCamsButton __instance)
         {
             previousFOV = Camera.fieldOfView;
         }
 
         // Camera enter and exit
         [HarmonyPatch(typeof(CyclopsExternalCams), nameof(CyclopsExternalCams.SetActive)), HarmonyPostfix]
-        public static void SetActive(CyclopsExternalCams __instance)
+        public static void CyclopsExternalCams_SetActive(CyclopsExternalCams __instance)
         {
             isCameraActive = __instance.active;
             // Main.Logger.LogInfo($"Camera SetActive called: {isCameraActive}");
@@ -40,8 +53,17 @@ namespace Ungeziefi.Camera_Zoom
             }
         }
 
-        [HarmonyPatch(nameof(uGUI_CameraCyclops.Update)), HarmonyPostfix]
-        public static void Update()
+        // Camera switch
+        [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.SetCamera)), HarmonyPostfix]
+        public static void uGUI_CameraCyclops_SetCamera()
+        {
+            // Main.Logger.LogInfo("Camera SetCamera called.");
+            ResetAndDisable(false);
+        }
+
+        // Zoom in/out
+        [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.Update)), HarmonyPostfix]
+        public static void uGUI_CameraCyclops_Update()
         {
             bool isInMenu = Cursor.visible;
             if (!Main.Config.CCEnableFeature || !isCameraActive || Camera == null || isInMenu)
@@ -76,28 +98,6 @@ namespace Ungeziefi.Camera_Zoom
                     SNCameraRoot.main.SyncFieldOfView(newFOV);
                     // Main.Logger.LogInfo($"FOV change: Previous={previousFOV}, New={newFOV}, Delta={(newFOV - previousFOV):F2}");
                 }
-            }
-        }
-
-        private static void ResetAndDisable(bool disable)
-        {
-            if (Camera == null)
-            {
-                return;
-            }
-
-            if (disable)
-            {
-                isCameraActive = false;
-                MiscSettings.fieldOfView = previousFOV;
-                SNCameraRoot.main.SyncFieldOfView(previousFOV);
-                // Main.Logger.LogInfo($"Exiting camera, reverting to original FOV: {previousFOV}");
-            }
-            else
-            {
-                MiscSettings.fieldOfView = maxFOV;
-                SNCameraRoot.main.SyncFieldOfView(maxFOV);
-                // Main.Logger.LogInfo($"Switching camera, resetting FOV to maximum: {maxFOV}");
             }
         }
     }

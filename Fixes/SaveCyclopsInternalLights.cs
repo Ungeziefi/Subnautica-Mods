@@ -2,7 +2,7 @@ using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(CyclopsLightingPanel))]
+    [HarmonyPatch]
     public class SaveCyclopsInternalLights
     {
         private static string GetCyclopsId(CyclopsLightingPanel panel)
@@ -35,8 +35,9 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(CyclopsLightingPanel.ToggleInternalLighting)), HarmonyPostfix]
-        public static void ToggleInternalLighting(CyclopsLightingPanel __instance)
+        // Save state on toggle
+        [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.ToggleInternalLighting)), HarmonyPostfix]
+        public static void CyclopsLightingPanel_ToggleInternalLighting(CyclopsLightingPanel __instance)
         {
             if (!Main.Config.SaveCyclopsInternalLights)
             {
@@ -50,8 +51,9 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(CyclopsLightingPanel.Start)), HarmonyPostfix]
-        public static void Start(CyclopsLightingPanel __instance)
+        // Load state
+        [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.Start)), HarmonyPostfix]
+        public static void CyclopsLightingPanel_Start(CyclopsLightingPanel __instance)
         {
             string cyclopsId = GetCyclopsId(__instance);
             if (!Main.Config.SaveCyclopsInternalLights || cyclopsId != null)

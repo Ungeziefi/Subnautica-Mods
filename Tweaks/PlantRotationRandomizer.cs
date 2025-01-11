@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
-    [HarmonyPatch(typeof(Plantable))]
+    [HarmonyPatch]
     public class PlantRotationRandomizer
     {
-        [HarmonyPatch(nameof(Plantable.Spawn)), HarmonyPostfix]
-        public static void Spawn(ref GameObject __result)
+        [HarmonyPatch(typeof(Plantable), nameof(Plantable.Spawn)), HarmonyPostfix]
+        public static void Plantable_Spawn(ref GameObject __result)
         {
             if (Main.Config.PlantRotationRandomizer)
             {

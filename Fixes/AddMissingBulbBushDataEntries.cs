@@ -2,18 +2,18 @@
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(PDAScanner))]
+    [HarmonyPatch]
     public class AddMissingBulbBushDataEntries
     {
-        [HarmonyPatch(nameof(PDAScanner.Initialize)), HarmonyPostfix]
-        public static void Initialize()
+        [HarmonyPatch(typeof(PDAScanner), nameof(PDAScanner.Initialize)), HarmonyPostfix]
+        public static void PDAScanner_Initialize()
         {
             if (!Main.Config.AddMissingBulbBushDataEntries)
             {
                 return;
             }
 
-            // Add the missing mapping entries
+            // Add missing mapping entries
             if (PDAScanner.mapping.ContainsKey(TechType.MediumKoosh))
             {
                 var entryData = PDAScanner.mapping[TechType.MediumKoosh];
@@ -28,15 +28,15 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(PDAScanner.Unlock)), HarmonyPostfix]
-        public static void Unlock(PDAScanner.EntryData entryData)
+        [HarmonyPatch(typeof(PDAScanner), nameof(PDAScanner.Unlock)), HarmonyPostfix]
+        public static void PDAScanner_Unlock(PDAScanner.EntryData entryData)
         {
             if (!Main.Config.AddMissingBulbBushDataEntries)
             {
                 return;
             }
 
-            // Unlock the other entries when unlocking any of them
+            // Unlock other entries
             if (entryData.key == TechType.MediumKoosh || entryData.key == TechType.SmallKoosh || entryData.key == TechType.LargeKoosh)
             {
                 PDAScanner.complete.Add(TechType.LargeKoosh);

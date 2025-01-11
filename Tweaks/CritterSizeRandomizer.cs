@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
-    [HarmonyPatch(typeof(Creature))]
+    [HarmonyPatch]
     public class CritterSizeRandomizer
     {
         // Should probably serialize this for easier editing
@@ -18,8 +18,8 @@ namespace Ungeziefi.Tweaks
                             TechType.Floater,
                         };
 
-        [HarmonyPatch(nameof(Creature.Start)), HarmonyPostfix]
-        public static void Start(Creature __instance)
+        [HarmonyPatch(typeof(Creature), nameof(Creature.Start)), HarmonyPostfix]
+        public static void Creature_Start(Creature __instance)
         {
             if (!Main.Config.CSREnableFeature)
             {

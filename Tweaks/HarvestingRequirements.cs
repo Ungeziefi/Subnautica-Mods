@@ -2,9 +2,9 @@
 
 namespace Ungeziefi.Tweaks
 {
+    [HarmonyPatch]
     public class HarvestingRequirements
     {
-        // Determines if the player should be prevented from breaking outcrops and picking fruits without a tool equipped
         private static bool ShouldPreventAction(bool isOutcrop)
         {
             GameModeUtils.GetGameMode(out GameModeOption mode, out GameModeOption cheats);
@@ -12,20 +12,19 @@ namespace Ungeziefi.Tweaks
             Knife knife = Inventory.main.GetHeldTool() as Knife;
             HeatBlade heatblade = Inventory.main.GetHeldTool() as HeatBlade;
 
-            if (Main.Config.HarvestingRequirements &&
+            if (!Main.Config.HarvestingRequirements &&
                 mode == GameModeOption.Creative &&
                 !exosuit)
             {
                 return false;
             }
 
-            // Check if the action should be prevented for outcrops
+            // Check outcrops
             if (isOutcrop)
             {
                 return Inventory.main.GetHeldTool() == null;
             }
-
-            // Check if the action should be prevented for plants
+            // Check plants
             else
             {
                 return knife == null && heatblade == null;
@@ -33,55 +32,47 @@ namespace Ungeziefi.Tweaks
         }
 
         // Outcrops
-        [HarmonyPatch(typeof(BreakableResource))]
-        public class HarvestingRequirements_BreakableResource
+        [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.OnHandHover)), HarmonyPrefix]
+        public static bool BreakableResource_OnHandHover(BreakableResource __instance)
         {
-            [HarmonyPatch(nameof(BreakableResource.OnHandHover)), HarmonyPrefix]
-            public static bool OnHandHover(BreakableResource __instance)
+            if (ShouldPreventAction(true))
             {
-                if (ShouldPreventAction(true))
-                {
-                    HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "A tool needs to be equipped");
-                    return false;
-                }
-                return true;
+                HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "A tool needs to be equipped");
+                return false;
             }
+            return true;
+        }
 
-            [HarmonyPatch(nameof(BreakableResource.OnHandClick)), HarmonyPrefix]
-            public static bool OnHandClick(BreakableResource __instance)
+        [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.OnHandClick)), HarmonyPrefix]
+        public static bool BreakableResource_OnHandClick(BreakableResource __instance)
+        {
+            if (ShouldPreventAction(true))
             {
-                if (ShouldPreventAction(true))
-                {
-                    return false;
-                }
-                return true;
+                return false;
             }
+            return true;
         }
 
         // Plants
-        [HarmonyPatch(typeof(PickPrefab))]
-        public class HarvestingRequirements_PickPrefab
+        [HarmonyPatch(typeof(PickPrefab), nameof(PickPrefab.OnHandHover)), HarmonyPrefix]
+        public static bool PickPrefab_OnHandHover(PickPrefab __instance)
         {
-            [HarmonyPatch(nameof(PickPrefab.OnHandHover)), HarmonyPrefix]
-            public static bool OnHandHover(PickPrefab __instance)
+            if (ShouldPreventAction(false))
             {
-                if (ShouldPreventAction(false))
-                {
-                    HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "A knife or Thermoblade needs to be equipped");
-                    return false;
-                }
-                return true;
+                HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "A blade needs to be equipped");
+                return false;
             }
+            return true;
+        }
 
-            [HarmonyPatch(nameof(PickPrefab.OnHandClick)), HarmonyPrefix]
-            public static bool OnHandClick(PickPrefab __instance)
+        [HarmonyPatch(typeof(PickPrefab), nameof(PickPrefab.OnHandClick)), HarmonyPrefix]
+        public static bool PickPrefab_OnHandClick(PickPrefab __instance)
+        {
+            if (ShouldPreventAction(false))
             {
-                if (ShouldPreventAction(false))
-                {
-                    return false;
-                }
-                return true;
+                return false;
             }
+            return true;
         }
     }
 }

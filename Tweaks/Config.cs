@@ -42,8 +42,8 @@ namespace Ungeziefi.Tweaks
         public bool PlantRotationRandomizer = false;
 
         [Choice(Label = "No bundled batteries",
-            Options = new[] { "Disabled", "Vanilla recipes", "All recipes" },
-            Tooltip = "Tools and vehicles don't include batteries.\nVanilla recipes: Cyclops, PRAWN Suit, and Repair Tool.")]
+            Tooltip = "Tools and vehicles don't include batteries.\nVanilla recipes: Cyclops, PRAWN Suit, and Repair Tool.",
+            Options = new[] { "Disabled", "Vanilla recipes", "All recipes" })]
         public NoBundledBatteriesOption NoBundledBatteriesOption = NoBundledBatteriesOption.Disabled;
 
         [Toggle(Label = "No floodlights on build", Tooltip = "Stops the floodlights from being defaulted to on when a Cyclops is built.")]
@@ -51,6 +51,9 @@ namespace Ungeziefi.Tweaks
 
         [Toggle(Label = "Mobile Vehicle Bay beacon")]
         public bool MobileVehicleBayBeacon = false;
+
+        [Toggle(Label = "Auto-close Bulkhead doors", Tooltip = "Automatically closes bulkhead doors when a leak starts in a base.")]
+        public bool AutoCloseBulkheadDoors = false;
 
         [Toggle("<color=#f1c353>Critter size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CritterSizeRandomizerDivider;

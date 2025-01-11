@@ -4,11 +4,11 @@ using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(VFXSeamothDamages))]
+    [HarmonyPatch]
     public class NoSeamothDripParticles
     {
-        [HarmonyPatch(nameof(VFXSeamothDamages.UpdateParticles)), HarmonyTranspiler]
-        public static IEnumerable<CodeInstruction> UpdateParticles(IEnumerable<CodeInstruction> instructions)
+        [HarmonyPatch(typeof(VFXSeamothDamages), nameof(VFXSeamothDamages.UpdateParticles)), HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> VFXSeamothDamages_UpdateParticles(IEnumerable<CodeInstruction> instructions)
         {
             if (!Main.Config.NoSeamothDripParticles)
             {
@@ -16,6 +16,7 @@ namespace Ungeziefi.Fixes
             }
 
             var matcher = new CodeMatcher(instructions);
+
 
             matcher.MatchForward(false,
                 new CodeMatch(OpCodes.Ldarg_0),

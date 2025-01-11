@@ -2,11 +2,11 @@
 
 namespace Ungeziefi.Tweaks
 {
-    [HarmonyPatch(typeof(Constructor))]
+    [HarmonyPatch]
     internal class MobileVehicleBayBeacon
     {
-        [HarmonyPatch(nameof(Constructor.OnEnable)), HarmonyPostfix]
-        public static void OnEnable(Constructor __instance)
+        [HarmonyPatch(typeof(Constructor), nameof(Constructor.OnEnable)), HarmonyPostfix]
+        public static void Constructor_OnEnable(Constructor __instance)
         {
             if (!Main.Config.MobileVehicleBayBeacon)
             {
@@ -15,13 +15,9 @@ namespace Ungeziefi.Tweaks
 
             __instance.gameObject.EnsureComponent<PingInstance>();
         }
-    }
 
-    [HarmonyPatch(typeof(PingInstance))]
-    internal class PingInstancePatcher
-    {
-        [HarmonyPatch(nameof(PingInstance.Initialize)), HarmonyPostfix]
-        public static void Initialize(PingInstance __instance)
+        [HarmonyPatch(typeof(PingInstance), nameof(PingInstance.Initialize)), HarmonyPostfix]
+        public static void PingInstance_Initialize(PingInstance __instance)
         {
             var constructor = __instance.GetComponent<Constructor>();
             if (constructor == null)

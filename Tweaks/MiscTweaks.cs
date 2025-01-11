@@ -12,7 +12,6 @@ namespace Ungeziefi.Tweaks
 
     public class MiscTweaks
     {
-        // Apply all tweaks by invoking methods marked with the MiscTweak attribute
         public static void ApplyAllTweaks()
         {
             MethodInfo[] methods = typeof(MiscTweaks).GetMethods(BindingFlags.Public | BindingFlags.Static);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
-    [HarmonyPatch(typeof(Vehicle))]
+    [HarmonyPatch]
     public class SeamothPushing
     {
         private static bool IsPushable(Vehicle vehicle)
@@ -22,8 +22,8 @@ namespace Ungeziefi.Tweaks
             rb.AddForce(direction * 3333f, ForceMode.Impulse);
         }
 
-        [HarmonyPatch(nameof(Vehicle.OnHandHover)), HarmonyPostfix]
-        public static void OnHandHover(Vehicle __instance)
+        [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.OnHandHover)), HarmonyPostfix]
+        public static void Vehicle_OnHandHover(Vehicle __instance)
         {
             if (!Main.Config.SeamothPushing)
             {

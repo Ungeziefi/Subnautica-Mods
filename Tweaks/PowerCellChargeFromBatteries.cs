@@ -4,65 +4,55 @@ using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
+    [HarmonyPatch]
     public class PowerCellChargeFromBatteries
     {
-        // List of batteries used for crafting
+        private static bool crafting = false;
         private static List<Battery> batteriesUsedForCrafting = new List<Battery>();
 
-        [HarmonyPatch(typeof(CrafterLogic))]
-        public class PowerCellChargeFromBatteries_CrafterLogic
+        [HarmonyPatch(typeof(CrafterLogic), nameof(CrafterLogic.NotifyCraftEnd)), HarmonyPostfix]
+        public static void CrafterLogic_NotifyCraftEnd(CrafterLogic __instance, GameObject target, TechType techType)
         {
-            [HarmonyPatch(nameof(CrafterLogic.NotifyCraftEnd)), HarmonyPostfix]
-            public static void NotifyCraftEnd(CrafterLogic __instance, GameObject target, TechType techType)
+            if (!Main.Config.PowerCellChargeFromBatteries)
             {
-                if (!Main.Config.PowerCellChargeFromBatteries)
-                {
-                    return;
-                }
-
-                // Get the Battery component from the crafted item
-                Battery battery = target.GetComponent<Battery>();
-                if (battery && batteriesUsedForCrafting.Count > 1)
-                {
-                    // Calculate the total charge of the used batteries
-                    float totalCharge = 0f;
-                    foreach (var b in batteriesUsedForCrafting)
-                    {
-                        totalCharge += b.charge;
-                    }
-
-                    // Calculate the average charge and set it to the new battery
-                    float averageCharge = totalCharge / batteriesUsedForCrafting.Count;
-                    float newCharge = Mathf.Clamp(averageCharge, 0, battery.capacity);
-                    battery.charge = newCharge;
-                }
-
-                // Clear the list of used batteries after crafting
-                batteriesUsedForCrafting.Clear();
+                return;
             }
+
+            Battery battery = target.GetComponent<Battery>();
+            if (battery && batteriesUsedForCrafting.Count > 0)
+            {
+                // Total charge from all used batteries
+                float totalCharge = 0f;
+                foreach (var usedBattery in batteriesUsedForCrafting)
+                {
+                    totalCharge += usedBattery.charge;
+                }
+
+                // Set charge to total and clamp to capacity
+                battery.charge = Mathf.Min(totalCharge, battery.capacity);
+            }
+
+            // Cleanup
+            batteriesUsedForCrafting.Clear();
+            crafting = false;
         }
 
-        [HarmonyPatch(typeof(Inventory))]
-        public class PowerCellChargeFromBatteries_Inventory
+        [HarmonyPatch(typeof(Inventory), nameof(Inventory.ConsumeResourcesForRecipe)), HarmonyPrefix]
+        public static void Inventory_ConsumeResourcesForRecipe(Inventory __instance, TechType techType)
         {
-            // Clear the list of used batteries before crafting
-            [HarmonyPatch(nameof(Inventory.ConsumeResourcesForRecipe)), HarmonyPrefix]
-            public static void ConsumeResourcesForRecipe(Inventory __instance, TechType techType)
-            {
-                batteriesUsedForCrafting.Clear();
-            }
+            crafting = true;
+            batteriesUsedForCrafting.Clear();  // Reset battery list
+        }
 
-            // Add removed batteries to the list
-            [HarmonyPatch(nameof(Inventory.OnRemoveItem)), HarmonyPostfix]
-            public static void OnRemoveItem(Inventory __instance, InventoryItem item)
+        [HarmonyPatch(typeof(Inventory), nameof(Inventory.OnRemoveItem)), HarmonyPostfix]
+        public static void Inventory_OnRemoveItem(Inventory __instance, InventoryItem item)
+        {
+            if (!crafting) return;
+
+            Battery battery = item.item.GetComponent<Battery>();
+            if (battery)
             {
-                // Get the Battery component from the removed item
-                Battery battery = item.item.GetComponent<Battery>();
-                if (battery)
-                {
-                    // Add the battery to the list of used batteries
-                    batteriesUsedForCrafting.Add(battery);
-                }
+                batteriesUsedForCrafting.Add(battery);  // Store removed batteries
             }
         }
     }

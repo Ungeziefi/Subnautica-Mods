@@ -4,23 +4,19 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(StasisSphere))]
-    public class FrozenGasPodsInStasis_StasisSphere
+    [HarmonyPatch]
+    public class FrozenGasPodsInStasis
     {
         public static List<Rigidbody> stasisTargets = new List<Rigidbody>();
 
-        [HarmonyPatch(nameof(StasisSphere.Awake)), HarmonyPostfix]
-        static void Awake(StasisSphere __instance)
+        [HarmonyPatch(typeof(StasisSphere), nameof(StasisSphere.Awake)), HarmonyPostfix]
+        static void StasisSphere_Awake(StasisSphere __instance)
         {
             stasisTargets = __instance.targets;
         }
-    }
 
-    [HarmonyPatch(typeof(GasPod))]
-    public class FrozenGasPodsInStasis
-    {
-        [HarmonyPatch(nameof(GasPod.Update)), HarmonyPrefix]
-        static bool Update(GasPod __instance)
+        [HarmonyPatch(typeof(GasPod), nameof(GasPod.Update)), HarmonyPrefix]
+        static bool GasPod_Update(GasPod __instance)
         {
             if (!Main.Config.FrozenGasPodsInStasis)
             {
@@ -28,7 +24,7 @@ namespace Ungeziefi.Fixes
             }
 
             var rb = __instance.GetComponent<Rigidbody>();
-            if (rb && FrozenGasPodsInStasis_StasisSphere.stasisTargets.Contains(rb))
+            if (rb && stasisTargets.Contains(rb))
             {
                 // Main.Logger.LogInfo("Gas Pod is in stasis.");
                 return false;

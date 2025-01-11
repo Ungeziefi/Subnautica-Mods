@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(CyclopsHelmHUDManager))]
+    [HarmonyPatch]
     public class CyclopsPowerPercentageClamp
     {
-        [HarmonyPatch(nameof(CyclopsHelmHUDManager.Update)), HarmonyPostfix]
-        static void Postfix(CyclopsHelmHUDManager __instance)
+        [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPostfix]
+        static void CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
         {
             if (Main.Config.CyclopsPowerPercentageClamp)
             {

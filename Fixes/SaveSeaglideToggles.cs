@@ -4,30 +4,19 @@ using UWE;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(Seaglide))]
+    [HarmonyPatch]
     public class SaveSeaglideToggles
     {
-        [HarmonyPatch(nameof(Seaglide.OnHolster)), HarmonyPostfix]
-        public static void OnHolsterPostfix(Seaglide __instance)
-        {
-            if (!Main.Config.SaveSeaglideToggles)
-            {
-                return;
-            }
-
-            SaveSeaglideState(__instance);
-        }
-
         private static void SaveSeaglideState(Seaglide seaglide)
         {
-            // Save map state (inverted)
+            // Save map off
             var seaglideMap = seaglide.GetComponent<VehicleInterface_MapController>();
             if (seaglideMap?.miniWorld != null)
             {
                 Main.SaveData.SeaglideMapOff = !seaglideMap.miniWorld.active;
             }
 
-            // Save light state (true when on)
+            // Save light on
             if (seaglide.toggleLights != null)
             {
                 Main.SaveData.SeaglideLightOn = seaglide.toggleLights.lightsActive;
@@ -41,13 +30,13 @@ namespace Ungeziefi.Fixes
                 yield break;
             }
 
-            // Wait for toggleLights to be initialized
+            // Wait for toggleLights initialization
             while (seaglide.toggleLights == null)
             {
                 yield return null;
             }
 
-            // Apply saved light state
+            // Load light state
             seaglide.toggleLights.SetLightsActive(Main.SaveData.SeaglideLightOn);
 
             // Get map component
@@ -57,19 +46,31 @@ namespace Ungeziefi.Fixes
                 yield break;
             }
 
-            // Wait for miniWorld to be initialized
+            // Wait for miniWorld initialization
             while (map.miniWorld == null)
             {
                 yield return null;
             }
 
-            // Apply saved map state (inverted)
+            // Load map state
             map.miniWorld.active = !Main.SaveData.SeaglideMapOff;
         }
 
+        // Save states
+        [HarmonyPatch(typeof(Seaglide), nameof(Seaglide.OnHolster)), HarmonyPostfix]
+        public static void Seaglide_OnHolster(Seaglide __instance)
+        {
+            if (!Main.Config.SaveSeaglideToggles)
+            {
+                return;
+            }
+
+            SaveSeaglideState(__instance);
+        }
+
         // Load states
-        [HarmonyPatch(nameof(Seaglide.Start)), HarmonyPostfix]
-        public static void Start(Seaglide __instance)
+        [HarmonyPatch(typeof(Seaglide), nameof(Seaglide.Start)), HarmonyPostfix]
+        public static void Seaglide_Start(Seaglide __instance)
         {
             if (!Main.Config.SaveSeaglideToggles)
             {

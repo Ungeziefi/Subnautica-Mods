@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(SubControl))]
+    [HarmonyPatch]
     public class SmoothCyclopsWheel
     {
-        [HarmonyPatch(nameof(SubControl.UpdateAnimation)), HarmonyPrefix]
-        public static bool UpdateAnimation(SubControl __instance)
+        [HarmonyPatch(typeof(SubControl), nameof(SubControl.UpdateAnimation)), HarmonyPrefix]
+        public static bool SubControl_UpdateAnimation(SubControl __instance)
         {
             if (!Main.Config.SmoothCyclopsWheel)
             {
@@ -17,11 +17,11 @@ namespace Ungeziefi.Fixes
             float steeringWheelYaw = 0f;
             float steeringWheelPitch = 0f;
 
-            // Get the throttle values for yaw and pitch
+            // Get yaw and pitch throttle values
             float throttleX = __instance.throttle.x;
             float throttleY = __instance.throttle.y;
 
-            // Handle yaw (left/right steering)
+            // Handle yaw
             if (Mathf.Abs(throttleX) > 0.0001)
             {
                 ShipSide useShipSide;
@@ -44,17 +44,17 @@ namespace Ungeziefi.Fixes
                 }
             }
 
-            // Handle pitch (up/down steering)
+            // Handle pitch
             if (Mathf.Abs(throttleY) > 0.0001)
             {
                 steeringWheelPitch = throttleY;
             }
 
-            // Smoothly interpolate the steering wheel's yaw and pitch
+            // Interpolate yaw and pitch
             __instance.steeringWheelYaw = Mathf.Lerp(__instance.steeringWheelYaw, steeringWheelYaw, Time.deltaTime * __instance.steeringReponsiveness);
             __instance.steeringWheelPitch = Mathf.Lerp(__instance.steeringWheelPitch, steeringWheelPitch, Time.deltaTime * __instance.steeringReponsiveness);
 
-            // Update the animator with the new yaw and pitch values
+            // Update animator
             if (__instance.mainAnimator)
             {
                 __instance.mainAnimator.SetFloat("view_yaw", __instance.steeringWheelYaw * 100f);

@@ -2,11 +2,11 @@
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(CyclopsDestructionEvent))]
+    [HarmonyPatch]
     public class DeadlyCyclopsExplosion
     {
-        [HarmonyPatch(nameof(CyclopsDestructionEvent.DestroyCyclops)), HarmonyPrefix]
-        public static void DestroyCyclops(CyclopsDestructionEvent __instance)
+        [HarmonyPatch(typeof(CyclopsDestructionEvent), nameof(CyclopsDestructionEvent.DestroyCyclops)), HarmonyPrefix]
+        public static void CyclopsDestructionEvent_DestroyCyclops(CyclopsDestructionEvent __instance)
         {
             if (Main.Config.DeadlyCyclopsExplosion)
             {

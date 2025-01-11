@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Ungeziefi.Rotatable_Ladders
 {
-    [HarmonyPatch(typeof(BaseLadder))]
+    [HarmonyPatch]
     public class RotatableLadders
     {
         public static string GetLadderCoords(Transform transform)
@@ -16,8 +16,8 @@ namespace Ungeziefi.Rotatable_Ladders
             return $"{pos.x},{pos.y},{pos.z}";
         }
 
-        [HarmonyPatch(nameof(BaseLadder.OnHandHover)), HarmonyPostfix]
-        public static void OnHandHover(BaseLadder __instance, GUIHand hand)
+        [HarmonyPatch(typeof(BaseLadder), nameof(BaseLadder.OnHandHover)), HarmonyPostfix]
+        public static void BaseLadder_OnHandHover(BaseLadder __instance, GUIHand hand)
         {
             if (!Main.Config.EnableFeature || __instance == null || !__instance.enabled)
             {
@@ -44,11 +44,11 @@ namespace Ungeziefi.Rotatable_Ladders
 
                 string coords = GetLadderCoords(parent);
 
-                // Calculate and apply new rotation
+                // Calculate and apply rotation
                 float newYRotation = (parent.localRotation.eulerAngles.y + 90f) % 360f;
                 parent.localRotation = Quaternion.Euler(0f, newYRotation, 0f);
 
-                // Don't save the default rotation
+                // Clear on default rotation
                 if (newYRotation == 0f)
                 {
                     if (Main.SaveData.RotatedLadders.ContainsKey(coords))
@@ -58,7 +58,7 @@ namespace Ungeziefi.Rotatable_Ladders
                     }
                 }
 
-                // Save the new rotation
+                // Save new rotation
                 else
                 {
                     Main.SaveData.RotatedLadders[coords] = newYRotation;
@@ -66,8 +66,8 @@ namespace Ungeziefi.Rotatable_Ladders
             }
         }
 
-        [HarmonyPatch(nameof(BaseLadder.Start)), HarmonyPostfix]
-        public static void Start(BaseLadder __instance)
+        [HarmonyPatch(typeof(BaseLadder), nameof(BaseLadder.Start)), HarmonyPostfix]
+        public static void BaseLadder_Start(BaseLadder __instance)
         {
             Transform parent = __instance.transform.parent;
 
@@ -78,6 +78,7 @@ namespace Ungeziefi.Rotatable_Ladders
 
             string coords = GetLadderCoords(parent);
 
+            // Load saved rotation
             if (Main.SaveData.RotatedLadders.TryGetValue(coords, out float savedRotation))
             {
                 parent.localRotation = Quaternion.Euler(0f, savedRotation, 0f);

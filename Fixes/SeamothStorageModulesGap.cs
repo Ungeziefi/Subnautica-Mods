@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(SeaMoth))]
+    [HarmonyPatch]
     public class SeamothStorageModulesGap
     {
-        // Allow toggling the fix off without restarting the game
         private static readonly Vector3 originalLeftPosition = new Vector3(0f, 0f, 0f);
         private static readonly Vector3 originalRightPosition = new Vector3(0f, 0f, 0f);
         private static readonly Vector3 originalLeftEulerAngles = new Vector3(0f, 0f, 0f);
         private static readonly Vector3 originalRightEulerAngles = new Vector3(0f, 0f, 0f);
 
+        // Allow in-game toggling
         private static void ResetStoragePosition(SeaMoth seaMoth, int slotID)
         {
             string storagePath = slotID == 0 ? "Model/Submersible_SeaMoth_extras/Submersible_seaMoth_geo/seaMoth_storage_01_L_geo" :
@@ -28,8 +28,8 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(SeaMoth.OnUpgradeModuleChange)), HarmonyPostfix]
-        static void OnUpgradeModuleChange(SeaMoth __instance, int slotID, TechType techType, bool added)
+        [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.OnUpgradeModuleChange)), HarmonyPostfix]
+        static void SeaMoth_OnUpgradeModuleChange(SeaMoth __instance, int slotID, TechType techType, bool added)
         {
             if (!Main.Config.SeamothStorageModulesGap)
             {
@@ -42,7 +42,7 @@ namespace Ungeziefi.Fixes
                 return;
             }
 
-            // 0 is the left module, 1 is the right module
+            // 0 = left, 1 = right
             string storagePath = slotID == 0 ? "Model/Submersible_SeaMoth_extras/Submersible_seaMoth_geo/seaMoth_storage_01_L_geo" :
                                                "Model/Submersible_SeaMoth_extras/Submersible_seaMoth_geo/seaMoth_storage_01_R_geo";
 

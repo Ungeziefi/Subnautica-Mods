@@ -4,11 +4,11 @@ using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(VehicleDockingBay))]
+    [HarmonyPatch]
     public class DockingBaySoundChecks
     {
-        [HarmonyPatch(nameof(VehicleDockingBay.LaunchbayAreaEnter)), HarmonyTranspiler]
-        public static IEnumerable<CodeInstruction> LaunchbayAreaEnter(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        [HarmonyPatch(typeof(VehicleDockingBay), nameof(VehicleDockingBay.LaunchbayAreaEnter)), HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> VehicleDockingBay_LaunchbayAreaEnter(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             if (!Main.Config.DockingBaySoundChecks)
             {
@@ -22,19 +22,18 @@ namespace Ungeziefi.Fixes
                 new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(VehicleDockingBay), "bayDoorsOpenSFX")),
                 new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(FMOD_CustomEmitter), nameof(FMOD_CustomEmitter.Play))));
 
-            // Create a label to skip Play
+            // Label to skip Play
             var skipLabel = generator.DefineLabel();
             var skipInstruction = matcher.InstructionAt(3);
             skipInstruction.labels.Add(skipLabel);
 
-            // Insert check before playing sound
+            // Insert check
             matcher.Insert(
-                // Check if the bay is occupied
                 new CodeInstruction(OpCodes.Ldarg_0),                 // Load "this"
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(VehicleDockingBay), nameof(VehicleDockingBay.GetDockedVehicle))),
                 new CodeInstruction(OpCodes.Ldnull),                  // Load null for comparison
                 new CodeInstruction(OpCodes.Ceq),                     // Compare if GetDockedVehicle() == null
-                new CodeInstruction(OpCodes.Brfalse_S, skipLabel)     // Skip playing sound if there is a vehicle
+                new CodeInstruction(OpCodes.Brfalse_S, skipLabel)     // Skip if occupied
             );
 
             //foreach (var item in matcher.InstructionEnumeration())
@@ -45,8 +44,8 @@ namespace Ungeziefi.Fixes
             return matcher.InstructionEnumeration();
         }
 
-        [HarmonyPatch(nameof(VehicleDockingBay.LaunchbayAreaExit)), HarmonyTranspiler]
-        public static IEnumerable<CodeInstruction> LaunchbayAreaExit(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        [HarmonyPatch(typeof(VehicleDockingBay), nameof(VehicleDockingBay.LaunchbayAreaExit)), HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> VehicleDockingBay_LaunchbayAreaExit(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             if (!Main.Config.DockingBaySoundChecks)
             {
@@ -60,21 +59,20 @@ namespace Ungeziefi.Fixes
                 new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(VehicleDockingBay), "bayDoorsCloseSFX")),
                 new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(FMOD_CustomEmitter), nameof(FMOD_CustomEmitter.Play))));
 
-            // Create a label to skip Play
+            // Label to skip Play
             var skipLabel = generator.DefineLabel();
             var skipInstruction = matcher.InstructionAt(3);
             skipInstruction.labels.Add(skipLabel);
 
-            // Insert checks before playing sound
+            // Insert checks
             matcher.Insert(
-                // Check if the bay is occupied
                 new CodeInstruction(OpCodes.Ldarg_0),                 // Load "this"
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(VehicleDockingBay), nameof(VehicleDockingBay.GetDockedVehicle))),
                 new CodeInstruction(OpCodes.Ldnull),                  // Load null for comparison
                 new CodeInstruction(OpCodes.Ceq),                     // Compare if GetDockedVehicle() == null
-                new CodeInstruction(OpCodes.Brfalse_S, skipLabel),    // Skip if there is a vehicle
+                new CodeInstruction(OpCodes.Brfalse_S, skipLabel),    // Skip if occupied
 
-                // Probably redundant, but check if the bay is powered
+                // Probably redundant
                 new CodeInstruction(OpCodes.Ldarg_0),                 // Load "this"
                 new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(VehicleDockingBay), nameof(VehicleDockingBay.IsPowered))),
                 new CodeInstruction(OpCodes.Brfalse_S, skipLabel)     // Skip if not powered

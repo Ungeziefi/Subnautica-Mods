@@ -30,8 +30,8 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Beacon faces the player", Tooltip = "Makes the beacon face the player when deployed.")]
         public bool BeaconFacePlayer = true;
 
-        [Toggle(Label = "No redundant climb prompt", Tooltip = "Removes the prompt to climb the Mobile Vehicle Bay while already standing on it.")]
-        public bool NoRedundantMobileVehicleBayClimbing = true;
+        [Toggle(Label = "No MVB climb on top", Tooltip = "Removes the prompt to climb the Mobile Vehicle Bay while already standing on it.")]
+        public bool NoMVBClimbOnTop = true;
 
         [Toggle(Label = "Deadly Cyclops explosion", Tooltip = "Stops the player from respawning inside the Cyclops after its destruction.")]
         public bool DeadlyCyclopsExplosion = true;
@@ -87,7 +87,7 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Cyclops HUD needs power")]
         public bool CyclopsHUDNeedsPower = true;
 
-        [Toggle(Label = "No invisible Cyclops buttons", Tooltip = "Disables the Cyclops helm buttons when the power is off, preventing them from being clickable while hidden.")]
+        [Toggle(Label = "No invisible Cyclops buttons", Tooltip = "Disables the Cyclops helm buttons' collision when the HUD is off, making them not clickable.")]
         public bool NoInvisibleCyclopsButtons = true;
 
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
@@ -96,10 +96,14 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Enable feature", Tooltip = "Stops creatures from returning to the origin coordinates (0, 0, 0) when fleeing.")]
         public bool NFTODEnableFeature = true;
 
-        [Slider(Label = "Damage to distance ratio", Tooltip = "How far creatures flee per point of damage taken. Higher values make creatures flee farther when hit.", DefaultValue = 0.033f, Min = 0.01f, Max = 0.1f, Step = 0.001f, Format = "{0:0.000}")]
+        [Slider(Label = "Damage to distance ratio",
+            Tooltip = "How far creatures flee per point of damage taken. Higher values make creatures flee farther when hit.",
+            DefaultValue = 0.033f, Min = 0.01f, Max = 0.1f, Step = 0.001f, Format = "{0:0.000}")]
         public float DamageToDistanceRatio = 0.033f;
 
-        [Slider(Label = "Maximum damage based distance", Tooltip = "The maximum extra distance creatures will flee regardless of damage taken. Prevents fleeing too far away.", DefaultValue = 50f, Min = 10f, Max = 100f, Step = 5f, Format = "{0:0}")]
+        [Slider(Label = "Maximum damage based distance",
+            Tooltip = "The maximum extra distance creatures will flee regardless of damage taken. Prevents fleeing too far away.",
+            DefaultValue = 50f, Min = 10f, Max = 100f, Step = 5f)]
         public float MaxDamageBasedDistance = 50f;
 
         [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]

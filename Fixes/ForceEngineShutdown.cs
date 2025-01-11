@@ -3,7 +3,7 @@ using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(CyclopsEngineChangeState))]
+    [HarmonyPatch]
     public class ForceEngineShutdown
     {
         private static bool IsPowerOff(CyclopsEngineChangeState instance)
@@ -21,25 +21,23 @@ namespace Ungeziefi.Fixes
             }
         }
 
-        [HarmonyPatch(nameof(CyclopsEngineChangeState.Update)), HarmonyPostfix]
-        public static void Update(CyclopsEngineChangeState __instance)
+        [HarmonyPatch(typeof(CyclopsEngineChangeState), nameof(CyclopsEngineChangeState.Update)), HarmonyPostfix]
+        public static void CyclopsEngineChangeState_Update(CyclopsEngineChangeState __instance)
         {
-            // Guard statement to check if the feature is enabled
             if (!Main.Config.ForceEngineShutdown)
             {
                 return;
             }
 
-            // Check if the power is off
+            // Shut down engine if power is off
             if (IsPowerOff(__instance))
             {
-                // Shut down the engine if the power is off
                 __instance.motorMode.engineOn = false;
                 SetInvalidButton(__instance, true);
             }
+            // Valid button if power is on
             else
             {
-                // Reset the invalidButton field if the power is on
                 SetInvalidButton(__instance, false);
             }
         }

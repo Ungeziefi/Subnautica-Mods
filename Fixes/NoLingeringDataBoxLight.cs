@@ -4,21 +4,21 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(GenericHandTarget))]
+    [HarmonyPatch]
     public class NoUsedDataBoxLight
     {
-        // Keeps track of all databox lights in the game
+        // Track all Data Box lights
         public static HashSet<GameObject> databoxLights = new HashSet<GameObject>();
 
-        [HarmonyPatch(nameof(GenericHandTarget.OnHandClick))]
-        public static void Postfix(GenericHandTarget __instance)
+        [HarmonyPatch(typeof(GenericHandTarget), nameof(GenericHandTarget.OnHandClick)), HarmonyPostfix]
+        public static void GenericHandTarget_OnHandClick(GenericHandTarget __instance)
         {
             if (!Main.Config.NoUsedDataBoxLight || !__instance.GetComponent<BlueprintHandTarget>())
             {
                 return;
             }
 
-            // Find the closest databox light within 5 units of the player
+            // Closest to player within 5 units
             GameObject closest = null;
             float shortestDist = 5f;
 
@@ -30,39 +30,32 @@ namespace Ungeziefi.Fixes
                     continue;
                 }
 
-                // Straight-line distance between the light and the player
+                // Distance between light and player
                 float distance = Vector3.Distance(light.transform.position, Player.main.transform.position);
 
-                // If this light is closer than any we've found so far (or closer than 5 units)
-                if (distance < shortestDist)  // shortestDist starts at 5f
+                // Update closest light
+                if (distance < shortestDist)
                 {
-                    // Remember this as the new shortest distance
                     shortestDist = distance;
-                    // Remember this as the closest light
                     closest = light;
                 }
             }
 
-            // Disable the closest light and remove it from tracking
+            // Disable and remove from tracking
             if (closest != null)
             {
                 closest.SetActive(false);
                 databoxLights.Remove(closest);
             }
         }
-    }
 
-    [HarmonyPatch(typeof(VFXVolumetricLight))]
-    public class NoUsedDataBoxLight_VFXVolumetricLight
-    {
-        // When a volumetric light is created, check if it's a Data Box light
-        [HarmonyPatch(nameof(VFXVolumetricLight.Awake)), HarmonyPostfix]
-        public static void Awake(VFXVolumetricLight __instance)
+        [HarmonyPatch(typeof(VFXVolumetricLight), nameof(VFXVolumetricLight.Awake)), HarmonyPostfix]
+        public static void VFXVolumetricLight_Awake(VFXVolumetricLight __instance)
         {
-            // Add to the tracking list
+            // Add Data Box lights to tracking
             if (__instance.transform.parent && __instance.transform.parent.name.StartsWith("DataboxLight"))
             {
-                NoUsedDataBoxLight.databoxLights.Add(__instance.transform.parent.gameObject);
+                databoxLights.Add(__instance.transform.parent.gameObject);
             }
         }
     }

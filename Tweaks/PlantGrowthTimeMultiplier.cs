@@ -2,11 +2,11 @@
 
 namespace Ungeziefi.Tweaks
 {
-    [HarmonyPatch(typeof(GrowingPlant))]
+    [HarmonyPatch]
     internal class PlantGrowthTimeMultiplier
     {
-        [HarmonyPatch(nameof(GrowingPlant.GetGrowthDuration)), HarmonyPostfix]
-        public static void GetGrowthDuration(ref float __result)
+        [HarmonyPatch(typeof(GrowingPlant), nameof(GrowingPlant.GetGrowthDuration)), HarmonyPostfix]
+        public static void GrowingPlant_GetGrowthDuration(ref float __result)
         {
             if (Main.Config.PlantGrowthTimeMultiplier == 1 || NoCostConsoleCommand.main.fastGrowCheat)
             {

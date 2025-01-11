@@ -5,11 +5,23 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(ExosuitDrillArm))]
+    [HarmonyPatch]
     public class KeepDrillParticlesOnLoad
     {
-        [HarmonyPatch(nameof(ExosuitDrillArm.OnHit)), HarmonyTranspiler]
-        public static IEnumerable<CodeInstruction> OnHit(IEnumerable<CodeInstruction> instructions)
+        // Particle system is only skipped if null, alive, and if its emission is enabled
+        private static bool CheckParticleSystem(bool existingCondition, ExosuitDrillArm instance)
+        {
+            var fxPS = instance.fxControl.emitters[0].fxPS;
+            if (fxPS == null)
+            {
+                return true; // Skip Play if fxPS is null
+            }
+
+            return fxPS.IsAlive() && fxPS.emission.enabled;
+        }
+
+        [HarmonyPatch(typeof(ExosuitDrillArm), nameof(ExosuitDrillArm.OnHit)), HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> ExosuitDrillArm_OnHit(IEnumerable<CodeInstruction> instructions)
         {
             var matcher = new CodeMatcher(instructions);
 
@@ -24,7 +36,7 @@ namespace Ungeziefi.Fixes
                 new CodeMatch(OpCodes.Brtrue)
             );
 
-            // Move back to before the brtrue and insert the new check
+            // Move back to before Brtrue and insert check
             matcher.Insert(
                 new CodeInstruction(OpCodes.Ldarg_0),  // Load ExosuitDrillArm instance (this)
                 Transpilers.EmitDelegate(CheckParticleSystem)
@@ -36,18 +48,6 @@ namespace Ungeziefi.Fixes
             //}
 
             return matcher.InstructionEnumeration();
-        }
-
-        // Ensures that the particle system is only skipped if it is null, alive, and its emission is enabled
-        private static bool CheckParticleSystem(bool existingCondition, ExosuitDrillArm instance)
-        {
-            var fxPS = instance.fxControl.emitters[0].fxPS;
-            if (fxPS == null)
-            {
-                return true; // Skip Play if fxPS is null
-            }
-
-            return fxPS.IsAlive() && fxPS.emission.enabled;
         }
     }
 }

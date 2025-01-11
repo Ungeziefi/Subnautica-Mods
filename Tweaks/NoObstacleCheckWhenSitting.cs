@@ -2,11 +2,11 @@
 
 namespace Ungeziefi.Tweaks
 {
-    [HarmonyPatch(typeof(Bench))]
+    [HarmonyPatch]
     public class NoObstacleCheckWhenSitting
     {
-        [HarmonyPatch(nameof(Bench.CanSit)), HarmonyPostfix]
-        public static void CanSit(ref bool __result)
+        [HarmonyPatch(typeof(Bench), nameof(Bench.CanSit)), HarmonyPostfix]
+        public static void Bench_CanSit(ref bool __result)
         {
             if (Main.Config.NoObstacleCheckWhenSitting)
             {

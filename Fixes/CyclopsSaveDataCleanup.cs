@@ -2,12 +2,11 @@
 
 namespace Ungeziefi.Fixes
 {
-    // Remove saved data when a Cyclops is destroyed
-    [HarmonyPatch(typeof(SubRoot))]
+    [HarmonyPatch]
     public class CyclopsSaveDataCleanup
     {
-        [HarmonyPatch(nameof(SubRoot.OnKill)), HarmonyPrefix]
-        public static void OnKill(SubRoot __instance)
+        [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.OnKill)), HarmonyPrefix]
+        public static void SubRoot_OnKill(SubRoot __instance)
         {
             var identifier = __instance.gameObject.GetComponent<PrefabIdentifier>();
             if (identifier == null)

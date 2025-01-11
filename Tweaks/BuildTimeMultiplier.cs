@@ -2,11 +2,11 @@
 
 namespace Ungeziefi.Tweaks
 {
-    [HarmonyPatch(typeof(Constructable))]
+    [HarmonyPatch]
     public class BuildTimeMultiplier
     {
-        [HarmonyPatch(nameof(Constructable.GetConstructInterval)), HarmonyPostfix]
-        public static void GetConstructInterval(ref float __result)
+        [HarmonyPatch(typeof(Constructable), nameof(Constructable.GetConstructInterval)), HarmonyPostfix]
+        public static void Constructable_GetConstructInterval(ref float __result)
         {
             if (Main.Config.BuildTimeMultiplier == 1 || NoCostConsoleCommand.main.fastBuildCheat || !GameModeUtils.RequiresIngredients())
             {

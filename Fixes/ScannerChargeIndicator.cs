@@ -4,11 +4,11 @@ using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(ScannerTool))]
+    [HarmonyPatch]
     public class ScannerChargeIndicator
     {
-        [HarmonyPatch(nameof(ScannerTool.Update)), HarmonyTranspiler]
-        public static IEnumerable<CodeInstruction> Update(IEnumerable<CodeInstruction> instructions)
+        [HarmonyPatch(typeof(ScannerTool), nameof(ScannerTool.Update)), HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> ScannerTool_Update(IEnumerable<CodeInstruction> instructions)
         {
             if (!Main.Config.ScannerChargeIndicator)
             {
@@ -17,15 +17,13 @@ namespace Ungeziefi.Fixes
 
             var matcher = new CodeMatcher(instructions);
 
-            // Find the first instance of SetTextRaw and move to the end of the match
+            // Find the 2nd SetTextRaw
             matcher.MatchForward(true,
                 new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(HandReticle), "SetTextRaw")));
-
-            // Find the second instance of SetTextRaw and move to the start of the match
             matcher.MatchForward(false,
                 new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(HandReticle), "SetTextRaw")));
 
-            // Remove the instructions for the second SetTextRaw call (callvirt, ldsfld, ldc.i4.3, and ldsfld)
+            // Remove callvirt, ldsfld, ldc.i4.3, and ldsfld
             matcher.RemoveInstructions(4);
 
             return matcher.InstructionEnumeration();

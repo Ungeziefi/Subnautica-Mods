@@ -4,11 +4,11 @@ using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(ExosuitDrillArm))]
+    [HarmonyPatch]
     public class DrillSoundWithNoTarget
     {
-        [HarmonyPatch(nameof(ExosuitDrillArm.StopEffects)), HarmonyTranspiler]
-        public static IEnumerable<CodeInstruction> StopEffects(IEnumerable<CodeInstruction> instructions)
+        [HarmonyPatch(typeof(ExosuitDrillArm), nameof(ExosuitDrillArm.StopEffects)), HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> ExosuitDrillArm_StopEffects(IEnumerable<CodeInstruction> instructions)
         {
             if (!Main.Config.DrillSoundWithNoTarget)
             {
@@ -24,7 +24,7 @@ namespace Ungeziefi.Fixes
                 new CodeMatch(OpCodes.Ldc_I4_0),
                 new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(FMOD_CustomEmitter), "Stop")));
 
-            // Replace those 4 instructions with NOPs, can't remove them because there are 2 branches going to ldarg_0 (41)
+            // Replace with NOPs, can't remove because of 2 branches to ldarg_0 (41)
             matcher.SetOpcodeAndAdvance(OpCodes.Nop);
             matcher.SetOpcodeAndAdvance(OpCodes.Nop);
             matcher.SetOpcodeAndAdvance(OpCodes.Nop);
@@ -33,9 +33,20 @@ namespace Ungeziefi.Fixes
             return matcher.InstructionEnumeration();
         }
 
-        // Need to stop the sound manually when the drill is deactivated
-        [HarmonyPatch("IExosuitArm.OnUseUp"), HarmonyPostfix]
-        public static void OnUseUp(ExosuitDrillArm __instance)
+        // Sound now needs to be stopped manually
+        // When deactivated
+        [HarmonyPatch(typeof(ExosuitDrillArm), "IExosuitArm.OnUseUp"), HarmonyPostfix]
+        public static void IExosuitArm_OnUseUp(ExosuitDrillArm __instance)
+        {
+            if (Main.Config.DrillSoundWithNoTarget)
+            {
+                __instance.loop.Stop();
+            }
+        }
+
+        // When reset
+        [HarmonyPatch(typeof(ExosuitDrillArm), "IExosuitArm.ResetArm"), HarmonyPostfix]
+        public static void IExosuitArm_ResetArm(ExosuitDrillArm __instance)
         {
             if (Main.Config.DrillSoundWithNoTarget)
             {

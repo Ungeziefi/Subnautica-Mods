@@ -2,11 +2,11 @@
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(uGUI_EncyclopediaTab))]
+    [HarmonyPatch]
     public class EncyclopediaScrollFix
     {
-        [HarmonyPatch(nameof(uGUI_EncyclopediaTab.DisplayEntry)), HarmonyPostfix]
-        public static void DisplayEntry(uGUI_EncyclopediaTab __instance)
+        [HarmonyPatch(typeof(uGUI_EncyclopediaTab), nameof(uGUI_EncyclopediaTab.DisplayEntry)), HarmonyPostfix]
+        public static void uGUI_EncyclopediaTab_DisplayEntry(uGUI_EncyclopediaTab __instance)
         {
             if (Main.Config.ResetDatabankScroll)
             {

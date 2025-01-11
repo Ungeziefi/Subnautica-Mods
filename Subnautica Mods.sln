@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{ABCE
 		Testing\Knife Attacks Debug.cs = Testing\Knife Attacks Debug.cs
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDA Movement and Bobbing", "PDA Movement and Bobbing\PDA Movement and Bobbing.csproj", "{3D4CE009-DA66-46CA-9D2D-A049FB10CAFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{63621229-EBA6-4308-8B35-BB52D73537C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63621229-EBA6-4308-8B35-BB52D73537C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63621229-EBA6-4308-8B35-BB52D73537C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D4CE009-DA66-46CA-9D2D-A049FB10CAFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D4CE009-DA66-46CA-9D2D-A049FB10CAFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D4CE009-DA66-46CA-9D2D-A049FB10CAFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D4CE009-DA66-46CA-9D2D-A049FB10CAFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

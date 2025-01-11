@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(Beacon))]
+    [HarmonyPatch]
     public class BeaconFacePlayer
     {
-        [HarmonyPatch(nameof(Beacon.Throw)), HarmonyPostfix]
-        public static void Throw(Beacon __instance)
+        [HarmonyPatch(typeof(Beacon), nameof(Beacon.Throw)), HarmonyPostfix]
+        public static void Beacon_Throw(Beacon __instance)
         {
             if (Main.Config.BeaconFacePlayer)
             {

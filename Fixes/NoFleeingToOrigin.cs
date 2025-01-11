@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
-    [HarmonyPatch(typeof(FleeOnDamage))]
+    [HarmonyPatch]
     class NoFleeingToOrigin
     {
-        [HarmonyPatch(nameof(FleeOnDamage.OnTakeDamage)), HarmonyPostfix]
-        public static void OnTakeDamage(FleeOnDamage __instance, DamageInfo damageInfo)
+        [HarmonyPatch(typeof(FleeOnDamage), nameof(FleeOnDamage.OnTakeDamage)), HarmonyPostfix]
+        public static void FleeOnDamage_OnTakeDamage(FleeOnDamage __instance, DamageInfo damageInfo)
         {
             if (!Main.Config.NFTODEnableFeature)
             {
@@ -36,11 +36,6 @@ namespace Ungeziefi.Fixes
             );
             // Main.Logger.LogInfo($"NoFleeingToOrigin: Flee distance calculation - Damage: {damageInfo.damage}, Ratio: {Main.Config.DamageToDistanceRatio}, Result: {damageBasedDistance}");
 
-            // Has issues with zero vectors
-            //Vector3 destination = currentPosition +
-            //    (currentPosition - fleeFromPosition).normalized *
-            //    (__instance.minFleeDistance + damageBasedDistance);
-
             // Fleeing direction
             Vector3 fleeDirection = (currentPosition - fleeFromPosition);
 
@@ -63,15 +58,13 @@ namespace Ungeziefi.Fixes
             // Calculate destination
             Vector3 destination = currentPosition + (fleeDirection * totalFleeDistance);
 
-            // Check if creature has MoveOnSurface component
+            // Land creature check and ocean clamp
             bool isLandCreature = __instance.GetComponent<MoveOnSurface>() != null;
-
-            // The destination for land creatures is the same as the y position, for water creatures it's the ocean level
             float yPosition = isLandCreature
                 ? destination.y
                 : Mathf.Min(destination.y, Ocean.GetOceanLevel());
 
-            // Apply final position with movement type check
+            // Apply final position
             __instance.moveTo = new Vector3(
                 destination.x,
                 yPosition,

@@ -2,11 +2,11 @@
 
 namespace Ungeziefi.Tweaks
 {
-    [HarmonyPatch(typeof(Inventory))]
+    [HarmonyPatch]
     public class InventoryUnderwaterLimitations
     {
-        [HarmonyPatch(nameof(Inventory.GetItemAction)), HarmonyPostfix]
-        public static void GetItemAction(Inventory __instance, ref ItemAction __result, InventoryItem item)
+        [HarmonyPatch(typeof(Inventory), nameof(Inventory.GetItemAction)), HarmonyPostfix]
+        public static void Inventory_GetItemAction(Inventory __instance, ref ItemAction __result, InventoryItem item)
         {
             var pickupable = item.item;
             var tt = pickupable.GetTechType();
