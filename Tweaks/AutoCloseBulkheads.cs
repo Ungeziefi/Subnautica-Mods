@@ -4,13 +4,13 @@ using HarmonyLib;
 namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch]
-    public class AutoCloseBulkheadPatch
+    public class AutoCloseBulkheads
     {
         private static bool wasLeaking = false;
 
         private static void CloseBulkheadDoorsNearLeak(Leakable leakable)
         {
-            // Find bulkhead doors
+            // Find Bulkheads
             SubRoot subRoot = leakable.gameObject.GetComponentInParent<SubRoot>();
             if (subRoot == null) return;
             BulkheadDoor[] doors = subRoot.GetComponentsInChildren<BulkheadDoor>();
@@ -19,7 +19,7 @@ namespace Ungeziefi.Tweaks
             List<VFXSubLeakPoint> leakPoints = leakable.GetLeakPoints();
             if (leakPoints == null || leakPoints.Count == 0) return;
 
-            // Close doors instantly
+            // Close instantly - couldn't figure out a smooth alternative
             foreach (BulkheadDoor door in doors)
             {
                 if (door.opened)
@@ -32,7 +32,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(typeof(Leakable), nameof(Leakable.UpdateLeakPoints)), HarmonyPostfix]
         public static void Leakable_UpdateLeakPoints(Leakable __instance)
         {
-            if (!Main.Config.AutoCloseBulkheadDoors)
+            if (!Main.Config.AutoCloseBulkheads)
             {
                 return;
             }

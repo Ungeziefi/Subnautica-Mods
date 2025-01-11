@@ -52,8 +52,8 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Mobile Vehicle Bay beacon")]
         public bool MobileVehicleBayBeacon = false;
 
-        [Toggle(Label = "Auto-close Bulkhead doors", Tooltip = "Automatically closes bulkhead doors when a leak starts in a base.")]
-        public bool AutoCloseBulkheadDoors = false;
+        [Toggle(Label = "Auto-close Bulkheads", Tooltip = "Automatically closes Bulkheads when a leak starts in a base.")]
+        public bool AutoCloseBulkheads = false;
 
         [Toggle("<color=#f1c353>Critter size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CritterSizeRandomizerDivider;
