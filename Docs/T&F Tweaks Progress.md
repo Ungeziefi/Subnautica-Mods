@@ -8,6 +8,7 @@
 - **Skip epilepsy warning**.
 - **Plant rotation randomizer**.
 - **Mobile Vehicle Bay beacon**.
+- **Cyclops displays needs power**: Disables various screens and systems when the power is off. (Improved by covering all the missing interfaces and light sources. The full list is now: Sonar, compass, decoy screen, storage terminal, upgrade console, lights control panel, edit screen, and light statics.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
