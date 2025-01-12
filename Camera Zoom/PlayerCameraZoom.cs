@@ -15,14 +15,19 @@ namespace Ungeziefi.Camera_Zoom
             uGUI_CameraDrone.main && uGUI_CameraDrone.main.gameObject.activeInHierarchy &&
             uGUI_CameraDrone.main.GetCamera()?.IsReady() == true;
 
+        // Check if player is in Seamoth/PRAWN
+        private static bool IsInVehicle()
+        {
+            var player = Player.main;
+            return player != null && player.mode == Player.Mode.LockedPiloting;
+        }
+
         // Check for menu, piloting, Drone Camera
-        // Toggle Seamoth/PRAWN Suit zoom
         private static bool IsValidState()
         {
             var player = Player.main;
             return player != null && Camera != null && !Cursor.visible &&
-                   player.mode != Player.Mode.Piloting && !IsDroneCameraActive() &&
-                   (player.mode != Player.Mode.LockedPiloting || Main.Config.PCAllowVehicleZoom);
+                   player.mode != Player.Mode.Piloting && !IsDroneCameraActive();
         }
 
         // Prevent PDACameraFOVControl from interfering
@@ -58,7 +63,14 @@ namespace Ungeziefi.Camera_Zoom
         public static void SNCameraRoot_Update()
         {
             var config = Main.Config;
-            if (!config.PCEnableFeature || Camera == null) return;
+            if (Camera == null) return;
+
+            bool isVehicle = IsInVehicle();
+
+            // Check if feature is enabled based on context
+            if ((!config.PCEnableFeature && !isVehicle) ||
+                (!config.VCEnableFeature && isVehicle))
+                return;
 
             // Reset when invalid state
             if (!IsValidState() && (isZoomActive || isTransitioning))
@@ -67,28 +79,36 @@ namespace Ungeziefi.Camera_Zoom
                 return;
             }
 
+            // Get context-specific settings
+            bool instantZoom = isVehicle ? config.VCInstantZoom : config.PCInstantZoom;
+            KeyCode primaryKey = isVehicle ? config.VCZoomKey : config.PCZoomKey;
+            KeyCode secondaryKey = isVehicle ? config.VCSecondaryZoomKey : config.PCSecondaryZoomKey;
+            float targetFOV = isVehicle ? config.VCTargetFOV : config.PCTargetFOV;
+            float zoomSpeed = isVehicle ? config.VCZoomSpeed : config.PCZoomSpeed;
+
             // Input and set original FOV
-            if (IsValidState() && (Input.GetKeyDown(config.PCZoomKey) || Input.GetKeyDown(config.PCSecondaryZoomKey)))
+            if (IsValidState() && (Input.GetKeyDown(primaryKey) || Input.GetKeyDown(secondaryKey)))
             {
                 if (!isZoomActive && !isTransitioning) originalFOV = Camera.fieldOfView;
                 isZoomActive = !isZoomActive;
-                if (config.PCInstantZoom)
-                    SNCameraRoot.main.SyncFieldOfView(isZoomActive ? config.PCTargetFOV : originalFOV);
+                if (instantZoom)
+                    SNCameraRoot.main.SyncFieldOfView(isZoomActive ? targetFOV : originalFOV);
                 else
                     StartTransition(isZoomActive);
             }
 
             // Reset if invalid during transition
-            if (isTransitioning && !config.PCInstantZoom)
+            if (isTransitioning && !instantZoom)
             {
                 if (!IsValidState())
                 {
                     ResetZoomState(originalFOV);
                     return;
                 }
-                UpdateTransition(config);
+                UpdateTransition(targetFOV, zoomSpeed);
             }
         }
+
         private static void ResetZoomState(float targetFOV)
         {
             SNCameraRoot.main.SyncFieldOfView(targetFOV);
@@ -103,20 +123,19 @@ namespace Ungeziefi.Camera_Zoom
             transitionTime = 0f;
         }
 
-        private static void UpdateTransition(Config config)
+        private static void UpdateTransition(float targetFOV, float zoomSpeed)
         {
-            float transitionDuration = 1f / config.PCZoomSpeed;
+            float transitionDuration = 1f / zoomSpeed;
             transitionTime += Time.deltaTime;
             float t = Mathf.Clamp01(transitionTime / transitionDuration);
             t = t * t * (3f - 2f * t); // Smoothstep interpolation
-            float targetFOV = isZoomActive ? config.PCTargetFOV : originalFOV;
-            float newFOV = Mathf.Lerp(transitionStartFOV, targetFOV, t);
+            float newFOV = Mathf.Lerp(transitionStartFOV, isZoomActive ? targetFOV : originalFOV, t);
             SNCameraRoot.main.SyncFieldOfView(newFOV);
             if (t >= 1f)
             {
                 isTransitioning = false;
                 transitionTime = 0f;
-                SNCameraRoot.main.SyncFieldOfView(targetFOV);
+                SNCameraRoot.main.SyncFieldOfView(isZoomActive ? targetFOV : originalFOV);
             }
         }
     }

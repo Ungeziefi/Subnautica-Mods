@@ -18,9 +18,7 @@ namespace Ungeziefi.Custom_Sunbeam_Countdown
             RectTransform rectTransform = __instance.countdownHolder.GetComponent<RectTransform>();
             if (rectTransform != null)
             {
-                // Edge margin
                 float margin = 10f;
-
                 rectTransform.anchorMin = new Vector2(xPos, yPos);
                 rectTransform.anchorMax = new Vector2(xPos, yPos);
                 rectTransform.pivot = new Vector2(xPos, yPos);
