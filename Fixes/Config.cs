@@ -84,11 +84,8 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Reset Databank scroll", Tooltip = "Makes Databank entries always start at the top when opened instead of keeping the previous scroll position.")]
         public bool ResetDatabankScroll = true;
 
-        [Toggle(Label = "Cyclops HUD needs power")]
-        public bool CyclopsHUDNeedsPower = true;
-
-        [Toggle(Label = "No invisible Cyclops buttons", Tooltip = "Disables the Cyclops helm buttons' collision when the HUD is off, making them not clickable.")]
-        public bool NoInvisibleCyclopsButtons = true;
+        [Toggle(Label = "Cyclops helm HUD fixes", Tooltip = "Turns off the helm HUD when the power is off and prevents its buttons from being clickable while invisible.")]
+        public bool CyclopsHelmHUDFixes = true;
 
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;

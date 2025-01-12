@@ -9,7 +9,7 @@ Built with [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Temp
 ---
 
 ### Requirements
-- [BepInEx](https://www.nexusmods.com/subnautica/mods/1108)
+- [Tobey's BepInEx Pack](https://www.nexusmods.com/subnautica/mods/1108)
 - [Nautilus](https://www.nexusmods.com/subnautica/mods/1262)
 
 ---

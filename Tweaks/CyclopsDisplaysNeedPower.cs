@@ -1,10 +1,10 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Fixes
+namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch]
-    public class CyclopsHUDNeedsPower
+    public class CyclopsDisplaysNeedPower
     {
         public static void UpdateDisplayComponents(SubRoot cyclops, bool isPowered)
         {
@@ -67,7 +67,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPostfix]
         public static void CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
         {
-            if (!Main.Config.CyclopsHUDNeedsPower || !__instance.LOD.IsFull())
+            if (!Main.Config.CyclopsDisplaysNeedPower || !__instance.LOD.IsFull())
             {
                 return;
             }
@@ -75,6 +75,7 @@ namespace Ungeziefi.Fixes
             var powerRelay = __instance.GetComponentInParent<PowerRelay>();
             bool isPowered = powerRelay != null && powerRelay.IsPowered();
 
+            // Disable components above when power is off
             UpdateDisplayComponents(__instance.subRoot, isPowered);
         }
     }

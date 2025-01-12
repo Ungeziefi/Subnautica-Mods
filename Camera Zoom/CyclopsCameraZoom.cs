@@ -14,8 +14,9 @@ namespace Ungeziefi.Camera_Zoom
         private static float previousFOV;
         private static void ResetAndDisable(bool disable)
         {
-            if (Camera == null)
+            if (Camera == null || SNCameraRoot.main == null)
             {
+                isCameraActive = false;
                 return;
             }
 
@@ -34,7 +35,7 @@ namespace Ungeziefi.Camera_Zoom
             }
         }
 
-        // Save FOV when entering camera mode
+        // Save FOV when entering camera
         [HarmonyPatch(typeof(CyclopsExternalCamsButton), nameof(CyclopsExternalCamsButton.CameraButtonActivated)), HarmonyPrefix]
         public static void CyclopsExternalCamsButton_CameraButtonActivated(CyclopsExternalCamsButton __instance)
         {
@@ -65,8 +66,15 @@ namespace Ungeziefi.Camera_Zoom
         [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.Update)), HarmonyPostfix]
         public static void uGUI_CameraCyclops_Update()
         {
-            bool isInMenu = Cursor.visible;
-            if (!Main.Config.CCEnableFeature || !isCameraActive || Camera == null || isInMenu)
+            // Check for return to menu
+            if (SNCameraRoot.main == null || Camera == null)
+            {
+                isCameraActive = false; // Reset the active state
+                return;
+            }
+
+            // Zoom processing check
+            if (!Main.Config.CCEnableFeature || !isCameraActive || Cursor.visible)
             {
                 return;
             }
@@ -92,7 +100,7 @@ namespace Ungeziefi.Camera_Zoom
                     maxFOV
                 );
 
-                if (newFOV != previousFOV)
+                if (newFOV != previousFOV && SNCameraRoot.main != null)
                 {
                     MiscSettings.fieldOfView = newFOV;
                     SNCameraRoot.main.SyncFieldOfView(newFOV);

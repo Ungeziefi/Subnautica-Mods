@@ -55,6 +55,12 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Auto-close Bulkheads", Tooltip = "Automatically closes Bulkheads when a leak starts in a base.")]
         public bool AutoCloseBulkheads = false;
 
+        [Toggle(Label = "Escape closes PDA")]
+        public bool EscapeClosesPDA = false;
+
+        [Toggle(Label = "Cyclops displays needs power", Tooltip = "Disables various screens and systems when the power is off.")]
+        public bool CyclopsDisplaysNeedPower = false;
+
         [Toggle("<color=#f1c353>Critter size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CritterSizeRandomizerDivider;
 

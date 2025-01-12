@@ -37,22 +37,19 @@ namespace Ungeziefi.Camera_Zoom
         [Toggle(Label = "Instant zoom")]
         public bool PCInstantZoom = false;
 
-        [Toggle(Label = "Allow Cyclops zoom", Tooltip = "Allows zooming while piloting the Cyclops.")]
-        public bool PCAllowCyclopsZoom = true;
-
         [Toggle(Label = "Allow vehicle zoom", Tooltip = "Allows zooming while piloting the Seamoth or PRAWN Suit.")]
-        public bool PCAllowVehicleZoom = true;
+        public bool PCAllowVehicleZoom = false;
 
-        [Keybind(Label = "Zoom key", Tooltip = "Assigned to the scroll wheel click by default.")]
+        [Keybind(Label = "Zoom key", Tooltip = "Scroll wheel click by default.")]
         public KeyCode PCZoomKey = KeyCode.Mouse2;
 
-        [Keybind(Label = "Secondary zoom key", Tooltip = "Assigned to the left thumb stick click by default.")]
+        [Keybind(Label = "Secondary zoom key", Tooltip = "Controller left thumb stick click by default.")]
         public KeyCode PCSecondaryZoomKey = KeyCode.JoystickButton8;
 
-        [Slider(Label = "Target FOV", Tooltip = "Going too low will cause clipping with the mask.", DefaultValue = 30f, Min = 10f, Max = 40f, Step = 1)]
-        public float PCTargetFOV = 30f;
+        [Slider(Label = "Target FOV", DefaultValue = 20f, Min = 10f, Max = 40f, Step = 1)]
+        public float PCTargetFOV = 20f;
 
-        [Slider(Label = "Zoom speed", DefaultValue = 5f, Min = 1f, Max = 10f, Step = 1)]
-        public float PCZoomSpeed = 5f;
+        [Slider(Label = "Zoom speed", DefaultValue = 4f, Min = 1f, Max = 10f, Step = 1)]
+        public float PCZoomSpeed = 4f;
     }
 }
