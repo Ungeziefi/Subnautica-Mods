@@ -18,6 +18,19 @@ namespace Ungeziefi.Fixes
             "EngineOff_Button"
         };
 
+        private static void UpdateHUDElements(Transform hudTransform, bool isActive)
+        {
+            // Update UI elements in children
+            foreach (var element in hudTransform.GetComponentsInChildren<Image>(true))
+            {
+                // Only process buttons
+                if (element.GetComponent<Button>() || System.Array.Exists(HelmButtonNames, name => name == element.name))
+                {
+                    element.raycastTarget = isActive;
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPrefix]
         public static bool CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
         {
@@ -38,19 +51,6 @@ namespace Ungeziefi.Fixes
 
             // Only update if powered
             return isPowered;
-        }
-
-        private static void UpdateHUDElements(Transform hudTransform, bool isActive)
-        {
-            // Update UI elements in children
-            foreach (var element in hudTransform.GetComponentsInChildren<Image>(true))
-            {
-                // Only process buttons
-                if (element.GetComponent<Button>() || System.Array.Exists(HelmButtonNames, name => name == element.name))
-                {
-                    element.raycastTarget = isActive;
-                }
-            }
         }
     }
 }

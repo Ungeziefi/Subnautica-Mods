@@ -20,8 +20,8 @@
 - **Keep drill particles on load**: Fixes the missing drilling particles when drilling directly after loading and while the drill was already pointed at the deposit. (Better compatibility by not using bool Prefix.)
 - **No used Data Box light**. (Improved by picking the closest light instead of the first light it finds within range.)
 - **No Seamoth drip particles**.
-- **No used terminal prompt**: Data terminals don't show the download prompt after downloading. (Better compatibility by not using bool Prefix.)
-- **No fleeing to origin**: Makes fleeing use the direction vector by adding it to the creature's current position, with configurable damage/distance ratio and ceiling (which fixes excessive fleeing distances).
+- **No used terminal prompt**: Data terminals don't show the download prompt after downloading.
+- **No fleeing to origin**: Makes fleeing use the direction vector by adding it to the creature's current position. (Improved by adding configurable damage/distance ratio and ceiling, which fixes excessive fleeing distances.)
   - To be more specific, the old behaviour was `destination = WhereIAm - WhereDamageCameFrom` and the new one is `destination = WhereIAm + normalized(WhereIAm - WhereDamageCameFrom) * fleeDistance`. Credits to [Mikjaw](https://next.nexusmods.com/profile/Mikjaw) for the pointer on why this happens.
 - **Sulfur Plant rotation**: Fixes the rotation of 2 Sulfur Plants (`280 -40 -195` and `272 -41 -199`).
 - **Reset Databank scroll**: Makes Databank entries always start at the top when opened instead of keeping the previous scroll position.
@@ -42,7 +42,6 @@
 - **Destructable Drooping Stingers**: Allows destroying Drooping Stingers with a knife.
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
 - **Add missing PRAWN sounds**: Adds collision sounds to the PRAWN Suit.
-- **No doubled knife particle**: Removes the 2nd particle from knife attacks on creatures.
 - **Dynamic Creepvine light**: Updates the Creepvine seed light according to the amount of remaining seeds.
 - **Add missing cannon items**: Allows moving the Sulfur Plant, Brain Coral, Planter, Tiger Plant, Lantern Fruit, and Bulbo Tree with the propulsion or repulsion cannon.
 - **Restore health after poison**: Allows health to be restored after reloading the game while poison was active.
@@ -61,6 +60,7 @@
 - **No dead fish shuffling**: Dead fish in your inventory now stay in the same position on reload.
 - "The coffee vending machine now spawns coffee properly". (Possibly fixed with Living Large.)
 - "After reloading, the first-person model is used for waterproof lockers that are not in the inventory."
+- **No doubled knife particle**: Removes the 2nd particle from knife attacks on creatures. (I logged all spawned particles and couldn't find a 2nd one.)
 #### Vanilla feature
 - **AC eggs cleanup**: Eggs in your alien containment (AC) now disappear when they hatch.
 - **Sink undeployed MVB**.
