@@ -19,10 +19,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(StarshipDoor), nameof(StarshipDoor.OnHandHover)), HarmonyPrefix]
         public static bool StarshipDoor_OnHandHover(StarshipDoor __instance)
         {
-            if (!Main.Config.NoPromptOnCutDoors)
-            {
-                return true;
-            }
+            if (!Main.Config.NoPromptOnCutDoors) return true;
 
             // Add to the set and stop hover text if cut open
             if (IsDoorCutOpen(__instance))

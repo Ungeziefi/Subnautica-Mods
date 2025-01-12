@@ -9,10 +9,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(FlashLight), nameof(FlashLight.Start)), HarmonyPrefix]
         public static void FlashLight_Start(FlashLight __instance)
         {
-            if (!Main.Config.NoFlashlightPointLights)
-            {
-                return;
-            }
+            if (!Main.Config.NoFlashlightPointLights) return;
 
             // Get all point lights and disable them
             var lights = __instance.GetComponentsInChildren<Light>(true);

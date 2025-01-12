@@ -10,14 +10,10 @@ namespace Ungeziefi.Tweaks
         public static void PDA_ManagedUpdate(PDA __instance)
         {
             if (Main.Config.EscapeClosesPDA &&
-                __instance.isInUse &&
-                __instance.isFocused &&
-                !__instance.ui.introActive)
+                __instance.isInUse && __instance.isFocused && !__instance.ui.introActive &&
+                Input.GetKeyDown(KeyCode.Escape))
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    __instance.Close();
-                }
+                __instance.Close();
             }
         }
     }

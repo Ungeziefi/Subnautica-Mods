@@ -9,32 +9,22 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(FleeOnDamage), nameof(FleeOnDamage.OnTakeDamage)), HarmonyPostfix]
         public static void FleeOnDamage_OnTakeDamage(FleeOnDamage __instance, DamageInfo damageInfo)
         {
-            if (!Main.Config.NFTODEnableFeature)
-            {
-                return;
-            }
+            if (!Main.Config.NFTODEnableFeature) return;
 
-            if (__instance.accumulatedDamage <= __instance.damageThreshold)
-            {
-                // Main.Logger.LogInfo($"NoFleeingToOrigin: Damage threshold not met - Current: {__instance.accumulatedDamage}, Required: {__instance.damageThreshold}");
-                return;
-            }
+            if (__instance.accumulatedDamage <= __instance.damageThreshold) return;
 
             // Use player position if damage source has none
             Vector3 fleeFromPosition = (damageInfo.position == Vector3.zero)
                 ? Player.main.transform.position
                 : damageInfo.position;
-            // Main.Logger.LogInfo($"NoFleeingToOrigin: Fleeing from position {fleeFromPosition}, Damage source was {(damageInfo.position == Vector3.zero ? "zero (using player)" : "valid")}");
 
             Vector3 currentPosition = __instance.transform.position;
-            // Main.Logger.LogInfo($"NoFleeingToOrigin: Current creature position {currentPosition}");
 
             // Damage-based distance calculation
             float damageBasedDistance = Mathf.Min(
                 damageInfo.damage * Main.Config.DamageToDistanceRatio,
                 Main.Config.MaxDamageBasedDistance
             );
-            // Main.Logger.LogInfo($"NoFleeingToOrigin: Flee distance calculation - Damage: {damageInfo.damage}, Ratio: {Main.Config.DamageToDistanceRatio}, Result: {damageBasedDistance}");
 
             // Fleeing direction
             Vector3 fleeDirection = (currentPosition - fleeFromPosition);
@@ -70,11 +60,9 @@ namespace Ungeziefi.Fixes
                 yPosition,
                 destination.z
             );
-            // Main.Logger.LogInfo($"NoFleeingToOrigin: Final destination {__instance.moveTo}, Is land creature: {isLandCreature}");
 
             // Update timer
             __instance.timeToFlee = Time.time + __instance.fleeDuration;
-            // Main.Logger.LogInfo($"NoFleeingToOrigin: Flee timer set - Duration: {__instance.fleeDuration}, Until: {__instance.timeToFlee}");
         }
     }
 }

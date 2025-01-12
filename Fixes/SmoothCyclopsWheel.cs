@@ -9,46 +9,27 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(SubControl), nameof(SubControl.UpdateAnimation)), HarmonyPrefix]
         public static bool SubControl_UpdateAnimation(SubControl __instance)
         {
-            if (!Main.Config.SmoothCyclopsWheel)
-            {
-                return false;
-            }
+            if (!Main.Config.SmoothCyclopsWheel) return false;
 
-            float steeringWheelYaw = 0f;
-            float steeringWheelPitch = 0f;
-
-            // Get yaw and pitch throttle values
-            float throttleX = __instance.throttle.x;
-            float throttleY = __instance.throttle.y;
+            float steeringWheelYaw = 0f, steeringWheelPitch = 0f;
+            float throttleX = __instance.throttle.x, throttleY = __instance.throttle.y;
 
             // Handle yaw
             if (Mathf.Abs(throttleX) > 0.0001)
             {
-                ShipSide useShipSide;
-                if (throttleX > 0)
-                {
-                    useShipSide = ShipSide.Port;
-                    steeringWheelYaw = throttleX;
-                }
-                else
-                {
-                    useShipSide = ShipSide.Starboard;
-                    steeringWheelYaw = throttleX;
-                }
+                ShipSide useShipSide = throttleX > 0 ? ShipSide.Port : ShipSide.Starboard;
+                steeringWheelYaw = throttleX;
 
-                // Trigger turn handlers if the throttle is significant
-                if (throttleX < -0.1 || throttleX > 0.1)
+                if (Mathf.Abs(throttleX) > 0.1)
                 {
-                    for (int index = 0; index < __instance.turnHandlers.Length; ++index)
-                        __instance.turnHandlers[index].OnSubTurn(useShipSide);
+                    foreach (var handler in __instance.turnHandlers)
+                        handler.OnSubTurn(useShipSide);
                 }
             }
 
             // Handle pitch
             if (Mathf.Abs(throttleY) > 0.0001)
-            {
                 steeringWheelPitch = throttleY;
-            }
 
             // Interpolate yaw and pitch
             __instance.steeringWheelYaw = Mathf.Lerp(__instance.steeringWheelYaw, steeringWheelYaw, Time.deltaTime * __instance.steeringReponsiveness);

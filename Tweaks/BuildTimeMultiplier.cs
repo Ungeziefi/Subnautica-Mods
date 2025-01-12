@@ -12,6 +12,7 @@ namespace Ungeziefi.Tweaks
             {
                 return;
             }
+
             __result *= Main.Config.BuildTimeMultiplier;
         }
     }

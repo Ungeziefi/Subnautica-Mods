@@ -25,18 +25,13 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.OnHandHover)), HarmonyPostfix]
         public static void Vehicle_OnHandHover(Vehicle __instance)
         {
-            if (!Main.Config.SeamothPushing)
-            {
-                return;
-            }
+            if (!Main.Config.SeamothPushing) return;
 
             if (IsPushable(__instance))
             {
                 HandReticle.main.SetText(HandReticle.TextType.Hand, "Push", false, GameInput.Button.RightHand);
                 if (GameInput.GetButtonDown(GameInput.Button.RightHand))
-                {
                     Push(__instance);
-                }
             }
         }
     }

@@ -7,191 +7,119 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
     [HarmonyPatch]
     internal class SeamothBarrelRoll
     {
-        // Track active rolling states
+        // Track active rolls
         private static Dictionary<SeaMoth, RollState> activeRolls = new Dictionary<SeaMoth, RollState>();
+
         private class RollState
         {
-            public float currentRollForce = 0f;
-            public float targetRollForce = 0f;     // Target force to reach
-            public bool isRolling = false;
-            public bool wasRolling = false;        // For sound transitions
+            public float currentRollForce, targetRollForce;
+            public bool isRolling, wasRolling; // State tracking for sound effects
         }
 
-        private static bool HasPower(Vehicle vehicle)
-        {
-            if (vehicle == null)
-            {
-                return false;
-            }
+        // Check power
+        private static bool HasPower(Vehicle vehicle) =>
+            vehicle?.GetComponent<EnergyMixin>()?.charge > 0f;
 
-            var energyMixin = vehicle.GetComponent<EnergyMixin>();
-            return energyMixin != null && energyMixin.charge > 0f;
-        }
-
+        // Stability
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.StabilizeRoll)), HarmonyPrefix]
         public static bool Vehicle_StabilizeRoll(Vehicle __instance)
         {
-            // No effect in normal mode
-            if (!Main.Config.EnableFeature || Main.Config.StabilizationMode == StabilizationMode.Normal)
-            {
-                return true;
-            }
+            if (!Main.Config.EnableFeature ||
+                Main.Config.StabilizationMode == StabilizationMode.Normal)
+                return true;  // Use normal stabilization
 
-            // Check if disabled
             if (Main.Config.StabilizationMode == StabilizationMode.Disabled)
-            {
-                return false;
-            }
+                return false;  // Disable stabilization
 
-            // Check power requirement
             if (Main.Config.StabilizationRequiresPower && !HasPower(__instance))
-            {
-                return false;
-            }
+                return false;  // No stabilization without power
 
-            // Stabilize only when empty
+            // Only stabilize when empty
             if (__instance is SeaMoth seamoth && Main.Config.StabilizationMode == StabilizationMode.OnlyWhenEmpty)
             {
-                return !seamoth.GetPilotingMode();
-            }
-
-            return true;
-        }
-
-        // Rolling physics and effects
-        [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.FixedUpdate)), HarmonyPostfix]
-        public static void Vehicle_FixedUpdate(Vehicle __instance)
-        {
-            if (!Main.Config.EnableFeature)
-            {
-                return;
-            }
-
-            // Check if piloting
-            if (!(__instance is SeaMoth seamoth) || !seamoth.GetPilotingMode())
-            {
-                return;
-            }
-
-            // Check power requirement
-            if (Main.Config.RollingRequiresPower && !HasPower(seamoth))
-            {
-                return;
-            }
-
-            // Check airborne rolling
-            if (!Main.Config.AllowAirborneRolling && seamoth.transform.position.y > Ocean.GetOceanLevel())
-            {
-                return;
-            }
-
-            // Check power status
-            PowerRelay powerRelay = __instance.GetComponent<PowerRelay>();
-            if (powerRelay != null && powerRelay.GetPowerStatus() == PowerSystem.Status.Offline)
-            {
-                return;
-            }
-
-            // Init roll state
-            if (!activeRolls.ContainsKey(seamoth))
-            {
-                activeRolls[seamoth] = new RollState();
-            }
-
-            RollState state = activeRolls[seamoth];
-            bool hasInput = Input.GetKey(Main.Config.RollLeftKey) || Input.GetKey(Main.Config.RollRightKey);
-
-            // Set force
-            if (Input.GetKey(Main.Config.RollLeftKey))
-            {
-                state.targetRollForce = Main.Config.RollForce;
-                state.isRolling = true;
-            }
-            else if (Input.GetKey(Main.Config.RollRightKey))
-            {
-                state.targetRollForce = -Main.Config.RollForce;
-                state.isRolling = true;
+                return !seamoth.GetPilotingMode(); // Only when not piloting
             }
             else
             {
-                state.targetRollForce = 0f;
-                state.isRolling = false;
+                return true; // Otherwise always stabilize
             }
+        }
 
-            // Interpolate current force towards target
-            if (state.currentRollForce < state.targetRollForce)
-            {
-                state.currentRollForce = Mathf.Min(state.currentRollForce + Main.Config.RollAcceleration * Time.fixedDeltaTime, state.targetRollForce);
-            }
-            else if (state.currentRollForce > state.targetRollForce)
-            {
-                state.currentRollForce = Mathf.Max(state.currentRollForce - Main.Config.RollAcceleration * Time.fixedDeltaTime, state.targetRollForce);
-            }
+        // Physics
+        [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.FixedUpdate)), HarmonyPostfix]
+        public static void Vehicle_FixedUpdate(Vehicle __instance)
+        {
+            if (!Main.Config.EnableFeature ||
+                !(__instance is SeaMoth seamoth) ||
+                !seamoth.GetPilotingMode() ||
+                (Main.Config.RollingRequiresPower && !HasPower(seamoth)) || // Power
+                (!Main.Config.AllowAirborneRolling && seamoth.transform.position.y > Ocean.GetOceanLevel())) // Airborne rolling
+                return;
 
-            // Apply torque if enough force
+            // Get or create roll state
+            var state = activeRolls.ContainsKey(seamoth) ? activeRolls[seamoth] : activeRolls[seamoth] = new RollState();
+
+            // Force from input
+            bool rollLeft = Input.GetKey(Main.Config.RollLeftKey);
+            bool rollRight = Input.GetKey(Main.Config.RollRightKey);
+            state.isRolling = rollLeft || rollRight;
+            state.targetRollForce = rollLeft ? Main.Config.RollForce : // Left is positive
+                                  rollRight ? -Main.Config.RollForce : // Right is negative
+                                  0f; // No input
+
+            // Interpolate towards target
+            state.currentRollForce = Mathf.MoveTowards(state.currentRollForce, state.targetRollForce,
+                                                     Main.Config.RollAcceleration * Time.fixedDeltaTime);
+
+            // Roll when enough force
             if (Mathf.Abs(state.currentRollForce) > 0.01f)
-            {
                 seamoth.useRigidbody.AddTorque(seamoth.transform.forward * state.currentRollForce * Time.fixedDeltaTime,
                     ForceMode.VelocityChange);
-            }
 
             // Engine sound transitions
             if (state.isRolling != state.wasRolling)
             {
                 if (!state.isRolling && seamoth.engineSound != null)
-                {
-                    seamoth.engineSound.AccelerateInput(1f);
-                }
+                    seamoth.engineSound.AccelerateInput(1f);  // Reset engine sound when stopping roll
                 state.wasRolling = state.isRolling;
             }
 
-            // Effects based on roll intensity
+            // Rolling effects
             if (state.isRolling)
             {
-                // Engine sound
+                // Adjust engine sound based on roll intensity
                 if (seamoth.engineSound != null)
                 {
                     float speedRatio = Mathf.Abs(state.currentRollForce) / Main.Config.RollForce;
                     seamoth.engineSound.AccelerateInput(1f + speedRatio * 0.5f);
                 }
 
-                // Bubble emission
+                // Adjust bubble effects based on roll intensity
                 if (seamoth.bubbles != null)
                 {
                     var emission = seamoth.bubbles.emission;
-                    float bubbleIntensity = Mathf.Lerp(20f, 50f,
+                    emission.rateOverTime = Mathf.Lerp(20f, 50f,
                         Mathf.Abs(state.currentRollForce) / Main.Config.RollForce);
-                    emission.rateOverTime = bubbleIntensity;
                 }
             }
         }
 
-        // Cleanup and stabilization on exit
+        // Cleanup
         [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.OnPilotModeEnd)), HarmonyPostfix]
         public static void SeaMoth_OnPilotModeEnd(SeaMoth __instance)
         {
             if (!Main.Config.EnableFeature || !activeRolls.ContainsKey(__instance))
-            {
                 return;
-            }
 
             // Reset engine sound
             if (__instance.engineSound != null)
-            {
                 __instance.engineSound.AccelerateInput(1f);
-            }
 
-            // Stabilization when empty
-            if (Main.Config.StabilizationMode == StabilizationMode.OnlyWhenEmpty)
+            // Apply stabilization when empty if configured
+            if (Main.Config.StabilizationMode == StabilizationMode.OnlyWhenEmpty &&
+                (!Main.Config.StabilizationRequiresPower || HasPower(__instance)))
             {
-                // Check power requirement
-                if (Main.Config.StabilizationRequiresPower && !HasPower(__instance))
-                {
-                    activeRolls.Remove(__instance);
-                    return;
-                }
-
-                // Convert angles to -180/180
+                // Convert rotation to -180/180 range
                 float zAngle = __instance.transform.eulerAngles.z;
                 if (zAngle > 180f) zAngle -= 360f;
 
@@ -202,7 +130,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 }
             }
 
-            // Clean uo roll state
+            // Remove tracking state
             activeRolls.Remove(__instance);
         }
     }

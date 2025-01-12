@@ -9,15 +9,11 @@ namespace Ungeziefi.Custom_Sunbeam_Countdown
         [HarmonyPatch(typeof(uGUI_SunbeamCountdown), nameof(uGUI_SunbeamCountdown.ShowInterface)), HarmonyPostfix]
         static void uGUI_SunbeamCountdown_ShowInterface(uGUI_SunbeamCountdown __instance)
         {
-            if (!Main.Config.EnableFeature)
-            {
-                return;
-            }
+            if (!Main.Config.EnableFeature) return;
 
-            var config = Main.Config;
-            float xPos = config.XPosition;
-            float yPos = config.YPosition;
-            float scale = config.Scale;
+            float xPos = Main.Config.XPosition;
+            float yPos = Main.Config.YPosition;
+            float scale = Main.Config.Scale;
 
             RectTransform rectTransform = __instance.countdownHolder.GetComponent<RectTransform>();
             if (rectTransform != null)

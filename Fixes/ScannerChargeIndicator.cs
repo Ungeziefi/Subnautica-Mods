@@ -10,14 +10,10 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(ScannerTool), nameof(ScannerTool.Update)), HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> ScannerTool_Update(IEnumerable<CodeInstruction> instructions)
         {
-            if (!Main.Config.ScannerChargeIndicator)
-            {
-                return instructions;
-            }
-
-            var matcher = new CodeMatcher(instructions);
+            if (!Main.Config.ScannerChargeIndicator) return instructions;
 
             // Find the 2nd SetTextRaw
+            var matcher = new CodeMatcher(instructions);
             matcher.MatchForward(true,
                 new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(HandReticle), "SetTextRaw")));
             matcher.MatchForward(false,

@@ -10,26 +10,15 @@ namespace Ungeziefi.Fixes
         public static List<Rigidbody> stasisTargets = new List<Rigidbody>();
 
         [HarmonyPatch(typeof(StasisSphere), nameof(StasisSphere.Awake)), HarmonyPostfix]
-        static void StasisSphere_Awake(StasisSphere __instance)
-        {
-            stasisTargets = __instance.targets;
-        }
+        static void StasisSphere_Awake(StasisSphere __instance) => stasisTargets = __instance.targets;
 
         [HarmonyPatch(typeof(GasPod), nameof(GasPod.Update)), HarmonyPrefix]
         static bool GasPod_Update(GasPod __instance)
         {
-            if (!Main.Config.FrozenGasPodsInStasis)
-            {
-                return true;
-            }
+            if (!Main.Config.FrozenGasPodsInStasis) return true;
 
             var rb = __instance.GetComponent<Rigidbody>();
-            if (rb && stasisTargets.Contains(rb))
-            {
-                // Main.Logger.LogInfo("Gas Pod is in stasis.");
-                return false;
-            }
-            return true;
+            return rb == null || !stasisTargets.Contains(rb);
         }
     }
 }

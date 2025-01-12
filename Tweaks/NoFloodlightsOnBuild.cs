@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using HarmonyLib;
+﻿using HarmonyLib;
 
 namespace Ungeziefi.Tweaks
 {
@@ -7,13 +6,6 @@ namespace Ungeziefi.Tweaks
     public class NoFloodlightsOnBuild
     {
         [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.SubConstructionComplete)), HarmonyPrefix]
-        static bool CyclopsLightingPanel_SubConstructionComplete(CyclopsLightingPanel __instance)
-        {
-            if (Main.Config.NoFloodlightsOnBuild)
-            {
-                return false;
-            }
-            return true;
-        }
+        static bool CyclopsLightingPanel_SubConstructionComplete(CyclopsLightingPanel __instance) => !Main.Config.NoFloodlightsOnBuild;
     }
 }

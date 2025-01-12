@@ -10,32 +10,19 @@ namespace Ungeziefi.Tweaks
 
         private static void CloseBulkheadDoorsNearLeak(Leakable leakable)
         {
-            // Find Bulkheads
             SubRoot subRoot = leakable.gameObject.GetComponentInParent<SubRoot>();
             if (subRoot == null) return;
-            BulkheadDoor[] doors = subRoot.GetComponentsInChildren<BulkheadDoor>();
 
-            // Find leak points
-            List<VFXSubLeakPoint> leakPoints = leakable.GetLeakPoints();
-            if (leakPoints == null || leakPoints.Count == 0) return;
-
-            // Close instantly - couldn't figure out a smooth alternative
-            foreach (BulkheadDoor door in doors)
+            foreach (var door in subRoot.GetComponentsInChildren<BulkheadDoor>())
             {
-                if (door.opened)
-                {
-                    door.SetState(false);
-                }
+                if (door.opened) door.SetState(false);
             }
         }
 
         [HarmonyPatch(typeof(Leakable), nameof(Leakable.UpdateLeakPoints)), HarmonyPostfix]
         public static void Leakable_UpdateLeakPoints(Leakable __instance)
         {
-            if (!Main.Config.AutoCloseBulkheads)
-            {
-                return;
-            }
+            if (!Main.Config.AutoCloseBulkheads) return;
 
             // Monitor leak state
             bool isLeaking = __instance.IsLeaking();

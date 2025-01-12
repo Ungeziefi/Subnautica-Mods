@@ -19,48 +19,26 @@ namespace Ungeziefi.Camera_Zoom
                 isCameraActive = false;
                 return;
             }
-
-            if (disable)
-            {
-                isCameraActive = false;
-                MiscSettings.fieldOfView = previousFOV;
-                SNCameraRoot.main.SyncFieldOfView(previousFOV);
-                // Main.Logger.LogInfo($"Exiting camera, reverting to original FOV: {previousFOV}");
-            }
-            else
-            {
-                MiscSettings.fieldOfView = maxFOV;
-                SNCameraRoot.main.SyncFieldOfView(maxFOV);
-                // Main.Logger.LogInfo($"Switching camera, resetting FOV to maximum: {maxFOV}");
-            }
+            isCameraActive = !disable;
+            MiscSettings.fieldOfView = disable ? previousFOV : maxFOV;
+            SNCameraRoot.main.SyncFieldOfView(MiscSettings.fieldOfView);
         }
 
-        // Save FOV when entering camera
+        // Save FOV on enter
         [HarmonyPatch(typeof(CyclopsExternalCamsButton), nameof(CyclopsExternalCamsButton.CameraButtonActivated)), HarmonyPrefix]
-        public static void CyclopsExternalCamsButton_CameraButtonActivated(CyclopsExternalCamsButton __instance)
-        {
-            previousFOV = Camera.fieldOfView;
-        }
+        public static void CyclopsExternalCamsButton_CameraButtonActivated() => previousFOV = Camera.fieldOfView;
 
-        // Camera enter and exit
+        // Set active state and reset on exit
         [HarmonyPatch(typeof(CyclopsExternalCams), nameof(CyclopsExternalCams.SetActive)), HarmonyPostfix]
         public static void CyclopsExternalCams_SetActive(CyclopsExternalCams __instance)
         {
             isCameraActive = __instance.active;
-            // Main.Logger.LogInfo($"Camera SetActive called: {isCameraActive}");
-            if (!isCameraActive)
-            {
-                ResetAndDisable(true);
-            }
+            if (!isCameraActive) ResetAndDisable(true);
         }
 
-        // Camera switch
+        // Reset on camera switch
         [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.SetCamera)), HarmonyPostfix]
-        public static void uGUI_CameraCyclops_SetCamera()
-        {
-            // Main.Logger.LogInfo("Camera SetCamera called.");
-            ResetAndDisable(false);
-        }
+        public static void uGUI_CameraCyclops_SetCamera() => ResetAndDisable(false);
 
         // Zoom in/out
         [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.Update)), HarmonyPostfix]
@@ -74,22 +52,13 @@ namespace Ungeziefi.Camera_Zoom
             }
 
             // Zoom processing check
-            if (!Main.Config.CCEnableFeature || !isCameraActive || Cursor.visible)
-            {
-                return;
-            }
+            if (!Main.Config.CCEnableFeature || !isCameraActive || Cursor.visible) return;
 
-            var config = Main.Config;
-            int zoomDirection = 0; // 0 = no zoom, 1 = zoom out, -1 = zoom in
-
+            int zoomDirection = 0;
             if (Input.GetKey(Main.Config.CCZoomInKey) || GameInput.GetButtonHeld(GameInput.Button.MoveForward))
-            {
-                zoomDirection = -1;
-            }
+                zoomDirection = -1; // Zoom in
             else if (Input.GetKey(Main.Config.CCZoomOutKey) || GameInput.GetButtonHeld(GameInput.Button.MoveBackward))
-            {
-                zoomDirection = 1;
-            }
+                zoomDirection = 1; // Zoom out
 
             if (zoomDirection != 0)
             {
@@ -104,7 +73,6 @@ namespace Ungeziefi.Camera_Zoom
                 {
                     MiscSettings.fieldOfView = newFOV;
                     SNCameraRoot.main.SyncFieldOfView(newFOV);
-                    // Main.Logger.LogInfo($"FOV change: Previous={previousFOV}, New={newFOV}, Delta={(newFOV - previousFOV):F2}");
                 }
             }
         }

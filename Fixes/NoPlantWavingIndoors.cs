@@ -29,10 +29,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(LargeWorldEntity), nameof(LargeWorldEntity.Awake)), HarmonyPrefix]
         public static void LargeWorldEntity_Awake(LargeWorldEntity __instance)
         {
-            if (!Main.Config.NoPlantWavingIndoors)
-            {
-                return;
-            }
+            if (!Main.Config.NoPlantWavingIndoors) return;
 
             // Only disable for plants indoors
             var tt = CraftData.GetTechType(__instance.gameObject);

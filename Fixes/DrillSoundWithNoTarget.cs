@@ -10,14 +10,10 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(ExosuitDrillArm), nameof(ExosuitDrillArm.StopEffects)), HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> ExosuitDrillArm_StopEffects(IEnumerable<CodeInstruction> instructions)
         {
-            if (!Main.Config.DrillSoundWithNoTarget)
-            {
-                return instructions;
-            }
-
-            var matcher = new CodeMatcher(instructions);
+            if (!Main.Config.DrillSoundWithNoTarget) return instructions;
 
             // Find this.loop.Stop(STOP_MODE.ALLOWFADEOUT)
+            var matcher = new CodeMatcher(instructions);
             matcher.MatchForward(false,
                 new CodeMatch(OpCodes.Ldarg_0),
                 new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(ExosuitDrillArm), "loop")),
@@ -33,25 +29,19 @@ namespace Ungeziefi.Fixes
             return matcher.InstructionEnumeration();
         }
 
-        // Sound now needs to be stopped manually
+        // Sound need to be stopped manually
         // When deactivated
         [HarmonyPatch(typeof(ExosuitDrillArm), "IExosuitArm.OnUseUp"), HarmonyPostfix]
         public static void IExosuitArm_OnUseUp(ExosuitDrillArm __instance)
         {
-            if (Main.Config.DrillSoundWithNoTarget)
-            {
-                __instance.loop.Stop();
-            }
+            if (Main.Config.DrillSoundWithNoTarget) __instance.loop.Stop();
         }
 
         // When reset
         [HarmonyPatch(typeof(ExosuitDrillArm), "IExosuitArm.ResetArm"), HarmonyPostfix]
         public static void IExosuitArm_ResetArm(ExosuitDrillArm __instance)
         {
-            if (Main.Config.DrillSoundWithNoTarget)
-            {
-                __instance.loop.Stop();
-            }
+            if (Main.Config.DrillSoundWithNoTarget) __instance.loop.Stop();
         }
     }
 }

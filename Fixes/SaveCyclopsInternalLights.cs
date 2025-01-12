@@ -5,24 +5,16 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch]
     public class SaveCyclopsInternalLights
     {
-        private static string GetCyclopsId(CyclopsLightingPanel panel)
-        {
-            return panel?.cyclopsRoot?.gameObject?.GetComponent<PrefabIdentifier>()?.Id;
-        }
+        private static string GetCyclopsId(CyclopsLightingPanel panel) =>
+            panel?.cyclopsRoot?.gameObject?.GetComponent<PrefabIdentifier>()?.Id;
 
         private static void UpdateInternalLightState(string cyclopsId, bool internalOff)
         {
-            // Save when turning off
+            // Save when turning off, remove when turning on
             if (internalOff)
-            {
                 Main.SaveData.CyclopsesWithInternalLightOff.Add(cyclopsId);
-            }
-
-            // Dont save when turning on
             else
-            {
                 Main.SaveData.CyclopsesWithInternalLightOff.Remove(cyclopsId);
-            }
         }
 
         private static void RestoreInternalLightState(CyclopsLightingPanel panel, string cyclopsId)
@@ -39,16 +31,11 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.ToggleInternalLighting)), HarmonyPostfix]
         public static void CyclopsLightingPanel_ToggleInternalLighting(CyclopsLightingPanel __instance)
         {
-            if (!Main.Config.SaveCyclopsInternalLights)
-            {
-                return;
-            }
+            if (!Main.Config.SaveCyclopsInternalLights) return;
 
             string cyclopsId = GetCyclopsId(__instance);
             if (cyclopsId != null)
-            {
                 UpdateInternalLightState(cyclopsId, !__instance.lightingOn);
-            }
         }
 
         // Load state
@@ -57,9 +44,7 @@ namespace Ungeziefi.Fixes
         {
             string cyclopsId = GetCyclopsId(__instance);
             if (!Main.Config.SaveCyclopsInternalLights || cyclopsId != null)
-            {
                 RestoreInternalLightState(__instance, cyclopsId);
-            }
         }
     }
 }

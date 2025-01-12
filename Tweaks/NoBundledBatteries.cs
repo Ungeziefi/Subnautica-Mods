@@ -12,10 +12,7 @@ namespace Ungeziefi.Tweaks
             GameModeUtils.GetGameMode(out GameModeOption mode, out GameModeOption cheats);
             var config = Main.Config.NoBundledBatteriesOption;
 
-            if (config == NoBundledBatteriesOption.Disabled || mode == GameModeOption.Creative)
-            {
-                return true;
-            }
+            if (config == NoBundledBatteriesOption.Disabled || mode == GameModeOption.Creative) return true;
 
             GameObject obj = __instance.gameObject;
             bool isVanillaRecipe = obj.GetComponentInParent<SubRoot>()?.isCyclops == true ||

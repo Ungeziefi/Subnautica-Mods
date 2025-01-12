@@ -6,34 +6,23 @@ namespace Ungeziefi.Fixes
     public class SaveCyclopsSpeedMode
     {
         // Get Cyclops ID
-        private static string GetCyclopsId(CyclopsMotorModeButton button)
-        {
-            return button?.subRoot?.gameObject?.GetComponent<PrefabIdentifier>()?.Id;
-        }
+        private static string GetCyclopsId(CyclopsMotorModeButton button) =>
+            button?.subRoot?.gameObject?.GetComponent<PrefabIdentifier>()?.Id;
 
         private static void UpdateSpeedMode(string cyclopsId, CyclopsMotorMode.CyclopsMotorModes mode)
         {
-            // Don't save default
+            // Remove when default, save otherwise
             if (mode == CyclopsMotorMode.CyclopsMotorModes.Standard)
-            {
                 Main.SaveData.CyclopsSpeedMode.Remove(cyclopsId);
-            }
-
-            // Save speed mode
             else
-            {
                 Main.SaveData.CyclopsSpeedMode[cyclopsId] = (int)mode;
-            }
         }
 
         [HarmonyPatch(typeof(CyclopsMotorModeButton), nameof(CyclopsMotorModeButton.OnClick)), HarmonyPostfix]
         public static void CyclopsMotorModeButton_OnClick(CyclopsMotorModeButton __instance)
         {
             string cyclopsId = GetCyclopsId(__instance);
-            if (!Main.Config.SaveCyclopsSpeedMode || cyclopsId == null)
-            {
-                return;
-            }
+            if (!Main.Config.SaveCyclopsSpeedMode || cyclopsId == null) return;
 
             UpdateSpeedMode(cyclopsId, __instance.motorModeIndex);
         }
@@ -42,16 +31,11 @@ namespace Ungeziefi.Fixes
         public static void CyclopsMotorModeButton_Start(CyclopsMotorModeButton __instance)
         {
             string cyclopsId = GetCyclopsId(__instance);
-            if (!Main.Config.SaveCyclopsSpeedMode || cyclopsId == null)
-            {
-                return;
-            }
+            if (!Main.Config.SaveCyclopsSpeedMode || cyclopsId == null) return;
 
             // Restore the saved speed mode state
             if (Main.SaveData.CyclopsSpeedMode.TryGetValue(cyclopsId, out int savedMode))
-            {
                 __instance.SetCyclopsMotorMode((CyclopsMotorMode.CyclopsMotorModes)savedMode);
-            }
         }
     }
 }

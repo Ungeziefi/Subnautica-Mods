@@ -9,22 +9,19 @@ namespace Ungeziefi.Tweaks
     {
         // Should probably serialize this for easier editing
         private static readonly HashSet<TechType> targetCreatures = new HashSet<TechType>
-                        {
-                            TechType.CaveCrawler,
-                            TechType.LavaLarva,
-                            TechType.Bleeder,
-                            TechType.Rockgrub,
-                            TechType.Blighter,
-                            TechType.Floater,
-                        };
+        {
+            TechType.CaveCrawler,
+            TechType.LavaLarva,
+            TechType.Bleeder,
+            TechType.Rockgrub,
+            TechType.Blighter,
+            TechType.Floater,
+        };
 
         [HarmonyPatch(typeof(Creature), nameof(Creature.Start)), HarmonyPostfix]
         public static void Creature_Start(Creature __instance)
         {
-            if (!Main.Config.CSREnableFeature)
-            {
-                return;
-            }
+            if (!Main.Config.CSREnableFeature) return;
 
             var tt = CraftData.GetTechType(__instance.gameObject);
             // Main.Logger.LogInfo($"Creature TechType: {tt}");

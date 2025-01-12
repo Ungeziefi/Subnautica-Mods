@@ -22,7 +22,6 @@ namespace Ungeziefi.Fixes
             {
                 Vector3 position = slotID == 0 ? originalLeftPosition : originalRightPosition;
                 Vector3 eulerAngles = slotID == 0 ? originalLeftEulerAngles : originalRightEulerAngles;
-
                 storage.localPosition = position;
                 storage.localEulerAngles = eulerAngles;
             }
@@ -37,10 +36,7 @@ namespace Ungeziefi.Fixes
                 return;
             }
 
-            if (!added || techType != TechType.VehicleStorageModule)
-            {
-                return;
-            }
+            if (!added || techType != TechType.VehicleStorageModule) return;
 
             // 0 = left, 1 = right
             string storagePath = slotID == 0 ? "Model/Submersible_SeaMoth_extras/Submersible_seaMoth_geo/seaMoth_storage_01_L_geo" :

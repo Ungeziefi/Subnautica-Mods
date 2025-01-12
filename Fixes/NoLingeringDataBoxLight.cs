@@ -13,10 +13,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(GenericHandTarget), nameof(GenericHandTarget.OnHandClick)), HarmonyPostfix]
         public static void GenericHandTarget_OnHandClick(GenericHandTarget __instance)
         {
-            if (!Main.Config.NoUsedDataBoxLight || !__instance.GetComponent<BlueprintHandTarget>())
-            {
-                return;
-            }
+            if (!Main.Config.NoUsedDataBoxLight || !__instance.GetComponent<BlueprintHandTarget>()) return;
 
             // Closest to player within 5 units
             GameObject closest = null;
@@ -25,10 +22,7 @@ namespace Ungeziefi.Fixes
             foreach (GameObject light in databoxLights)
             {
                 // Skip inactive lights
-                if (!light || !light.activeSelf)
-                {
-                    continue;
-                }
+                if (!light || !light.activeSelf) continue;
 
                 // Distance between light and player
                 float distance = Vector3.Distance(light.transform.position, Player.main.transform.position);
@@ -53,7 +47,7 @@ namespace Ungeziefi.Fixes
         public static void VFXVolumetricLight_Awake(VFXVolumetricLight __instance)
         {
             // Add Data Box lights to tracking
-            if (__instance.transform.parent && __instance.transform.parent.name.StartsWith("DataboxLight"))
+            if (__instance.transform.parent?.name.StartsWith("DataboxLight") == true)
             {
                 databoxLights.Add(__instance.transform.parent.gameObject);
             }

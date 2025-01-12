@@ -9,10 +9,7 @@ namespace Ungeziefi.Fixes
         public static void SubRoot_OnKill(SubRoot __instance)
         {
             var identifier = __instance.gameObject.GetComponent<PrefabIdentifier>();
-            if (identifier == null)
-            {
-                return;
-            }
+            if (identifier == null) return;
 
             string cyclopsId = identifier.Id;
             Main.SaveData.CyclopsSpeedMode.Remove(cyclopsId);

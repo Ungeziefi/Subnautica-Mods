@@ -9,26 +9,12 @@ namespace Ungeziefi.Tweaks
         {
             GameModeUtils.GetGameMode(out GameModeOption mode, out GameModeOption cheats);
             Exosuit exosuit = Player.main.GetVehicle() as Exosuit;
-            Knife knife = Inventory.main.GetHeldTool() as Knife;
-            HeatBlade heatblade = Inventory.main.GetHeldTool() as HeatBlade;
+            var heldTool = Inventory.main.GetHeldTool();
 
-            if (!Main.Config.HarvestingRequirements &&
-                mode == GameModeOption.Creative &&
-                !exosuit)
-            {
-                return false;
-            }
+            if (!Main.Config.HarvestingRequirements && mode == GameModeOption.Creative && !exosuit) return false;
 
-            // Check outcrops
-            if (isOutcrop)
-            {
-                return Inventory.main.GetHeldTool() == null;
-            }
-            // Check plants
-            else
-            {
-                return knife == null && heatblade == null;
-            }
+            // Prevent action if no tool is held for outcrops, or if no knife/heatblade is held for plants
+            return isOutcrop ? heldTool == null : !(heldTool is Knife || heldTool is HeatBlade);
         }
 
         // Outcrops
@@ -44,14 +30,7 @@ namespace Ungeziefi.Tweaks
         }
 
         [HarmonyPatch(typeof(BreakableResource), nameof(BreakableResource.OnHandClick)), HarmonyPrefix]
-        public static bool BreakableResource_OnHandClick(BreakableResource __instance)
-        {
-            if (ShouldPreventAction(true))
-            {
-                return false;
-            }
-            return true;
-        }
+        public static bool BreakableResource_OnHandClick(BreakableResource __instance) => !ShouldPreventAction(true);
 
         // Plants
         [HarmonyPatch(typeof(PickPrefab), nameof(PickPrefab.OnHandHover)), HarmonyPrefix]
@@ -66,13 +45,6 @@ namespace Ungeziefi.Tweaks
         }
 
         [HarmonyPatch(typeof(PickPrefab), nameof(PickPrefab.OnHandClick)), HarmonyPrefix]
-        public static bool PickPrefab_OnHandClick(PickPrefab __instance)
-        {
-            if (ShouldPreventAction(false))
-            {
-                return false;
-            }
-            return true;
-        }
+        public static bool PickPrefab_OnHandClick(PickPrefab __instance) => !ShouldPreventAction(false);
     }
 }

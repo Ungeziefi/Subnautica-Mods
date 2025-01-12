@@ -8,18 +8,13 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(StoryHandTarget), nameof(StoryHandTarget.OnHandHover)), HarmonyPrefix]
         public static bool StoryHandTarget_OnHandHover(StoryHandTarget __instance)
         {
-            if (!Main.Config.NoUsedTerminalPrompt)
-            {
-                return true;
-            }
+            if (!Main.Config.NoUsedTerminalPrompt) return true;
 
             // Skip hover text if used
             var Terminal = __instance.GetComponent<PrecursorComputerTerminal>();
-            if (Terminal && Terminal.used)
-            {
-                return false;
-            }
+            if (Terminal && Terminal.used) return false;
 
+            // Allow hover text if not used
             return true;
         }
     }

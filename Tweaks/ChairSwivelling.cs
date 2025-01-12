@@ -11,18 +11,14 @@ namespace Ungeziefi.Tweaks
         private static float chairRotAcceleration = 80f;
         private static float chairRotDeceleration = 40f;
         private static float currentRotSpeed = 0f;
-        // 0 = none, 1 = right, -1 = left
-        private static int currentDirection = 0;
+        private static int currentDirection = 0; // 1 = right, -1 = left
 
         private static void HandleRotation(ref int direction, int targetDirection, Bench instance, ref bool isRotating)
         {
             if (direction != targetDirection)
             {
                 currentRotSpeed = Mathf.Max(currentRotSpeed - chairRotDeceleration * 2 * Time.deltaTime, 0f);
-                if (currentRotSpeed == 0f)
-                {
-                    direction = targetDirection;
-                }
+                if (currentRotSpeed == 0f) direction = targetDirection;
             }
 
             if (direction == targetDirection)
@@ -37,20 +33,13 @@ namespace Ungeziefi.Tweaks
         {
             currentRotSpeed = Mathf.Max(currentRotSpeed - chairRotDeceleration * Time.deltaTime, 0f);
             if (currentRotSpeed > 0f)
-            {
                 instance.transform.Rotate(Vector3.up * currentRotSpeed * Time.deltaTime * currentDirection);
-            }
             else
-            {
                 currentDirection = 0;
-            }
         }
 
         [HarmonyPatch(typeof(Bench), nameof(Bench.EnterSittingMode)), HarmonyPostfix]
-        static void Bench_EnterSittingMode(Bench __instance)
-        {
-            IsSitting = true;
-        }
+        static void Bench_EnterSittingMode(Bench __instance) => IsSitting = true;
 
         [HarmonyPatch(typeof(Bench), nameof(Bench.ExitSittingMode)), HarmonyPostfix]
         static void Bench_ExitSittingMode(Bench __instance)
@@ -63,26 +52,19 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(typeof(Bench), nameof(Bench.OnUpdate)), HarmonyPostfix]
         public static void Bench_OnUpdate(Bench __instance)
         {
-            if (!Main.Config.ChairSwivelling || CraftData.GetTechType(__instance.gameObject) != TechType.StarshipChair || !IsSitting)
-            {
+            if (!Main.Config.ChairSwivelling ||
+                CraftData.GetTechType(__instance.gameObject) != TechType.StarshipChair ||
+                !IsSitting)
                 return;
-            }
 
             bool isRotating = false;
 
             if (GameInput.GetButtonHeld(GameInput.Button.MoveRight))
-            {
                 HandleRotation(ref currentDirection, 1, __instance, ref isRotating);
-            }
             else if (GameInput.GetButtonHeld(GameInput.Button.MoveLeft))
-            {
                 HandleRotation(ref currentDirection, -1, __instance, ref isRotating);
-            }
 
-            if (!isRotating)
-            {
-                DecelerateRotation(__instance);
-            }
+            if (!isRotating) DecelerateRotation(__instance);
         }
     }
 }

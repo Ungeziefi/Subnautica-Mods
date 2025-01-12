@@ -10,67 +10,42 @@ namespace Ungeziefi.Tweaks
         {
             void SetActive(Transform transform, bool active)
             {
-                if (transform != null)
-                {
-                    transform.gameObject.SetActive(active);
-                }
+                if (transform != null) transform.gameObject.SetActive(active);
             }
 
-            // Handle each component
-            // Sonar
+            // Disable each component
             var sonarMap = cyclops.GetComponentInChildren<CyclopsSonarDisplay>(true);
             if (sonarMap)
             {
-                SetActive(sonarMap.transform.Find("VolumetricLight"), isPowered);
-                SetActive(sonarMap.transform.Find("Base"), isPowered);
-                SetActive(sonarMap.transform.Find("CyclopsMini"), isPowered);
+                var sonarTransform = sonarMap.transform;
+                SetActive(sonarTransform.Find("VolumetricLight"), isPowered);
+                SetActive(sonarTransform.Find("Base"), isPowered);
+                SetActive(sonarTransform.Find("CyclopsMini"), isPowered);
             }
 
-            // Compass
             SetActive(cyclops.GetComponentInChildren<CyclopsCompassHUD>(true)?.transform, isPowered);
-
-            // Holographic HUD
             SetActive(cyclops.GetComponentInChildren<CyclopsHolographicHUD>(true)?.transform, isPowered);
-
-            // Decoy screen
             SetActive(cyclops.GetComponentInChildren<CyclopsDecoyScreenHUDManager>(true)?.transform, isPowered);
-
-            // Vehicle terminal
             SetActive(cyclops.GetComponentInChildren<CyclopsVehicleStorageTerminalManager>()?.transform.Find("GUIScreen"), isPowered);
-
-            // Upgrade console
             SetActive(cyclops.transform.Find("UpgradeConsoleHUD"), isPowered);
-
-            // Lighting panel
             SetActive(cyclops.GetComponentInChildren<CyclopsLightingPanel>(true)?.transform, isPowered);
-
-            // SubName and its volumetric light
             SetActive(cyclops.GetComponentInChildren<CyclopsSubNameScreen>(true)?.transform, isPowered);
-            SetActive(cyclops.transform.Find("SubName")?.Find("VolumetricLight"), isPowered);
+            SetActive(cyclops.transform.Find("SubName")?.Find("VolumetricLight"), isPowered); // Volumetric light below SubName
+            SetActive(cyclops.transform.Find("CyclopsLightStatics"), isPowered); // Fake light
 
-            // Static lights
-            SetActive(cyclops.transform.Find("CyclopsLightStatics"), isPowered);
-
-            // Floodlights
             var lightingPanel = cyclops.GetComponentInChildren<CyclopsLightingPanel>(true);
-            if (lightingPanel != null)
+            if (lightingPanel != null && !isPowered)
             {
-                if (!isPowered)
-                {
-                    lightingPanel.floodlightsOn = false;
-                    lightingPanel.SetExternalLighting(false);
-                    lightingPanel.UpdateLightingButtons();
-                }
+                lightingPanel.floodlightsOn = false;
+                lightingPanel.SetExternalLighting(false);
+                lightingPanel.UpdateLightingButtons();
             }
         }
 
         [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPostfix]
         public static void CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
         {
-            if (!Main.Config.CyclopsDisplaysNeedPower || !__instance.LOD.IsFull())
-            {
-                return;
-            }
+            if (!Main.Config.CyclopsDisplaysNeedPower || !__instance.LOD.IsFull()) return;
 
             var powerRelay = __instance.GetComponentInParent<PowerRelay>();
             bool isPowered = powerRelay != null && powerRelay.IsPowered();

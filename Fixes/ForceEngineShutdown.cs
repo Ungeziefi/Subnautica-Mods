@@ -6,11 +6,9 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch]
     public class ForceEngineShutdown
     {
-        private static bool IsPowerOff(CyclopsEngineChangeState instance)
-        {
-            var powerRelay = instance.GetComponentInParent<PowerRelay>();
-            return powerRelay != null && powerRelay.GetPowerStatus() == PowerSystem.Status.Offline;
-        }
+        // Check power
+        private static bool IsPowerOff(CyclopsEngineChangeState instance) =>
+            instance.GetComponentInParent<PowerRelay>()?.GetPowerStatus() == PowerSystem.Status.Offline;
 
         private static void SetInvalidButton(CyclopsEngineChangeState instance, bool value)
         {
@@ -24,10 +22,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(CyclopsEngineChangeState), nameof(CyclopsEngineChangeState.Update)), HarmonyPostfix]
         public static void CyclopsEngineChangeState_Update(CyclopsEngineChangeState __instance)
         {
-            if (!Main.Config.ForceEngineShutdown)
-            {
-                return;
-            }
+            if (!Main.Config.ForceEngineShutdown) return;
 
             // Shut down engine if power is off
             if (IsPowerOff(__instance))
@@ -36,10 +31,7 @@ namespace Ungeziefi.Fixes
                 SetInvalidButton(__instance, true);
             }
             // Valid button if power is on
-            else
-            {
-                SetInvalidButton(__instance, false);
-            }
+            else SetInvalidButton(__instance, false);
         }
     }
 }

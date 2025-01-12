@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿// Try OnHover for each button
+
+using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +26,8 @@ namespace Ungeziefi.Fixes
             foreach (var element in hudTransform.GetComponentsInChildren<Image>(true))
             {
                 // Only process buttons
-                if (element.GetComponent<Button>() || System.Array.Exists(HelmButtonNames, name => name == element.name))
+                if (element.GetComponent<Button>() ||
+                    System.Array.Exists(HelmButtonNames, name => name == element.name))
                 {
                     element.raycastTarget = isActive;
                 }
@@ -34,10 +37,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPrefix]
         public static bool CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
         {
-            if (!Main.Config.CyclopsHelmHUDFixes || !__instance.LOD.IsFull())
-            {
-                return true;
-            }
+            if (!Main.Config.CyclopsHelmHUDFixes || !__instance.LOD.IsFull()) return true;
 
             // Get power status
             bool isPowered = __instance.GetComponentInParent<PowerRelay>()?.IsPowered() ?? false;
@@ -46,8 +46,12 @@ namespace Ungeziefi.Fixes
             bool hudShouldBeActive = isPowered &&
                 (bool)(AccessTools.Field(typeof(CyclopsHelmHUDManager), "hudActive").GetValue(__instance));
 
-            // Update visibility and interactivity
-            UpdateHUDElements(__instance.transform, hudShouldBeActive);
+            // Update visibility and interactivity only if status has changed
+            if (__instance.hudActive != hudShouldBeActive)
+            {
+                UpdateHUDElements(__instance.transform, hudShouldBeActive);
+                __instance.hudActive = hudShouldBeActive;
+            }
 
             // Only update if powered
             return isPowered;

@@ -8,10 +8,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(typeof(Constructor), nameof(Constructor.OnEnable)), HarmonyPostfix]
         public static void Constructor_OnEnable(Constructor __instance)
         {
-            if (!Main.Config.MobileVehicleBayBeacon)
-            {
-                return;
-            }
+            if (!Main.Config.MobileVehicleBayBeacon) return;
 
             __instance.gameObject.EnsureComponent<PingInstance>();
         }
@@ -20,10 +17,7 @@ namespace Ungeziefi.Tweaks
         public static void PingInstance_Initialize(PingInstance __instance)
         {
             var constructor = __instance.GetComponent<Constructor>();
-            if (constructor == null)
-            {
-                return;
-            }
+            if (constructor == null) return;
 
             if (!Main.Config.MobileVehicleBayBeacon)
             {

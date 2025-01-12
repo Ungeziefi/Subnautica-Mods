@@ -13,10 +13,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(typeof(CrafterLogic), nameof(CrafterLogic.NotifyCraftEnd)), HarmonyPostfix]
         public static void CrafterLogic_NotifyCraftEnd(CrafterLogic __instance, GameObject target, TechType techType)
         {
-            if (!Main.Config.PowerCellChargeFromBatteries)
-            {
-                return;
-            }
+            if (!Main.Config.PowerCellChargeFromBatteries) return;
 
             Battery battery = target.GetComponent<Battery>();
             if (battery && batteriesUsedForCrafting.Count > 0)

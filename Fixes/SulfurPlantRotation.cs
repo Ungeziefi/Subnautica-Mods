@@ -9,10 +9,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(LargeWorldEntity), nameof(LargeWorldEntity.Awake)), HarmonyPostfix]
         public static void LargeWorldEntity_Awake(LargeWorldEntity __instance)
         {
-            if (!Main.Config.SulfurPlantRotation)
-            {
-                return;
-            }
+            if (!Main.Config.SulfurPlantRotation) return;
 
             TechType tt = CraftData.GetTechType(__instance.gameObject);
             if (tt == TechType.CrashHome || tt == TechType.CrashPowder)

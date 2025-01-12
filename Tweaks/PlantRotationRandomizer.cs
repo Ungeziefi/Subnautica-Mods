@@ -13,7 +13,6 @@ namespace Ungeziefi.Tweaks
             {
                 float randomYRotation = Random.Range(0, 360);
                 __result.transform.Rotate(0, randomYRotation, 0);
-                // Main.Logger.LogInfo($"Plant rotated to {__result.transform.eulerAngles}");
             }
         }
     }
