@@ -5,3 +5,4 @@ For more info, read the respective description.
 ### [Custom Sunbeam Countdown](https://www.nexusmods.com/subnautica/mods/2014)
 ### [Rotatable Ladders](https://www.nexusmods.com/subnautica/mods/2015)
 ### [PDA Movement and Bobbing](https://www.nexusmods.com/subnautica/mods/2017)
+### [Cockpit Free Look](https://www.nexusmods.com/subnautica/mods/2026)

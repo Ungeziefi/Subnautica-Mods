@@ -1,6 +1,5 @@
 ﻿using Nautilus.Json;
 using Nautilus.Options.Attributes;
-using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
@@ -74,7 +73,7 @@ namespace Ungeziefi.Tweaks
         public float MaxCreatureSize = 1.5f;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool miscellaneousTweakerDivider;
+        public bool MiscellaneousTweaksDivider;
 
         [Toggle(Label = "Bladderfish tooltip", Tooltip = "Adds a tooltip about the Bladderfish providing oxygen if consumed raw.")]
         public bool BladderfishTooltip = false;
