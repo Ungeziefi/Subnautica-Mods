@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using System.Collections.Generic;
+using System.Linq;
+using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Rotatable_Ladders
@@ -6,8 +8,10 @@ namespace Ungeziefi.Rotatable_Ladders
     [HarmonyPatch]
     public class RotatableLadders
     {
-        public static string GetLadderCoords(Transform transform) =>
-            $"{Mathf.RoundToInt(transform.position.x)},{Mathf.RoundToInt(transform.position.y)},{Mathf.RoundToInt(transform.position.z)}";
+        public static string GetLadderCoords(Transform transform)
+        {
+            return $"{Mathf.RoundToInt(transform.position.x)},{Mathf.RoundToInt(transform.position.y)},{Mathf.RoundToInt(transform.position.z)}";
+        }
 
         [HarmonyPatch(typeof(BaseLadder), nameof(BaseLadder.OnHandHover)), HarmonyPostfix]
         public static void BaseLadder_OnHandHover(BaseLadder __instance, GUIHand hand)
@@ -22,7 +26,6 @@ namespace Ungeziefi.Rotatable_Ladders
                 translate: false,
                 button: primaryDevice == GameInput.Device.Controller ? GameInput.Button.AltTool : GameInput.Button.None);
 
-            // Calculate and apply rotation
             if (Input.GetKeyDown(Main.Config.RotateLadderKey) ||
                 ((GameInput.GetPrimaryDevice() == GameInput.Device.Controller) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
             {
@@ -33,11 +36,14 @@ namespace Ungeziefi.Rotatable_Ladders
                 float newYRotation = (parent.localRotation.eulerAngles.y + 90f) % 360f;
                 parent.localRotation = Quaternion.Euler(0f, newYRotation, 0f);
 
-                // Only save if rotated
+                var dictionary = parent.name.Contains("LadderBottom") ?
+                    Main.SaveData.RotatedLaddersBottom :
+                    Main.SaveData.RotatedLaddersTop;
+
                 if (newYRotation == 0f)
-                    Main.SaveData.RotatedLadders.Remove(coords);
+                    dictionary.Remove(coords);
                 else
-                    Main.SaveData.RotatedLadders[coords] = newYRotation;
+                    dictionary[coords] = newYRotation;
             }
         }
 
@@ -47,10 +53,53 @@ namespace Ungeziefi.Rotatable_Ladders
             Transform parent = __instance.transform.parent;
             if (!Main.Config.EnableFeature || __instance == null || parent == null) return;
 
-            // Load saved rotation
             string coords = GetLadderCoords(parent);
-            if (Main.SaveData.RotatedLadders.TryGetValue(coords, out float savedRotation))
+            var dictionary = parent.name.Contains("LadderBottom") ?
+                Main.SaveData.RotatedLaddersBottom :
+                Main.SaveData.RotatedLaddersTop;
+
+            if (dictionary.TryGetValue(coords, out float savedRotation))
+            {
                 parent.localRotation = Quaternion.Euler(0f, savedRotation, 0f);
+            }
         }
+
+        #region Cleanup
+        [HarmonyPatch(typeof(BaseLadder), nameof(BaseLadder.Start)), HarmonyPostfix]
+        public static void BaseLadder_Start()
+        {
+            // Get all ladders
+            var allLadders = Object.FindObjectsOfType<BaseLadder>();
+            var validCoords = new HashSet<string>();
+
+            foreach (var ladder in allLadders)
+            {
+                if (ladder?.transform?.parent != null)
+                {
+                    validCoords.Add(GetLadderCoords(ladder.transform.parent));
+                }
+            }
+
+            // Remove entries without corresponding ladder
+            var bottomKeys = Main.SaveData.RotatedLaddersBottom.Keys.ToList();
+            var topKeys = Main.SaveData.RotatedLaddersTop.Keys.ToList();
+
+            foreach (var coord in bottomKeys)
+            {
+                if (!validCoords.Contains(coord))
+                {
+                    Main.SaveData.RotatedLaddersBottom.Remove(coord);
+                }
+            }
+
+            foreach (var coord in topKeys)
+            {
+                if (!validCoords.Contains(coord))
+                {
+                    Main.SaveData.RotatedLaddersTop.Remove(coord);
+                }
+            }
+        }
+        #endregion
     }
 }

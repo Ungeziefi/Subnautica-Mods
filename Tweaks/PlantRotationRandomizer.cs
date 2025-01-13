@@ -11,8 +11,9 @@ namespace Ungeziefi.Tweaks
         {
             if (Main.Config.PlantRotationRandomizer)
             {
+                Vector3 Rotation = __result.transform.rotation.eulerAngles;
                 float randomYRotation = Random.Range(0, 360);
-                __result.transform.Rotate(0, randomYRotation, 0);
+                __result.transform.Rotate(Rotation.x, randomYRotation, Rotation.z);
             }
         }
     }
