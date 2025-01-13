@@ -8,13 +8,25 @@ namespace Ungeziefi.Cockpit_Free_Look
     [HarmonyPatch]
     public class CockpitFreeLook
     {
+        #region Constants and Cached Camera
+        private static readonly float SMOOTH_MULTIPLIER = 2f;     // Multiplier for interpolation speed
+        private static readonly float TIME_MULTIPLIER = 60f;      // Fixed time multiplier
+        private static readonly float TILT_MULTIPLIER = 5f;       // Vehicle tilt effect strength
+
+        private static Camera mainCamera;
+        #endregion
+
+        #region State Tracking
         private static bool isLooking = false;
         private static bool isReturning = false;
         private static Vector2 currentRotation = Vector2.zero;
         private static Quaternion originalRotation;
-        private static bool wasKeyPressed = false;
-        private static float returnTime = 0f;
+        private static bool wasKeyPressed = false; // Toggle detection
+        private static float returnTime = 0f; // Time elapsed during return animation
+        #endregion
 
+        #region Vehicle Update Transpiler
+        // Prevents rotation input while in free look
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.Update)), HarmonyTranspiler]
         private static IEnumerable<CodeInstruction> Vehicle_Update(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
@@ -33,21 +45,19 @@ namespace Ungeziefi.Cockpit_Free_Look
 
             return matcher.InstructionEnumeration();
         }
+        #endregion
 
+        #region Steering Wheel Reset
         private static bool IsInFreeLook(Vehicle vehicle)
         {
             if (isLooking || isReturning)
             {
-                // Smoothly interpolate steering values to zero
-                float smoothSpeed = Time.deltaTime * (1f / Main.Config.FreeLookReturnDuration) * 2f;
-
-                // Smoothly reduce yaw
+                // Interpolate steering
+                float smoothSpeed = Time.deltaTime * (1f / Main.Config.FreeLookReturnDuration) * SMOOTH_MULTIPLIER;
                 vehicle.steeringWheelYaw = Mathf.Lerp(vehicle.steeringWheelYaw, 0f, smoothSpeed);
-
-                // Smoothly reduce pitch
                 vehicle.steeringWheelPitch = Mathf.Lerp(vehicle.steeringWheelPitch, 0f, smoothSpeed);
 
-                // Reset animator values if they exist, using the same smooth interpolation
+                // Update animator
                 if (vehicle.mainAnimator != null)
                 {
                     float currentYaw = vehicle.mainAnimator.GetFloat("view_yaw");
@@ -61,25 +71,31 @@ namespace Ungeziefi.Cockpit_Free_Look
             }
             return false;
         }
+        #endregion
 
+        #region Camera Movement
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.Update)), HarmonyPostfix]
         public static void Vehicle_Update(Vehicle __instance)
         {
-            // Check vehicle type and corresponding config
             bool isExosuit = __instance is Exosuit;
-            if (isExosuit && !Main.Config.PRAWNEnableFeature) return;
-            if (!isExosuit && !Main.Config.SeamothEnableFeature) return;
+            bool isValidVehicle = (isExosuit && Main.Config.PRAWNEnableFeature) ||
+                                (!isExosuit && Main.Config.SeamothEnableFeature);
+            if (!isValidVehicle) return;
 
             if (__instance != Player.main?.currentMountedVehicle) return;
 
-            Transform cameraTransform = MainCamera.camera.transform;
-            if (cameraTransform == null) return;
+            // Cache and validate camera
+            if (mainCamera == null)
+                mainCamera = MainCamera.camera;
+            if (mainCamera == null) return;
+
+            Transform cameraTransform = mainCamera.transform;
 
             if (isReturning)
             {
                 returnTime += Time.deltaTime;
                 float t = returnTime / Main.Config.FreeLookReturnDuration;
-                t = Mathf.Sin(t * Mathf.PI * 0.5f);
+                t = Mathf.Sin(t * Mathf.PI * 0.5f); // Smooth easing
 
                 cameraTransform.localRotation = Quaternion.Slerp(
                     cameraTransform.localRotation,
@@ -98,18 +114,17 @@ namespace Ungeziefi.Cockpit_Free_Look
 
             if (!isLooking) return;
 
-            Vector2 lookDelta = GameInput.GetLookDelta() * Main.Config.FreeLookSensitivity * Time.deltaTime * 60f;
+            Vector2 lookDelta = GameInput.GetLookDelta() * Main.Config.FreeLookSensitivity * Time.deltaTime * TIME_MULTIPLIER;
             currentRotation.y += lookDelta.x;
+
+            float tiltAmount = Mathf.Sin(currentRotation.y * Mathf.Deg2Rad) * TILT_MULTIPLIER;
+            Quaternion yawRotation = Quaternion.Euler(0f, currentRotation.y, 0f);
+            Quaternion tiltRotation = Quaternion.Euler(0f, 0f, -tiltAmount);
 
             if (isExosuit)
             {
                 // PRAWN Suit - horizontal only
-                currentRotation.y = Mathf.Clamp(currentRotation.y, -Main.Config.ExosuitAngleLimit, Main.Config.ExosuitAngleLimit);
-
-                Quaternion yawRotation = Quaternion.Euler(0f, currentRotation.y, 0f);
-                float tiltAmount = Mathf.Sin(currentRotation.y * Mathf.Deg2Rad) * 5f;
-                Quaternion tiltRotation = Quaternion.Euler(0f, 0f, -tiltAmount);
-
+                currentRotation.y = Mathf.Clamp(currentRotation.y, -Main.Config.PRAWNAngleLimit, Main.Config.PRAWNAngleLimit);
                 cameraTransform.localRotation = originalRotation * yawRotation * tiltRotation;
             }
             else
@@ -119,15 +134,13 @@ namespace Ungeziefi.Cockpit_Free_Look
                 currentRotation.x = Mathf.Clamp(currentRotation.x, -Main.Config.SeamothVerticalLimit, Main.Config.SeamothVerticalLimit);
                 currentRotation.y = Mathf.Clamp(currentRotation.y, -Main.Config.SeamothHorizontalLimit, Main.Config.SeamothHorizontalLimit);
 
-                Quaternion yawRotation = Quaternion.Euler(0f, currentRotation.y, 0f);
                 Quaternion pitchRotation = Quaternion.Euler(currentRotation.x, 0f, 0f);
-                float tiltAmount = Mathf.Sin(currentRotation.y * Mathf.Deg2Rad) * 5f;
-                Quaternion tiltRotation = Quaternion.Euler(0f, 0f, -tiltAmount);
-
                 cameraTransform.localRotation = originalRotation * yawRotation * pitchRotation * tiltRotation;
             }
         }
+        #endregion
 
+        #region Input Handling
         [HarmonyPatch(typeof(Player), nameof(Player.UpdateRotation)), HarmonyPostfix]
         public static void Player_UpdateRotation()
         {
@@ -136,18 +149,17 @@ namespace Ungeziefi.Cockpit_Free_Look
             Player player = Player.main;
             if (player == null || player.mode != Player.Mode.LockedPiloting) return;
 
-            // Check vehicle type and corresponding config
             Vehicle vehicle = player.currentMountedVehicle;
             if (vehicle == null) return;
 
             bool isExosuit = vehicle is Exosuit;
-            if (isExosuit && !Main.Config.PRAWNEnableFeature) return;
-            if (!isExosuit && !Main.Config.SeamothEnableFeature) return;
+            bool isValidVehicle = (isExosuit && Main.Config.PRAWNEnableFeature) ||
+                                (!isExosuit && Main.Config.SeamothEnableFeature);
+            if (!isValidVehicle) return;
 
-            // Check both primary and secondary keys
-            bool isPrimaryKeyPressed = GameInput.GetKey(Main.Config.FreeLookKey);
-            bool isSecondaryKeyPressed = GameInput.GetKey(Main.Config.SecondaryFreeLookKey);
-            bool isAnyKeyPressed = isPrimaryKeyPressed || isSecondaryKeyPressed;
+            // Handle both keyboard/mouse and controller inputs
+            bool isAnyKeyPressed = GameInput.GetKey(Main.Config.FreeLookKey) ||
+                                 GameInput.GetKey(Main.Config.SecondaryFreeLookKey);
 
             if (isAnyKeyPressed && !wasKeyPressed)
             {
@@ -155,7 +167,7 @@ namespace Ungeziefi.Cockpit_Free_Look
                 {
                     isLooking = true;
                     isReturning = false;
-                    originalRotation = MainCamera.camera.transform.localRotation;
+                    originalRotation = mainCamera.transform.localRotation;
                     currentRotation = Vector2.zero;
                 }
                 else
@@ -167,7 +179,9 @@ namespace Ungeziefi.Cockpit_Free_Look
             }
             wasKeyPressed = isAnyKeyPressed;
         }
+        #endregion
 
+        #region Cleanup
         [HarmonyPatch(typeof(Player), nameof(Player.ExitLockedMode)), HarmonyPrefix]
         public static void OnExitLockedMode()
         {
@@ -175,14 +189,14 @@ namespace Ungeziefi.Cockpit_Free_Look
             {
                 isLooking = false;
                 isReturning = false;
-                if (MainCamera.camera != null)
+                if (mainCamera != null)
                 {
-                    MainCamera.camera.transform.localRotation = originalRotation;
+                    mainCamera.transform.localRotation = originalRotation;
                 }
                 currentRotation = Vector2.zero;
-                Main.Logger.LogInfo("Free look disabled.");
             }
             wasKeyPressed = false;
         }
+        #endregion
     }
 }

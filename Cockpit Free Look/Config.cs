@@ -20,7 +20,7 @@ namespace Ungeziefi.Cockpit_Free_Look
             DefaultValue = 0.3f, Min = 0f, Max = 2.0f, Step = 0.1f, Format = "{0:0.0}s")]
         public float FreeLookReturnDuration = 0.3f;
 
-        [Slider(Label = "Look sensitivity", DefaultValue = 2.0f, Min = 0.1f, Max = 5.0f, Step = 0.1f, Format = "{0:0.0}")]
+        [Slider(Label = "Look sensitivity", DefaultValue = 1.0f, Min = 0.1f, Max = 5.0f, Step = 0.1f, Format = "{0:0.0}")]
         public float FreeLookSensitivity = 1.0f;
 
         [Toggle("<color=#f1c353>Seamoth</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
@@ -29,10 +29,10 @@ namespace Ungeziefi.Cockpit_Free_Look
         [Toggle(Label = "Enable feature")]
         public bool SeamothEnableFeature = true;
 
-        [Slider(Label = "Horizontal angle limit", DefaultValue = 80f, Min = 10f, Max = 80f, Step = 5f, Format = "{0:0}°")]
+        [Slider(Label = "Horizontal angle limit", DefaultValue = 80f, Min = 10f, Max = 80f, Step = 1f, Format = "{0:0}°")]
         public float SeamothHorizontalLimit = 80f;
 
-        [Slider(Label = "Vertical angle limit", DefaultValue = 45f, Min = 10f, Max = 45f, Step = 5f, Format = "{0:0}°")]
+        [Slider(Label = "Vertical angle limit", DefaultValue = 45f, Min = 10f, Max = 45f, Step = 1f, Format = "{0:0}°")]
         public float SeamothVerticalLimit = 45f;
 
         [Toggle("<color=#f1c353>PRAWN Suit</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
@@ -41,7 +41,7 @@ namespace Ungeziefi.Cockpit_Free_Look
         [Toggle(Label = "Enable feature")]
         public bool PRAWNEnableFeature = true;
 
-        [Slider(Label = "PRAWN Suit angle limit", DefaultValue = 45f, Min = 10f, Max = 80f, Step = 5f, Format = "{0:0}°")]
-        public float ExosuitAngleLimit = 45f;
+        [Slider(Label = "Horizontal angle limit", DefaultValue = 60f, Min = 10f, Max = 80f, Step = 1f, Format = "{0:0}°")]
+        public float PRAWNAngleLimit = 60f;
     }
 }
