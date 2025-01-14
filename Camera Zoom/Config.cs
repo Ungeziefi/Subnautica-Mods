@@ -13,10 +13,10 @@ namespace Ungeziefi.Camera_Zoom
         [Toggle(Label = "Enable feature")]
         public bool CCEnableFeature = true;
 
-        [Keybind(Label = "Zoom in key", Tooltip = "Zoom in key in addition to moving forward.")]
+        [Keybind(Label = "Zoom in key", Tooltip = "Zoom in key in addition to moving forward, left Shift by default.")]
         public KeyCode CCZoomInKey = KeyCode.LeftShift;
 
-        [Keybind(Label = "Zoom out key", Tooltip = "Zoom in key in addition to moving backward.")]
+        [Keybind(Label = "Zoom out key", Tooltip = "Zoom in key in addition to moving backward, left Control by default.")]
         public KeyCode CCZoomOutKey = KeyCode.LeftControl;
 
         [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]
@@ -76,10 +76,10 @@ namespace Ungeziefi.Camera_Zoom
         [Toggle(Label = "Enable feature")]
         public bool CDEnableFeature = true;
 
-        [Keybind(Label = "Zoom in key")]
+        [Keybind(Label = "Zoom in key", Tooltip = "Left Shift by default.")]
         public KeyCode CDZoomInKey = KeyCode.LeftShift;
 
-        [Keybind(Label = "Zoom out key")]
+        [Keybind(Label = "Zoom out key", Tooltip = "Left Control by default.")]
         public KeyCode CDZoomOutKey = KeyCode.LeftControl;
 
         [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]

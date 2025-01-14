@@ -22,10 +22,10 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 Options = new[] { "Disabled", "Normal", "Only when empty" })]
         public StabilizationMode StabilizationMode = StabilizationMode.OnlyWhenEmpty;
 
-        [Keybind(Label = "Roll left key")]
+        [Keybind(Label = "Roll left key", Tooltip = "Left Control by default.")]
         public KeyCode RollLeftKey = KeyCode.LeftControl;
 
-        [Keybind(Label = "Roll right key")]
+        [Keybind(Label = "Roll right key", Tooltip = "Left Alt by default.")]
         public KeyCode RollRightKey = KeyCode.LeftAlt;
 
         [Slider(Label = "Roll force", Tooltip = "How strong the rolling motion is.", DefaultValue = 20f, Min = 10f, Max = 50f, Step = 1)]
