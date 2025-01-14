@@ -25,7 +25,6 @@
   - To be more specific, the old behaviour was `destination = WhereIAm - WhereDamageCameFrom` and the new one is `destination = WhereIAm + normalized(WhereIAm - WhereDamageCameFrom) * fleeDistance`. Credits to [Mikjaw](https://next.nexusmods.com/profile/Mikjaw) for the pointer on why this happens.
 - **Sulfur Plant rotation**: Fixes the rotation of 2 Sulfur Plants (`280 -40 -195` and `272 -41 -199`).
 - **Reset Databank scroll**: Makes Databank entries always start at the top when opened instead of keeping the previous scroll position.
-- **Cyclops helm HUD fixes**: Turns off the helm HUD when the power is off and prevents its buttons from being clickable while invisible.
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.

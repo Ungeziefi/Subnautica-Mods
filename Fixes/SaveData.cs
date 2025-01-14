@@ -13,6 +13,5 @@ namespace Ungeziefi.Fixes
         public bool SeaglideLightOn;
         public bool SeaglideMapOff;
         public HashSet<string> PrawnSuitsWithLightOff = new HashSet<string>();
-        public Dictionary<string, TechType> LastHeldTools = new Dictionary<string, TechType>();
     }
 }
