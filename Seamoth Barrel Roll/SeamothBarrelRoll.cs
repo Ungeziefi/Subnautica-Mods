@@ -7,7 +7,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
     [HarmonyPatch]
     internal class SeamothBarrelRoll
     {
-        // Track active rolls
+        #region State and Power Check
         private static Dictionary<SeaMoth, RollState> activeRolls = new Dictionary<SeaMoth, RollState>();
 
         private class RollState
@@ -16,11 +16,11 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             public bool isRolling, wasRolling; // State tracking for sound effects
         }
 
-        // Check power
         private static bool HasPower(Vehicle vehicle) =>
             vehicle?.GetComponent<EnergyMixin>()?.charge > 0f;
+        #endregion
 
-        // Stability
+        #region Stabilization
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.StabilizeRoll)), HarmonyPrefix]
         public static bool Vehicle_StabilizeRoll(Vehicle __instance)
         {
@@ -44,8 +44,9 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 return true; // Otherwise always stabilize
             }
         }
+        #endregion
 
-        // Physics
+        #region Physics
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.FixedUpdate)), HarmonyPostfix]
         public static void Vehicle_FixedUpdate(Vehicle __instance)
         {
@@ -103,8 +104,9 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 }
             }
         }
+        #endregion
 
-        // Cleanup
+        #region Cleanup
         [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.OnPilotModeEnd)), HarmonyPostfix]
         public static void SeaMoth_OnPilotModeEnd(SeaMoth __instance)
         {
@@ -133,5 +135,6 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             // Remove tracking state
             activeRolls.Remove(__instance);
         }
+        #endregion
     }
 }

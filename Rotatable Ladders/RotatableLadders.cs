@@ -8,11 +8,13 @@ namespace Ungeziefi.Rotatable_Ladders
     [HarmonyPatch]
     public class RotatableLadders
     {
+        // Get coords as string
         public static string GetLadderCoords(Transform transform)
         {
             return $"{Mathf.RoundToInt(transform.position.x)},{Mathf.RoundToInt(transform.position.y)},{Mathf.RoundToInt(transform.position.z)}";
         }
 
+        // Hover prompt
         [HarmonyPatch(typeof(BaseLadder), nameof(BaseLadder.OnHandHover)), HarmonyPostfix]
         public static void BaseLadder_OnHandHover(BaseLadder __instance, GUIHand hand)
         {
@@ -32,14 +34,17 @@ namespace Ungeziefi.Rotatable_Ladders
                 Transform parent = __instance.transform.parent;
                 if (parent == null) return;
 
+                // Get coords and apply rotation
                 string coords = GetLadderCoords(parent);
                 float newYRotation = (parent.localRotation.eulerAngles.y + 90f) % 360f;
                 parent.localRotation = Quaternion.Euler(0f, newYRotation, 0f);
 
+                // Split based on bottom or top
                 var dictionary = parent.name.Contains("LadderBottom") ?
                     Main.SaveData.RotatedLaddersBottom :
                     Main.SaveData.RotatedLaddersTop;
 
+                // Update and remove if rotation is 0
                 if (newYRotation == 0f)
                     dictionary.Remove(coords);
                 else
@@ -53,11 +58,13 @@ namespace Ungeziefi.Rotatable_Ladders
             Transform parent = __instance.transform.parent;
             if (!Main.Config.EnableFeature || __instance == null || parent == null) return;
 
+            // Get coords and check data
             string coords = GetLadderCoords(parent);
             var dictionary = parent.name.Contains("LadderBottom") ?
                 Main.SaveData.RotatedLaddersBottom :
                 Main.SaveData.RotatedLaddersTop;
 
+            // Apply rotation
             if (dictionary.TryGetValue(coords, out float savedRotation))
             {
                 parent.localRotation = Quaternion.Euler(0f, savedRotation, 0f);
@@ -68,10 +75,11 @@ namespace Ungeziefi.Rotatable_Ladders
         [HarmonyPatch(typeof(BaseLadder), nameof(BaseLadder.Start)), HarmonyPostfix]
         public static void BaseLadder_Start()
         {
-            // Get all ladders
+            // Get ladders
             var allLadders = Object.FindObjectsOfType<BaseLadder>();
             var validCoords = new HashSet<string>();
 
+            // Get their coords
             foreach (var ladder in allLadders)
             {
                 if (ladder?.transform?.parent != null)
@@ -80,7 +88,7 @@ namespace Ungeziefi.Rotatable_Ladders
                 }
             }
 
-            // Remove entries without corresponding ladder
+            // Remove invalid coords
             var bottomKeys = Main.SaveData.RotatedLaddersBottom.Keys.ToList();
             var topKeys = Main.SaveData.RotatedLaddersTop.Keys.ToList();
 
