@@ -1,32 +1,6 @@
 .vs
+bin
+obj
 
 Release
 Media
-Testing
-
-Docs/Ideas.txt
-Docs/Features to Test.txt
-
-Fixes/bin
-Fixes/obj
-
-Tweaks/bin
-Tweaks/obj
-
-Camera Zoom/bin
-Camera Zoom/obj
-
-Custom Sunbeam Countdown/bin
-Custom Sunbeam Countdown/obj
-
-Rotatable Ladders/bin
-Rotatable Ladders/obj
-
-Seamoth Barrel Roll/bin
-Seamoth Barrel Roll/obj
-
-PDA Movement and Bobbing/bin
-PDA Movement and Bobbing/obj
-
-Cockpit Free Look/bin
-Cockpit Free Look/obj

@@ -2,11 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-	<AssemblyName>Tweaks</AssemblyName>
-    <Version>1.0.0</Version>
+	<AssemblyName>Cockpit_Free_Look</AssemblyName>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>11</LangVersion>
-	<RootNamespace>Ungeziefi.Tweaks</RootNamespace>
+	<RootNamespace>Ungeziefi.Cockpit_Free_Look</RootNamespace>
 
     <RestoreAdditionalProjectSources>
       https://api.nuget.org/v3/index.json;
@@ -24,7 +23,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Subnautica.Nautilus" Version="1.0.0-pre.34" PrivateAssets="all" />
+    <PackageReference Include="Subnautica.Nautilus" Version="1.*-*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
@@ -32,6 +31,6 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="mkdir &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;&#xD;&#xA;mkdir &quot;C:\Modding\Subnautica-Mods\Release\Tweaks\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Modding\Subnautica-Mods\Release\Tweaks\BepInEx\plugins\$(TargetName)&quot;" />
+    <Exec Command="mkdir &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;&#xD;&#xA;mkdir &quot;C:\Modding\Subnautica-Mods\Release\Cockpit Free Look\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Modding\Subnautica-Mods\Release\Cockpit Free Look\BepInEx\plugins\$(TargetName)&quot;" />
   </Target>
 </Project>

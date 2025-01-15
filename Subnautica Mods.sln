@@ -3,39 +3,37 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fixes", "Fixes\Fixes.csproj", "{D4E87290-C938-4C36-B292-E4EF1182B754}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Camera Zoom", "New Features\Camera Zoom\Camera Zoom.csproj", "{A8EE4BF0-D1BB-4542-9704-93DF6729199A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweaks", "Tweaks\Tweaks.csproj", "{7BA4FA81-18B7-4289-BFF1-DA62341AA0D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cockpit Free Look", "New Features\Cockpit Free Look\Cockpit Free Look.csproj", "{3477D8F5-CE0F-429B-9F37-34484FF7D540}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{F4BF2276-F474-472D-BDFF-1E386A76462F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom Sunbeam Countdown", "New Features\Custom Sunbeam Countdown\Custom Sunbeam Countdown.csproj", "{2C1DEC23-AC5A-49A7-B20E-24B348E0E3C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDA Movement and Bobbing", "New Features\PDA Movement and Bobbing\PDA Movement and Bobbing.csproj", "{B2A23F03-82E1-4602-AE07-E7730F5A9FE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rotatable Ladders", "New Features\Rotatable Ladders\Rotatable Ladders.csproj", "{EC038F71-50EF-45B2-A632-2373EDBE99D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seamoth Barrel Roll", "New Features\Seamoth Barrel Roll\Seamoth Barrel Roll.csproj", "{CF37A8CA-0F91-4760-8A8F-2D7B1E291CAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "New Features", "New Features", "{CA5E58BE-6986-4F57-B77C-D96939169767}"
 	ProjectSection(SolutionItems) = preProject
-		Docs\Features to Test.txt = Docs\Features to Test.txt
-		Docs\Ideas.txt = Docs\Ideas.txt
-		Docs\New Features.md = Docs\New Features.md
-		Docs\New Fixes.md = Docs\New Fixes.md
-		Docs\New Tweaks.md = Docs\New Tweaks.md
-		Docs\README.md = Docs\README.md
-		Docs\Recommended Additional Fixes.md = Docs\Recommended Additional Fixes.md
-		Docs\T&F Fixes Progress.md = Docs\T&F Fixes Progress.md
-		Docs\T&F Tweaks Progress.md = Docs\T&F Tweaks Progress.md
+		New Features\New Features.md = New Features\New Features.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Camera Zoom", "Camera Zoom\Camera Zoom.csproj", "{7F1F7910-8E99-48E1-88F7-8F768983CC3A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "T&F Rework", "T&F Rework", "{B034D182-C267-4B25-BF22-B247104559AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom Sunbeam Countdown", "Custom Sunbeam Countdown\Custom Sunbeam Countdown.csproj", "{4EE2ED78-A7A9-4085-A7C9-032C6960984E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fixes", "T&F Rework\Fixes\Fixes.csproj", "{BEBD6924-BA33-4038-8C66-D59D05AD4EFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rotatable Ladders", "Rotatable Ladders\Rotatable Ladders.csproj", "{091DFAA9-51A9-426D-A3D0-FF6E5E5D52A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweaks", "T&F Rework\Tweaks\Tweaks.csproj", "{EFF1C5FC-4B8A-45D0-88B6-DB8DDC79DE47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seamoth Barrel Roll", "Seamoth Barrel Roll\Seamoth Barrel Roll.csproj", "{63621229-EBA6-4308-8B35-BB52D73537C5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{ABCEE064-5777-4DCE-99FC-8C3A8F25E0ED}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{068F1835-EF2E-488E-9705-EEE11C114F56}"
 	ProjectSection(SolutionItems) = preProject
-		Testing\Knife Attacks Debug.cs = Testing\Knife Attacks Debug.cs
+		T&F Rework\Docs\New Fixes.md = T&F Rework\Docs\New Fixes.md
+		T&F Rework\Docs\New Tweaks.md = T&F Rework\Docs\New Tweaks.md
+		T&F Rework\Docs\Recommended Additional Fixes.md = T&F Rework\Docs\Recommended Additional Fixes.md
+		T&F Rework\Docs\T&F Fixes Progress.md = T&F Rework\Docs\T&F Fixes Progress.md
+		T&F Rework\Docs\T&F Tweaks Progress.md = T&F Rework\Docs\T&F Tweaks Progress.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDA Movement and Bobbing", "PDA Movement and Bobbing\PDA Movement and Bobbing.csproj", "{3D4CE009-DA66-46CA-9D2D-A049FB10CAFA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cockpit Free Look", "Cockpit Free Look\Cockpit Free Look.csproj", "{2D38D4B6-32E5-437A-A27C-36E235701A01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,40 +41,51 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D4E87290-C938-4C36-B292-E4EF1182B754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4E87290-C938-4C36-B292-E4EF1182B754}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4E87290-C938-4C36-B292-E4EF1182B754}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4E87290-C938-4C36-B292-E4EF1182B754}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BA4FA81-18B7-4289-BFF1-DA62341AA0D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7BA4FA81-18B7-4289-BFF1-DA62341AA0D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7BA4FA81-18B7-4289-BFF1-DA62341AA0D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7BA4FA81-18B7-4289-BFF1-DA62341AA0D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F1F7910-8E99-48E1-88F7-8F768983CC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F1F7910-8E99-48E1-88F7-8F768983CC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F1F7910-8E99-48E1-88F7-8F768983CC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F1F7910-8E99-48E1-88F7-8F768983CC3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4EE2ED78-A7A9-4085-A7C9-032C6960984E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4EE2ED78-A7A9-4085-A7C9-032C6960984E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4EE2ED78-A7A9-4085-A7C9-032C6960984E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4EE2ED78-A7A9-4085-A7C9-032C6960984E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{091DFAA9-51A9-426D-A3D0-FF6E5E5D52A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{091DFAA9-51A9-426D-A3D0-FF6E5E5D52A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{091DFAA9-51A9-426D-A3D0-FF6E5E5D52A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{091DFAA9-51A9-426D-A3D0-FF6E5E5D52A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63621229-EBA6-4308-8B35-BB52D73537C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63621229-EBA6-4308-8B35-BB52D73537C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63621229-EBA6-4308-8B35-BB52D73537C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63621229-EBA6-4308-8B35-BB52D73537C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D4CE009-DA66-46CA-9D2D-A049FB10CAFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D4CE009-DA66-46CA-9D2D-A049FB10CAFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D4CE009-DA66-46CA-9D2D-A049FB10CAFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D4CE009-DA66-46CA-9D2D-A049FB10CAFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D38D4B6-32E5-437A-A27C-36E235701A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D38D4B6-32E5-437A-A27C-36E235701A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D38D4B6-32E5-437A-A27C-36E235701A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D38D4B6-32E5-437A-A27C-36E235701A01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8EE4BF0-D1BB-4542-9704-93DF6729199A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8EE4BF0-D1BB-4542-9704-93DF6729199A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8EE4BF0-D1BB-4542-9704-93DF6729199A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8EE4BF0-D1BB-4542-9704-93DF6729199A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3477D8F5-CE0F-429B-9F37-34484FF7D540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3477D8F5-CE0F-429B-9F37-34484FF7D540}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3477D8F5-CE0F-429B-9F37-34484FF7D540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3477D8F5-CE0F-429B-9F37-34484FF7D540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C1DEC23-AC5A-49A7-B20E-24B348E0E3C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C1DEC23-AC5A-49A7-B20E-24B348E0E3C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C1DEC23-AC5A-49A7-B20E-24B348E0E3C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C1DEC23-AC5A-49A7-B20E-24B348E0E3C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2A23F03-82E1-4602-AE07-E7730F5A9FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2A23F03-82E1-4602-AE07-E7730F5A9FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2A23F03-82E1-4602-AE07-E7730F5A9FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A23F03-82E1-4602-AE07-E7730F5A9FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC038F71-50EF-45B2-A632-2373EDBE99D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC038F71-50EF-45B2-A632-2373EDBE99D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC038F71-50EF-45B2-A632-2373EDBE99D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC038F71-50EF-45B2-A632-2373EDBE99D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF37A8CA-0F91-4760-8A8F-2D7B1E291CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF37A8CA-0F91-4760-8A8F-2D7B1E291CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF37A8CA-0F91-4760-8A8F-2D7B1E291CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF37A8CA-0F91-4760-8A8F-2D7B1E291CAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEBD6924-BA33-4038-8C66-D59D05AD4EFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEBD6924-BA33-4038-8C66-D59D05AD4EFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEBD6924-BA33-4038-8C66-D59D05AD4EFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEBD6924-BA33-4038-8C66-D59D05AD4EFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF1C5FC-4B8A-45D0-88B6-DB8DDC79DE47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF1C5FC-4B8A-45D0-88B6-DB8DDC79DE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF1C5FC-4B8A-45D0-88B6-DB8DDC79DE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFF1C5FC-4B8A-45D0-88B6-DB8DDC79DE47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A8EE4BF0-D1BB-4542-9704-93DF6729199A} = {CA5E58BE-6986-4F57-B77C-D96939169767}
+		{3477D8F5-CE0F-429B-9F37-34484FF7D540} = {CA5E58BE-6986-4F57-B77C-D96939169767}
+		{2C1DEC23-AC5A-49A7-B20E-24B348E0E3C1} = {CA5E58BE-6986-4F57-B77C-D96939169767}
+		{B2A23F03-82E1-4602-AE07-E7730F5A9FE8} = {CA5E58BE-6986-4F57-B77C-D96939169767}
+		{EC038F71-50EF-45B2-A632-2373EDBE99D5} = {CA5E58BE-6986-4F57-B77C-D96939169767}
+		{CF37A8CA-0F91-4760-8A8F-2D7B1E291CAC} = {CA5E58BE-6986-4F57-B77C-D96939169767}
+		{BEBD6924-BA33-4038-8C66-D59D05AD4EFB} = {B034D182-C267-4B25-BF22-B247104559AB}
+		{EFF1C5FC-4B8A-45D0-88B6-DB8DDC79DE47} = {B034D182-C267-4B25-BF22-B247104559AB}
+		{068F1835-EF2E-488E-9705-EEE11C114F56} = {B034D182-C267-4B25-BF22-B247104559AB}
 	EndGlobalSection
 EndGlobal

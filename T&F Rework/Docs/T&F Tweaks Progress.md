@@ -9,6 +9,9 @@
 - **Plant rotation randomizer**.
 - **Mobile Vehicle Bay beacon**.
 - **Cyclops displays needs power**: Disables various screens and systems when the power is off. (Improved by covering all the missing interfaces and light sources. The full list is now: Sonar, compass, decoy screen, storage terminal, upgrade console, lights control panel, edit screen, and light statics.)
+- **Batteries have tooltips**.
+- **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in if graphics quality is set to high. (Improved by untying from the High quality setting, which prevented the feature from working with custom settings. The feature toggle makes this check pointless anyway.)
+- **No deposit pop in**: Resource deposits no longer pop in if graphics detail is set to high. (Improved by untying from the High quality setting, which prevented the feature from working with custom settings. The feature toggle makes this check pointless anyway.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -38,7 +41,6 @@
 - **Geysers push objects**.
 - **Openable chests in PRAWN**: The PRAWN Suit can now open supply chests.
 - **Improved collision logic**: Improves the vehicle collision code.
-- **Batteries tooltip description**.
 - **No rotten food value**: Removes food value from rotten cooked fish.
 - **Torpedo launcher creature decoy**: Allows the Seamoth and PRAWN Suit to launch Creature Decoys.
 - **No collision with small plants**: Removes collision from the Veined Nettle, Writhing Weed, and some other unnamed plants.
@@ -47,8 +49,6 @@
 - **Less Cyclops collisions**: Removed collision sounds from Brain Coral bubbles and small fish hitting the Cyclops.
 - **Creepvine unlocks Fiber Mesh**: Scanning Creepvine unlocks the Fiber Mesh.
 - **Full inventory harvesting**: Harvesting with a full inventory will drop the items.
-- **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in if graphics quality is set to high.
-- **No deposit pop in**: Resource deposits no longer pop in if graphics detail is set to high.
 - **Hold lit flares**: You can now light and hold a flare in your hand without throwing it.
 - **Scared Peepers**: Peepers now close their eyes when near the player.
 - **No resources fading**: Resources spawned by breaking outcrops now don't fade in.
