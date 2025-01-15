@@ -1,8 +1,7 @@
-A collection of fixes, tweaks, and new features for Subnautica 2.0. The Fixes and Tweaks modules are a complete rework of [Tweaks and Fixes](https://github.com/qqqbbb/Tweaks-and-Fixes). Every single change is configurable and optimized for compatibility, avoiding the use of bool Prefixes whenever possible. The code is also more readable and organized.
-
-You can find complete documentation in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/Docs).
-
+A collection of fixes, tweaks, and new features for Subnautica 2.0. The Fixes and Tweaks modules are a complete rework of [Tweaks and Fixes](https://github.com/qqqbbb/Tweaks-and-Fixes). Every single change is configurable and optimized for compatibility, avoiding the use of bool Prefixes whenever possible. The code is also more readable and organized.  
 <small>**Disclaimer**: None of the T&F code was a direct copy, assuming the feature isn't simple to the point it can't be implemented any differently.</small>
+
+You can find its complete documentation in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/T%26F%20Rework/Docs).
 
 Built with [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Templates) and [Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/community/).
 
