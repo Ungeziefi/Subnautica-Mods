@@ -10,8 +10,6 @@
 - **Mobile Vehicle Bay beacon**.
 - **Cyclops displays needs power**: Disables various screens and systems when the power is off. (Improved by covering all the missing interfaces and light sources. The full list is now: Sonar, compass, decoy screen, storage terminal, upgrade console, lights control panel, edit screen, and light statics.)
 - **Batteries have tooltips**.
-- **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in if graphics quality is set to high. (Improved by untying from the High quality setting, which prevented the feature from working with custom settings. The feature toggle makes this check pointless anyway.)
-- **No deposit pop in**: Resource deposits no longer pop in if graphics detail is set to high. (Improved by untying from the High quality setting, which prevented the feature from working with custom settings. The feature toggle makes this check pointless anyway.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -56,6 +54,8 @@
 - **No base items fading**: Items placed in bases now don't fade in.
 - **Land_tree_01 no light**.
 - **Universal creature decoy**: Makes the creature decoy work on all predators.
+- **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in if graphics quality is set to high.
+- **No deposit pop in**: Resource deposits no longer pop in if graphics detail is set to high.
 
 ---
 

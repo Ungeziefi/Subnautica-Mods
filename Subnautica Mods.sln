@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seamoth Barrel Roll", "New 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "New Features", "New Features", "{CA5E58BE-6986-4F57-B77C-D96939169767}"
 	ProjectSection(SolutionItems) = preProject
-		New Features\New Features.md = New Features\New Features.md
+		New Features\New Features - README.md = New Features\New Features - README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "T&F Rework", "T&F Rework", "{B034D182-C267-4B25-BF22-B247104559AB}"
@@ -34,6 +34,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{068F1835-E
 		T&F Rework\Docs\T&F Fixes Progress.md = T&F Rework\Docs\T&F Fixes Progress.md
 		T&F Rework\Docs\T&F Tweaks Progress.md = T&F Rework\Docs\T&F Tweaks Progress.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dynamic Scanner Blips", "Other Mods\Dynamic Scanner Blips\Dynamic Scanner Blips.csproj", "{30298D96-D7DF-4EC9-868D-243B7D4ED46C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other Mods", "Other Mods", "{36C33857-57C9-42D3-84FE-7D44EEA332BC}"
+	ProjectSection(SolutionItems) = preProject
+		Other Mods - README.md = Other Mods - README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anisotropic Fix", "Other Mods\Anisotropic Fix\Anisotropic Fix.csproj", "{7B5EF38F-B26B-48BE-AE6D-D3218635385D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +82,14 @@ Global
 		{EFF1C5FC-4B8A-45D0-88B6-DB8DDC79DE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFF1C5FC-4B8A-45D0-88B6-DB8DDC79DE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFF1C5FC-4B8A-45D0-88B6-DB8DDC79DE47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30298D96-D7DF-4EC9-868D-243B7D4ED46C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30298D96-D7DF-4EC9-868D-243B7D4ED46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30298D96-D7DF-4EC9-868D-243B7D4ED46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30298D96-D7DF-4EC9-868D-243B7D4ED46C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B5EF38F-B26B-48BE-AE6D-D3218635385D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B5EF38F-B26B-48BE-AE6D-D3218635385D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B5EF38F-B26B-48BE-AE6D-D3218635385D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B5EF38F-B26B-48BE-AE6D-D3218635385D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,5 +104,7 @@ Global
 		{BEBD6924-BA33-4038-8C66-D59D05AD4EFB} = {B034D182-C267-4B25-BF22-B247104559AB}
 		{EFF1C5FC-4B8A-45D0-88B6-DB8DDC79DE47} = {B034D182-C267-4B25-BF22-B247104559AB}
 		{068F1835-EF2E-488E-9705-EEE11C114F56} = {B034D182-C267-4B25-BF22-B247104559AB}
+		{30298D96-D7DF-4EC9-868D-243B7D4ED46C} = {36C33857-57C9-42D3-84FE-7D44EEA332BC}
+		{7B5EF38F-B26B-48BE-AE6D-D3218635385D} = {36C33857-57C9-42D3-84FE-7D44EEA332BC}
 	EndGlobalSection
 EndGlobal
