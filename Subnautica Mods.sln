@@ -16,9 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seamoth Barrel Roll", "New Features\Seamoth Barrel Roll\Seamoth Barrel Roll.csproj", "{CF37A8CA-0F91-4760-8A8F-2D7B1E291CAC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "New Features", "New Features", "{CA5E58BE-6986-4F57-B77C-D96939169767}"
-	ProjectSection(SolutionItems) = preProject
-		New Features\New Features - README.md = New Features\New Features - README.md
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "T&F Rework", "T&F Rework", "{B034D182-C267-4B25-BF22-B247104559AB}"
 EndProject
@@ -38,9 +35,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dynamic Scanner Blips", "Other Mods\Dynamic Scanner Blips\Dynamic Scanner Blips.csproj", "{30298D96-D7DF-4EC9-868D-243B7D4ED46C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other Mods", "Other Mods", "{36C33857-57C9-42D3-84FE-7D44EEA332BC}"
-	ProjectSection(SolutionItems) = preProject
-		Other Mods - README.md = Other Mods - README.md
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anisotropic Fix", "Other Mods\Anisotropic Fix\Anisotropic Fix.csproj", "{7B5EF38F-B26B-48BE-AE6D-D3218635385D}"
 EndProject
