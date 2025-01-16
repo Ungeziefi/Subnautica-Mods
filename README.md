@@ -6,7 +6,8 @@ A rework of [Tweaks and Fixes](https://www.nexusmods.com/subnautica/mods/722), t
 - New bug fixes and new tweaks.
 - And more...
  
-You can find complete documentation in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/T%26F%20Rework/Docs).  
+You can find complete documentation in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/T%26F%20Rework/Docs).
+
 <small>**Disclaimer**: None of the T&F code was a direct copy, assuming the feature isn't simple to the point it can't be implemented any differently.</small>
 
 ---
