@@ -26,8 +26,8 @@ These are separate from the T&F rework because they don't fit its scope, and are
 
 ---
 
-### Other Mods
-These were remade just for **personal use** and to make their source code public. All credits to [WhoTnT](https://next.nexusmods.com/profile/WhoTnT).
+### Remakes
+These are just for **personal use** and to have public source code. All credits to [WhoTnT](https://next.nexusmods.com/profile/WhoTnT).
 - [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185)
 - [Dynamic Scanner Blips](https://www.nexusmods.com/subnautica/mods/1160) (Optimized and moved the settings to the Mod menu.)
 
