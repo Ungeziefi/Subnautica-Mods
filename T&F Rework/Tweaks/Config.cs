@@ -63,12 +63,6 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Batteries have tooltips")]
         public bool BatteriesHaveTooltips = false;
 
-        [Toggle(Label = "No Jellyshroom Cave pop in", Tooltip = "Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in if graphics quality is set to high.")]
-        public bool NoJellyshroomCavePopIn = false;
-
-        [Toggle(Label = "No deposit pop in", Tooltip = "Resource deposits no longer pop in if graphics detail is set to high.")]
-        public bool NoDepositPopIn = false;
-
         [Toggle("<color=#f1c353>Critter size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CritterSizeRandomizerDivider;
 
