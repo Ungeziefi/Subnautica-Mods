@@ -11,6 +11,8 @@
       https://api.nuget.org/v3/index.json;
       https://nuget.bepinex.dev/v3/index.json;
     </RestoreAdditionalProjectSources>
+
+  <NoWarn>NU1903</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
