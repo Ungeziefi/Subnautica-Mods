@@ -63,6 +63,9 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Batteries have tooltips")]
         public bool BatteriesHaveTooltips = false;
 
+        [Toggle(Label = "No PDA delay")]
+        public bool NoPDADelay = false;
+
         [Toggle("<color=#f1c353>Critter size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CritterSizeRandomizerDivider;
 

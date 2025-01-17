@@ -10,6 +10,7 @@
 - **Mobile Vehicle Bay beacon**.
 - **Cyclops displays needs power**: Disables various screens and systems when the power is off. (Improved by covering all the missing interfaces and light sources. The full list is now: Sonar, compass, decoy screen, storage terminal, upgrade console, lights control panel, edit screen, and light statics.)
 - **Batteries have tooltips**.
+- **No PDA delay**. (Better compatibility by not using bool Prefix.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -54,28 +55,26 @@
 - **No base items fading**: Items placed in bases now don't fade in.
 - **Land_tree_01 no light**.
 - **Universal creature decoy**: Makes the creature decoy work on all predators.
-- **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in if graphics quality is set to high.
-- **No deposit pop in**: Resource deposits no longer pop in if graphics detail is set to high.
+- **Destructible Drooping Stingers**: Allows destroying Drooping Stingers with a knife.
 
 ---
 
 ### <span style="color: red;">Won't Do</span>
 #### Not interested
 - Most of what's under T&F's "Settings in the mod's options menu" section on [Nexus Mods](https://www.nexusmods.com/subnautica/mods/722).
-- **Change PDA tab key**.
-- **Cycle tools key**: Adds a key to cycling tools in your quickbar.
-- **Alternative bubble spawns**: The Brain Coral now spawns 1 bubble instead of 3, but three times more often.
-- **Alternative hull modules**: The first installed hull reinforcement module now reduces incoming damage by 30%, the second by 20%, and the third by 10%.
-- **Vehicles drop items**: Items inside a Seamoth or PRAWN Suit will drop when the vehicle is destroyed.
-- **Easier container naming**: Allows renaming containers by clicking anywhere on them.
-- **Decorations mod locker renaming**.
-- **Consumable Creepvine seeds**.
-- **Pushable life pod**: Allows the life pod to be moved by pushing it with a Seamoth or Cyclops.
-- **No Drooping Stinger collisions**.
-- **Propulsion Cannon breaks outcrops**.
-- **Vehicle Vehicle Bay simpler UI**.
-- **Reefbacks avoid life pod**. (No reefback surfacing make this pointless.)
-- **No PDA delay**.
-- **Dead creature indicator**: When looking at a creature, the UI now tells you if it's dead.
+- "Key bind to select next or previous PDA tab."
+- "Quickslot cycle key."
+- "Brain coral now spawns 1 bubble instead of 3 but it spawns them 3 times more often."
+- "Hull reinforcement module now reduces any physical damage, not just damage from collisions. First installed hull reinforcement module reduces incoming damage by 30%, second one by another 20%, third one by another 10%."
+- "When your seamoth or prawn suit gets destroyed, items stored in it will drop."
+- "New storage UI system. Now you don't have to target certain part of a container to rename it."
+- "Now you can name your lockers, cyclops lockers and lockers from Decorations mod."
+- "Creepvine seed cluster can now be eaten."
+- "You can push your life pod with seamoth or cyclops."
+- "Drooping stinger now does not collide with objects."
+- "Your propulsion cannon will break outcrop when you try to grab it."
+- "Simplified mobile vehicle bay UI."
+- "Reefbacks now avoid your life pod." (No reefback surfacing make this pointless.)
+- "When looking at a creature, UI now tells you if it's dead."
 #### Vanilla feature
-- **Escape closes options**.
+- "When in main menu you can press 'escape' key to close options menu."
