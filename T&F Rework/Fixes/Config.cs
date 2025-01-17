@@ -93,6 +93,9 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "No Cyclops pushing", Tooltip = "Stops Reaper Leviathans from just pushing the Cyclops instead of attacking it.")]
         public bool NoCyclopsPushing = true;
 
+        [Toggle(Label = "Matching Bulbo Tree LOD", Tooltip = "Makes the Bulbo Tree LOD model match its high quality model.")]
+        public bool MatchingBulboTreeLOD = true;
+
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
 
@@ -127,7 +130,7 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Save Cyclops floodlights")]
         public bool SaveCyclopsFloodlights = true;
 
-        [Toggle(Label = "Save Seaglide toggles", Tooltip ="Saves the state of both the light and map.")]
+        [Toggle(Label = "Save Seaglide toggles", Tooltip = "Saves the state of both the light and map.")]
         public bool SaveSeaglideToggles = true;
     }
 }
