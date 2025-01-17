@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Camera_Zoom
 {
     [HarmonyPatch]
-    public class PlayerCameraZoom
+    public class PlayerCamera
     {
         private static Camera Camera => SNCameraRoot.main.mainCamera;
         private static bool isZoomActive, isTransitioning;

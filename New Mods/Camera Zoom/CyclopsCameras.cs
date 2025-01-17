@@ -4,13 +4,13 @@ using UnityEngine;
 namespace Ungeziefi.Camera_Zoom
 {
     [HarmonyPatch]
-    public class CyclopsCamerasZoom
+    public class CyclopsCameras
     {
         private static Camera Camera => SNCameraRoot.main.mainCamera;
         private static readonly float minFOV = Main.Config.CCMinimumFOV;
         private static readonly float maxFOV = Main.Config.CCMaximumFOV;
         private static readonly float zoomSpeed = Main.Config.CCZoomSpeed;
-        internal static bool isCameraActive;
+        private static bool isCameraActive;
         private static float previousFOV;
         private static void ResetAndDisable(bool disable)
         {
