@@ -9,7 +9,7 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Scanner charge indicator", Tooltip = "Adds the missing charge level when using the Scanner.")]
         public bool ScannerChargeIndicator = true;
 
-        [Toggle(Label = "Leviathans don't attack land targets", Tooltip = "Stops leviathans from trying to attack targets on land.")]
+        [Toggle(Label = "Leviathans don't attack land targets", Tooltip = "Stops Leviathans from trying to attack targets on land.")]
         public bool LeviathansDontAttackLandTargets = true;
 
         [Toggle(Label = "No Flashlight point lights", Tooltip = "Stops the flashlight from lighting the enviroment around it.")]
@@ -86,6 +86,12 @@ namespace Ungeziefi.Fixes
 
         [Toggle(Label = "Cyclops helm HUD fixes", Tooltip = "Turns off the helm HUD when the power is off and prevents its buttons from being clickable while invisible.")]
         public bool CyclopsHelmHUDFixes = true;
+
+        [Toggle(Label = "Treaders can attack", Tooltip = "Fixes the Sea Treaders not being able to attack the player.")]
+        public bool TreadersCanAttack = true;
+
+        [Toggle(Label = "No Cyclops pushing", Tooltip = "Stops Reaper Leviathans from just pushing the Cyclops instead of attacking it.")]
+        public bool NoCyclopsPushing = true;
 
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;

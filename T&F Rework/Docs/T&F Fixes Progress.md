@@ -1,6 +1,6 @@
 ﻿### <span style="color: green;">Done</span>
 - **Scanner charge indicator**: Adds the missing charge level when using the Scanner. (Improved by keeping the self-scan hint and better compatibility by not using bool Prefix.)
-- **Leviathans don't attack land targets**: Stops leviathans from trying to attack targets on land. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
+- **Leviathans don't attack land targets**: Stops Leviathans from trying to attack targets on land. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
 - **No Flashlight point lights**: Stops the flashlight from lighting the environment around it.
 - **No plant waving indoors**: Removes the waving animation from indoor plants. (T&F applied this globally instead.)
 - **Nuclear waste disposal name**: Corrected the Nuclear waste disposal bin's name and added the missing space to "Trashcan".
@@ -25,6 +25,8 @@
   - To be more specific, the old behaviour was `destination = WhereIAm - WhereDamageCameFrom` and the new one is `destination = WhereIAm + normalized(WhereIAm - WhereDamageCameFrom) * fleeDistance`. Credits to [Mikjaw](https://next.nexusmods.com/profile/Mikjaw) for the pointer on why this happens.
 - **Sulfur Plant rotation**: Fixes the rotation of 2 Sulfur Plants (`280 -40 -195` and `272 -41 -199`).
 - **Reset Databank scroll**: Makes Databank entries always start at the top when opened instead of keeping the previous scroll position.
+- **Treaders can attack**: Fixes the Sea Treaders not being able to attack the player due to a `onSurface` check.
+- **No Cyclops pushing**: Stops Reaper Leviathans from just pushing the Cyclops instead of attacking it. (Better compatibility by not using bool Prefix.)
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.
@@ -37,8 +39,6 @@
 ---
 
 ### <span style="color: orange;">To-Do</span>
-- **Reapers can attack Cyclops**: Allows Reaper leviathans to attack the Cyclops instead of just pushing it.
-- **Destructable Drooping Stingers**: Allows destroying Drooping Stingers with a knife.
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
 - **Add missing PRAWN sounds**: Adds collision sounds to the PRAWN Suit.
 - **Dynamic Creepvine light**: Updates the Creepvine seed light according to the amount of remaining seeds.
@@ -50,25 +50,29 @@
 - **Keep dead raw fish stored**.
 - **Save PRAWN Suit light**.
 - **Save last held tool**.
+- **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in.
+- **No deposit pop in**: Resource deposits no longer pop in.
 
 ---
 
 ### <span style="color: red;">Won't Do</span>
 #### Can't reproduce the bug
-- **No boulder despawn**: Boulders that block some cave entrances in the safe shallows now do not despawn when you move away from them.
-- **No dead fish shuffling**: Dead fish in your inventory now stay in the same position on reload.
-- "The coffee vending machine now spawns coffee properly". (Possibly fixed with Living Large.)
-- "After reloading, the first-person model is used for waterproof lockers that are not in the inventory."
-- **No doubled knife particle**: Removes the 2nd particle from knife attacks on creatures. (I logged all spawned particles and couldn't find a 2nd one.)
+- "Boulders that block some cave entrances in safe shallows now do not dissappear forever when you move away from them."
+- "Equipped dead fish's position changed if it was in your inventory when the game was loaded."
+- "Coffee vending machine now spawns coffee properly.". (Possibly fixed with Living Large.)
+- "After reloading 1st person model was used for waterproof lockers that were not in inventory."
+- "When you damaged a creature with knife 2 instances of damage particle effect spawned."
+- "Remove safe spot at bottom of geyser." (Undocumented but found in the code.)
 #### Vanilla feature
-- **AC eggs cleanup**: Eggs in your alien containment (AC) now disappear when they hatch.
-- **Sink undeployed MVB**.
-- **Stalkers drop items when attacked**.
+- "Eggs in your AC now disappear when they hatch."
+- "Mobile Vehicle Bay now sinks when not deployed."
+- "Stalkers now drop whatever they are holding in their jaws when they are attacked."
 #### Balance implications
-- **Wild Lantern Tree fruits respawn**.
-- **Wild Blood Oil respawn**.
-- **Thermoblade can damage Lava Lizards**.
+- "Wild lantern tree fruits did not respawn."
+- "Wild blood oil did not respawn."
+- "Heat blade now can damage lava lizards."
 #### Other reasons
-- **Always close hatch flaps**: The Cyclops hatch flaps now always close when you enter it. (Inconsequential, you can't see a closed flap from inside.)
-- **Seaglide no visible neck**: Fixed the visible neck when using the Seaglide with a high FOV. (Very complex, not worth the effort.)
-- **No creature attacks in stasis**. ([Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255) already does it.)
+- "Cyclops hatch flaps now always close when you enter cyclops." (Inconsequential, you can't see a closed flap from inside.)
+- "You could see your neck when using seaglide with high FOV." (Very complex, not worth the effort.)
+- "Gasopod in stasis field does not attack you." ([Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255) already does that and more.)
+- "Fixed unused lava geyser particles spawning on every game load." (Does cleaning them really help with anything?)
