@@ -12,7 +12,7 @@ You can find complete documentation in the [Docs folder](https://github.com/Unge
 
 ---
 
-### New Features
+### New Mods
 These are separate from the T&F rework because they don't fit its scope, and are big enough that they should be their own mod. More information in the respective Nexus Mods description.
 - [Seamoth Barrel Roll](https://www.nexusmods.com/subnautica/mods/2012)
 - [Camera Zoom](https://www.nexusmods.com/subnautica/mods/2013)
