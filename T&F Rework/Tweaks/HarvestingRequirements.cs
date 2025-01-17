@@ -11,9 +11,11 @@ namespace Ungeziefi.Tweaks
             Exosuit exosuit = Player.main.GetVehicle() as Exosuit;
             var heldTool = Inventory.main.GetHeldTool();
 
-            if (!Main.Config.HarvestingRequirements && mode == GameModeOption.Creative && !exosuit) return false;
+            // Don't prevent action if:
+            if (!Main.Config.HarvestingRequirements || mode == GameModeOption.Creative || exosuit != null)
+                return false;
 
-            // Prevent action if no tool is held for outcrops, or if no knife/heatblade is held for plants
+            // Otherwise, check tool
             return isOutcrop ? heldTool == null : !(heldTool is Knife || heldTool is HeatBlade);
         }
 
