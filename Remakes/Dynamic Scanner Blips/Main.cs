@@ -12,7 +12,7 @@ namespace Ungeziefi.Dynamic_Scanner_Blips
     {
         public const string PLUGIN_GUID = "Ungeziefi.Dynamic_Scanner_Blips";
         public const string PLUGIN_NAME = "Dynamic Scanner Blips";
-        public const string PLUGIN_VERSION = "1.0.0";
+        public const string PLUGIN_VERSION = "1.0.0"; // Unused - won't release
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }

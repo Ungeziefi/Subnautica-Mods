@@ -11,7 +11,7 @@ namespace Ungeziefi.Anisotropic_Fix
     {
         public const string PLUGIN_GUID = "Ungeziefi.Anisotropic_Fix";
         public const string PLUGIN_NAME = "Anisotropic Fix";
-        public const string PLUGIN_VERSION = "1.0.0";
+        public const string PLUGIN_VERSION = "1.0.0"; // Unused - won't release
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
