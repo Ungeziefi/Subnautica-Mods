@@ -1,52 +1,11 @@
-﻿using System.Collections.Generic;
-using HarmonyLib;
+﻿using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Seamoth_Barrel_Roll
 {
     [HarmonyPatch]
-    internal class SeamothBarrelRoll
+    public partial class SeamothBarrelRoll
     {
-        #region State and Power Check
-        private static Dictionary<SeaMoth, RollState> activeRolls = new Dictionary<SeaMoth, RollState>();
-
-        private class RollState
-        {
-            public float currentRollForce, targetRollForce;
-            public bool isRolling, wasRolling; // State tracking for sound effects
-        }
-
-        private static bool HasPower(Vehicle vehicle) =>
-            vehicle?.GetComponent<EnergyMixin>()?.charge > 0f;
-        #endregion
-
-        #region Stabilization
-        [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.StabilizeRoll)), HarmonyPrefix]
-        public static bool Vehicle_StabilizeRoll(Vehicle __instance)
-        {
-            if (!Main.Config.EnableFeature ||
-                Main.Config.StabilizationMode == StabilizationMode.Normal)
-                return true;  // Use normal stabilization
-
-            if (Main.Config.StabilizationMode == StabilizationMode.Disabled)
-                return false;  // Disable stabilization
-
-            if (Main.Config.StabilizationRequiresPower && !HasPower(__instance))
-                return false;  // No stabilization without power
-
-            // Only stabilize when empty
-            if (__instance is SeaMoth seamoth && Main.Config.StabilizationMode == StabilizationMode.OnlyWhenEmpty)
-            {
-                return !seamoth.GetPilotingMode(); // Only when not piloting
-            }
-            else
-            {
-                return true; // Otherwise always stabilize
-            }
-        }
-        #endregion
-
-        #region Physics
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.FixedUpdate)), HarmonyPostfix]
         public static void Vehicle_FixedUpdate(Vehicle __instance)
         {
@@ -104,37 +63,5 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 }
             }
         }
-        #endregion
-
-        #region Cleanup
-        [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.OnPilotModeEnd)), HarmonyPostfix]
-        public static void SeaMoth_OnPilotModeEnd(SeaMoth __instance)
-        {
-            if (!Main.Config.EnableFeature || !activeRolls.ContainsKey(__instance))
-                return;
-
-            // Reset engine sound
-            if (__instance.engineSound != null)
-                __instance.engineSound.AccelerateInput(1f);
-
-            // Apply stabilization when empty if configured
-            if (Main.Config.StabilizationMode == StabilizationMode.OnlyWhenEmpty &&
-                (!Main.Config.StabilizationRequiresPower || HasPower(__instance)))
-            {
-                // Convert rotation to -180/180 range
-                float zAngle = __instance.transform.eulerAngles.z;
-                if (zAngle > 180f) zAngle -= 360f;
-
-                if (Mathf.Abs(zAngle) > 2f)
-                {
-                    __instance.useRigidbody.AddTorque(-__instance.transform.forward * Mathf.Sign(zAngle),
-                        ForceMode.VelocityChange);
-                }
-            }
-
-            // Remove tracking state
-            activeRolls.Remove(__instance);
-        }
-        #endregion
     }
 }

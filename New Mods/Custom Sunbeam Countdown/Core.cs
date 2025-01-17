@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Custom_Sunbeam_Countdown
 {
     [HarmonyPatch]
-    public class CustomSunbeamCountdown
+    public class Core
     {
         private static Vector2 originalAnchorMin;
         private static Vector2 originalAnchorMax;
