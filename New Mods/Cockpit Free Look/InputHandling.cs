@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Ungeziefi.Cockpit_Free_Look
 {
+    [HarmonyPatch]
     public partial class CockpitFreeLook
     {
         [HarmonyPatch(typeof(Player), nameof(Player.UpdateRotation)), HarmonyPostfix]

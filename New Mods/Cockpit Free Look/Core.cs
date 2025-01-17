@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using HarmonyLib;
 using RootMotion.FinalIK;
 using UnityEngine;
 
 namespace Ungeziefi.Cockpit_Free_Look
 {
-    [HarmonyPatch]
     public partial class CockpitFreeLook
     {
         // Caches

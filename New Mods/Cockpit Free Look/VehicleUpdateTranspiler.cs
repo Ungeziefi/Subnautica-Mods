@@ -4,6 +4,7 @@ using HarmonyLib;
 
 namespace Ungeziefi.Cockpit_Free_Look
 {
+    [HarmonyPatch]
     public partial class CockpitFreeLook
     {
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.Update)), HarmonyTranspiler]
