@@ -27,7 +27,8 @@
 - **Reset Databank scroll**: Makes Databank entries always start at the top when opened instead of keeping the previous scroll position.
 - **Treaders can attack**: Fixes the Sea Treaders not being able to attack the player due to a `onSurface` check.
 - **No Cyclops pushing**: Stops Reaper Leviathans from just pushing the Cyclops instead of attacking it. (Better compatibility by not using bool Prefix.)
-- **Matching Bulbo Tree LOD**: Makes the Bulbo Tree LOD model match its high quality model.
+- **Matching Bulbo Tree LOD**: Disables the LOD system of `land_plant_middle_01` to hide the mismatched LOD texture. Might affect performance very slightly.
+- **Dynamic Creepvine light**: Updates the Creepvine seed light according to the amount of remaining seeds.
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.
@@ -42,7 +43,6 @@
 ### <span style="color: orange;">To-Do</span>
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
 - **Add missing PRAWN sounds**: Adds collision sounds to the PRAWN Suit.
-- **Dynamic Creepvine light**: Updates the Creepvine seed light according to the amount of remaining seeds.
 - **Add missing cannon items**: Allows moving the Sulfur Plant, Brain Coral, Planter, Tiger Plant, Lantern Fruit, and Bulbo Tree with the propulsion or repulsion cannon.
 - **Restore health after poison**: Allows health to be restored after reloading the game while poison was active.
 - **Limited PRAWN landing particles**: Prevents PRAWN Suit landings from spawning particles if not on sand.

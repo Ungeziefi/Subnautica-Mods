@@ -93,8 +93,11 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "No Cyclops pushing", Tooltip = "Stops Reaper Leviathans from just pushing the Cyclops instead of attacking it.")]
         public bool NoCyclopsPushing = true;
 
-        [Toggle(Label = "Matching Bulbo Tree LOD", Tooltip = "Makes the Bulbo Tree LOD model match its high quality model.")]
+        [Toggle(Label = "Matching Bulbo Tree LOD", Tooltip = "Disables the LOD system of land_plant_middle_01 to hide the mismatched LOD texture. Might affect performance very slightly.")]
         public bool MatchingBulboTreeLOD = true;
+
+        [Toggle(Label = "Dynamic Creepvine light", Tooltip = "Updates the Creepvine seed light according to the amount of remaining seeds.")]
+        public bool DynamicCreepvineLight = true;
 
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;

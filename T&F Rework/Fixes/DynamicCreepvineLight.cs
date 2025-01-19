@@ -1,0 +1,32 @@
+// I hate this but OnFruitHarvest didn't want to cooperate
+
+using HarmonyLib;
+using UnityEngine;
+
+namespace Ungeziefi.Fixes
+{
+    [HarmonyPatch]
+    internal class DynamicCreepvineLight
+    {
+        [HarmonyPatch(typeof(FruitPlant), nameof(FruitPlant.Update)), HarmonyPostfix]
+        public static void FruitPlant_Update(FruitPlant __instance)
+        {
+            if (!Main.Config.DynamicCreepvineLight) return;
+
+            if (__instance == null) return;
+            if (CraftData.GetTechType(__instance.gameObject) != TechType.Creepvine) return;
+
+            Light light = __instance.GetComponentInChildren<Light>();
+            if (!light) return;
+
+            int activeFruits = 0;
+            foreach (PickPrefab fruit in __instance.fruits)
+            {
+                if (fruit && fruit.gameObject.activeInHierarchy)
+                    activeFruits++;
+            }
+
+            light.intensity = (float)activeFruits / __instance.fruits.Length;
+        }
+    }
+}
