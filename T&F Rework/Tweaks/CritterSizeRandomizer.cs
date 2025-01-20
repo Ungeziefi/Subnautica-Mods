@@ -24,13 +24,11 @@ namespace Ungeziefi.Tweaks
             if (!Main.Config.CSREnableFeature) return;
 
             var tt = CraftData.GetTechType(__instance.gameObject);
-            // Main.Logger.LogInfo($"Creature TechType: {tt}");
 
             if (targetCreatures.Contains(tt))
             {
                 float size = Random.Range(Main.Config.MinCreatureSize, Main.Config.MaxCreatureSize);
                 __instance.transform.localScale *= size;
-                // Main.Logger.LogInfo($"Applied size for {tt}: {__instance.transform.localScale}");
             }
         }
     }

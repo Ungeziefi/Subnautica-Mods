@@ -1,12 +1,10 @@
-// I hate this but OnFruitHarvest didn't want to cooperate
-
 using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch]
-    internal class DynamicCreepvineLight
+    public class DynamicCreepvineLight
     {
         [HarmonyPatch(typeof(FruitPlant), nameof(FruitPlant.Update)), HarmonyPostfix]
         public static void FruitPlant_Update(FruitPlant __instance)

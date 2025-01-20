@@ -29,6 +29,9 @@
 - **No Cyclops pushing**: Stops Reaper Leviathans from just pushing the Cyclops instead of attacking it. (Better compatibility by not using bool Prefix.)
 - **Matching Bulbo Tree LOD**: Disables the LOD system of `land_plant_middle_01` to hide the mismatched LOD texture. Might affect performance very slightly.
 - **Dynamic Creepvine light**: Updates the Creepvine seed light according to the amount of remaining seeds.
+- **PRAWN collision sounds**.
+- **No voice while loading**.
+- **Keep dead raw fish stored**: Prevents stored raw fish from disappearing when loading a save. (Not ideal but, like T&F, it resets the decay timer.)
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.
@@ -42,12 +45,10 @@
 
 ### <span style="color: orange;">To-Do</span>
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
-- **Add missing PRAWN sounds**: Adds collision sounds to the PRAWN Suit.
 - **Add missing cannon items**: Allows moving the Sulfur Plant, Brain Coral, Planter, Tiger Plant, Lantern Fruit, and Bulbo Tree with the propulsion or repulsion cannon.
 - **Restore health after poison**: Allows health to be restored after reloading the game while poison was active.
 - **Limited PRAWN landing particles**: Prevents PRAWN Suit landings from spawning particles if not on sand.
 - **Add missing VFXSurface**: All plants now have the proper VFXSurface component.
-- **Keep dead raw fish stored**.
 - **Save PRAWN Suit light**.
 - **Save last held tool**.
 - **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in.

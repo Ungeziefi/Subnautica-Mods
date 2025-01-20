@@ -3,7 +3,7 @@
 namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch]
-    internal class PlantGrowthTimeMultiplier
+    public class PlantGrowthTimeMultiplier
     {
         [HarmonyPatch(typeof(GrowingPlant), nameof(GrowingPlant.GetGrowthDuration)), HarmonyPostfix]
         public static void GrowingPlant_GetGrowthDuration(ref float __result)

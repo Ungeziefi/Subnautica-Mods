@@ -3,7 +3,7 @@
 namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch]
-    internal class MobileVehicleBayBeacon
+    public class MobileVehicleBayBeacon
     {
         [HarmonyPatch(typeof(Constructor), nameof(Constructor.OnEnable)), HarmonyPostfix]
         public static void Constructor_OnEnable(Constructor __instance)

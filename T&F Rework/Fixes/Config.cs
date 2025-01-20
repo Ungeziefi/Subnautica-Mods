@@ -99,6 +99,15 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Dynamic Creepvine light", Tooltip = "Updates the Creepvine seed light according to the amount of remaining seeds.")]
         public bool DynamicCreepvineLight = true;
 
+        [Toggle(Label = "PRAWN collision sounds")]
+        public bool PRAWNCollisionSounds = true;
+
+        [Toggle(Label = "No voice while loading")]
+        public bool NoVoiceWhileLoading = true;
+
+        [Toggle(Label = "Keep dead raw fish stored", Tooltip = "Prevents stored raw fish from disappearing when loading a save.")]
+        public bool KeepDeadRawFishStored = true;
+
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
 

@@ -31,7 +31,6 @@
 - **Transfer all similar items key**.
 - **PRAWN Suit light toggle**.
 - **Base lights toggle**.
-- **No voice while loading**.
 - **Allowed items indicator**.
 - **Animated locker doors**.
 - **Manual torpedo selection**.
