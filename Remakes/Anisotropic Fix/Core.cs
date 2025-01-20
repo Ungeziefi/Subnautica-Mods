@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Anisotropic_Fix
 {
     [HarmonyPatch]
-    public class Core
+    public class AnisotropicFix
     {
         [HarmonyPatch(typeof(MainCameraControl), nameof(MainCameraControl.Awake)), HarmonyPostfix]
         private static void UpdateBlipsPostfix()

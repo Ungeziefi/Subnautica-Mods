@@ -28,9 +28,10 @@ These are separate from the T&F rework because they don't fit its scope. More in
 ---
 
 ### Remakes
-These are just for **personal use** and to have public source code. All credits to [WhoTnT](https://next.nexusmods.com/profile/WhoTnT).
-- [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185)
-- [Dynamic Scanner Blips](https://www.nexusmods.com/subnautica/mods/1160) (Optimized and moved the settings to the Mod menu.)
+These are just for **personal use** and to have public source code.
+- [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185) (Credits to [WhoTnT](https://next.nexusmods.com/profile/WhoTnT).)
+- [Dynamic Scanner Blips](https://www.nexusmods.com/subnautica/mods/1160) (Optimized and moved the settings to the Mod menu. Credits to [WhoTnT](https://next.nexusmods.com/profile/WhoTnT).)
+- [Abandon Ship During Cyclops Fire](https://www.nexusmods.com/subnautica/mods/1265) (Ported to Nautilus and added an in-game toggle. Credits to [Aishsh506](https://next.nexusmods.com/profile/Aishsh506).)
 
 ---
 

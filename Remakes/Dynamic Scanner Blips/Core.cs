@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Ungeziefi.Dynamic_Scanner_Blips
 {
     [HarmonyPatch]
-    public class Core
+    public class DynamicScannerBlips
     {
         [HarmonyPatch(typeof(uGUI_ResourceTracker), nameof(uGUI_ResourceTracker.UpdateBlips)), HarmonyPostfix]
         private static void UpdateBlipsPostfix(

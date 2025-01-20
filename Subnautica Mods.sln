@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seamoth Barrel Roll", "New 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Camera Zoom", "New Mods\Camera Zoom\Camera Zoom.csproj", "{1D15D793-18EA-463B-917D-BEB69097ADB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abandon Ship During Cyclops Fire", "Remakes\Abandon Ship During Fire\Abandon Ship During Cyclops Fire.csproj", "{6FD81FFF-C09F-C51B-C9F6-3B50DCADB5D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{1D15D793-18EA-463B-917D-BEB69097ADB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D15D793-18EA-463B-917D-BEB69097ADB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D15D793-18EA-463B-917D-BEB69097ADB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FD81FFF-C09F-C51B-C9F6-3B50DCADB5D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FD81FFF-C09F-C51B-C9F6-3B50DCADB5D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FD81FFF-C09F-C51B-C9F6-3B50DCADB5D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FD81FFF-C09F-C51B-C9F6-3B50DCADB5D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,5 +106,9 @@ Global
 		{F87F6813-9BCC-4985-9339-126C80E37306} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{E6D1A235-D6A3-4667-9A1E-01B325CEFC83} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{1D15D793-18EA-463B-917D-BEB69097ADB1} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
+		{6FD81FFF-C09F-C51B-C9F6-3B50DCADB5D2} = {36C33857-57C9-42D3-84FE-7D44EEA332BC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64328EDE-8342-4276-8236-6A9D23D0BEBD}
 	EndGlobalSection
 EndGlobal

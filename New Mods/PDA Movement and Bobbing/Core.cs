@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.PDA_Movement_and_Bobbing
 {
     [HarmonyPatch]
-    public class Core
+    public class PDAMovementandBobbing
     {
         private static Vector3 originalPosition;
         private static float bobTime;

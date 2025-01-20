@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ungeziefi.Rotatable_Ladders
 {
     [HarmonyPatch]
-    public partial class Core
+    public partial class RotatableLadders
     {
         // Get coords as string
         public static string GetLadderCoords(Transform transform)

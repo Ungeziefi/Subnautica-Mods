@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Ungeziefi.Rotatable_Ladders
 {
     [HarmonyPatch]
-    public partial class Core
+    public partial class RotatableLadders
     {
         [HarmonyPatch(typeof(BaseLadder), nameof(BaseLadder.Start)), HarmonyPostfix]
         public static void BaseLadder_Start()
