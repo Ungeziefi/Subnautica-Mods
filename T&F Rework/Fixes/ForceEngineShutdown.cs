@@ -1,37 +1,24 @@
-﻿using System.Reflection;
-using HarmonyLib;
+﻿using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch]
     public class ForceEngineShutdown
     {
-        // Check power
-        private static bool IsPowerOff(CyclopsEngineChangeState instance) =>
-            instance.GetComponentInParent<PowerRelay>()?.GetPowerStatus() == PowerSystem.Status.Offline;
-
-        private static void SetInvalidButton(CyclopsEngineChangeState instance, bool value)
-        {
-            FieldInfo invalidButtonField = typeof(CyclopsEngineChangeState).GetField("invalidButton", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (invalidButtonField != null)
-            {
-                invalidButtonField.SetValue(instance, value);
-            }
-        }
-
-        [HarmonyPatch(typeof(CyclopsEngineChangeState), nameof(CyclopsEngineChangeState.Update)), HarmonyPostfix]
-        public static void CyclopsEngineChangeState_Update(CyclopsEngineChangeState __instance)
+        [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPrefix]
+        public static void CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
         {
             if (!Main.Config.ForceEngineShutdown) return;
 
-            // Shut down engine if power is off
-            if (IsPowerOff(__instance))
+            bool isPowered = __instance.GetComponentInParent<PowerRelay>()?.IsPowered() ?? false;
+
+            // Force engine off when unpowered
+            // The UI doesn't update though, seems like a vanilla bug also when the sub awakes with the engine off
+            var motorMode = __instance.GetComponentInParent<CyclopsMotorMode>();
+            if (!isPowered && motorMode != null && motorMode.engineOn)
             {
-                __instance.motorMode.engineOn = false;
-                SetInvalidButton(__instance, true);
+                motorMode.engineOn = false;
             }
-            // Valid button if power is on
-            else SetInvalidButton(__instance, false);
         }
     }
 }
