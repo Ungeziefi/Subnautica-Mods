@@ -9,12 +9,11 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(typeof(Plantable), nameof(Plantable.Spawn)), HarmonyPostfix]
         public static void Plantable_Spawn(ref GameObject __result)
         {
-            if (Main.Config.PlantRotationRandomizer)
-            {
-                Vector3 Rotation = __result.transform.rotation.eulerAngles;
-                float randomYRotation = Random.Range(0, 360);
-                __result.transform.Rotate(Rotation.x, randomYRotation, Rotation.z);
-            }
+            if (!Main.Config.PlantRotationRandomizer) return;
+
+            var euler = __result.transform.eulerAngles;
+            euler.y = Random.Range(0f, 360f);
+            __result.transform.eulerAngles = euler;
         }
     }
 }

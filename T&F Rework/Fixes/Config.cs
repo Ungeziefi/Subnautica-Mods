@@ -3,6 +3,14 @@ using Nautilus.Options.Attributes;
 
 namespace Ungeziefi.Fixes
 {
+    public enum ViewDistanceOption
+    {
+        Disabled,
+        Medium,
+        Far,
+        VeryFar
+    }
+
     [Menu("Fixes")]
     public class Config : ConfigFile
     {
@@ -107,6 +115,22 @@ namespace Ungeziefi.Fixes
 
         [Toggle(Label = "Keep dead raw fish stored", Tooltip = "Prevents stored raw fish from disappearing when loading a save.")]
         public bool KeepDeadRawFishStored = true;
+
+        [Toggle(Label = "PRAWN particles only on sand", Tooltip = "Prevents PRAWN Suit landings from spawning particles if not on sand.")]
+        public bool PRAWNParticlesOnlyOnSand = true;
+
+        [Toggle(Label = "Add missing VFXSurfaces")]
+        public bool AddMissingVFXSurfaces = true;
+
+        [Choice(Label = "No deposit pop in",
+            Tooltip = "Controls how far away resource deposits become visible.",
+            Options = new[] { "Disabled", "Medium", "Far", "Very Far" })]
+        public ViewDistanceOption NoDepositPopIn = ViewDistanceOption.Medium;
+
+        [Choice(Label = "No Jellyshroom Cave pop in",
+            Tooltip = "Controls how far away Jellyshroom Cave entities become visible.",
+            Options = new[] { "Disabled", "Medium", "Far", "Very Far" })]
+        public ViewDistanceOption NoJellyshroomCavePopIn = ViewDistanceOption.Medium;
 
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;

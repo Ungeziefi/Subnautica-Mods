@@ -32,6 +32,10 @@
 - **PRAWN collision sounds**.
 - **No voice while loading**.
 - **Keep dead raw fish stored**: Prevents stored raw fish from disappearing when loading a save. (Not ideal but, like T&F, it resets the decay timer.)
+- **PRAWN particles only on sand**: Prevents PRAWN Suit landings from spawning particles if not on sand. (Better compatibility by not using bool Prefix.)
+- **Add missing VFXSurfaces**.
+- **No deposit pop in**: Controls how far away resource deposits become visible. (T&F had a fixed distance, this is configurable.)
+- **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in. (T&F had a fixed distance, this is configurable.)
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.
@@ -45,14 +49,9 @@
 
 ### <span style="color: orange;">To-Do</span>
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
-- **Add missing cannon items**: Allows moving the Sulfur Plant, Brain Coral, Planter, Tiger Plant, Lantern Fruit, and Bulbo Tree with the propulsion or repulsion cannon.
 - **Restore health after poison**: Allows health to be restored after reloading the game while poison was active.
-- **Limited PRAWN landing particles**: Prevents PRAWN Suit landings from spawning particles if not on sand.
-- **Add missing VFXSurface**: All plants now have the proper VFXSurface component.
 - **Save PRAWN Suit light**.
 - **Save last held tool**.
-- **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in.
-- **No deposit pop in**: Resource deposits no longer pop in.
 
 ---
 
@@ -77,3 +76,4 @@
 - "You could see your neck when using seaglide with high FOV." (Very complex, not worth the effort.)
 - "Gasopod in stasis field does not attack you." ([Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255) already does that and more.)
 - "Fixed unused lava geyser particles spawning on every game load." (Does cleaning them really help with anything?)
+- "Brain coral, planter, tiger plant, lantern fruit tree, bulbo tree now can't be moved with propulsion or repulsion cannon" (Not a fix.)
