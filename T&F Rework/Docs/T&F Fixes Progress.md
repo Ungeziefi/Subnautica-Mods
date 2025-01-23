@@ -76,4 +76,4 @@
 - "You could see your neck when using seaglide with high FOV." (Very complex, not worth the effort.)
 - "Gasopod in stasis field does not attack you." ([Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255) already does that and more.)
 - "Fixed unused lava geyser particles spawning on every game load." (Does cleaning them really help with anything?)
-- "Brain coral, planter, tiger plant, lantern fruit tree, bulbo tree now can't be moved with propulsion or repulsion cannon" (Not a fix.)
+- "Brain coral, planter, tiger plant, lantern fruit tree, bulbo tree now can't be moved with propulsion or repulsion cannon." (Not a fix.)
