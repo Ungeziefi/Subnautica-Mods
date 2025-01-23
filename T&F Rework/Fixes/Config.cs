@@ -136,7 +136,7 @@ namespace Ungeziefi.Fixes
         public bool NoFleeingToOriginDivider;
 
         [Toggle(Label = "Enable feature", Tooltip = "Stops creatures from returning to the origin coordinates (0, 0, 0) when fleeing.")]
-        public bool NFTODEnableFeature = true;
+        public bool NFTOEnableFeature = true;
 
         [Slider(Label = "Damage to distance ratio",
             Tooltip = "How far creatures flee per point of damage taken. Higher values make creatures flee farther when hit.",

@@ -9,7 +9,7 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(FleeOnDamage), nameof(FleeOnDamage.OnTakeDamage)), HarmonyPostfix]
         public static void FleeOnDamage_OnTakeDamage(FleeOnDamage __instance, DamageInfo damageInfo)
         {
-            if (!Main.Config.NFTODEnableFeature) return;
+            if (!Main.Config.NFTOEnableFeature) return;
 
             if (__instance.accumulatedDamage <= __instance.damageThreshold) return;
 
