@@ -7,7 +7,7 @@ namespace Ungeziefi.Anisotropic_Fix
     public class AnisotropicFix
     {
         [HarmonyPatch(typeof(MainCameraControl), nameof(MainCameraControl.Awake)), HarmonyPostfix]
-        private static void UpdateBlipsPostfix()
+        private static void MainCameraControl_Awake()
         {
             QualitySettings.anisotropicFiltering = AnisotropicFiltering.ForceEnable;
         }

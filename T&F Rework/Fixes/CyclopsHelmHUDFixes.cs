@@ -8,7 +8,7 @@ namespace Ungeziefi.Fixes
     public class CyclopsHelmHUDFixes
     {
         [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPrefix]
-        public static bool CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
+        public static bool CyclopsHelmHUDManager_Update_1(CyclopsHelmHUDManager __instance)
         {
             if (!Main.Config.CyclopsHelmHUDFixes || !__instance.LOD.IsFull()) return true;
 
@@ -24,7 +24,7 @@ namespace Ungeziefi.Fixes
         }
 
         [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPostfix]
-        public static void CyclopsHelmHUDManager_UpdatePostfix(CyclopsHelmHUDManager __instance)
+        public static void CyclopsHelmHUDManager_Update_2(CyclopsHelmHUDManager __instance)
         {
             if (!Main.Config.CyclopsHelmHUDFixes) return;
 

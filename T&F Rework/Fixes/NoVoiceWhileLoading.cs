@@ -7,14 +7,11 @@ namespace Ungeziefi.Fixes
     public class NoVoiceWhileLoading
     {
         [HarmonyPatch(typeof(VoiceNotification), "Play", new Type[] { typeof(object[]) })]
-        class VoiceNotification_Play_Patch
+        public static bool VoiceNotification_Play(VoiceNotification __instance)
         {
-            public static bool Prefix(VoiceNotification __instance)
-            {
-                if (!Main.Config.NoVoiceWhileLoading) return true;
+            if (!Main.Config.NoVoiceWhileLoading) return true;
 
-                return !WaitScreen.IsWaiting;
-            }
+            return !WaitScreen.IsWaiting;
         }
     }
 }

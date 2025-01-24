@@ -20,7 +20,7 @@ namespace Ungeziefi.Console_Autocompletion
         }
 
         [HarmonyPatch(typeof(ConsoleInput), nameof(ConsoleInput.KeyPressedOverride)), HarmonyPrefix]
-        public static bool ConsoleInput_KeyPressedOverride_Prefix(ConsoleInput __instance, ref bool __result)
+        public static bool ConsoleInput_KeyPressedOverride(ConsoleInput __instance, ref bool __result)
         {
             if (!Main.Config.EnableFeature) return true;
 

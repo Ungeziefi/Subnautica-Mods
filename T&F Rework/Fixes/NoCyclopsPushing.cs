@@ -7,7 +7,7 @@ namespace Ungeziefi.Fixes
     public class NoCyclopsPushing
     {
         [HarmonyPatch(typeof(MeleeAttack), nameof(MeleeAttack.CanDealDamageTo)), HarmonyPostfix]
-        public static void Postfix(MeleeAttack __instance, GameObject target, ref bool __result)
+        public static void MeleeAttack_CanDealDamageTo(MeleeAttack __instance, GameObject target, ref bool __result)
         {
             if (!Main.Config.NoCyclopsPushing) return;
 
@@ -16,5 +16,5 @@ namespace Ungeziefi.Fixes
                 __result = __instance.canBiteCyclops;
             }
         }
-    } 
+    }
 }

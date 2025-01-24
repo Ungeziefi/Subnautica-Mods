@@ -8,15 +8,6 @@ namespace Ungeziefi.Fixes
     {
         public static ParticleSystem[] heatBladeParticles;
 
-        [HarmonyPatch(typeof(VFXLateTimeParticles), nameof(VFXLateTimeParticles.Play)), HarmonyPostfix]
-        public static void VFXLateTimeParticles_Play(VFXLateTimeParticles __instance)
-        {
-            if (!Main.Config.ThermobladeDynamicParticles || __instance.name != "xHeatBlade_Bubbles(Clone)") return;
-
-            heatBladeParticles = __instance.psChildren;
-            FixHeatBlade();
-        }
-
         public static void FixHeatBlade()
         {
             if (heatBladeParticles == null ||
@@ -29,6 +20,15 @@ namespace Ungeziefi.Fixes
             heatBladeParticles[0].EnableEmission(underwater); // xHeatBlade_Bubbles(Clone)
             heatBladeParticles[2].EnableEmission(underwater); // xRefract
             heatBladeParticles[1].EnableEmission(!underwater); // xSmk
+        }
+
+        [HarmonyPatch(typeof(VFXLateTimeParticles), nameof(VFXLateTimeParticles.Play)), HarmonyPostfix]
+        public static void VFXLateTimeParticles_Play(VFXLateTimeParticles __instance)
+        {
+            if (!Main.Config.ThermobladeDynamicParticles || __instance.name != "xHeatBlade_Bubbles(Clone)") return;
+
+            heatBladeParticles = __instance.psChildren;
+            FixHeatBlade();
         }
 
         public static void OnPlayerUnderwaterChanged(Utils.MonitoredValue<bool> isUnderwaterForSwimming) => FixHeatBlade();
