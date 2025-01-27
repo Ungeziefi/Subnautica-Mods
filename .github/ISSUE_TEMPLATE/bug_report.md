@@ -10,7 +10,7 @@ assignees: Ungeziefi
 **Describe the bug**
 A clear and concise description of what the bug is and what feature it concerns.
 
-**To Reproduce**
+**To reproduce**
 Steps to reproduce the bug.
 
 **Expected behaviour**
