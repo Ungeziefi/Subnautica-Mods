@@ -1,7 +1,9 @@
 ### <span style="color: green;">Done</span>
 - **Seamoth pushing**: Allows pushing the Seamoth when it's on land.
+- **No eating underwater**.
+- **No medkits underwater**.
 - **Chair swiveling**. (Improved by adding acceleration, deceleration, and inertia**: Better compatibility by not using bool Prefix.)
-- **Harvesting requirements**: Harvesting outcrops requires tools.
+- **Outcrops require tool**: Harvesting outcrops requires any tool to be equipped.
 - **Power cell charge from batteries**: Sets the charge level of newly crafted power cells based on the charge level of the batteries used for crafting**: (Improved by supporting any number of batteries instead of hardcoding to 2.)
 - **Skip epilepsy warning**.
 - **Plant rotation randomizer**.
@@ -15,10 +17,6 @@
 - **Build time multiplier**.
 - **Craft time multiplier**.
 - **Plant growth time multiplier**.
-#### Gameplay Restrictions
-- **No eating underwater**.
-- **No medkits underwater**.
-- **Outcrops require tool**: Harvesting outcrops requires any tool to be equipped.
 
 ---
 
