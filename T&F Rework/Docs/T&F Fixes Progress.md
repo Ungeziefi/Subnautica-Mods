@@ -36,6 +36,7 @@
 - **Add missing VFXSurfaces**.
 - **No deposit pop in**: Controls how far away resource deposits become visible. (T&F had a fixed distance, this is configurable.)
 - **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in. (T&F had a fixed distance, this is configurable.)
+- **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.
@@ -44,14 +45,7 @@
 - **Save Cyclops internal lights**.
 - **Save Cyclops floodlights**.
 - **Save Seaglide toggles**.
-
----
-
-### <span style="color: orange;">To-Do</span>
-- **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
-- **Restore health after poison**: Allows health to be restored after reloading the game while poison was active.
-- **Save PRAWN Suit light**.
-- **Save last held tool**.
+- **Save last held item**.
 
 ---
 
@@ -59,21 +53,34 @@
 #### Can't reproduce the bug
 - "Boulders that block some cave entrances in safe shallows now do not dissappear forever when you move away from them."
 - "Equipped dead fish's position changed if it was in your inventory when the game was loaded."
-- "Coffee vending machine now spawns coffee properly.". (Possibly fixed with Living Large.)
+- "Coffee vending machine now spawns coffee properly.". (Probably fixed by Living Large.)
 - "After reloading 1st person model was used for waterproof lockers that were not in inventory."
 - "When you damaged a creature with knife 2 instances of damage particle effect spawned."
 - "Remove safe spot at bottom of geyser." (Undocumented but found in the code.)
+- "Light on top of cyclops cabin now works."
 #### Vanilla feature
 - "Eggs in your AC now disappear when they hatch."
 - "Mobile Vehicle Bay now sinks when not deployed."
 - "Stalkers now drop whatever they are holding in their jaws when they are attacked."
-#### Balance implications
-- "Wild lantern tree fruits did not respawn."
-- "Wild blood oil did not respawn."
-- "Heat blade now can damage lava lizards."
 #### Other reasons
 - "Cyclops hatch flaps now always close when you enter cyclops." (Inconsequential, you can't see a closed flap from inside.)
 - "You could see your neck when using seaglide with high FOV." (Very complex, not worth the effort.)
 - "Gasopod in stasis field does not attack you." ([Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255) already does that and more.)
 - "Fixed unused lava geyser particles spawning on every game load." (Does cleaning them really help with anything?)
-- "Brain coral, planter, tiger plant, lantern fruit tree, bulbo tree now can't be moved with propulsion or repulsion cannon." (Not a fix.)
+- "When you saved game while taking poison damage, your health would not restore after reload." (Can't figure out a fix.)
+
+### <span style="color: grey;">Moved to Tweaks</span>
+These were originally in T&F's list of fixes but are more suited as tweaks:
+- "You can now destroy drooping stinger with knife." -> "Destructible Drooping Stingers"
+- "When looking at a creature, UI now tells you if it's dead." -> Won't Do
+- "Creature decoy worked only for leviathans. Now it does for every predator." -> "Universal creature decoy"
+- "Brain coral, planter, tiger plant, lantern fruit tree, bulbo tree now can't be moved with propulsion or repulsion cannon." -> Won't Do
+- "Now when cyclops is unpowered its HUD and screens will be off." -> "Cyclops displays needs power"
+- "Sulfur Plant now can't be moved with propulsion or repulsion cannon." -> Won't Do
+- "Resources from harvesting nodes now don't fade in when you break nodes." -> "No resources fading"
+- "Fish you release from your hand now does not fade in." -> "No fish release fading"
+- "Peepers closed their eyes when near player." -> "Scared Peepers"
+- "Items that you place in your base now dont fade in." -> "No base items fading"
+- "Wild lantern tree fruits did not respawn." -> Won't Do
+- "Wild blood oil did not respawn." -> Won't Do
+- "Heat blade now can damage lava lizards." -> Won't Do

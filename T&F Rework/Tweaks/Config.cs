@@ -28,8 +28,8 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "No obstacle check when sitting", Tooltip = "Allows sitting even if there's an object in the way.")]
         public bool NoObstacleCheckWhenSitting = false;
 
-        [Toggle(Label = "Harvesting requirements", Tooltip = "Harvesting outcrops and flora requires tools.")]
-        public bool HarvestingRequirements = false;
+        [Toggle(Label = "Outcrops require tool", Tooltip = "Harvesting outcrops requires any tool to be equipped.")]
+        public bool OutcropsRequireTool = false;
 
         [Toggle(Label = "Power cell charge from batteries", Tooltip = "Sets the charge level of newly crafted power cells based on the charge level of the batteries used for crafting.")]
         public bool PowerCellChargeFromBatteries = false;

@@ -132,6 +132,12 @@ namespace Ungeziefi.Fixes
             Options = new[] { "Disabled", "Medium", "Far", "Very Far" })]
         public ViewDistanceOption NoJellyshroomCavePopIn = ViewDistanceOption.Medium;
 
+        [Toggle(Label = "Delay Aurora reply", Tooltip = "Prevents the Aurora reply from being received before sending the distress signal.")]
+        public bool DelayAuroraReply = true;
+
+        [Toggle(Label = "No low speed splat", Tooltip = "Makes the Seamoth play the fish splat sound only when hitting creatures, using appropriate collision sounds for other objects.")]
+        public bool NoLowSpeedSplat = true;
+
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
 
@@ -168,5 +174,8 @@ namespace Ungeziefi.Fixes
 
         [Toggle(Label = "Save Seaglide toggles", Tooltip = "Saves the state of both the light and map.")]
         public bool SaveSeaglideToggles = true;
+
+        [Toggle(Label = "Save last held item")]
+        public bool SaveLastHeldItem = true;
     }
 }

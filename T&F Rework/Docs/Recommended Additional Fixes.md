@@ -1,2 +1,4 @@
 - [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185)
 - [Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255)
+- [Flare Repair (BepInEx)](https://www.nexusmods.com/subnautica/mods/452)
+- [Vehicle Lights Improved](https://www.nexusmods.com/subnautica/mods/471)

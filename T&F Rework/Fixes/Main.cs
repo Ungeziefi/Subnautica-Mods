@@ -3,6 +3,7 @@ using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
+using Nautilus.Utility;
 
 namespace Ungeziefi.Fixes
 {
@@ -27,6 +28,7 @@ namespace Ungeziefi.Fixes
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
             MiscFixes.ApplyAllFixes();
             SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();
+            SaveUtils.RegisterOnFinishLoadingEvent(SaveLastHeldItem.LoadedGameSetup);
         }
     }
 }
