@@ -1,5 +1,5 @@
 ### T&F Rework
-A rework of [Tweaks and Fixes](https://www.nexusmods.com/subnautica/mods/722), full documentation in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/T%26F%20Rework/Docs) and more information in the respective Nexus page.
+A rework of [Tweaks and Fixes](https://www.nexusmods.com/subnautica/mods/722), full documentation in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/T%26F%20Rework/Docs) and more information in the respective Nexus Mods description.
 - [Fixes](https://www.nexusmods.com/subnautica/mods/2059)
 - [Tweaks](https://github.com/Ungeziefi/Subnautica-Mods/releases) (WIP)
 
@@ -29,22 +29,8 @@ These are just for **personal use** and to have public source code.
 
 ---
 
-### Requirements
-- [Tobey's BepInEx Pack](https://www.nexusmods.com/subnautica/mods/1108)
-- [Nautilus](https://www.nexusmods.com/subnautica/mods/1262)
-
----
-
 ### Contact
 @ungeziefi on Discord, you can find me in the [Subnautica Modding](https://discord.com/invite/subnautica-modding-324207629784186882) server.
-
----
-
-  ### Credits
-- [qqqbbb](https://next.nexusmods.com/profile/qqqbbb) for [Tweaks and Fixes](https://www.nexusmods.com/subnautica/mods/722).
-- [MrOshaw](https://github.com/mroshaw) for the [Subnautica Modding Guide](https://mroshaw.github.io/).
-- The [Subnautica Modding](https://discord.com/invite/subnautica-modding-324207629784186882) Discord server for their help and resources, especially EldritchCarMaker and Essence.
-- [WhoTnT](https://next.nexusmods.com/profile/WhoTnT) for [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185) and [Dynamic Scanner Blips](https://www.nexusmods.com/subnautica/mods/1160).
 
 ---
 
