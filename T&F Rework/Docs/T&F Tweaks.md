@@ -15,7 +15,7 @@
 - **Build time multiplier**.
 - **Craft time multiplier**.
 - **Plant growth time multiplier**.
-- #### Gameplay Restrictions
+#### Gameplay Restrictions
 - **No eating underwater**.
 - **No medkits underwater**.
 - **Outcrops require tool**: Harvesting outcrops requires any tool to be equipped.
