@@ -1,14 +1,7 @@
-### Fixes - Tweaks
-A rework of [Tweaks and Fixes](https://www.nexusmods.com/subnautica/mods/722), the main differences are:
-- Compatibility, thanks to the use of Transpilers and by avoiding `bool Prefix` patches that replace the original method completely.
-- Modularity, each feature can be toggled off. This also helps compatibility.
-- Maintainability, each feature is in its own source file and is easier to read.
-- New bug fixes and new tweaks.
-- And more...
- 
-You can find complete documentation in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/T%26F%20Rework/Docs).
-
-<small>**Disclaimer**: None of the T&F code was a direct copy, assuming the feature isn't simple to the point it can't be implemented any differently.</small>
+### T&F Rework
+A rework of [Tweaks and Fixes](https://www.nexusmods.com/subnautica/mods/722), full documentation in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/T%26F%20Rework/Docs) and more information in the respective Nexus page.
+- [Fixes](https://www.nexusmods.com/subnautica/mods/2012)
+- [Tweaks](https://github.com/Ungeziefi/Subnautica-Mods/releases) (WIP)
 
 ---
 
@@ -39,12 +32,6 @@ These are just for **personal use** and to have public source code.
 ### Requirements
 - [Tobey's BepInEx Pack](https://www.nexusmods.com/subnautica/mods/1108)
 - [Nautilus](https://www.nexusmods.com/subnautica/mods/1262)
-
----
-
-### Notes
-- Features involving text use hardcoded strings in English. Feel free to PR localization.
-- By default, all fixes are enabled and tweaks are disabled. You can change this in the respective config file or through the in-game Mod menu.
 
 ---
 
