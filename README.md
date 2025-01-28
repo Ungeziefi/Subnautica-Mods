@@ -1,6 +1,6 @@
 ### T&F Rework
 A rework of [Tweaks and Fixes](https://www.nexusmods.com/subnautica/mods/722), full documentation in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/T%26F%20Rework/Docs) and more information in the respective Nexus page.
-- [Fixes](https://www.nexusmods.com/subnautica/mods/2012)
+- [Fixes](https://www.nexusmods.com/subnautica/mods/2059)
 - [Tweaks](https://github.com/Ungeziefi/Subnautica-Mods/releases) (WIP)
 
 ---
