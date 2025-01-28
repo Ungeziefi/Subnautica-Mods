@@ -13,9 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{068F1835-E
 	ProjectSection(SolutionItems) = preProject
 		T&F Rework\Docs\New Fixes.md = T&F Rework\Docs\New Fixes.md
 		T&F Rework\Docs\New Tweaks.md = T&F Rework\Docs\New Tweaks.md
-		T&F Rework\Docs\Recommended Additional Fixes.md = T&F Rework\Docs\Recommended Additional Fixes.md
-		T&F Rework\Docs\T&F Fixes Progress.md = T&F Rework\Docs\T&F Fixes Progress.md
-		T&F Rework\Docs\T&F Tweaks Progress.md = T&F Rework\Docs\T&F Tweaks Progress.md
+		T&F Rework\Docs\T&F Fixes.md = T&F Rework\Docs\T&F Fixes.md
+		T&F Rework\Docs\T&F Tweaks.md = T&F Rework\Docs\T&F Tweaks.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Remakes", "Remakes", "{36C33857-57C9-42D3-84FE-7D44EEA332BC}"
