@@ -90,6 +90,8 @@
 #### Vanilla feature
 - "When in main menu you can press 'escape' key to close options menu."
 
+---
+
 ### <span style="color: grey;">Moved to Fixes</span>
 These were originally in T&F's list of "other changes" but are actually fixes:
 - "No voice while loading" -> "No voice while loading"

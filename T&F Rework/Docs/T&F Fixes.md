@@ -69,6 +69,8 @@
 - "Fixed unused lava geyser particles spawning on every game load." (Does cleaning them really help with anything?)
 - "When you saved game while taking poison damage, your health would not restore after reload." (Can't figure out a fix.)
 
+---
+
 ### <span style="color: grey;">Moved to Tweaks</span>
 These were originally in T&F's list of fixes but are more suited as tweaks:
 - "You can now destroy drooping stinger with knife." -> "Destructible Drooping Stingers"
