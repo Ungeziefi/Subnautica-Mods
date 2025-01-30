@@ -14,14 +14,15 @@ namespace Ungeziefi.Cockpit_Free_Look
             Player player = Player.main;
             if (player == null || player.mode != Player.Mode.LockedPiloting) return;
 
+            if (Cursor.visible) return;
+
             // Get current vehicle
             Vehicle vehicle = player.currentMountedVehicle;
             if (vehicle == null) return;
 
             // Check vehicle and config
             bool isExosuit = vehicle is Exosuit;
-            bool isValidVehicle = (isExosuit && Main.Config.PRAWNEnableFeature) ||
-                                (!isExosuit && Main.Config.SeamothEnableFeature);
+            bool isValidVehicle = (isExosuit && Main.Config.PRAWNEnableFeature) || (!isExosuit && Main.Config.SeamothEnableFeature);
             if (!isValidVehicle) return;
 
             // Check for key press
