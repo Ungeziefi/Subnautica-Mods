@@ -92,8 +92,8 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Reset Databank scroll", Tooltip = "Makes Databank entries always start at the top when opened instead of keeping the previous scroll position.")]
         public bool ResetDatabankScroll = true;
 
-        [Toggle(Label = "Cyclops helm HUD fixes", Tooltip = "Turns off the helm HUD when the power is off and prevents its buttons from being clickable while invisible.")]
-        public bool CyclopsHelmHUDFixes = true;
+        //[Toggle(Label = "No invisible helm buttons", Tooltip = "Disables the Cyclops helm HUD buttons while its inactive.")]
+        //public bool NoInvisibleHelmButtons = true;
 
         [Toggle(Label = "Treaders can attack", Tooltip = "Fixes the Sea Treaders not being able to attack the player.")]
         public bool TreadersCanAttack = true;

@@ -5,10 +5,12 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch]
     public class SaveLastHeldItem
     {
+        private static bool isLoading = true;
+
         [HarmonyPatch(typeof(QuickSlots), nameof(QuickSlots.Select)), HarmonyPostfix]
         public static void QuickSlots_Select(QuickSlots __instance, int slotID)
         {
-            if (!Main.Config.SaveLastHeldItem) return;
+            if (!Main.Config.SaveLastHeldItem || isLoading) return;
 
             Main.SaveData.LastHeldItemSlot = slotID;
             Main.SaveData.Save();
@@ -22,6 +24,8 @@ namespace Ungeziefi.Fixes
             {
                 Inventory.main.quickSlots.SelectImmediate(Main.SaveData.LastHeldItemSlot);
             }
+
+            isLoading = false;
         }
     }
 }

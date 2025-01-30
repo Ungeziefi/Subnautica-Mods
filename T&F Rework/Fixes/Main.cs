@@ -13,7 +13,7 @@ namespace Ungeziefi.Fixes
     {
         public const string PLUGIN_GUID = "Ungeziefi.Fixes";
         public const string PLUGIN_NAME = "Fixes";
-        public const string PLUGIN_VERSION = "1.0.0";
+        public const string PLUGIN_VERSION = "1.0.1";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
