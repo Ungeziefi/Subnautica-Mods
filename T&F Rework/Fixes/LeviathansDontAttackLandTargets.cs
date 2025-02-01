@@ -13,8 +13,14 @@ namespace Ungeziefi.Fixes
         {
             if (!Main.Config.LeviathansDontAttackLandTargets) return;
 
-            __result = !(CreatureData.GetBehaviourType(__instance.myTechType) == BehaviourType.Leviathan &&
-                target.transform.position.y > Ocean.GetOceanLevel());
+            // Skip if already invalid
+            if (!__result) return;
+
+            if (CreatureData.GetBehaviourType(__instance.myTechType) == BehaviourType.Leviathan &&
+                target.transform.position.y > Ocean.GetOceanLevel())
+            {
+                __result = false;
+            }
         }
     }
 }

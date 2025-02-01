@@ -53,7 +53,7 @@
 #### Can't reproduce the bug
 - "Boulders that block some cave entrances in safe shallows now do not dissappear forever when you move away from them."
 - "Equipped dead fish's position changed if it was in your inventory when the game was loaded."
-- "Coffee vending machine now spawns coffee properly.". (Probably fixed by Living Large.)
+- "Coffee vending machine now spawns coffee properly." (Probably fixed by Living Large.)
 - "After reloading 1st person model was used for waterproof lockers that were not in inventory."
 - "When you damaged a creature with knife 2 instances of damage particle effect spawned."
 - "Remove safe spot at bottom of geyser." (Undocumented but found in the code.)
