@@ -20,7 +20,7 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Leviathans don't attack land targets", Tooltip = "Stops Leviathans from trying to attack targets on land.")]
         public bool LeviathansDontAttackLandTargets = true;
 
-        [Toggle(Label = "No Flashlight point lights", Tooltip = "Stops the flashlight from lighting the enviroment around it.")]
+        [Toggle(Label = "No Flashlight point lights", Tooltip = "Stops the Flashlight from lighting the enviroment around it.")]
         public bool NoFlashlightPointLights = true;
 
         [Toggle(Label = "No plant waving indoors", Tooltip = "Removes the waving animation from indoor plants.")]

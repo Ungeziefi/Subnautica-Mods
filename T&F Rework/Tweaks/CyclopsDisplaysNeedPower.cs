@@ -13,7 +13,6 @@ namespace Ungeziefi.Tweaks
                 if (transform != null) transform.gameObject.SetActive(active);
             }
 
-            // Disable each component
             var sonarMap = cyclops.GetComponentInChildren<CyclopsSonarDisplay>(true);
             if (sonarMap)
             {
@@ -40,6 +39,12 @@ namespace Ungeziefi.Tweaks
                 lightingPanel.SetExternalLighting(false);
                 lightingPanel.UpdateLightingButtons();
             }
+
+            var helmHUD = cyclops.GetComponentInChildren<CyclopsHelmHUDManager>(true);
+            if (helmHUD != null)
+            {
+                AccessTools.Field(typeof(CyclopsHelmHUDManager), "hudActive").SetValue(helmHUD, isPowered);
+            }
         }
 
         [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPostfix]
@@ -50,7 +55,7 @@ namespace Ungeziefi.Tweaks
             var powerRelay = __instance.GetComponentInParent<PowerRelay>();
             bool isPowered = powerRelay != null && powerRelay.IsPowered();
 
-            // Disable components above when power is off
+            // Disable when power is off
             UpdateDisplayComponents(__instance.subRoot, isPowered);
         }
     }

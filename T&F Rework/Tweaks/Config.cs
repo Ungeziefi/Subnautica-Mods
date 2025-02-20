@@ -72,10 +72,10 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Enable feature", Tooltip = "Randomizes the size of Cave Crawlers, Lava Larvas, Bleeders, Rockgrubs, Blighters, and Floaters.")]
         public bool CSREnableFeature = false;
 
-        [Slider(Label = "Minimum multiplier", DefaultValue = 0.5f, Min = 0.1f, Max = 1f, Step = 0.1f, Format = "{0:0.0}")]
+        [Slider(Label = "Minimum multiplier", DefaultValue = 0.50f, Min = 0.01f, Max = 1f, Step = 0.01f, Format = "{0:0.00}")]
         public float MinCreatureSize = 0.5f;
 
-        [Slider(Label = "Maximum multiplier", DefaultValue = 1.5f, Min = 1f, Max = 2f, Step = 0.1f, Format = "{0:0.0}")]
+        [Slider(Label = "Maximum multiplier", DefaultValue = 1.50f, Min = 1f, Max = 2f, Step = 0.01f, Format = "{0:0.00}")]
         public float MaxCreatureSize = 1.5f;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
@@ -93,13 +93,17 @@ namespace Ungeziefi.Tweaks
         [Toggle("<color=#f1c353>Multipliers</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool MultipliersDivider;
 
-        [Slider(Label = "Build time", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
-        public int BuildTimeMultiplier = 1;
+        [Slider(Label = "Build time", DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+        public float BuildTimeMultiplier = 1f;
 
-        [Slider(Label = "Craft time ", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
-        public int CraftTimeMultiplier = 1;
+        [Slider(Label = "Craft time ", DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+        public float CraftTimeMultiplier = 1f;
 
-        [Slider(Label = "Plant growth time", DefaultValue = 1, Min = 1, Max = 10, Step = 1)]
-        public int PlantGrowthTimeMultiplier = 1;
+        [Slider(Label = "Plant growth time", DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+        public float PlantGrowthTimeMultiplier = 1f;
+
+        [Slider(Label = "Day/night cycle speed", Tooltip = "Lower values make days longer.",
+            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+        public float DayNightCycleSpeed = 1f;
     }
 }

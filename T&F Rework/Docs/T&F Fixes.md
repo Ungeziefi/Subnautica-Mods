@@ -1,7 +1,7 @@
 ﻿### <span style="color: green;">Done</span>
 - **Scanner charge indicator**: Adds the missing charge level when using the Scanner. (Improved by keeping the self-scan hint and better compatibility by not using bool Prefix.)
 - **Leviathans don't attack land targets**: Stops Leviathans from trying to attack targets on land. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
-- **No Flashlight point lights**: Stops the flashlight from lighting the environment around it.
+- **No Flashlight point lights**: Stops the Flashlight from lighting the environment around it.
 - **No plant waving indoors**: Removes the waving animation from indoor plants. (T&F applied this globally instead.)
 - **Nuclear waste disposal name**: Corrected the Nuclear waste disposal bin's name and added the missing space to "Trashcan".
 - **Add missing Bulb Bush data entries**: Allows scanning any type of Bulb Bush to unlock its data entry.

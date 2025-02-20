@@ -8,7 +8,7 @@
 - **Skip epilepsy warning**.
 - **Plant rotation randomizer**.
 - **Mobile Vehicle Bay beacon**.
-- **Cyclops displays needs power**: Disables various screens and systems when the power is off. (Improved by covering all the missing interfaces and light sources. The full list is now: Sonar, compass, decoy screen, storage terminal, upgrade console, lights control panel, edit screen, and light statics.)
+- **Cyclops displays needs power**: Disables various screens and systems when the power is off. (Improved by covering all the missing interfaces and light sources. The full list is now: Helm HUD, sonar, compass, decoy screen, storage terminal, upgrade console, lights control panel, edit screen, and light statics.)
 - **Batteries have tooltips**.
 - **No PDA delay**. (Better compatibility by not using bool Prefix.)
 #### Miscellaneous
@@ -17,13 +17,12 @@
 - **Build time multiplier**.
 - **Craft time multiplier**.
 - **Plant growth time multiplier**.
+- **Day/night cycle speed**.
 
 ---
 
 ### <span style="color: orange;">To-Do</span>
 - **No reefback surfacing**.
-- **Save file scrolling**: Allows using the scroll wheel to scroll through save files.
-- **Smoke clears on open**: Opening the top hatch of the life pod clears the smoke inside.
 - **Moveable Mobile Vehicle Bay**: Allows the repulsion and propulsion cannons to move the Mobile Vehicle Bay.
 - **No Grav Trap explosion**: Gas Pods attracted by the grav trap will not explode.
 - **Lighter Seamoth collisions**: Reduces the mass of Spadefish and Shuttlebug to prevent them from damaging your Seamoth upon collision.
@@ -55,6 +54,7 @@
 - **Universal creature decoy**: Makes the creature decoy work on all predators.
 - **Destructible Drooping Stingers**: Allows destroying Drooping Stingers with a knife.
 - **Propulsion Cannon Can Grab Fruit**.
+- **Smoke clears on open**: Opening the top hatch of the life pod clears the smoke inside.
 
 ---
 
@@ -73,29 +73,31 @@
 - "Drooping stinger now does not collide with objects."
 - "Your propulsion cannon will break outcrop when you try to grab it."
 - "Simplified mobile vehicle bay UI."
-- "Reefbacks now avoid your life pod." (No reefback surfacing make this pointless.)
 - "When looking at a creature, UI now tells you if it's dead."
 - "Brain coral, planter, tiger plant, lantern fruit tree, bulbo tree now can't be moved with propulsion or repulsion cannon."
 - "Sulfur Plant now can't be moved with propulsion or repulsion cannon."
 - "Reduced size of alien containment hatch collision box so you dont get stuck when using ladder next to it."
 - "Removed collision box from railing you get in your multipurpose room when you build a hatch or a corridor."
 - "Prawn suit lights now follow the camera when you look up or down."
-- "You can light flare in your hand without throwing it." ([Flare Repair (BepInEx)](https://www.nexusmods.com/subnautica/mods/452) already does that and more.)
 #### Gameplay balance implications
 - "Wild lantern tree fruits did not respawn."
 - "Wild blood oil did not respawn."
 - "Heat blade now can damage lava lizards."
 #### Vanilla feature
 - "When in main menu you can press 'escape' key to close options menu."
+#### Other Reasons
+- "Reefbacks now avoid your life pod." (No reefback surfacing make this pointless.)
+- "You can light flare in your hand without throwing it." ([Flare Repair (BepInEx)](https://www.nexusmods.com/subnautica/mods/452) already does that and more.)
+- "When in main menu you can use mouse wheel to select next or previous savegame slot." (Adding it without keyboard support doesn't make sense, you'd still need to click with the mouse.)
 
 ---
 
 ### <span style="color: grey;">Moved to Fixes</span>
 These were originally in T&F's list of "other changes" but are actually fixes:
-- "No voice while loading" -> "No voice while loading"
-- "All plants now have proper VFXSurface component" + Other objects that weren't documented -> "Add missing VFXSurfaces"
-- "Coffee vending machine now spawns coffee properly" -> Can't reproduce
-- "Precursor terminal does not prompt you to use it after you used it" -> "No used terminal prompt"
+- "No voice while loading." -> "No voice while loading"
+- "All plants now have proper VFXSurface component." + Other objects that weren't documented -> "Add missing VFXSurfaces"
+- "Coffee vending machine now spawns coffee properly." -> Can't reproduce
+- "Precursor terminal does not prompt you to use it after you used it." -> "No used terminal prompt"
 - "Light on top of cyclops cabin now works." -> Can't reproduce
 - All persistence-related features:
   - "Save open wreck doors"
