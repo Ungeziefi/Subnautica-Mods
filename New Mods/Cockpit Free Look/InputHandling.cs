@@ -29,12 +29,12 @@ namespace Ungeziefi.Cockpit_Free_Look
             bool isAnyKeyPressed = GameInput.GetKey(Main.Config.FreeLookKey) ||
                                  GameInput.GetKey(Main.Config.SecondaryFreeLookKey);
 
-            // Toggle free look
-            if (isAnyKeyPressed && !wasKeyPressed)
+            if (Main.Config.HoldKeyMode)
             {
-                if (!isLooking)
+                // Hold mode
+                if (isAnyKeyPressed && !isLooking)
                 {
-                    // Start
+                    // Start free look when key is held
                     isLooking = true;
                     isReturning = false;
                     originalRotation = mainCamera.transform.localRotation;
@@ -45,12 +45,39 @@ namespace Ungeziefi.Cockpit_Free_Look
                         DisableExosuitArms(vehicle as Exosuit);
                     }
                 }
-                else
+                else if (!isAnyKeyPressed && isLooking)
                 {
-                    // End
+                    // End free look when key is released
                     isLooking = false;
                     isReturning = true;
                     returnTime = 0f;
+                }
+            }
+            else
+            {
+                // Toggle mode
+                if (isAnyKeyPressed && !wasKeyPressed)
+                {
+                    if (!isLooking)
+                    {
+                        // Start
+                        isLooking = true;
+                        isReturning = false;
+                        originalRotation = mainCamera.transform.localRotation;
+                        currentRotation = Vector2.zero;
+
+                        if (isExosuit)
+                        {
+                            DisableExosuitArms(vehicle as Exosuit);
+                        }
+                    }
+                    else
+                    {
+                        // End
+                        isLooking = false;
+                        isReturning = true;
+                        returnTime = 0f;
+                    }
                 }
             }
             wasKeyPressed = isAnyKeyPressed;
