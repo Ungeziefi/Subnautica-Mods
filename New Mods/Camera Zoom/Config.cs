@@ -13,10 +13,10 @@ namespace Ungeziefi.Camera_Zoom
         [Toggle(Label = "Enable feature")]
         public bool CCEnableFeature = true;
 
-        [Keybind(Label = "Zoom in key", Tooltip = "Zoom in key in addition to moving forward, left Shift by default.")]
+        [Keybind(Label = "Zoom in key", Tooltip = "Left Shift by default.")]
         public KeyCode CCZoomInKey = KeyCode.LeftShift;
 
-        [Keybind(Label = "Zoom out key", Tooltip = "Zoom in key in addition to moving backward, left Control by default.")]
+        [Keybind(Label = "Zoom out key", Tooltip = "Left Control by default.")]
         public KeyCode CCZoomOutKey = KeyCode.LeftControl;
 
         [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]
@@ -36,6 +36,9 @@ namespace Ungeziefi.Camera_Zoom
 
         [Toggle(Label = "Instant zoom")]
         public bool PCInstantZoom = false;
+
+        [Toggle(Label = "Allow while building")]
+        public bool PCAllowWhileBuilding = false;
 
         [Keybind(Label = "Zoom key", Tooltip = "Scroll wheel click by default.")]
         public KeyCode PCZoomKey = KeyCode.Mouse2;

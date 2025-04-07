@@ -55,9 +55,9 @@ namespace Ungeziefi.Camera_Zoom
             if (!Main.Config.CCEnableFeature || !isCameraActive || Cursor.visible) return;
 
             int zoomDirection = 0;
-            if (Input.GetKey(Main.Config.CCZoomInKey) || GameInput.GetButtonHeld(GameInput.Button.MoveForward))
+            if (Input.GetKey(Main.Config.CCZoomInKey))
                 zoomDirection = -1; // Zoom in
-            else if (Input.GetKey(Main.Config.CCZoomOutKey) || GameInput.GetButtonHeld(GameInput.Button.MoveBackward))
+            else if (Input.GetKey(Main.Config.CCZoomOutKey))
                 zoomDirection = 1; // Zoom out
 
             if (zoomDirection != 0)
