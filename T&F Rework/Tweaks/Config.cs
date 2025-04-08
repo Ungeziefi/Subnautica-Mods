@@ -73,10 +73,10 @@ namespace Ungeziefi.Tweaks
         public bool CSREnableFeature = false;
 
         [Slider(Label = "Minimum multiplier", DefaultValue = 0.50f, Min = 0.01f, Max = 1f, Step = 0.01f, Format = "{0:0.00}")]
-        public float MinCreatureSize = 0.5f;
+        public float MinCreatureSize = 0.75f;
 
         [Slider(Label = "Maximum multiplier", DefaultValue = 1.50f, Min = 1f, Max = 2f, Step = 0.01f, Format = "{0:0.00}")]
-        public float MaxCreatureSize = 1.5f;
+        public float MaxCreatureSize = 1.25f;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool MiscellaneousTweaksDivider;
