@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HarmonyLib;
 using System.Linq;
-using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Fixes
@@ -8,21 +7,14 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch]
     public class NoPlantWavingIndoors
     {
-        private static readonly HashSet<TechType> techTypesToRemoveWavingShader = new HashSet<TechType>
-            {
-                TechType.BulboTree,
-                TechType.PurpleVasePlant,
-                TechType.OrangePetalsPlant,
-                TechType.PinkMushroom,
-                TechType.PurpleRattle,
-                TechType.PinkFlower
-            };
-
         private static void DisableWavingShader(Component component)
         {
             foreach (var material in component.GetComponentsInChildren<MeshRenderer>().SelectMany(mr => mr.materials))
             {
-                material.DisableKeyword("UWE_WAVING");
+                if (material.IsKeywordEnabled("UWE_WAVING"))
+                {
+                    material.DisableKeyword("UWE_WAVING");
+                }
             }
         }
 
@@ -31,9 +23,20 @@ namespace Ungeziefi.Fixes
         {
             if (!Main.Config.NoPlantWavingIndoors) return;
 
-            // Only disable for plants indoors
-            var tt = CraftData.GetTechType(__instance.gameObject);
-            if (techTypesToRemoveWavingShader.Contains(tt) && __instance.gameObject.GetComponentInParent<Base>(true))
+            if (__instance.gameObject.GetComponentInParent<Base>(true))
+            {
+                DisableWavingShader(__instance);
+            }
+        }
+
+
+        // To-Do: When the plant is fully grown, neither GrowingPlant nor LargeWorldEntity work until a game restart
+        [HarmonyPatch(typeof(GrowingPlant), nameof(GrowingPlant.Start)), HarmonyPrefix]
+        public static void GrowingPlant_Start(GrowingPlant __instance)
+        {
+            if (!Main.Config.NoPlantWavingIndoors) return;
+
+            if (__instance.gameObject.GetComponentInParent<Base>(true))
             {
                 DisableWavingShader(__instance);
             }
