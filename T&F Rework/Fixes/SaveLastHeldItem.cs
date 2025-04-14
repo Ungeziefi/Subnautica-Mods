@@ -12,10 +12,11 @@ namespace Ungeziefi.Fixes
         {
             if (!Main.Config.SaveLastHeldItem || isLoading) return;
 
-            Main.SaveData.LastHeldItemSlot = slotID;
+            Main.SaveData.LastHeldItemSlot = __instance.GetActiveSlotID();
             Main.SaveData.Save();
         }
 
+        // To-Do: Find alternative to RegisterOnFinishLoadingEvent, as it only fires after the first save load
         public static void LoadedGameSetup()
         {
             if (!Main.Config.SaveLastHeldItem) return;
