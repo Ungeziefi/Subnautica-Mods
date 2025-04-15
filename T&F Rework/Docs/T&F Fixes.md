@@ -44,8 +44,12 @@
 - **Save Cyclops speed mode**.
 - **Save Cyclops internal lights**.
 - **Save Cyclops floodlights**.
-- **Save Seaglide toggles**.
 - **Save last held item**. (Restores the held item only on the first save load due to the use of RegisterOnFinishLoadingEvent.)
+- 
+---
+
+### <span style="color: orange;">To-Do</span>
+- **Save Seaglide toggles**.
 
 ---
 
