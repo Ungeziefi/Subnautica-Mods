@@ -11,6 +11,7 @@
 - **Cyclops displays needs power**: Disables various screens and systems when the power is off. (Improved by covering all the missing interfaces and light sources. The full list is now: Helm HUD, sonar, compass, decoy screen, storage terminal, upgrade console, lights control panel, edit screen, and light statics.)
 - **Batteries have tooltips**.
 - **No PDA delay**. (Better compatibility by not using bool Prefix.)
+- **Disable email box**: Disables the email box in the main menu when news are disabled. (Needs a restart to update state.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
