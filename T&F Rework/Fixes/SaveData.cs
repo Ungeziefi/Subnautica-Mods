@@ -11,7 +11,7 @@ namespace Ungeziefi.Fixes
         public HashSet<string> CyclopsesWithInternalLightOff { get; } = new();
         public HashSet<string> CyclopsesWithFloodlightsOn { get; } = new();
         //public bool SeaglideLightOn { get; set; }
-        //public bool SeaglideMapOn { get; set; }
+        //public bool SeaglideMapOff { get; set; }
         public int LastHeldItemSlot { get; set; } = -1;
     }
 }

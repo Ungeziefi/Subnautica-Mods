@@ -13,7 +13,7 @@ namespace Ungeziefi.Fixes
     {
         public const string PLUGIN_GUID = "Ungeziefi.Fixes";
         public const string PLUGIN_NAME = "Fixes";
-        public const string PLUGIN_VERSION = "1.0.3";
+        public const string PLUGIN_VERSION = "1.1.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
@@ -28,7 +28,6 @@ namespace Ungeziefi.Fixes
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
             MiscFixes.ApplyAllFixes();
             SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();
-            SaveUtils.RegisterOnFinishLoadingEvent(SaveLastHeldItem.LoadedGameSetup);
         }
     }
 }

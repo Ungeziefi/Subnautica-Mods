@@ -34,9 +34,10 @@
 - **Keep dead raw fish stored**: Prevents stored raw fish from disappearing when loading a save. (Not ideal but, like T&F, it resets the decay timer.)
 - **PRAWN particles only on sand**: Prevents PRAWN Suit landings from spawning particles if not on sand. (Better compatibility by not using bool Prefix.)
 - **Add missing VFXSurfaces**.
-- **No deposit pop in**: Controls how far away resource deposits become visible. (T&F had a fixed distance, this is configurable.)
-- **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in. (T&F had a fixed distance, this is configurable.)
+- **No deposit pop in**: Controls how far away resource deposits become visible. (Improved by making the distance configurable.)
+- **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in. (Improved by making the distance configurable.)
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
+- **Dead Peepers closed eyes**: Fixes the Peepers' eyes in LOD distance from being open when dead.
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.
@@ -44,7 +45,7 @@
 - **Save Cyclops speed mode**.
 - **Save Cyclops internal lights**.
 - **Save Cyclops floodlights**.
-- **Save last held item**. (Restores the held item only on the first save load due to the use of RegisterOnFinishLoadingEvent.)
+- **Save last held item**. (Improved by supporting mid-game reloads.)
 - 
 ---
 

@@ -1,7 +1,7 @@
-﻿// To-Do: Fix the broken load and save it per-reference
+﻿// To-Do: Fix delayed save due to OnHolster
 
-//using System.Collections;
 //using HarmonyLib;
+//using System.Collections;
 //using UWE;
 
 //namespace Ungeziefi.Fixes
@@ -14,7 +14,7 @@
 //            // Save map off
 //            var seaglideMap = seaglide.GetComponent<VehicleInterface_MapController>();
 //            if (seaglideMap?.miniWorld != null)
-//                Main.SaveData.SeaglideMapOn = seaglideMap.miniWorld.active;
+//                Main.SaveData.SeaglideMapOff = !seaglideMap.miniWorld.active;
 
 //            // Save light on
 //            if (seaglide.toggleLights != null)
@@ -25,26 +25,25 @@
 //        {
 //            if (seaglide == null) yield break;
 
-//            while (seaglide.toggleLights == null) yield return null;
+//            if (seaglide.toggleLights == null) yield return null;
 //            seaglide.toggleLights.SetLightsActive(Main.SaveData.SeaglideLightOn);
 
 //            var map = seaglide.GetComponent<VehicleInterface_MapController>();
 //            if (map == null) yield break;
 
-//            while (map.miniWorld == null) yield return null;
-//            map.miniWorld.active = Main.SaveData.SeaglideMapOn;
+//            if (map.miniWorld == null) yield return null;
+//            map.miniWorld.active = !Main.SaveData.SeaglideMapOff;
 //        }
 
-//        // Save states
-//        [HarmonyPatch(typeof(Seaglide), nameof(Seaglide.Update)), HarmonyPostfix]
-//        public static void Seaglide_Update(Seaglide __instance)
+//        [HarmonyPatch(typeof(Seaglide), nameof(Seaglide.OnHolster)), HarmonyPrefix]
+//        public static void Seaglide_OnHolster(Seaglide __instance)
 //        {
 //            if (!Main.Config.SaveSeaglideToggles) return;
 
 //            SaveSeaglideState(__instance);
 //        }
 
-//        // Load states
+//        // Load state on start
 //        [HarmonyPatch(typeof(Seaglide), nameof(Seaglide.Start)), HarmonyPostfix]
 //        public static void Seaglide_Start(Seaglide __instance)
 //        {
