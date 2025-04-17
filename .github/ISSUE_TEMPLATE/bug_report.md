@@ -7,17 +7,17 @@ assignees: Ungeziefi
 
 ---
 
-**Describe the bug**
+**Describe the bug**  
 A clear and concise description of what the bug is and what feature it concerns.
 
-**To reproduce**
+**To reproduce**  
 Steps to reproduce the bug.
 
-**Expected behaviour**
+**Expected behaviour**  
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+**Screenshots**  
 If applicable, add screenshots to help explain your problem.
 
-**Additional context**
-Add any other context about the problem here.
+**Log file**  
+Attach LogOutput.log found in your game's root folder.
