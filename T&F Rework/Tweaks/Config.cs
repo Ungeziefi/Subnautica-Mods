@@ -69,16 +69,22 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Disable email box", Tooltip = "Disables the email box in the main menu when news are disabled.")]
         public bool DisableEmailBox = false;
 
+        [Toggle(Label = "Destructible Drooping Stingers")]
+        public bool DestructibleDroopingStingers = false;
+
+        [Toggle(Label = "Land_tree_01 light removal")]
+        public bool Land_tree_01LightRemoval = false;
+
         [Toggle("<color=#f1c353>Critter size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CritterSizeRandomizerDivider;
 
         [Toggle(Label = "Enable feature", Tooltip = "Randomizes the size of Cave Crawlers, Lava Larvas, Bleeders, Rockgrubs, Blighters, and Floaters.")]
         public bool CSREnableFeature = false;
 
-        [Slider(Label = "Minimum multiplier", DefaultValue = 0.50f, Min = 0.01f, Max = 1f, Step = 0.01f, Format = "{0:0.00}")]
+        [Slider(Label = "Minimum multiplier", DefaultValue = 0.75f, Min = 0.01f, Max = 1f, Step = 0.01f, Format = "{0:0.00}")]
         public float MinCreatureSize = 0.75f;
 
-        [Slider(Label = "Maximum multiplier", DefaultValue = 1.50f, Min = 1f, Max = 2f, Step = 0.01f, Format = "{0:0.00}")]
+        [Slider(Label = "Maximum multiplier", DefaultValue = 1.25f, Min = 1f, Max = 2f, Step = 0.01f, Format = "{0:0.00}")]
         public float MaxCreatureSize = 1.25f;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]

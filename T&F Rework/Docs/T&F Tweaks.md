@@ -12,6 +12,8 @@
 - **Batteries have tooltips**.
 - **No PDA delay**. (Better compatibility by not using bool Prefix.)
 - **Disable email box**: Disables the email box in the main menu when news are disabled. (Needs a restart to update state.)
+- **Destructible Drooping Stingers**.
+- **Land_tree_01 light removal**.
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -23,7 +25,6 @@
 ---
 
 ### <span style="color: orange;">To-Do</span>
-- **No reefback surfacing**.
 - **Moveable Mobile Vehicle Bay**: Allows the repulsion and propulsion cannons to move the Mobile Vehicle Bay.
 - **No Grav Trap explosion**: Gas Pods attracted by the grav trap will not explode.
 - **Lighter Seamoth collisions**: Reduces the mass of Spadefish and Shuttlebug to prevent them from damaging your Seamoth upon collision.
@@ -47,14 +48,11 @@
 - **Less Cyclops collisions**: Removed collision sounds from Brain Coral bubbles and small fish hitting the Cyclops.
 - **Creepvine unlocks Fiber Mesh**: Scanning Creepvine unlocks the Fiber Mesh.
 - **Full inventory harvesting**: Harvesting with a full inventory will drop the items.
-- **Scared Peepers**: Peepers now close their eyes when near the player.
 - **No resources fading**: Resources spawned by breaking outcrops now don't fade in.
 - **No fish release fading**: Released fish now don't fade in.
 - **No base items fading**: Items placed in bases now don't fade in.
-- **Land_tree_01 no light**.
 - **Universal creature decoy**: Makes the creature decoy work on all predators.
-- **Destructible Drooping Stingers**: Allows destroying Drooping Stingers with a knife.
-- **Propulsion Cannon Can Grab Fruit**.
+- **Propulsion Cannon can grab fruit**.
 - **Smoke clears on open**: Opening the top hatch of the life pod clears the smoke inside.
 
 ---
@@ -62,6 +60,7 @@
 ### <span style="color: red;">Won't Do</span>
 #### Not interested
 - Most of what's under T&F's "Settings in the mod's options menu" section on [Nexus Mods](https://www.nexusmods.com/subnautica/mods/722).
+- "Reefbacks don't surface now."
 - "Key bind to select next or previous PDA tab."
 - "Quickslot cycle key."
 - "Brain coral now spawns 1 bubble instead of 3 but it spawns them 3 times more often."
