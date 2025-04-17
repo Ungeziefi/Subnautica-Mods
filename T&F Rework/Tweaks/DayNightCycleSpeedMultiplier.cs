@@ -3,21 +3,22 @@ using HarmonyLib;
 namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch(typeof(DayNightCycle))]
-    internal class DayNightCycleSpeed
+    internal class DayNightCycleSpeedMultiplier
     {
         private static bool skipTimeModeStopped;
 
         private static void SetSpeed(DayNightCycle instance)
         {
-            instance._dayNightSpeed = Main.Config.DayNightCycleSpeed;
+            float multiplier = Main.Config.DayNightCycleSpeedMultiplier;
+            if (multiplier != 1f)
+            {
+                instance._dayNightSpeed *= multiplier;
+            }
         }
 
         // Set initial speed
         [HarmonyPatch(nameof(DayNightCycle.Awake)), HarmonyPostfix]
-        static void DayNightCycle_Awake(DayNightCycle __instance)
-        {
-            SetSpeed(__instance);
-        }
+        static void DayNightCycle_Awake(DayNightCycle __instance) => SetSpeed(__instance);
 
         // Check if time skip is ending
         [HarmonyPatch(nameof(DayNightCycle.Update)), HarmonyPrefix]

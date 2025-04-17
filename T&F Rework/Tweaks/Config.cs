@@ -1,5 +1,6 @@
 ﻿using Nautilus.Json;
 using Nautilus.Options.Attributes;
+using System.Collections.Generic;
 
 namespace Ungeziefi.Tweaks
 {
@@ -81,6 +82,16 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Enable feature", Tooltip = "Randomizes the size of Cave Crawlers, Lava Larvas, Bleeders, Rockgrubs, Blighters, and Floaters.")]
         public bool CSREnableFeature = false;
 
+        public List<string> CSRTargetCreatures = new List<string>
+        {
+            "CaveCrawler",
+            "LavaLarva",
+            "Bleeder",
+            "Rockgrub",
+            "Blighter",
+            "Floater"
+        };
+
         [Slider(Label = "Minimum multiplier", DefaultValue = 0.75f, Min = 0.01f, Max = 1f, Step = 0.01f, Format = "{0:0.00}")]
         public float MinCreatureSize = 0.75f;
 
@@ -102,17 +113,20 @@ namespace Ungeziefi.Tweaks
         [Toggle("<color=#f1c353>Multipliers</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool MultipliersDivider;
 
-        [Slider(Label = "Build time", DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+        [Slider(Label = "Build time multiplier", Tooltip = "Higher values make building take longer. Lower values make building faster.",
+            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
         public float BuildTimeMultiplier = 1f;
 
-        [Slider(Label = "Craft time ", DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+        [Slider(Label = "Craft time multiplier", Tooltip = "Higher values make crafting take longer. Lower values make crafting faster.",
+            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
         public float CraftTimeMultiplier = 1f;
 
-        [Slider(Label = "Plant growth time", DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+        [Slider(Label = "Plant growth time multiplier", Tooltip = "Higher values make plants grow slower. Lower values make plants grow faster.",
+            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
         public float PlantGrowthTimeMultiplier = 1f;
 
-        [Slider(Label = "Day/night cycle speed", Tooltip = "Lower values make days longer.",
+        [Slider(Label = "Day/night cycle speed multiplier", Tooltip = "Higher values make days and nights shorter. Lower values make days and nights longer.",
             DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
-        public float DayNightCycleSpeed = 1f;
+        public float DayNightCycleSpeedMultiplier = 1f;
     }
 }

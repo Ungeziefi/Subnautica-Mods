@@ -20,7 +20,7 @@
 - **Build time multiplier**.
 - **Craft time multiplier**.
 - **Plant growth time multiplier**.
-- **Day/night cycle speed**.
+- **Day/night cycle speed multiplier**.
 
 ---
 
