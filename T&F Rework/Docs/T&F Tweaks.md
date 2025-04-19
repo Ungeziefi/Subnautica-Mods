@@ -2,7 +2,7 @@
 - **Seamoth pushing**: Allows pushing the Seamoth when it's on land.
 - **No eating underwater**.
 - **No medkits underwater**.
-- **Chair swiveling**. (Improved by adding acceleration, deceleration, and inertia**: Better compatibility by not using bool Prefix.)
+- **Chair swiveling**. (Improved by adding acceleration, deceleration, and inertia**: Better compatibility by not using bool Prefix. Could be improved by splitting the mesh in 2 but I don't do assets.)
 - **Outcrops require tool**: Harvesting outcrops requires any tool to be equipped.
 - **Power cell charge from batteries**: Sets the charge level of newly crafted power cells based on the charge level of the batteries used for crafting**: (Improved by supporting any number of batteries instead of hardcoding to 2.)
 - **Skip epilepsy warning**.

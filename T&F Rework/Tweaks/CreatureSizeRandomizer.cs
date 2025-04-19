@@ -1,12 +1,11 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
-using HarmonyLib;
-using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
     [HarmonyPatch]
-    public class CritterSizeRandomizer
+    public class CreatureSizeRandomizer
     {
         private static readonly HashSet<TechType> targetCreatures = new HashSet<TechType>();
         private static bool listInitialized = false;
@@ -43,9 +42,13 @@ namespace Ungeziefi.Tweaks
             var tt = CraftData.GetTechType(__instance.gameObject);
             if (targetCreatures.Contains(tt))
             {
-                __instance.transform.localScale *= UnityEngine.Random.Range(
-                    Main.Config.MinCreatureSize,
-                    Main.Config.MaxCreatureSize);
+                // Check if the localScale is not already custom (not equal to Vector3.one)
+                if (__instance.transform.localScale == UnityEngine.Vector3.one)
+                {
+                    __instance.transform.localScale *= UnityEngine.Random.Range(
+                        Main.Config.MinCreatureSize,
+                        Main.Config.MaxCreatureSize);
+                }
             }
         }
     }

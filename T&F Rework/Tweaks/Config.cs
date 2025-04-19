@@ -76,10 +76,10 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Land_tree_01 light removal")]
         public bool Land_tree_01LightRemoval = false;
 
-        [Toggle("<color=#f1c353>Critter size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool CritterSizeRandomizerDivider;
+        [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool CreatureSizeRandomizerDivider;
 
-        [Toggle(Label = "Enable feature", Tooltip = "Randomizes the size of Cave Crawlers, Lava Larvas, Bleeders, Rockgrubs, Blighters, and Floaters.")]
+        [Toggle(Label = "Enable feature")]
         public bool CSREnableFeature = false;
 
         public List<string> CSRTargetCreatures = new List<string>
