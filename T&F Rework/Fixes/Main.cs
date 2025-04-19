@@ -1,9 +1,10 @@
-﻿using System.Reflection;
-using BepInEx;
+﻿using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
-using Nautilus.Utility;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Ungeziefi.Fixes
 {
@@ -20,11 +21,42 @@ namespace Ungeziefi.Fixes
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
         internal static SaveData SaveData { get; private set; }
 
+        #region Incompatible Plugins
+        private static readonly Dictionary<string, string> IncompatiblePlugins = new Dictionary<string, string>
+        {
+            {"qqqbbb.subnautica.tweaksAndFixes", "Tweaks and Fixes"},
+            // {"plugin.guid", "Plugin Display Name"},
+        };
+
+        private bool HasIncompatiblePlugins(out string incompatiblePluginNames)
+        {
+            List<string> foundIncompatiblePlugins = new List<string>();
+
+            foreach (var plugin in IncompatiblePlugins)
+            {
+                if (Chainloader.PluginInfos.ContainsKey(plugin.Key))
+                {
+                    foundIncompatiblePlugins.Add(plugin.Value);
+                }
+            }
+
+            incompatiblePluginNames = string.Join(", ", foundIncompatiblePlugins);
+            return foundIncompatiblePlugins.Count > 0;
+        }
+        #endregion
+
         public void Awake()
         {
             Logger = base.Logger;
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
 
+            if (HasIncompatiblePlugins(out string incompatiblePluginNames))
+            {
+                Logger.LogError($"Incompatible mod(s) detected: {incompatiblePluginNames}");
+                Logger.LogError("Please remove the incompatible mod(s) to use this mod properly.");
+                return; // Prevent patch loading
+            }
+            
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
             MiscFixes.ApplyAllFixes();
             SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();
