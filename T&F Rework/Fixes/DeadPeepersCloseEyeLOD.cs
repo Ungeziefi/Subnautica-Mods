@@ -4,10 +4,10 @@ using UnityEngine;
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch]
-    public class DeadPeeperCloseEyeLOD
+    public class DeadPeepersCloseEyeLOD
     {
         private static bool ShouldFixEyes(Creature creature) =>
-            Main.Config.DeadPeeperCloseEyeLOD &&
+            Main.Config.DeadPeepersCloseEyeLOD &&
             creature.GetComponent<LiveMixin>()?.IsAlive() == false &&
             creature.name.Contains("Peeper");
 

@@ -139,7 +139,7 @@ namespace Ungeziefi.Fixes
         public bool NoLowSpeedSplat = true;
 
         [Toggle(Label = "Dead Peepers close eye LOD", Tooltip = "Fixes the Peepers' eyes in LOD distance from being open when dead.")]
-        public bool DeadPeeperCloseEyeLOD = true;
+        public bool DeadPeepersCloseEyeLOD = true;
 
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
