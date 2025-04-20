@@ -23,7 +23,7 @@ namespace Ungeziefi.Fixes
         }
 
         [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.ApplyJumpForce)), HarmonyTranspiler]
-        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        private static IEnumerable<CodeInstruction> Exosuit_ApplyJumpForce(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             var matcher = new CodeMatcher(instructions, generator);
 
@@ -59,7 +59,7 @@ namespace Ungeziefi.Fixes
         }
 
         [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.OnLand)), HarmonyTranspiler]
-        private static IEnumerable<CodeInstruction> OnLandTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        private static IEnumerable<CodeInstruction> Exosuit_OnLand(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             var matcher = new CodeMatcher(instructions, generator);
 

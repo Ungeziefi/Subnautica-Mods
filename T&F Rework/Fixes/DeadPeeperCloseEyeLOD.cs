@@ -30,7 +30,7 @@ namespace Ungeziefi.Fixes
 
         // Already dead when spawning
         [HarmonyPatch(typeof(Creature), nameof(Creature.Start)), HarmonyPostfix]
-        public static void Creature_Start_Postfix(Creature __instance)
+        public static void Creature_Start(Creature __instance)
         {
             if (ShouldFixEyes(__instance))
                 FixPeeperEyes(__instance);
@@ -38,7 +38,7 @@ namespace Ungeziefi.Fixes
 
         // Death during gameplay
         [HarmonyPatch(typeof(LiveMixin), nameof(LiveMixin.Kill)), HarmonyPostfix]
-        public static void LiveMixin_Kill_Postfix(LiveMixin __instance)
+        public static void LiveMixin_Kill(LiveMixin __instance)
         {
             if (__instance.GetComponent<Creature>() is Creature creature && ShouldFixEyes(creature))
                 FixPeeperEyes(creature);

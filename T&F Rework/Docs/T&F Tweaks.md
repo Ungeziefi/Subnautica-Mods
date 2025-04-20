@@ -105,5 +105,5 @@ These were originally in T&F's list of "other changes" but are actually fixes:
   - "Save Cyclops speed mode"
   - "Save Cyclops internal lights"
   - "Save Cyclops floodlights"
-  - "Save Seaglide toggles"
   - "Save last held item"
+  - "Save Seaglide toggles"

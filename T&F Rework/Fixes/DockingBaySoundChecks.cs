@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using HarmonyLib;
+using System.Collections.Generic;
 using System.Reflection.Emit;
-using HarmonyLib;
 
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch]
     public class DockingBaySoundChecks
     {
-        // Open SFX
+        #region Open SFX
         [HarmonyPatch(typeof(VehicleDockingBay), nameof(VehicleDockingBay.LaunchbayAreaEnter)), HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> VehicleDockingBay_LaunchbayAreaEnter(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
@@ -36,8 +36,9 @@ namespace Ungeziefi.Fixes
 
             return matcher.InstructionEnumeration();
         }
+        #endregion
 
-        // Close SFX
+        #region Close SFX
         [HarmonyPatch(typeof(VehicleDockingBay), nameof(VehicleDockingBay.LaunchbayAreaExit)), HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> VehicleDockingBay_LaunchbayAreaExit(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
@@ -70,6 +71,7 @@ namespace Ungeziefi.Fixes
             );
 
             return matcher.InstructionEnumeration();
+            #endregion
         }
     }
 }

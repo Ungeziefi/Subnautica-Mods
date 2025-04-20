@@ -8,9 +8,11 @@ namespace Ungeziefi.Fixes
     {
         private static string GetDoorCoords(Vector3Int position)
         {
-            #pragma warning disable Harmony003 // Harmony non-ref patch parameters modified
+            // "Harmony non-ref patch parameter position.x modified. This assignment have no effect."
+            // Safe to ignore because we're only reading
+            #pragma warning disable Harmony003
             return $"{position.x},{position.y},{position.z}";
-            #pragma warning restore Harmony003 // Harmony non-ref patch parameters modified
+            #pragma warning restore Harmony003
         }
 
         [HarmonyPatch(nameof(BulkheadDoor.OnHandClick)), HarmonyPostfix]

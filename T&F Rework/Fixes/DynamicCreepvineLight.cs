@@ -24,6 +24,7 @@ namespace Ungeziefi.Fixes
                     activeFruits++;
             }
 
+            // Set light intensity based on the number of active fruits
             light.intensity = (float)activeFruits / __instance.fruits.Length;
         }
     }
