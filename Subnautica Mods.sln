@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abandon Ship During Cyclops
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Autocompletion", "Remakes\Console Autocompletion\Console Autocompletion.csproj", "{1B456C8C-7A08-2080-4147-8D5841B260F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonpool Rotation", "New Mods\Moonpool Rotation\Moonpool Rotation.csproj", "{E55E8C0C-F7DB-454F-87FB-3C3ACA9658CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{1B456C8C-7A08-2080-4147-8D5841B260F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B456C8C-7A08-2080-4147-8D5841B260F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B456C8C-7A08-2080-4147-8D5841B260F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E55E8C0C-F7DB-454F-87FB-3C3ACA9658CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E55E8C0C-F7DB-454F-87FB-3C3ACA9658CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E55E8C0C-F7DB-454F-87FB-3C3ACA9658CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E55E8C0C-F7DB-454F-87FB-3C3ACA9658CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +119,7 @@ Global
 		{1D15D793-18EA-463B-917D-BEB69097ADB1} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{6AD0477C-1732-3BF4-5B16-E3580A640820} = {36C33857-57C9-42D3-84FE-7D44EEA332BC}
 		{1B456C8C-7A08-2080-4147-8D5841B260F4} = {36C33857-57C9-42D3-84FE-7D44EEA332BC}
+		{E55E8C0C-F7DB-454F-87FB-3C3ACA9658CB} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64328EDE-8342-4276-8236-6A9D23D0BEBD}
