@@ -46,7 +46,6 @@
 - **Save Cyclops internal lights**.
 - **Save Cyclops floodlights**.
 - **Save last held item**. (Improved by supporting mid-game reloads.)
-- 
 ---
 
 ### <span style="color: orange;">To-Do</span>
