@@ -1,6 +1,7 @@
 ﻿using Nautilus.Json;
 using Nautilus.Options.Attributes;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
@@ -75,6 +76,21 @@ namespace Ungeziefi.Tweaks
 
         [Toggle(Label = "Land_tree_01 light removal")]
         public bool Land_tree_01LightRemoval = false;
+
+        [Toggle("<color=#f1c353>Inventory transfer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool InventoryTransferDivider;
+
+        [Toggle(Label = "Enable transfer all items", Tooltip = "Hold a key to transfer all items between containers at once.")]
+        public bool EnableTransferAllItems = true;
+
+        [Toggle(Label = "Enable transfer similar items", Tooltip = "Hold a key to transfer all items of the same type between containers at once.")]
+        public bool EnableTransferSimilarItems = true;
+
+        [Keybind(Label = "Transfer all items key", Tooltip = "Hold this key while clicking an item to transfer all items.")]
+        public KeyCode TransferAllItemsKey = KeyCode.LeftShift;
+
+        [Keybind(Label = "Transfer similar items key", Tooltip = "Hold this key while clicking an item to transfer all items of the same type.")]
+        public KeyCode TransferSimilarItemsKey = KeyCode.LeftControl;
 
         [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CreatureSizeRandomizerDivider;

@@ -14,6 +14,8 @@
 - **Disable email box**: Disables the email box in the main menu when news are disabled. (Needs a restart to update state.)
 - **Destructible Drooping Stingers**.
 - **Land_tree_01 light removal**.
+- **Transfer all items**: Hold a key to transfer all items between containers at once.
+- **Transfer all similar items**: Hold a key to transfer all items of the same type between containers at once.
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -26,10 +28,7 @@
 
 ### <span style="color: orange;">To-Do</span>
 - **Moveable Mobile Vehicle Bay**: Allows the repulsion and propulsion cannons to move the Mobile Vehicle Bay.
-- **No Grav Trap explosion**: Gas Pods attracted by the grav trap will not explode.
 - **Lighter Seamoth collisions**: Reduces the mass of Spadefish and Shuttlebug to prevent them from damaging your Seamoth upon collision.
-- **Transfer all items key**.
-- **Transfer all similar items key**.
 - **PRAWN Suit light toggle**.
 - **Base lights toggle**.
 - **Allowed items indicator**.
@@ -79,6 +78,7 @@
 - "Reduced size of alien containment hatch collision box so you dont get stuck when using ladder next to it."
 - "Removed collision box from railing you get in your multipurpose room when you build a hatch or a corridor."
 - "Prawn suit lights now follow the camera when you look up or down."
+- "Gaspods attracted by grav trap do not explode."
 #### Gameplay balance implications
 - "Wild lantern tree fruits did not respawn."
 - "Wild blood oil did not respawn."
