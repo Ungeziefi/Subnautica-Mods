@@ -7,9 +7,6 @@ namespace Ungeziefi.Cockpit_Free_Look
     [Menu("Cockpit Free Look")]
     public class Config : ConfigFile
     {
-        [Toggle("<color=#f1c353>General Settings</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool GeneralSettingsDivider;
-
         [Keybind(Label = "Free look key", Tooltip = "F key by default.")]
         public KeyCode FreeLookKey = KeyCode.F;
 

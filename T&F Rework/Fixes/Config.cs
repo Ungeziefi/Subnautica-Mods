@@ -157,8 +157,8 @@ namespace Ungeziefi.Fixes
             DefaultValue = 50f, Min = 10f, Max = 100f, Step = 5f)]
         public float MaxDamageBasedDistance = 50f;
 
-        [Toggle("<color=#f1c353>Persistence Fixes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool PersistenceFixesDivider;
+        [Toggle("<color=#f1c353>Persistence</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool PersistenceDivider;
 
         [Toggle(Label = "Save open wreck doors")]
         public bool SaveOpenWreckDoors = true;

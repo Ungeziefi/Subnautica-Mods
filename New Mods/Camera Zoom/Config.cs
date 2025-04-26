@@ -8,7 +8,7 @@ namespace Ungeziefi.Camera_Zoom
     public class Config : ConfigFile
     {
         [Toggle("<color=#f1c353>Cyclops Cameras</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool CyclopsDivider;
+        public bool CyclopsCamerasDivider;
 
         [Toggle(Label = "Enable feature")]
         public bool CCEnableFeature = true;
