@@ -10,7 +10,7 @@ namespace Ungeziefi.Console_Autocompletion
         [Toggle(Label = "Enable feature")]
         public bool EnableFeature = true;
 
-        [Keybind(Label = "Autocompletion key", Tooltip = "Tab key by default")]
+        [Keybind(Label = "Autocompletion key", Tooltip = "Tab key by default.")]
         public KeyCode ConsoleAutocompletionKey = KeyCode.Tab;
 
         [Toggle(Label = "Log matching items")]

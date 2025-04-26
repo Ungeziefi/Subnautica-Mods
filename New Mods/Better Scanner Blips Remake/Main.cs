@@ -4,15 +4,15 @@ using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
 
-namespace Ungeziefi.Dynamic_Scanner_Blips
+namespace Ungeziefi.Better_Scanner_Blips_Remake
 {
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
     [BepInDependency("com.snmodding.nautilus")]
     public class Main : BaseUnityPlugin
     {
-        public const string PLUGIN_GUID = "Ungeziefi.Dynamic_Scanner_Blips";
-        public const string PLUGIN_NAME = "Dynamic Scanner Blips";
-        public const string PLUGIN_VERSION = "1.0.0"; // Unused - won't release
+        public const string PLUGIN_GUID = "Ungeziefi.Better_Scanner_Blips_Remake";
+        public const string PLUGIN_NAME = "Better Scanner Blips Remake";
+        public const string PLUGIN_VERSION = "1.0.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
