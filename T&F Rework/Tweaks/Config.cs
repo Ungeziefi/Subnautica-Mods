@@ -53,9 +53,6 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Mobile Vehicle Bay beacon")]
         public bool MobileVehicleBayBeacon = false;
 
-        [Toggle(Label = "Auto-close Bulkheads", Tooltip = "Automatically closes Bulkheads when a leak starts in a base.")]
-        public bool AutoCloseBulkheads = false;
-
         [Toggle(Label = "Escape closes PDA")]
         public bool EscapeClosesPDA = false;
 
