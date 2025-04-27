@@ -18,7 +18,7 @@ namespace Ungeziefi.Fixes
                     ViewDistanceOption.Medium => LargeWorldEntity.CellLevel.Medium,
                     ViewDistanceOption.Far => LargeWorldEntity.CellLevel.Far,
                     ViewDistanceOption.VeryFar => LargeWorldEntity.CellLevel.VeryFar,
-                    _ => LargeWorldEntity.CellLevel.Near // Default fallback
+                    _ => LargeWorldEntity.CellLevel.Near // Default
                 };
 
                 __instance.cellLevel = cellLevel;
