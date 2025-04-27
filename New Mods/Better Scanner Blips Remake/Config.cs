@@ -58,12 +58,15 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         public string ColorPreset = "Custom";
 
         [Slider(Label = "Blip color (Red)", DefaultValue = 255f, Min = 0f, Max = 255f, Step = 1f, Format = "{0:0}")]
+        [OnChange(nameof(OnColorComponentChanged))]
         public float BlipColorRed = 255f;
 
         [Slider(Label = "Blip color (Green)", DefaultValue = 255f, Min = 0f, Max = 255f, Step = 1f, Format = "{0:0}")]
+        [OnChange(nameof(OnColorComponentChanged))]
         public float BlipColorGreen = 255f;
 
         [Slider(Label = "Blip color (Blue)", DefaultValue = 255f, Min = 0f, Max = 255f, Step = 1f, Format = "{0:0}")]
+        [OnChange(nameof(OnColorComponentChanged))]
         public float BlipColorBlue = 255f;
 
         [Toggle("<color=#f1c353>Text color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
@@ -79,12 +82,15 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         public string TextColorPreset = "Custom";
 
         [Slider(Label = "Text color (Red)", DefaultValue = 255f, Min = 0f, Max = 255f, Step = 1f, Format = "{0:0}")]
+        [OnChange(nameof(OnColorComponentChanged))]
         public float TextColorRed = 255f;
 
         [Slider(Label = "Text color (Green)", DefaultValue = 255f, Min = 0f, Max = 255f, Step = 1f, Format = "{0:0}")]
+        [OnChange(nameof(OnColorComponentChanged))]
         public float TextColorGreen = 255f;
 
         [Slider(Label = "Text color (Blue)", DefaultValue = 255f, Min = 0f, Max = 255f, Step = 1f, Format = "{0:0}")]
+        [OnChange(nameof(OnColorComponentChanged))]
         public float TextColorBlue = 255f;
 
         #region Color Management
@@ -105,6 +111,9 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             // When enabling custom colors, apply selected preset (if not "Custom")
             if (UseCustomBlipColor && ColorPreset != "Custom")
                 ApplyColorPreset(ColorPreset, ref BlipColorRed, ref BlipColorGreen, ref BlipColorBlue);
+
+            // Update color cache
+            BetterScannerBlipsRemake.UpdateColorCache();
         }
 
         // Called when "Custom text color" toggle changes
@@ -113,6 +122,9 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             // When enabling custom colors, apply selected preset (if not "Custom")
             if (UseCustomTextColor && TextColorPreset != "Custom")
                 ApplyColorPreset(TextColorPreset, ref TextColorRed, ref TextColorGreen, ref TextColorBlue);
+
+            // Update color cache
+            BetterScannerBlipsRemake.UpdateColorCache();
         }
 
         // Called when blip color preset choice changes
@@ -123,6 +135,10 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             // Always apply the color preset when changed, regardless of whether custom color is enabled
             // This ensures values are ready when custom color is enabled
             ApplyColorPreset(ColorPreset, ref BlipColorRed, ref BlipColorGreen, ref BlipColorBlue);
+
+            // Update color cache if using custom colors
+            if (UseCustomBlipColor)
+                BetterScannerBlipsRemake.UpdateColorCache();
         }
 
         // Called when text color preset choice changes
@@ -133,6 +149,10 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             // Always apply the color preset when changed, regardless of whether custom color is enabled
             // This ensures values are ready when custom color is enabled
             ApplyColorPreset(TextColorPreset, ref TextColorRed, ref TextColorGreen, ref TextColorBlue);
+
+            // Update color cache if using custom colors
+            if (UseCustomTextColor)
+                BetterScannerBlipsRemake.UpdateColorCache();
         }
 
         // Helper method: Applies RGB values from a preset to color sliders
@@ -146,21 +166,28 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             }
         }
 
-        // Returns the final blip color (white if custom color is disabled)
+        // Called when any color component sliders change
+        public void OnColorComponentChanged()
+        {
+            // Update the color cache when the user moves any color slider
+            BetterScannerBlipsRemake.UpdateColorCache();
+        }
+
+        // Returns the final blip color (using ORIGINAL color if custom color is disabled)
         public Color GetBlipColor()
         {
             if (!UseCustomBlipColor)
-                return Color.white;
+                return BetterScannerBlipsRemake.originalBlipColor;
 
             // Convert 0-255 range to 0-1 range needed by Unity's Color
             return new Color(BlipColorRed / 255f, BlipColorGreen / 255f, BlipColorBlue / 255f);
         }
 
-        // Returns the final text color (white if custom color is disabled)
+        // Returns the final text color (using ORIGINAL color if custom color is disabled)
         public Color GetTextColor()
         {
             if (!UseCustomTextColor)
-                return Color.white;
+                return BetterScannerBlipsRemake.originalTextColor;
 
             // Convert 0-255 range to 0-1 range needed by Unity's Color
             return new Color(TextColorRed / 255f, TextColorGreen / 255f, TextColorBlue / 255f);

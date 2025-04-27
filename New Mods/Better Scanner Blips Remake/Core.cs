@@ -15,8 +15,60 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         // Original colors
         // Blip: 1.00f, 0.64f, 0.00f, 1.00f
         // Text: 1.00f, 0.68f, 0.00f, 1.00f
-        private static Color originalBlipColor = new Color(1.00f, 0.64f, 0.00f, 1.00f);
-        private static Color originalTextColor = new Color(1.00f, 0.68f, 0.00f, 1.00f);
+        public static Color originalBlipColor = new Color(1.00f, 0.64f, 0.00f, 1.00f);
+        public static Color originalTextColor = new Color(1.00f, 0.68f, 0.00f, 1.00f);
+
+        // Cached colors
+        private static Color cachedBlipColor;
+        private static Color cachedTextColor;
+
+        // Cached settings state to detect changes
+        private static bool lastUseCustomBlipColor;
+        private static bool lastUseCustomTextColor;
+        private static float lastBlipRed, lastBlipGreen, lastBlipBlue;
+        private static float lastTextRed, lastTextGreen, lastTextBlue;
+        private static bool colorsInitialized = false;
+        #endregion
+
+        #region Color Cache Management
+        public static void UpdateColorCache()
+        {
+            Config config = Main.Config;
+
+            // Update cached settings values
+            lastUseCustomBlipColor = config.UseCustomBlipColor;
+            lastUseCustomTextColor = config.UseCustomTextColor;
+            lastBlipRed = config.BlipColorRed;
+            lastBlipGreen = config.BlipColorGreen;
+            lastBlipBlue = config.BlipColorBlue;
+            lastTextRed = config.TextColorRed;
+            lastTextGreen = config.TextColorGreen;
+            lastTextBlue = config.TextColorBlue;
+
+            // Update cached colors
+            cachedBlipColor = config.UseCustomBlipColor ? config.GetBlipColor() : originalBlipColor;
+            cachedTextColor = config.UseCustomTextColor ? config.GetTextColor() : originalTextColor;
+
+            colorsInitialized = true;
+        }
+
+        public static bool ColorSettingsChanged()
+        {
+            if (!colorsInitialized) return true;
+
+            Config config = Main.Config;
+
+            return lastUseCustomBlipColor != config.UseCustomBlipColor ||
+                   lastUseCustomTextColor != config.UseCustomTextColor ||
+                   (config.UseCustomBlipColor && (
+                       lastBlipRed != config.BlipColorRed ||
+                       lastBlipGreen != config.BlipColorGreen ||
+                       lastBlipBlue != config.BlipColorBlue)) ||
+                   (config.UseCustomTextColor && (
+                       lastTextRed != config.TextColorRed ||
+                       lastTextGreen != config.TextColorGreen ||
+                       lastTextBlue != config.TextColorBlue));
+        }
         #endregion
 
         #region Harmony Patches
@@ -29,6 +81,12 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             {
                 blipsEnabled = !blipsEnabled;
             }
+
+            // Check if color settings changed and update cache if necessary
+            if (ColorSettingsChanged())
+            {
+                UpdateColorCache();
+            }
         }
 
         [HarmonyPatch(typeof(uGUI_ResourceTracker), nameof(uGUI_ResourceTracker.UpdateBlips)), HarmonyPostfix]
@@ -38,6 +96,12 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             bool ___visible)
         {
             if (!Main.Config.EnableFeature || !___visible) return;
+
+            // Initialize colors if not already done
+            if (!colorsInitialized)
+            {
+                UpdateColorCache();
+            }
 
             var cameraTransform = MainCamera.camera.transform;
             int blipIndex = 0;
@@ -67,31 +131,17 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                     continue;
                 }
 
-                // Apply or restore blip color
+                // Apply cached blip color
                 Graphic graphic = blip.gameObject.GetComponent<Graphic>();
                 if (graphic != null && graphic.material != null)
                 {
-                    if (Main.Config.UseCustomBlipColor)
-                    {
-                        graphic.material.SetColor("_Color", Main.Config.GetBlipColor());
-                    }
-                    else
-                    {
-                        graphic.material.SetColor("_Color", originalBlipColor);
-                    }
+                    graphic.material.SetColor("_Color", cachedBlipColor);
                 }
 
-                // Apply or restore text color
+                // Apply cached text color
                 if (blip.text != null)
                 {
-                    if (Main.Config.UseCustomTextColor)
-                    {
-                        blip.text.color = Main.Config.GetTextColor();
-                    }
-                    else
-                    {
-                        blip.text.color = originalTextColor;
-                    }
+                    blip.text.color = cachedTextColor;
                 }
 
                 // Scale based on distance
@@ -117,24 +167,24 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                 string resourceName = Language.main.Get(resource.techType.AsString(false));
                 string distanceText = $"{Mathf.RoundToInt(distance)}{Language.main.Get("MeterSuffix")}";
 
-                // Handle different visibility options
-                switch (Main.Config.TextVisibility)
+                // Visibility options
+                if (Main.Config.TextVisibility == "Hide both")
                 {
-                    case "Hide resource name":
-                        blip.text.SetText(distanceText, true);
-                        break;
+                    blip.text.SetAlpha(0f);
+                }
+                else
+                {
+                    // Set text and keep it visible
+                    blip.text.SetAlpha(1f);
 
-                    case "Hide distance":
-                        blip.text.SetText(resourceName, true);
-                        break;
+                    string displayText = Main.Config.TextVisibility switch
+                    {
+                        "Hide resource name" => distanceText,
+                        "Hide distance" => resourceName,
+                        _ => $"{resourceName}\r\n{distanceText}" // Default
+                    };
 
-                    case "Hide both":
-                        blip.text.SetAlpha(0f);
-                        break;
-
-                    default:
-                        blip.text.SetText($"{resourceName}\r\n{distanceText}", true);
-                        break;
+                    blip.text.SetText(displayText, true);
                 }
 
                 blipIndex++;
