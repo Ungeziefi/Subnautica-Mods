@@ -89,6 +89,16 @@ namespace Ungeziefi.Tweaks
         [Keybind(Label = "Transfer similar items key", Tooltip = "Hold this key while clicking an item to transfer all items of the same type.")]
         public KeyCode TransferSimilarItemsKey = KeyCode.LeftControl;
 
+        [Toggle("<color=#f1c353>Seaglide light angle</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool SeaglideAngleLightDivider;
+
+        [Toggle(Label = "Enable feature")]
+        public bool SLAEnableFeature = false;
+
+        [Slider(Label = "Light angle", Tooltip = "The angle in degrees to tilt the Seaglide light beam upward (higher value) or downward (lower value).",
+            DefaultValue = 30f, Min = -10f, Max = 60f, Step = 1f, Format = "{0:0}°")]
+        public float LightAngle = 30f;
+
         [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CreatureSizeRandomizerDivider;
 

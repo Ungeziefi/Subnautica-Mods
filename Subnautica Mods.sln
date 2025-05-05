@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anisotropic Fix", "Rewrites
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abandon Ship During Cyclops Fire", "Rewrites\Abandon Ship During Cyclops Fire\Abandon Ship During Cyclops Fire.csproj", "{4D0F560A-B860-7AA5-CDDC-91140DA24447}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom Goto Locations", "New Mods\Custom Goto Locations\Custom Goto Locations.csproj", "{F9FF1A34-EA7A-3D3A-DF60-D4471BE5BFBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{4D0F560A-B860-7AA5-CDDC-91140DA24447}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D0F560A-B860-7AA5-CDDC-91140DA24447}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D0F560A-B860-7AA5-CDDC-91140DA24447}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9FF1A34-EA7A-3D3A-DF60-D4471BE5BFBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9FF1A34-EA7A-3D3A-DF60-D4471BE5BFBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9FF1A34-EA7A-3D3A-DF60-D4471BE5BFBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9FF1A34-EA7A-3D3A-DF60-D4471BE5BFBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{8C585FB7-FBC0-E1A5-1E05-B013E5F44C28} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{2ABC4F86-39A7-A94C-E6DF-733C075B2800} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{4D0F560A-B860-7AA5-CDDC-91140DA24447} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F9FF1A34-EA7A-3D3A-DF60-D4471BE5BFBD} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64328EDE-8342-4276-8236-6A9D23D0BEBD}
