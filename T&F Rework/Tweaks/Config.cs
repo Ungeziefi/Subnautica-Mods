@@ -99,6 +99,21 @@ namespace Ungeziefi.Tweaks
             DefaultValue = 30f, Min = -10f, Max = 60f, Step = 1f, Format = "{0:0}°")]
         public float LightAngle = 30f;
 
+        [Toggle("<color=#f1c353>New commands</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool NewCommandsDivider;
+
+        [Toggle(Label = "RestoreHealth")]
+        public bool RestoreHealth = false;
+
+        [Toggle(Label = "RestoreHunger")]
+        public bool RestoreHunger = false;
+
+        [Toggle(Label = "RestoreThirst")]
+        public bool RestoreThirst = false;
+
+        [Toggle(Label = "RestoreAll")]
+        public bool RestoreAll = false;
+
         [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CreatureSizeRandomizerDivider;
 
