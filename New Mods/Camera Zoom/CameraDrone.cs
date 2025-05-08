@@ -21,7 +21,18 @@ namespace Ungeziefi.Camera_Zoom
                 return;
             }
             isCameraActive = !disable;
-            Camera.fieldOfView = disable ? previousFOV : maxFOV;
+
+            if (disable)
+            {
+                // Restore the previous FOV and reset MiscSettings to ensure consistency
+                Camera.fieldOfView = previousFOV;
+                MiscSettings.fieldOfView = previousFOV;
+                SNCameraRoot.main.SyncFieldOfView(previousFOV);
+            }
+            else
+            {
+                Camera.fieldOfView = maxFOV;
+            }
         }
 
         // Save FOV on enter
@@ -76,7 +87,7 @@ namespace Ungeziefi.Camera_Zoom
                     maxFOV
                 );
 
-                if (newFOV != previousFOV && SNCameraRoot.main != null)
+                if (newFOV != currentFOV && SNCameraRoot.main != null)
                 {
                     MiscSettings.fieldOfView = newFOV;
                     SNCameraRoot.main.SyncFieldOfView(newFOV);

@@ -12,7 +12,7 @@ namespace Ungeziefi.Camera_Zoom
     {
         public const string PLUGIN_GUID = "Ungeziefi.Camera_Zoom";
         public const string PLUGIN_NAME = "Camera Zoom";
-        public const string PLUGIN_VERSION = "2.2.0";
+        public const string PLUGIN_VERSION = "2.2.1";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
