@@ -6,3 +6,8 @@
 #### Miscellaneous
 - **From "Use Trashcan" to "Use Trash can"**: Adds a missing space to the Trashcan prompt for consistency with its recipe name.
 - **Capitalize "Use"**: Capitalizes the "Use" prompt for consistency with other prompts.
+#### New Commands
+- **RestoreHealth**.
+- **RestoreHunger**.
+- **RestoreThirst**.
+- **RestoreAll**.
