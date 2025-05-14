@@ -114,6 +114,10 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "RestoreAll")]
         public bool RestoreAll = false;
 
+        [Slider(Label = "Scanner Room speed multiplier", Tooltip = "Lower values mean faster scanning.",
+            DefaultValue = 1f, Min = 0.1f, Max = 3f, Step = 0.1f, Format = "{0:0.0}x")]
+        public float ScannerRoomSpeedMultiplier = 1f;
+
         [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CreatureSizeRandomizerDivider;
 
@@ -130,10 +134,10 @@ namespace Ungeziefi.Tweaks
             "Floater"
         };
 
-        [Slider(Label = "Minimum multiplier", DefaultValue = 0.75f, Min = 0.01f, Max = 1f, Step = 0.01f, Format = "{0:0.00}")]
+        [Slider(Label = "Minimum multiplier", DefaultValue = 0.75f, Min = 0.01f, Max = 1f, Step = 0.01f, Format = "{0:0.00}x")]
         public float MinCreatureSize = 0.75f;
 
-        [Slider(Label = "Maximum multiplier", DefaultValue = 1.25f, Min = 1f, Max = 2f, Step = 0.01f, Format = "{0:0.00}")]
+        [Slider(Label = "Maximum multiplier", DefaultValue = 1.25f, Min = 1f, Max = 2f, Step = 0.01f, Format = "{0:0.00}x")]
         public float MaxCreatureSize = 1.25f;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
@@ -152,19 +156,19 @@ namespace Ungeziefi.Tweaks
         public bool MultipliersDivider;
 
         [Slider(Label = "Build time multiplier", Tooltip = "Higher values make building take longer. Lower values make building faster.",
-            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}x")]
         public float BuildTimeMultiplier = 1f;
 
         [Slider(Label = "Craft time multiplier", Tooltip = "Higher values make crafting take longer. Lower values make crafting faster.",
-            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}x")]
         public float CraftTimeMultiplier = 1f;
 
         [Slider(Label = "Plant growth time multiplier", Tooltip = "Higher values make plants grow slower. Lower values make plants grow faster.",
-            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}x")]
         public float PlantGrowthTimeMultiplier = 1f;
 
         [Slider(Label = "Day/night cycle speed multiplier", Tooltip = "Higher values make days and nights shorter. Lower values make days and nights longer.",
-            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}")]
+            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}x")]
         public float DayNightCycleSpeedMultiplier = 1f;
     }
 }

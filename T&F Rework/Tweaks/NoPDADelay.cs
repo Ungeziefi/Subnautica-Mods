@@ -14,8 +14,12 @@ namespace Ungeziefi.Tweaks
 
             var matcher = new CodeMatcher(instructions)
                 .MatchForward(false,
+                    new CodeMatch(i => i.opcode == OpCodes.Callvirt),
+                    new CodeMatch(i => i.opcode == OpCodes.Ldarg_0),
+                    new CodeMatch(i => i.opcode == OpCodes.Ldfld),
                     new CodeMatch(OpCodes.Ldc_R4, 0.5f)
                 )
+                .Advance(3)  // Move to Ldc_R4
                 .SetOperandAndAdvance(0f);
 
             return matcher.InstructionEnumeration();
@@ -28,8 +32,11 @@ namespace Ungeziefi.Tweaks
 
             var matcher = new CodeMatcher(instructions)
                 .MatchForward(false,
+                    new CodeMatch(i => i.opcode == OpCodes.Ldarg_0),
+                    new CodeMatch(i => i.opcode == OpCodes.Ldfld),
                     new CodeMatch(OpCodes.Ldc_R4, 0.3f)
                 )
+                .Advance(2)  // Move to Ldc_R4
                 .SetOperandAndAdvance(0f);
 
             return matcher.InstructionEnumeration();
