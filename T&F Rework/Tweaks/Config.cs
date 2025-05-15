@@ -74,14 +74,18 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Land_tree_01 light removal")]
         public bool Land_tree_01LightRemoval = false;
 
+        [Slider(Label = "Scanner Room speed multiplier", Tooltip = "Lower values mean faster scanning.",
+    DefaultValue = 1f, Min = 0.1f, Max = 3f, Step = 0.1f, Format = "{0:0.0}x")]
+        public float ScannerRoomSpeedMultiplier = 1f;
+
         [Toggle("<color=#f1c353>Inventory transfer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool InventoryTransferDivider;
 
         [Toggle(Label = "Enable transfer all items", Tooltip = "Hold a key to transfer all items between containers at once.")]
-        public bool EnableTransferAllItems = true;
+        public bool EnableTransferAllItems = false;
 
         [Toggle(Label = "Enable transfer similar items", Tooltip = "Hold a key to transfer all items of the same type between containers at once.")]
-        public bool EnableTransferSimilarItems = true;
+        public bool EnableTransferSimilarItems = false;
 
         [Keybind(Label = "Transfer all items key", Tooltip = "Hold this key while clicking an item to transfer all items.")]
         public KeyCode TransferAllItemsKey = KeyCode.LeftShift;
@@ -113,10 +117,6 @@ namespace Ungeziefi.Tweaks
 
         [Toggle(Label = "RestoreAll")]
         public bool RestoreAll = false;
-
-        [Slider(Label = "Scanner Room speed multiplier", Tooltip = "Lower values mean faster scanning.",
-            DefaultValue = 1f, Min = 0.1f, Max = 3f, Step = 0.1f, Format = "{0:0.0}x")]
-        public float ScannerRoomSpeedMultiplier = 1f;
 
         [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CreatureSizeRandomizerDivider;
