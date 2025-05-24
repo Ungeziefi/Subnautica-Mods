@@ -9,53 +9,16 @@ namespace Ungeziefi.Moonpool_Rotation
     {
         private static MonoBehaviour coroutineHost;
         private static Transform moonpoolAnimCache;
-        private static Transform launchbayCinematicCache;
         private static bool isRotating = false;
+        private static bool needsRotation = false;
+        private static float WAITBEFOREROTATION = 1.8f;
+        private static float RETURNROTATIONDURATION = 1.5f;
 
         [HarmonyPatch(typeof(VehicleDockingBay), nameof(VehicleDockingBay.Start)), HarmonyPostfix]
         public static void VehicleDockingBay_Start(VehicleDockingBay __instance)
         {
-            if (coroutineHost == null)
-            {
-                coroutineHost = __instance;
-            }
-
-            Transform moonpoolAnim = __instance.transform.Find("moonpool_anim");
-            if (moonpoolAnim != null)
-            {
-                moonpoolAnimCache = moonpoolAnim;
-
-                // Look for launchbay_cinematic
-                Transform launchbayCinematic = __instance.transform.Find("launchbay_cinematic");
-                if (launchbayCinematic != null)
-                {
-                    launchbayCinematicCache = launchbayCinematic;
-                }
-            }
-        }
-
-        private static void EnsureLaunchPositionsMatchMoonpoolOrientation(Transform parent, Transform moonpoolAnim)
-        {
-            if (parent == null || moonpoolAnim == null) return;
-
-            Transform launchFromLeft = parent.Find("LaunchFromLeft");
-            Transform launchFromRight = parent.Find("LaunchFromRight");
-
-            if (launchFromLeft == null || launchFromRight == null) return;
-            
-            // Get expected positions
-            Vector3 moonpoolRight = moonpoolAnim.right;
-            Vector3 expectedLeftPos = -moonpoolRight * 1.5f;
-            Vector3 expectedRightPos = moonpoolRight * 1.5f;
-
-            expectedLeftPos.y = launchFromLeft.localPosition.y;
-            expectedLeftPos.z = launchFromLeft.localPosition.z;
-            expectedRightPos.y = launchFromRight.localPosition.y;
-            expectedRightPos.z = launchFromRight.localPosition.z;
-
-            // Update positions
-            launchFromLeft.localPosition = expectedLeftPos;
-            launchFromRight.localPosition = expectedRightPos;
+            coroutineHost = __instance;
+            moonpoolAnimCache = __instance.transform.parent?.Find("moon_pool_anim");
         }
 
         [HarmonyPatch(typeof(VehicleDockingBay), nameof(VehicleDockingBay.LateUpdate)), HarmonyPrefix]
@@ -65,105 +28,39 @@ namespace Ungeziefi.Moonpool_Rotation
 
             Vehicle dockingVehicle = __instance.interpolatingVehicle;
 
-            if (dockingVehicle != null && !isRotating)
+            if (dockingVehicle != null && !isRotating && !needsRotation)
             {
-                // Always use launchbay_cinematic as reference if available
-                if (launchbayCinematicCache != null)
+                // dot < 0 = opposite direction
+                if (Vector3.Dot(dockingVehicle.transform.right, moonpoolAnimCache.right) < 0)
                 {
-                    // Compare vehicle direction with launchbay_cinematic
-                    float dotProduct = Vector3.Dot(dockingVehicle.transform.right, launchbayCinematicCache.right);
-
-                    // If opposite direction (dot product < 0)
-                    if (dotProduct < 0)
-                    {
-                        coroutineHost.StartCoroutine(RotationSequence(moonpoolAnimCache, dockingVehicle.transform, false));
-                        return false; // Skip LateUpdate during rotation
-                    }
-                    // If same direction (dot product > 0)
-                    else if (dotProduct > 0)
-                    {
-                        coroutineHost.StartCoroutine(RotationSequence(moonpoolAnimCache, dockingVehicle.transform, true));
-                        return false; // Skip LateUpdate during rotation
-                    }
-                }
-                else
-                {
-                    // Fallback
-                    float dotProduct = Vector3.Dot(dockingVehicle.transform.right, moonpoolAnimCache.right);
-
-                    if (dotProduct < 0)
-                    {
-                        coroutineHost.StartCoroutine(RotationSequence(moonpoolAnimCache, dockingVehicle.transform, false));
-                        return false;
-                    }
-                    else if (dotProduct > 0)
-                    {
-                        coroutineHost.StartCoroutine(RotationSequence(moonpoolAnimCache, dockingVehicle.transform, true));
-                        return false;
-                    }
+                    needsRotation = true;
+                    coroutineHost.StartCoroutine(RotationSequence(moonpoolAnimCache));
+                    return false; // Skip LateUpdate during rotation
                 }
             }
 
             return true;
         }
 
-        private static IEnumerator RotationSequence(Transform moonpoolAnim, Transform vehicleTransform, bool sameDirection)
+        private static IEnumerator RotationSequence(Transform moonpoolAnim)
         {
             isRotating = true;
 
-            // Store original rotation for return
+            // Store original rotation for return phase
             Quaternion originalRotation = moonpoolAnim.rotation;
 
-            // Calculate target rotation to match vehicle orientation
-            Vector3 vehicleForward = vehicleTransform.forward;
-            vehicleForward.y = 0;
-            vehicleForward.Normalize();
+            // Initial 180-degree rotation (instant)
+            moonpoolAnim.rotation = originalRotation * Quaternion.Euler(0f, 180f, 0f);
 
-            Quaternion targetRotation = Quaternion.LookRotation(vehicleForward, Vector3.up);
+            // Configurable pause before returning
+            yield return new WaitForSeconds(WAITBEFOREROTATION);
 
-            // Initial instant rotation
-            moonpoolAnim.rotation = targetRotation;
+            // Smoothly rotate back to original position
+            yield return RotateTransform(moonpoolAnim, originalRotation, RETURNROTATIONDURATION);
 
-            // Pause before returning
-            yield return new WaitForSeconds(Main.Config.WaitBeforeRotation);
-
-            Quaternion returnRotation;
-            bool needRotation = false;
-
-            if (launchbayCinematicCache != null)
-            {
-                // Use dot product relative to launchbay_cinematic
-                float dotWithCinematic = Vector3.Dot(vehicleTransform.right, launchbayCinematicCache.right);
-                needRotation = dotWithCinematic < 0;
-            }
-            else
-            {
-                // Fallback
-                needRotation = !sameDirection;
-            }
-
-            if (needRotation)
-            {
-                // Need 180 degree rotation
-                returnRotation = originalRotation * Quaternion.Euler(0, 180, 0);
-            }
-            else
-            {
-                // Return to original orientation
-                returnRotation = originalRotation;
-            }
-
-            // Smoothly rotate to the chosen return position
-            yield return RotateTransform(moonpoolAnim, returnRotation, Main.Config.ReturnRotationDuration);
-
-            // Update launch positions to match the new orientation
-            Transform launchbayParent = moonpoolAnim.parent;
-            if (launchbayParent != null)
-            {
-                EnsureLaunchPositionsMatchMoonpoolOrientation(launchbayParent, moonpoolAnim);
-            }
-
+            // Reset state flags
             isRotating = false;
+            needsRotation = false;
         }
 
         private static IEnumerator RotateTransform(Transform moonpoolAnim, Quaternion targetRotation, float duration)
@@ -173,10 +70,14 @@ namespace Ungeziefi.Moonpool_Rotation
             while (elapsedTime < duration)
             {
                 elapsedTime += Time.deltaTime;
+                // Acceleration and deceleration
                 float t = Mathf.SmoothStep(0, 1, elapsedTime / duration);
                 moonpoolAnim.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
                 yield return null;
             }
+
+            // Ensure final rotation just in case
+            moonpoolAnim.rotation = targetRotation;
         }
     }
 }
