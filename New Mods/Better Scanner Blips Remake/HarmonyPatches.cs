@@ -122,6 +122,13 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             for (int i = 0; i < resourceCount; i++)
             {
                 var (resource, distance, index) = visibleResources[i];
+
+                // Validate index
+                if (index < 0 || index >= ___blips.Count)
+                {
+                    continue; // Skip if index is invalid
+                }
+
                 ProcessedBlipIndices.Add(index);
                 var blip = ___blips[index];
 
