@@ -7,34 +7,35 @@ namespace Ungeziefi.Moonpool_Rotation
     [HarmonyPatch]
     public class MoonpoolRotation
     {
-        private static MonoBehaviour coroutineHost;
-        private static Transform moonpoolAnimCache;
-        private static bool isRotating = false;
-        private static bool needsRotation = false;
-        private static float WAITBEFOREROTATION = 1.8f;
-        private static float RETURNROTATIONDURATION = 1.5f;
-
-        [HarmonyPatch(typeof(VehicleDockingBay), nameof(VehicleDockingBay.Start)), HarmonyPostfix]
-        public static void VehicleDockingBay_Start(VehicleDockingBay __instance)
-        {
-            coroutineHost = __instance;
-            moonpoolAnimCache = __instance.transform.parent?.Find("moon_pool_anim");
-        }
+        private static bool isRotatingAny = false;
 
         [HarmonyPatch(typeof(VehicleDockingBay), nameof(VehicleDockingBay.LateUpdate)), HarmonyPrefix]
         public static bool VehicleDockingBay_LateUpdate(VehicleDockingBay __instance)
         {
-            if (!Main.Config.EnableFeature || moonpoolAnimCache == null) return true;
+            if (!Main.Config.EnableFeature || isRotatingAny) return true;
 
+            // Skip if no vehicle or no moonpool anim
             Vehicle dockingVehicle = __instance.interpolatingVehicle;
+            if (dockingVehicle == null) return true;
 
-            if (dockingVehicle != null && !isRotating && !needsRotation)
+            // Find the moonpool animation transform
+            Transform moonpoolAnim = __instance.transform.parent?.Find("moon_pool_anim");
+            if (moonpoolAnim == null) return true;
+
+            if (Main.Config.UseAdvancedRotation)
             {
-                // dot < 0 = opposite direction
-                if (Vector3.Dot(dockingVehicle.transform.right, moonpoolAnimCache.right) < 0)
+                // Start advanced rotation sequence
+                isRotatingAny = true;
+                __instance.StartCoroutine(AdvancedRotationSequence(__instance, moonpoolAnim, dockingVehicle.transform));
+                return false; // Skip LateUpdate during rotation
+            }
+            else
+            {
+                // Original 180-degree flip mode - only if opposite direction
+                if (Vector3.Dot(dockingVehicle.transform.right, moonpoolAnim.right) < 0)
                 {
-                    needsRotation = true;
-                    coroutineHost.StartCoroutine(RotationSequence(moonpoolAnimCache));
+                    isRotatingAny = true;
+                    __instance.StartCoroutine(RotationSequence(__instance, moonpoolAnim));
                     return false; // Skip LateUpdate during rotation
                 }
             }
@@ -42,25 +43,50 @@ namespace Ungeziefi.Moonpool_Rotation
             return true;
         }
 
-        private static IEnumerator RotationSequence(Transform moonpoolAnim)
+        private static IEnumerator RotationSequence(VehicleDockingBay dockingBay, Transform moonpoolAnim)
         {
-            isRotating = true;
-
-            // Store original rotation for return phase
+            // Store original rotation
             Quaternion originalRotation = moonpoolAnim.rotation;
 
-            // Initial 180-degree rotation (instant)
+            // Instant 180-degree rotation
             moonpoolAnim.rotation = originalRotation * Quaternion.Euler(0f, 180f, 0f);
 
             // Configurable pause before returning
-            yield return new WaitForSeconds(WAITBEFOREROTATION);
+            yield return new WaitForSeconds(Main.Config.WaitBeforeRotation);
 
             // Smoothly rotate back to original position
-            yield return RotateTransform(moonpoolAnim, originalRotation, RETURNROTATIONDURATION);
+            yield return RotateTransform(moonpoolAnim, originalRotation, Main.Config.MaxReturnRotationDuration);
 
-            // Reset state flags
-            isRotating = false;
-            needsRotation = false;
+            // Reset state flag
+            isRotatingAny = false;
+        }
+
+        private static IEnumerator AdvancedRotationSequence(VehicleDockingBay dockingBay, Transform moonpoolAnim, Transform vehicleTransform)
+        {
+            // Store original rotation
+            Quaternion originalRotation = moonpoolAnim.rotation;
+
+            // Calculate target rotation to match vehicle direction
+            Vector3 targetForward = new Vector3(vehicleTransform.forward.x, 0, vehicleTransform.forward.z).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(targetForward, Vector3.up);
+
+            // Instantly rotate to match vehicle direction
+            moonpoolAnim.rotation = targetRotation;
+
+            // Configurable pause before returning
+            yield return new WaitForSeconds(Main.Config.WaitBeforeRotation);
+
+            // Calculate rotation difference for duration
+            float angleDifference = Quaternion.Angle(targetRotation, originalRotation);
+
+            // Duration with min and max
+            float rotationDuration = Mathf.Max(Main.Config.MinReturnRotationDuration, Mathf.Lerp(0.2f, Main.Config.MaxReturnRotationDuration, angleDifference / 180f));
+
+            // Smoothly rotate back to original position
+            yield return RotateTransform(moonpoolAnim, originalRotation, rotationDuration);
+
+            // Reset state flag
+            isRotatingAny = false;
         }
 
         private static IEnumerator RotateTransform(Transform moonpoolAnim, Quaternion targetRotation, float duration)
