@@ -10,7 +10,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
         [Toggle(Label = "Enable feature")]
         public bool EnableFeature = true;
 
-        [Keybind(Label = "Rename key", Tooltip = "Press this key while looking at a Cuddlefish to rename it.")]
+        [Keybind(Label = "Rename key", Tooltip = "Configurable key in addition to Alt Tool when using a controller.")]
         public KeyCode RenameKey = KeyCode.R;
 
         [Toggle(Label = "Show name above Cuddlefish")]

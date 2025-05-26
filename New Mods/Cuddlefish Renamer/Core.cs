@@ -32,21 +32,30 @@ namespace Ungeziefi.Cuddlefish_Renamer
         {
             if (!Main.Config.EnableFeature || !__instance.AllowedToInteract() || isRenamingActive) return;
 
+            var primaryDevice = GameInput.GetPrimaryDevice();
+            string renameText = primaryDevice == GameInput.Device.Controller ? "Press to rename" : $"Press {Main.Config.RenameKey} to rename";
+
             // Add rename prompt
             var handReticle = HandReticle.main;
             if (handReticle.textHandSubscript.Length > 0)
             {
                 string currentText = handReticle.textHandSubscript;
-                string renameText = string.Format(renamePrompt, Main.Config.RenameKey);
 
                 if (!currentText.Contains(renameText))
                 {
                     string newText = string.IsNullOrEmpty(currentText) ? renameText : $"{currentText}\n{renameText}";
-                    handReticle.SetText(HandReticle.TextType.HandSubscript, newText, false, GameInput.Button.None);
+                    handReticle.SetText(
+                        HandReticle.TextType.HandSubscript, 
+                        newText, 
+                        false, 
+                        primaryDevice == GameInput.Device.Controller ? GameInput.Button.AltTool : GameInput.Button.None);
                 }
             }
 
-            if (Input.GetKeyDown(Main.Config.RenameKey) && !Cursor.visible)
+            // Check for input
+            if ((Input.GetKeyDown(Main.Config.RenameKey) ||
+                ((GameInput.GetPrimaryDevice() == GameInput.Device.Controller) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
+                && !Cursor.visible)
             {
                 CuteFish cuddlefish = __instance.cuteFish;
                 if (cuddlefish != null && __instance.liveMixin.IsAlive())
