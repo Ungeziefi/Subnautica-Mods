@@ -15,8 +15,8 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         // Cached settings state to detect changes
         private static bool lastUseCustomBlipColor;
         private static bool lastUseCustomTextColor;
-        private static float lastBlipRed, lastBlipGreen, lastBlipBlue;
-        private static float lastTextRed, lastTextGreen, lastTextBlue;
+        private static Color lastBlipColor;
+        private static Color lastTextColor;
         public static bool colorsInitialized = false;
 
         public static void UpdateColorCache()
@@ -26,16 +26,12 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             // Update cached settings values
             lastUseCustomBlipColor = config.UseCustomBlipColor;
             lastUseCustomTextColor = config.UseCustomTextColor;
-            lastBlipRed = config.BlipColorRed;
-            lastBlipGreen = config.BlipColorGreen;
-            lastBlipBlue = config.BlipColorBlue;
-            lastTextRed = config.TextColorRed;
-            lastTextGreen = config.TextColorGreen;
-            lastTextBlue = config.TextColorBlue;
+            lastBlipColor = config.BlipColor;
+            lastTextColor = config.TextColor;
 
             // Update cached colors
-            cachedBlipColor = config.UseCustomBlipColor ? config.GetBlipColor() : originalBlipColor;
-            cachedTextColor = config.UseCustomTextColor ? config.GetTextColor() : originalTextColor;
+            cachedBlipColor = config.GetBlipColor();
+            cachedTextColor = config.GetTextColor();
 
             colorsInitialized = true;
         }
@@ -48,14 +44,8 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
             return lastUseCustomBlipColor != config.UseCustomBlipColor ||
                    lastUseCustomTextColor != config.UseCustomTextColor ||
-                   (config.UseCustomBlipColor && (
-                       lastBlipRed != config.BlipColorRed ||
-                       lastBlipGreen != config.BlipColorGreen ||
-                       lastBlipBlue != config.BlipColorBlue)) ||
-                   (config.UseCustomTextColor && (
-                       lastTextRed != config.TextColorRed ||
-                       lastTextGreen != config.TextColorGreen ||
-                       lastTextBlue != config.TextColorBlue));
+                   (config.UseCustomBlipColor && lastBlipColor != config.BlipColor) ||
+                   (config.UseCustomTextColor && lastTextColor != config.TextColor);
         }
 
         public static Color GetCachedBlipColor()

@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom Goto Locations", "Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom Hotkeys Remake", "New Mods\Custom Hotkeys Remake\Custom Hotkeys Remake.csproj", "{752E7E29-0029-5114-D57C-500D67757260}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuddlefish Renamer", "New Mods\Cuddlefish Renamer\Cuddlefish Renamer.csproj", "{EB48D98C-EC21-FE2F-7E11-A78505D71074}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{752E7E29-0029-5114-D57C-500D67757260}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{752E7E29-0029-5114-D57C-500D67757260}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{752E7E29-0029-5114-D57C-500D67757260}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB48D98C-EC21-FE2F-7E11-A78505D71074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB48D98C-EC21-FE2F-7E11-A78505D71074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB48D98C-EC21-FE2F-7E11-A78505D71074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB48D98C-EC21-FE2F-7E11-A78505D71074}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,6 +140,7 @@ Global
 		{4D0F560A-B860-7AA5-CDDC-91140DA24447} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{F9FF1A34-EA7A-3D3A-DF60-D4471BE5BFBD} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{752E7E29-0029-5114-D57C-500D67757260} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
+		{EB48D98C-EC21-FE2F-7E11-A78505D71074} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64328EDE-8342-4276-8236-6A9D23D0BEBD}
