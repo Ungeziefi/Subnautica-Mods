@@ -12,6 +12,12 @@ namespace Ungeziefi.Cuddlefish_Renamer
         private static readonly string renamePrompt = "Press {0} to rename";
         private static bool nameLabelsVisible = true;
         private static bool isRenamingActive = false;
+
+        // Settings tracking
+        private static float lastNameLabelHeight;
+        private static bool lastBoldText;
+        private static float lastNameFontSize;
+        private static Color lastNameColor;
         #endregion
 
         #region Harmony Patches
@@ -45,9 +51,9 @@ namespace Ungeziefi.Cuddlefish_Renamer
                 {
                     string newText = string.IsNullOrEmpty(currentText) ? renameText : $"{currentText}\n{renameText}";
                     handReticle.SetText(
-                        HandReticle.TextType.HandSubscript, 
-                        newText, 
-                        false, 
+                        HandReticle.TextType.HandSubscript,
+                        newText,
+                        false,
                         primaryDevice == GameInput.Device.Controller ? GameInput.Button.AltTool : GameInput.Button.None);
                 }
             }
@@ -91,6 +97,22 @@ namespace Ungeziefi.Cuddlefish_Renamer
             {
                 nameLabelsVisible = Main.Config.ShowNameAboveCuddlefish;
                 UpdateAllNameLabelsVisibility(nameLabelsVisible);
+            }
+
+            // Check setting changes
+            if (lastNameLabelHeight != Main.Config.NameLabelHeight ||
+                lastBoldText != Main.Config.BoldText ||
+                lastNameFontSize != Main.Config.NameFontSize ||
+                lastNameColor != Main.Config.NameColor)
+            {
+                // Update appearance settings for all labels
+                UpdateAllNameLabelsAppearance();
+
+                // Update cache
+                lastNameLabelHeight = Main.Config.NameLabelHeight;
+                lastBoldText = Main.Config.BoldText;
+                lastNameFontSize = Main.Config.NameFontSize;
+                lastNameColor = Main.Config.NameColor;
             }
 
             // Distance-based visibility updates
@@ -174,6 +196,25 @@ namespace Ungeziefi.Cuddlefish_Renamer
             if (visible && Main.Config.FadeWithDistance)
             {
                 UpdateNameLabelsDistanceVisibility();
+            }
+        }
+
+        private static void UpdateAllNameLabelsAppearance()
+        {
+            foreach (var entry in nameLabels)
+            {
+                if (entry.Value == null) continue;
+
+                // Update height
+                entry.Value.transform.localPosition = new Vector3(0, Main.Config.NameLabelHeight, 0);
+
+                // Update text formatting
+                TMPro.TextMeshPro text = entry.Value.GetComponent<TMPro.TextMeshPro>();
+                if (text != null)
+                {
+                    text.fontSize = Main.Config.NameFontSize;
+                    ApplyTextFormatting(text);
+                }
             }
         }
         #endregion

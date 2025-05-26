@@ -24,13 +24,8 @@ namespace Ungeziefi.Cuddlefish_Renamer
             Logger = base.Logger;
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
 
-            // Register language line for the rename prompt
-            LanguageHandler.SetLanguageLine("RenameCuddlefish", "Press [{0}] to rename");
-
-            // Register the save data
-            SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();
-
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
+            SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();
         }
     }
 }
