@@ -118,7 +118,7 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "RestoreAll")]
         public bool RestoreAll = false;
 
-        [Toggle(Label = "QQQ")]
+        [Toggle(Label = "QQQ", Tooltip= "Quits the game without confirmation.")]
         public bool QQQ = false;
 
         [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
