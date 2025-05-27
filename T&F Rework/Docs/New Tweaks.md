@@ -12,3 +12,4 @@
 - **RestoreHunger**.
 - **RestoreThirst**.
 - **RestoreAll**.
+- **QQQ**: Quits the game without confirmation.

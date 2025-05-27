@@ -23,7 +23,11 @@ namespace Ungeziefi.Tweaks
         private void Awake()
         {
             string[] commands = {
-                "restorehealth", "restorehunger", "restorethirst", "restoreall"
+                "restorehealth",
+                "restorehunger",
+                "restorethirst",
+                "restoreall",
+                "qqq"
             };
 
             foreach (var cmd in commands)
@@ -120,6 +124,21 @@ namespace Ungeziefi.Tweaks
             Player.main.GetComponent<Survival>().water = 100f;
 
             ErrorMessage.AddMessage(RestoredAll);
+        }
+
+        private void OnConsoleCommand_qqq(NotificationCenter.Notification n)
+        {
+            if (!Main.Config.QQQ)
+            {
+                ErrorMessage.AddMessage(CommandDisabled);
+                return;
+            }
+
+            IngameMenu menu = IngameMenu.main;
+            if (menu != null)
+            {
+                menu.QuitGame(true);
+            }
         }
         #endregion
     }

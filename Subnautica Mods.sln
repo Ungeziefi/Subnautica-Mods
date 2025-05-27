@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom Hotkeys Remake", "Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuddlefish Renamer", "New Mods\Cuddlefish Renamer\Cuddlefish Renamer.csproj", "{EB48D98C-EC21-FE2F-7E11-A78505D71074}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Creature Healthbars", "New Mods\Creature Healthbars\Creature Healthbars.csproj", "{8A05687C-BAD6-85B9-97CD-2AA7855E3451}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{EB48D98C-EC21-FE2F-7E11-A78505D71074}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB48D98C-EC21-FE2F-7E11-A78505D71074}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB48D98C-EC21-FE2F-7E11-A78505D71074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A05687C-BAD6-85B9-97CD-2AA7855E3451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A05687C-BAD6-85B9-97CD-2AA7855E3451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A05687C-BAD6-85B9-97CD-2AA7855E3451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A05687C-BAD6-85B9-97CD-2AA7855E3451}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,6 +147,7 @@ Global
 		{F9FF1A34-EA7A-3D3A-DF60-D4471BE5BFBD} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{752E7E29-0029-5114-D57C-500D67757260} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{EB48D98C-EC21-FE2F-7E11-A78505D71074} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
+		{8A05687C-BAD6-85B9-97CD-2AA7855E3451} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64328EDE-8342-4276-8236-6A9D23D0BEBD}
