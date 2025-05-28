@@ -8,7 +8,8 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
     {
         Disabled,
         Normal,
-        OnlyWhenEmpty
+        OnlyWhenEmpty,
+        OnlyWhenIdle
     }
 
     [Menu("Seamoth Barrel Roll")]
@@ -18,8 +19,8 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
         public bool EnableFeature = true;
 
         [Choice(Label = "Stabilization mode",
-               Tooltip = "Disabled: No stabilization at all.\nNormal: Default game behaviour.\nOnly when empty: Only stabilizes when exiting the Seamoth.",
-                Options = new[] { "Disabled", "Normal", "Only when empty" })]
+               Tooltip = "Disabled: No stabilization at all.\nNormal: Default game behaviour.\nOnly when empty: Only stabilizes when exiting the Seamoth.\nOnly when idle: Only stabilizes when not rolling.",
+                Options = new[] { "Disabled", "Normal", "Only when empty", "Only when idle" })]
         public StabilizationMode StabilizationMode = StabilizationMode.OnlyWhenEmpty;
 
         [Keybind(Label = "Roll left key", Tooltip = "Left Control by default.")]

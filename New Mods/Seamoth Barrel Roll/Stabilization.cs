@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using UnityEngine;
 
 namespace Ungeziefi.Seamoth_Barrel_Roll
 {
@@ -18,15 +19,22 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             if (Main.Config.StabilizationRequiresPower && !HasPower(__instance))
                 return false;  // No stabilization without power
 
-            // Only stabilize when empty
-            if (__instance is SeaMoth seamoth && Main.Config.StabilizationMode == StabilizationMode.OnlyWhenEmpty)
+            if (__instance is SeaMoth seamoth)
             {
-                return !seamoth.GetPilotingMode(); // Only when not piloting
+                // Only stabilize when empty
+                if (Main.Config.StabilizationMode == StabilizationMode.OnlyWhenEmpty)
+                {
+                    return !seamoth.GetPilotingMode(); // Only when not piloting
+                }
+                // Only stabilize when not actively rolling
+                else if (Main.Config.StabilizationMode == StabilizationMode.OnlyWhenIdle)
+                {
+                    bool isRolling = Input.GetKey(Main.Config.RollLeftKey) || Input.GetKey(Main.Config.RollRightKey);
+                    return !isRolling;
+                }
             }
-            else
-            {
-                return true; // Otherwise always stabilize
-            }
+
+            return true; // Otherwise always stabilize
         }
     }
 }
