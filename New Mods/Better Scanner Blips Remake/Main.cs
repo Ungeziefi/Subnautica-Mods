@@ -14,7 +14,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
     {
         public const string PLUGIN_GUID = "Ungeziefi.Better_Scanner_Blips_Remake";
         public const string PLUGIN_NAME = "Better Scanner Blips Remake";
-        public const string PLUGIN_VERSION = "1.0.2";
+        public const string PLUGIN_VERSION = "1.1.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }

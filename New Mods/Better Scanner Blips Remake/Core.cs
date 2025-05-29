@@ -46,10 +46,16 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         {
             if (!Main.Config.EnableFeature || !___visible) return;
 
-            // Initialize colors if not already done
+            // Init colors if not already initialized
             if (!ColorManagement.colorsInitialized)
             {
                 ColorManagement.UpdateColorCache();
+            }
+
+            // Init edge blips if enabled
+            if (Main.Config.ShowEdgeBlips && mainCamera == null)
+            {
+                SetupEdgeBlipSystem();
             }
 
             // Clear collections for reuse
@@ -57,7 +63,16 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             ProcessedBlipIndices.Clear();
             GroupCounts.Clear();
 
-            CollectAndFilterResources(___nodes);
+            // Choose resource collection method based on edge blip setting
+            if (Main.Config.ShowEdgeBlips)
+            {
+                CollectAndFilterResourcesWithEdgeBlips(___nodes);
+            }
+            else
+            {
+                CollectAndFilterResources(___nodes);
+            }
+
             ProcessResources(___blips);
         }
         #endregion
@@ -156,6 +171,12 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
                 UpdateBlipAppearance(blip, index, distance, cachedBlipColor, cachedTextColor);
                 UpdateBlipText(blip, resource, distance, index);
+
+                // Handle edge blip positioning if enabled
+                if (Main.Config.ShowEdgeBlips)
+                {
+                    ModifyBlipProcessing(blip, resource, index, distance);
+                }
             }
 
             // Hide unprocessed blips
@@ -173,7 +194,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
             bool shouldHideInHabitat = Main.Config.HideBlipsInsideHabitats &&
                                         Player.main.IsInBase() &&
-                                        uGUI_CameraDrone.main != null;
+                                        uGUI_CameraDrone.main?.activeCamera == null;
 
             return shouldHideBlipManually || shouldAutoHide || shouldHideInHabitat;
         }

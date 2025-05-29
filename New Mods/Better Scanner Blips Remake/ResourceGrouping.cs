@@ -11,80 +11,82 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             var result = new List<(ResourceTrackerDatabase.ResourceInfo, int, float, int)>();
             var processedIndices = new HashSet<int>();
 
-            // GroupingDistance is squared to avoid doing square root calculations repeatedly
             float groupingDistanceSquared = Main.Config.GroupingDistance * Main.Config.GroupingDistance;
+            float breakDistanceSquared = Main.Config.GroupBreakingDistance * Main.Config.GroupBreakingDistance;
 
-            // Player position (for group breaking)
             Vector3 playerPosition = Player.main.transform.position;
             bool shouldBreakGroups = Main.Config.GroupNearbyResources && Main.Config.BreakGroupsWhenNearby;
-            float breakDistanceSquared = Main.Config.GroupBreakingDistance * Main.Config.GroupBreakingDistance;
 
             for (int i = 0; i < resources.Count; i++)
             {
-                // Skip resources already processed as part of a group
                 if (processedIndices.Contains(i)) continue;
 
-                var primaryResource = resources[i];
-                int count = 1;
+                var currentResource = resources[i];
                 processedIndices.Add(i);
 
-                // Check if too close to player and groups should be broken
+                // Check if near player (for group breaking)
                 bool tooCloseToPlayer = false;
                 if (shouldBreakGroups)
                 {
-                    float distanceToPlayerSquared = Vector3.SqrMagnitude(primaryResource.resource.position - playerPosition);
+                    float distanceToPlayerSquared = Vector3.SqrMagnitude(currentResource.resource.position - playerPosition);
                     tooCloseToPlayer = distanceToPlayerSquared <= breakDistanceSquared;
                 }
 
-                // Don't group if too close to player
+                // Add individual resource if too close to player
                 if (tooCloseToPlayer)
                 {
-                    result.Add((primaryResource.resource, 1, primaryResource.distance, primaryResource.blipIndex));
+                    result.Add((currentResource.resource, 1, currentResource.distance, currentResource.blipIndex));
                     continue;
                 }
 
-                // Find other resources of the same type within the grouping distance
-                for (int j = i + 1; j < resources.Count; j++)
+                // Collect resources for this group
+                var groupMembers = new List<int> { i };
+
+                // Find resources of the same type within grouping distance
+                for (int j = 0; j < resources.Count; j++)
                 {
-                    if (processedIndices.Contains(j)) continue;
+                    if (j == i || processedIndices.Contains(j)) continue;
 
                     var otherResource = resources[j];
 
-                    // Check if the resources are of the same type
-                    if (primaryResource.resource.techType == otherResource.resource.techType)
+                    // Only group same types
+                    if (currentResource.resource.techType == otherResource.resource.techType)
                     {
-                        // Calculate squared distance between resources to avoid sqrt
                         float distSquared = Vector3.SqrMagnitude(
-                            primaryResource.resource.position - otherResource.resource.position);
+                            currentResource.resource.position - otherResource.resource.position);
 
-                        // If the distance is less than the grouping distance, add to group
                         if (distSquared <= groupingDistanceSquared)
                         {
-                            // If we should break groups near player, check if this resource is too close
+                            // Skip resources too close to player
                             if (shouldBreakGroups)
                             {
                                 float otherDistToPlayerSquared = Vector3.SqrMagnitude(otherResource.resource.position - playerPosition);
-                                bool otherTooClose = otherDistToPlayerSquared <= breakDistanceSquared;
-
-                                // If this resource is too close to player, don't group it
-                                if (otherTooClose)
-                                {
-                                    // Add this resource individually later (don't mark as processed)
+                                if (otherDistToPlayerSquared <= breakDistanceSquared)
                                     continue;
-                                }
                             }
 
-                            count++;
+                            groupMembers.Add(j);
                             processedIndices.Add(j);
                         }
                     }
                 }
 
-                // Add the resource or resource group to the result list
-                result.Add((primaryResource.resource, count, primaryResource.distance, primaryResource.blipIndex));
+                // Process found group
+                if (groupMembers.Count > 1)
+                {
+                    // Find closest resource to player for group representation
+                    int closestIndex = FindClosestResourceToPlayer(resources, groupMembers, playerPosition);
+                    var primaryResource = resources[closestIndex];
+                    result.Add((primaryResource.resource, groupMembers.Count, primaryResource.distance, primaryResource.blipIndex));
+                }
+                else
+                {
+                    // Single resource
+                    result.Add((currentResource.resource, 1, currentResource.distance, currentResource.blipIndex));
+                }
             }
 
-            // Add any remaining resources that weren't processed (they were skipped due to being near the player)
+            // Add any resources that were skipped (near player)
             for (int i = 0; i < resources.Count; i++)
             {
                 if (!processedIndices.Contains(i))
@@ -95,6 +97,29 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             }
 
             return result;
+        }
+
+        private static int FindClosestResourceToPlayer(
+            List<(ResourceTrackerDatabase.ResourceInfo resource, float distance, int blipIndex)> resources,
+            List<int> indices,
+            Vector3 playerPosition)
+        {
+            float closestDistanceSqr = float.MaxValue;
+            int closestIndex = indices[0];
+
+            foreach (int index in indices)
+            {
+                var resource = resources[index];
+                float distSqr = Vector3.SqrMagnitude(resource.resource.position - playerPosition);
+
+                if (distSqr < closestDistanceSqr)
+                {
+                    closestDistanceSqr = distSqr;
+                    closestIndex = index;
+                }
+            }
+
+            return closestIndex;
         }
     }
 }

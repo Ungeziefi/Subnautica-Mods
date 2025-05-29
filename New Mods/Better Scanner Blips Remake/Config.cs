@@ -65,56 +65,73 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             DefaultValue = 6, Min = 1, Max = 20, Step = 1)]
         public int MaximumVisibleBlips = 6;
 
-        [Toggle("<color=#f1c353>Colors</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool ColorsDivider;
-
-        [Toggle(Label = "Use custom blip color", Tooltip = "Enable to use a custom color for scanner blips.")]
-        [OnChange(nameof(OnColorSettingChanged))]
-        public bool UseCustomBlipColor = false;
-
-        [ColorPicker(Label = "Blip color")]
-        [OnChange(nameof(OnColorSettingChanged))]
-        public Color BlipColor = new Color(1.00f, 0.64f, 0.00f, 1.00f);
-
-        [Toggle(Label = "Use custom text color", Tooltip = "Enable to use a different color for text than for blips.")]
-        [OnChange(nameof(OnColorSettingChanged))]
-        public bool UseCustomTextColor = false;
-
-        [ColorPicker(Label = "Text color")]
-        [OnChange(nameof(OnColorSettingChanged))]
-        public Color TextColor = new Color(1.00f, 0.68f, 0.00f, 1.00f);
-
         [Toggle("<color=#f1c353>Grouping</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool GroupingDivider;
 
         [Toggle(Label = "Group nearby resources", Tooltip = "Group resources of the same type that are very close together.")]
         public bool GroupNearbyResources = true;
 
-        [Slider(Label = "Grouping distance", DefaultValue = 20f, Min = 5f, Max = 50f, Step = 1f,
-            Tooltip = "Resources within this distance of each other will be grouped.")]
+        [Slider(Label = "Grouping distance", Tooltip = "Resources within this distance of each other will be grouped.",
+            DefaultValue = 20f, Min = 5f, Max = 50f, Step = 1f)]
         public float GroupingDistance = 20f;
 
         [Toggle(Label = "Break groups when nearby", Tooltip = "Show individual resources instead of groups when you get close to them.")]
         public bool BreakGroupsWhenNearby = true;
 
-        [Slider(Label = "Group breaking distance", DefaultValue = 40f, Min = 10f, Max = 100f, Step = 5f,
-            Tooltip = "Groups will break into individual resources when you're closer than this distance.")]
+        [Slider(Label = "Group breaking distance", Tooltip = "Groups will break into individual resources when you're closer than this distance.",
+            DefaultValue = 40f, Min = 10f, Max = 100f, Step = 5f)]
         public float GroupBreakingDistance = 40f;
+
+        [Toggle("<color=#f1c353>Edge blips</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool EdgeBlipsDivider;
+
+        [Toggle(Label = "Show off-screen blips at edge", Tooltip = "Show blips that are outside your view at the edge of the screen.")]
+        public bool ShowEdgeBlips = true;
+
+        [Slider(Label = "Edge margin", Tooltip = "Margin from screen edge for displaying edge blips (in pixels).",
+            DefaultValue = 60f, Min = 5f, Max = 100f, Step = 1f, Format = "{0}px")]
+        public float EdgeMargin = 60f;
+
+        [Toggle(Label = "Use circular edge blips", Tooltip = "Display off-screen blips in a circle around the screen center instead of at the edges.")]
+        public bool UseCircularEdgeBlips = false;
+
+        [Slider(Label = "Circle radius", Tooltip = "Size of the circle for displaying off-screen blips (percentage of screen size).",
+            DefaultValue = 35f, Min = 10f, Max = 50f, Step = 1f, Format = "{0}%")]
+        public float CircleRadius = 35f;
+
+        [Toggle("<color=#f1c353>Blip color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool BlipColorDivider;
+
+        [Toggle(Label = "Use custom blip color", Tooltip = "Enable to use a custom color for scanner blips.")]
+        [OnChange(nameof(OnColorSettingChanged))]
+        public bool UseCustomBlipColor = false;
+
+        [ColorPicker(Label = "Preview", Tooltip = "The color of scanner blips when custom color is enabled.", Advanced = true)]
+        [OnChange(nameof(OnColorSettingChanged))]
+        public Color BlipColor = new Color(1.00f, 0.64f, 0.00f, 1.00f);
+
+        [Toggle("<color=#f1c353>Text color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool TextColorDivider;
+
+        [Toggle(Label = "Use custom text color", Tooltip = "Enable to use a different color for text than for blips.")]
+        [OnChange(nameof(OnColorSettingChanged))]
+        public bool UseCustomTextColor = false;
+
+        [ColorPicker(Label = "Preview", Tooltip = "The color of text on scanner blips when custom text color is enabled.", Advanced = true)]
+        [OnChange(nameof(OnColorSettingChanged))]
+        public Color TextColor = new Color(1.00f, 0.68f, 0.00f, 1.00f);
 
         #region Color Management
         private void OnColorSettingChanged()
         {
-            // Update color cache when any color setting changes
             ColorManagement.UpdateColorCache();
         }
 
-        // Returns the final blip color (using ORIGINAL color if custom color is disabled)
         public Color GetBlipColor()
         {
             return UseCustomBlipColor ? BlipColor : ColorManagement.originalBlipColor;
         }
 
-        // Returns the final text color (using ORIGINAL color if custom color is disabled)
         public Color GetTextColor()
         {
             return UseCustomTextColor ? TextColor : ColorManagement.originalTextColor;
