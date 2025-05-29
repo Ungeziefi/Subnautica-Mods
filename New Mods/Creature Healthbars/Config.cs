@@ -1,5 +1,6 @@
 ﻿using Nautilus.Json;
 using Nautilus.Options.Attributes;
+using System;
 using UnityEngine;
 
 namespace Ungeziefi.Creature_Healthbars
@@ -7,40 +8,97 @@ namespace Ungeziefi.Creature_Healthbars
     [Menu("Creature Healthbars")]
     public class Config : ConfigFile
     {
+        public static event Action OnVisualSettingsChanged;
+        public static event Action OnSpriteSettingsChanged;
+
         [Toggle(Label = "Enable feature")]
         public bool EnableFeature = true;
 
-        [Slider(Label = "Display duration", Tooltip = "How long the healthbar remains visible after taking damage (in seconds).",
+        [Toggle(Label = "Only show for player damage")]
+        public bool OnlyShowForPlayerDamage = true;
+
+        [Slider(Label = "Display duration", Tooltip = "How long the health bar remains visible after taking damage (in seconds).",
             DefaultValue = 5.0f, Min = 1.0f, Max = 15.0f, Step = 1.0f, Format = "{0:0.0}s")]
         public float DisplayDuration = 5.0f;
 
-        [Toggle(Label = "Show health numbers", Tooltip = "Display current/maximum health values on the health bar.")]
-        public bool ShowHealthNumbers = false;
+        [Toggle(Label = "Show health numbers")]
+        [OnChange(nameof(OnVisualChange))]
+        public bool ShowHealthNumbers = true;
+
+        [Toggle(Label = "Show name")]
+        [OnChange(nameof(OnVisualChange))]
+        public bool ShowName = false;
 
         [Slider(Label = "Size multiplier", Tooltip = "Controls the overall size of the health bar.",
-            DefaultValue = 1.0f, Min = 0.5f, Max = 2.0f, Step = 0.1f, Format = "{0:0.0}")]
-        public float SizeMultiplier = 1.0f;
+            DefaultValue = 0.5f, Min = 0.5f, Max = 2.0f, Step = 0.1f, Format = "{0:0.0}")]
+        [OnChange(nameof(OnVisualChange))]
+        public float SizeMultiplier = 0.5f;
+
+        [Slider(Label = "Minimum size", Tooltip = "Prevents the health bar from being too small on tiny creatures.",
+            DefaultValue = 2.0f, Min = 0.5f, Max = 3.0f, Step = 0.1f, Format = "{0:0.0}")]
+        [OnChange(nameof(OnVisualChange))]
+        public float MinimumSize = 2.0f;
 
         [Slider(Label = "Bar ratio", Tooltip = "Width-to-height ratio of the health bar. Higher values make wider, thinner bars.",
             DefaultValue = 8.0f, Min = 4.0f, Max = 16.0f, Step = 1.0f, Format = "{0:0.0}")]
+        [OnChange(nameof(OnVisualChange))]
         public float BarRatio = 8.0f;
+
+        [Toggle("<color=#f1c353>Sprite</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool SpriteDivider;
+
+        [Slider(Label = "Sprite width", Tooltip = "Width in pixels, a higher resolution will look smoother.",
+            DefaultValue = 512, Min = 64, Max = 512, Step = 64, Format = "{0}px")]
+        [OnChange(nameof(OnSpriteChange))]
+        public int SpriteWidth = 512;
+
+        [Slider(Label = "Sprite height", Tooltip = "Height in pixels, a higher resolution will look smoother.",
+            DefaultValue = 128, Min = 16, Max = 128, Step = 16, Format = "{0}px")]
+        [OnChange(nameof(OnSpriteChange))]
+        public int SpriteHeight = 128;
+
+        [Slider(Label = "Corner roundness", DefaultValue = 0.250f, Min = 0.0f, Max = 0.5f, Step = 0.025f, Format = "{0:0.000}")]
+        [OnChange(nameof(OnSpriteChange))]
+        public float CornerRoundness = 0.250f;
 
         [Toggle("<color=#f1c353>Health color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool HealthColorDivider;
 
         [ColorPicker(Label = "Preview", Tooltip = "The color of the health portion of the bar.", Advanced = true)]
+        [OnChange(nameof(OnVisualChange))]
         public Color HealthColor = new Color(1.0f, 0.1f, 0.1f, 0.85f); // Bright red
 
         [Toggle("<color=#f1c353>Background color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool BackgroundColorDivider;
 
         [ColorPicker(Label = "Preview", Tooltip = "The color of the background portion of the bar.", Advanced = true)]
+        [OnChange(nameof(OnVisualChange))]
         public Color BackgroundColor = new Color(0.5f, 0.0f, 0.0f, 0.5f); // Dark red with transparency
 
-        [Toggle("<color=#f1c353>Health numbers color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool HealthNumbersColorDivider;
+        [Toggle("<color=#f1c353>Text color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool TextColorDivider;
 
-        [ColorPicker(Label = "Preview", Tooltip = "The color of the health numbers.", Advanced = true)]
-        public Color HealthNumbersColor = Color.white;
+        [ColorPicker(Label = "Preview", Advanced = true)]
+        [OnChange(nameof(OnVisualChange))]
+        public Color TextColor = Color.white;
+
+        [Toggle("<color=#f1c353>Debug</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool DebugDivider;
+
+        [Toggle(Label = "Freeze creatures")]
+        public bool FreezeCreatures = false;
+
+        [Keybind(Label = "Freeze creatures key", Tooltip = "Right bracket key by default.")]
+        public KeyCode FreezeCreaturesKey = KeyCode.RightBracket;
+
+        private void OnVisualChange(object newValue)
+        {
+            OnVisualSettingsChanged?.Invoke();
+        }
+
+        private void OnSpriteChange(object newValue)
+        {
+            OnSpriteSettingsChanged?.Invoke();
+        }
     }
 }

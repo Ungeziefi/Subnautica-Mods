@@ -8,8 +8,8 @@ namespace Ungeziefi.Creature_Healthbars
         {
             if (roundedSprite != null) return;
 
-            int width = 128;
-            int height = 32;
+            int width = Main.Config.SpriteWidth;
+            int height = Main.Config.SpriteHeight;
             Texture2D texture = new Texture2D(width, height, TextureFormat.RGBA32, true);
             Color[] pixels = new Color[width * height];
 
@@ -17,14 +17,24 @@ namespace Ungeziefi.Creature_Healthbars
             for (int i = 0; i < pixels.Length; i++)
                 pixels[i] = Color.clear;
 
-            // Rounded corners radius
-            int radius = 12;
+            float radiusPercentage = Main.Config.CornerRoundness;
+
+            // Radius based on smaller dimension, then clamp to half of it
+            int radius = Mathf.RoundToInt(Mathf.Min(height, width) * radiusPercentage);
+            radius = Mathf.Clamp(radius, 0, Mathf.Min(height, width) / 2);
 
             // Draw rounded rectangle
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
+                    // If radius is 0, just fill the entire rectangle
+                    if (radius == 0)
+                    {
+                        pixels[y * width + x] = Color.white;
+                        continue;
+                    }
+
                     // Corner regions
                     bool isInTopLeftCorner = x < radius && y < radius;
                     bool isInTopRightCorner = x >= width - radius && y < radius;

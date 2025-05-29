@@ -7,19 +7,70 @@ namespace Ungeziefi.Creature_Healthbars
     {
         private static void GetBarDimensions(Creature creature, out float width, out float height)
         {
+            // Average of height and largest horizontal dimension
             Bounds bounds = GetCreatureBounds(creature.gameObject);
+            float creatureSize = (bounds.size.y + Mathf.Max(bounds.size.x, bounds.size.z));
 
-            // Calculate base size factor from creature dimensions
-            float creatureSizeFactor = (bounds.size.y + Mathf.Max(bounds.size.x, bounds.size.z)) * 0.5f;
+            // Size multiplier
+            float scaledSize = creatureSize * Main.Config.SizeMultiplier;
 
-            // Minimum size for small creatures
-            float normalizedSizeFactor = Mathf.Max(0.5f, creatureSizeFactor);
+            // Absolute minimum size
+            scaledSize = Mathf.Max(Main.Config.MinimumSize, scaledSize);
 
-            // Apply creature size factor and user config to width
-            width = baseWidth * normalizedSizeFactor * Main.Config.SizeMultiplier;
+            // Set dimensions (width and height with aspect ratio)
+            width = baseWidth * scaledSize;
+            height = width / Main.Config.BarRatio;
+        }
 
-            // Calculate height based on width and config ratio
-            height = baseHeight * normalizedSizeFactor * (4.0f / Main.Config.BarRatio) * Main.Config.SizeMultiplier;
+        private static string GetCreatureName(Creature creature)
+        {
+            TechType techType = CraftData.GetTechType(creature.gameObject);
+            if (techType != TechType.None)
+            {
+                return Language.main.Get(techType.AsString(false));
+            }
+            return "Unknown";
+        }
+
+        private static TMPro.TextMeshPro CreateOrUpdateTextElement(
+            GameObject parent,
+            string name,
+            string text,
+            Vector3 position,
+            float fontSize,
+            Color color,
+            bool isActive)
+        {
+            Transform textTransform = parent.transform.Find(name);
+            TMPro.TextMeshPro textComponent;
+
+            if (textTransform == null)
+            {
+                // Create new text object if it doesn't exist
+                GameObject textObj = new GameObject(name);
+                textObj.transform.SetParent(parent.transform, false);
+                textObj.transform.localPosition = position;
+
+                textComponent = textObj.AddComponent<TMPro.TextMeshPro>();
+                textComponent.alignment = TMPro.TextAlignmentOptions.Center;
+                textComponent.enableWordWrapping = false;
+                textComponent.isOrthographic = true;
+                textComponent.sortingOrder = 1;
+            }
+            else
+            {
+                // Update existing text object
+                textComponent = textTransform.GetComponent<TMPro.TextMeshPro>();
+                textTransform.localPosition = position;
+            }
+
+            // Update properties
+            textComponent.text = text;
+            textComponent.color = color;
+            textComponent.fontSize = fontSize;
+            textComponent.gameObject.SetActive(isActive);
+
+            return textComponent;
         }
 
         // Create/update a health bar
@@ -31,16 +82,23 @@ namespace Ungeziefi.Creature_Healthbars
             float barWidth, barHeight;
             GetBarDimensions(creature, out barWidth, out barHeight);
 
-            // Get actual health values from LiveMixin
+            // Get health
             LiveMixin liveMixin = creature.GetComponent<LiveMixin>();
             float currentHealth = liveMixin.health;
             float maxHealth = liveMixin.maxHealth;
 
+            // Get name if enabled
+            string creatureName = Main.Config.ShowName ? GetCreatureName(creature) : null;
+
             lock (healthbars)
             {
+                bool newBar = false;
+
                 if (!healthbars.TryGetValue(id, out bar) || bar == null)
                 {
-                    // Create new health bar
+                    newBar = true;
+
+                    // Create health bar
                     Vector3 position = CalculateHealthBarPosition(creature.gameObject);
 
                     // Game object
@@ -58,130 +116,165 @@ namespace Ungeziefi.Creature_Healthbars
                     GameObject bgObj = new GameObject("Background");
                     bgObj.transform.SetParent(bar.transform, false);
 
-                    RectTransform bgRect = bgObj.AddComponent<RectTransform>();
-                    bgRect.sizeDelta = new Vector2(barWidth * worldToUIScale, barHeight * worldToUIScale);
-                    bgRect.anchoredPosition = Vector2.zero;
+                    RectTransform bgRectTransform = bgObj.AddComponent<RectTransform>();
+                    bgRectTransform.sizeDelta = new Vector2(barWidth * worldToUIScale, barHeight * worldToUIScale);
+                    bgRectTransform.anchoredPosition = Vector2.zero;
 
-                    Image bgImage = bgObj.AddComponent<Image>();
-                    bgImage.sprite = roundedSprite;
-                    bgImage.type = Image.Type.Sliced;
-                    bgImage.color = Main.Config.BackgroundColor;
+                    Image bgImageComponent = bgObj.AddComponent<Image>();
+                    bgImageComponent.sprite = roundedSprite;
+                    bgImageComponent.type = Image.Type.Sliced;
+                    bgImageComponent.color = Main.Config.BackgroundColor;
 
                     // Health fill bar
                     GameObject healthObj = new GameObject("Health");
                     healthObj.transform.SetParent(bgObj.transform, false);
 
-                    RectTransform healthRect = healthObj.AddComponent<RectTransform>();
-                    healthRect.sizeDelta = new Vector2(barWidth * worldToUIScale * healthPercent, barHeight * worldToUIScale);
+                    RectTransform healthRectTransform = healthObj.AddComponent<RectTransform>();
+                    healthRectTransform.sizeDelta = new Vector2(barWidth * worldToUIScale * healthPercent, barHeight * worldToUIScale);
 
                     // Anchor fill bar to left side
-                    healthRect.anchorMin = new Vector2(0, 0);
-                    healthRect.anchorMax = new Vector2(0, 1);
-                    healthRect.pivot = new Vector2(0, 0.5f);
-                    healthRect.anchoredPosition = Vector2.zero;
+                    healthRectTransform.anchorMin = new Vector2(0, 0);
+                    healthRectTransform.anchorMax = new Vector2(0, 1);
+                    healthRectTransform.pivot = new Vector2(0, 0.5f);
+                    healthRectTransform.anchoredPosition = Vector2.zero;
 
-                    Image healthImage = healthObj.AddComponent<Image>();
-                    healthImage.sprite = roundedSprite;
-                    healthImage.type = Image.Type.Sliced;
-                    healthImage.color = Main.Config.HealthColor;
+                    Image healthImageComponent = healthObj.AddComponent<Image>();
+                    healthImageComponent.sprite = roundedSprite;
+                    healthImageComponent.type = Image.Type.Sliced;
+                    healthImageComponent.color = Main.Config.HealthColor;
 
                     // Add mask to clip health bar
                     Mask mask = bgObj.AddComponent<Mask>();
                     mask.showMaskGraphic = true;
 
-                    // Add health text if enabled
-                    if (Main.Config.ShowHealthNumbers)
+                    healthbars[id] = bar;
+                }
+
+                // Always update the existing health bar
+                Transform backgroundTransform = bar.transform.Find("Background");
+                Transform healthTransform = backgroundTransform?.Find("Health");
+
+                if (backgroundTransform != null)
+                {
+                    // Update background size
+                    RectTransform backgroundRect = backgroundTransform.GetComponent<RectTransform>();
+                    if (backgroundRect != null)
                     {
-                        GameObject textObj = new GameObject("HealthText");
-                        textObj.transform.SetParent(bar.transform, false);
-
-                        // Position well above the health bar (increased from 0.7f to 1.5f)
-                        textObj.transform.localPosition = new Vector3(0, barHeight, 0);
-
-                        // Use TextMeshPro for better rendering in world space
-                        TMPro.TextMeshPro healthText = textObj.AddComponent<TMPro.TextMeshPro>();
-                        healthText.text = $"{Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
-                        healthText.color = Main.Config.HealthNumbersColor;
-                        healthText.alignment = TMPro.TextAlignmentOptions.Center;
-                        healthText.fontSize = Mathf.Max(4f, barHeight * 6f);
-                        healthText.enableWordWrapping = false;
-                        healthText.isOrthographic = true;
-                        healthText.sortingOrder = 1;
+                        backgroundRect.sizeDelta = new Vector2(barWidth * worldToUIScale, barHeight * worldToUIScale);
                     }
 
-                    healthbars[id] = bar;
+                    // Update background color
+                    Image backgroundImage = backgroundTransform.GetComponent<Image>();
+                    if (backgroundImage != null)
+                    {
+                        backgroundImage.color = Main.Config.BackgroundColor;
+                    }
+
+                    // Update health fill
+                    if (healthTransform != null)
+                    {
+                        // Update size
+                        RectTransform healthRect = healthTransform.GetComponent<RectTransform>();
+                        if (healthRect != null)
+                        {
+                            healthRect.sizeDelta = new Vector2(barWidth * worldToUIScale * healthPercent, barHeight * worldToUIScale);
+                        }
+
+                        // Update color
+                        Image healthImage = healthTransform.GetComponent<Image>();
+                        if (healthImage != null)
+                        {
+                            healthImage.color = Main.Config.HealthColor;
+                        }
+                    }
+                }
+
+                // Calculate proper text positions based on the health bar height
+                float fontSize = Mathf.Max(3f, barHeight * 6f);
+
+                // Text position (centered in bar)
+                Vector3 textPosition = Vector3.zero;
+
+                // Text display options
+                if (Main.Config.ShowHealthNumbers && Main.Config.ShowName)
+                {
+                    // Combine name and health numbers
+                    string combinedText = $"{creatureName}: {Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
+
+                    CreateOrUpdateTextElement(
+                        bar,
+                        "HealthText",
+                        combinedText,
+                        textPosition,
+                        fontSize,
+                        Main.Config.TextColor,
+                        true);
+
+                    // Hide the name text object if it exists
+                    Transform nameTransform = bar.transform.Find("CreatureName");
+                    if (nameTransform != null)
+                    {
+                        nameTransform.gameObject.SetActive(false);
+                    }
+                }
+                else if (Main.Config.ShowHealthNumbers)
+                {
+                    // Only health numbers
+                    string healthNumbersText = $"{Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
+
+                    CreateOrUpdateTextElement(
+                        bar,
+                        "HealthText",
+                        healthNumbersText,
+                        textPosition,
+                        fontSize,
+                        Main.Config.TextColor,
+                        true);
+
+                    // Hide the name text object if it exists
+                    Transform nameTransform = bar.transform.Find("CreatureName");
+                    if (nameTransform != null)
+                    {
+                        nameTransform.gameObject.SetActive(false);
+                    }
+                }
+                else if (Main.Config.ShowName)
+                {
+                    // Only name
+                    CreateOrUpdateTextElement(
+                        bar,
+                        "CreatureName",
+                        creatureName,
+                        textPosition,
+                        fontSize,
+                        Main.Config.TextColor,
+                        true);
+
+                    // Hide the health text object if it exists
+                    Transform healthTextTransform = bar.transform.Find("HealthText");
+                    if (healthTextTransform != null)
+                    {
+                        healthTextTransform.gameObject.SetActive(false);
+                    }
                 }
                 else
                 {
-                    // Update existing health bar
-                    RectTransform bgRect = bar.transform.Find("Background")?.GetComponent<RectTransform>();
-                    RectTransform healthRect = bar.transform.Find("Background/Health")?.GetComponent<RectTransform>();
-
-                    // Update background size
-                    if (bgRect != null)
+                    // Neither, just hide both
+                    Transform healthTextTransform = bar.transform.Find("HealthText");
+                    if (healthTextTransform != null)
                     {
-                        bgRect.sizeDelta = new Vector2(barWidth * worldToUIScale, barHeight * worldToUIScale);
+                        healthTextTransform.gameObject.SetActive(false);
                     }
 
-                    // Update health fill size
-                    if (healthRect != null)
+                    Transform nameTransform = bar.transform.Find("CreatureName");
+                    if (nameTransform != null)
                     {
-                        healthRect.sizeDelta = new Vector2(barWidth * worldToUIScale * healthPercent, barHeight * worldToUIScale);
+                        nameTransform.gameObject.SetActive(false);
                     }
-
-                    // Refresh colors from config
-                    Image bgImage = bar.transform.Find("Background")?.GetComponent<Image>();
-                    Image healthImage = bar.transform.Find("Background/Health")?.GetComponent<Image>();
-
-                    if (bgImage != null)
-                        bgImage.color = Main.Config.BackgroundColor;
-
-                    if (healthImage != null)
-                        healthImage.color = Main.Config.HealthColor;
-
-                    // Update health text if enabled
-                    TMPro.TextMeshPro healthText = bar.transform.Find("HealthText")?.GetComponent<TMPro.TextMeshPro>();
-
-                    if (Main.Config.ShowHealthNumbers)
-                    {
-                        if (healthText == null)
-                        {
-                            // Create text if it doesn't exist
-                            GameObject textObj = new GameObject("HealthText");
-                            textObj.transform.SetParent(bar.transform, false);
-
-                            // Above the health bar
-                            textObj.transform.localPosition = new Vector3(0, barHeight, 0);
-
-                            healthText = textObj.AddComponent<TMPro.TextMeshPro>();
-                            healthText.color = Main.Config.HealthNumbersColor;
-                            healthText.alignment = TMPro.TextAlignmentOptions.Center;
-                            healthText.fontSize = Mathf.Max(4f, barHeight * 6f);
-                            healthText.enableWordWrapping = false;
-                            healthText.isOrthographic = true;
-                            healthText.sortingOrder = 1;
-                        }
-                        else
-                        {
-                            // Update position to stay above the bar (increased from 0.7f to 1.5f)
-                            healthText.transform.localPosition = new Vector3(0, barHeight * 1.5f, 0);
-                        }
-
-                        if (healthText != null)
-                        {
-                            healthText.text = $"{Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
-                            healthText.gameObject.SetActive(true);
-                        }
-                    }
-                    else if (healthText != null)
-                    {
-                        // Hide text if feature is disabled
-                        healthText.gameObject.SetActive(false);
-                    }
-
-                    // Update position
-                    bar.transform.localPosition = CalculateHealthBarPosition(creature.gameObject);
                 }
+
+                // Update position
+                bar.transform.localPosition = CalculateHealthBarPosition(creature.gameObject);
             }
         }
     }

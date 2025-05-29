@@ -11,18 +11,24 @@ namespace Ungeziefi.Creature_Healthbars
         [HarmonyPatch(typeof(LiveMixin), nameof(LiveMixin.TakeDamage)), HarmonyPostfix]
         public static void LiveMixin_TakeDamage(LiveMixin __instance, float originalDamage, GameObject dealer = null)
         {
+            // Check if feature is enabled
             if (!Main.Config.EnableFeature ||
                 __instance == null ||
                 originalDamage <= 0 ||
                 !__instance.IsAlive() ||
-                (dealer != null && dealer != Player.main?.gameObject) ||
                 __instance.GetComponent<Creature>() is not Creature creature)
+                return;
+
+            // Apparently hits from the player don't register a dealer
+            bool isPlayerDamage = dealer == Player.main?.gameObject || dealer == null;
+
+            if (Main.Config.OnlyShowForPlayerDamage && !isPlayerDamage)
                 return;
 
             string id = GetCreatureId(creature.gameObject);
             if (string.IsNullOrEmpty(id)) return;
 
-            // Initialize sprite and reset combat timer
+            // Init sprite and reset combat timer
             if (roundedSprite == null) CreateSprite();
 
             lock (timers) { timers[id] = Main.Config.DisplayDuration; }
@@ -69,7 +75,7 @@ namespace Ungeziefi.Creature_Healthbars
 
                 if (bgImage == null || healthImage == null) continue;
 
-                // Apply alpha fade based on remaining time
+                // Alpha fade based on remaining time
                 Color bgColor = Main.Config.BackgroundColor;
                 Color healthColor = Main.Config.HealthColor;
 

@@ -11,9 +11,60 @@ namespace Ungeziefi.Creature_Healthbars
         private static readonly Dictionary<string, float> timers = new Dictionary<string, float>();
         private static Sprite roundedSprite;
         private static readonly float worldToUIScale = 10f; // Conversion factor
-
         private static readonly float baseWidth = 4.0f;
-        private static readonly float baseHeight = 1.0f;
+
+        [HarmonyPatch(typeof(Player), nameof(Player.Awake)), HarmonyPostfix]
+        public static void Player_Awake()
+        {
+            // Change events
+            Config.OnVisualSettingsChanged += UpdateAllHealthbars;
+            Config.OnSpriteSettingsChanged += ResetSpriteAndUpdateHealthbars;
+        }
+
+        [HarmonyPatch(typeof(Player), nameof(Player.OnDestroy)), HarmonyPostfix]
+        public static void Player_OnDestroy()
+        {
+            // Does this even happen? If so, cleanup
+            Config.OnVisualSettingsChanged -= UpdateAllHealthbars;
+            Config.OnSpriteSettingsChanged -= ResetSpriteAndUpdateHealthbars;
+        }
+
+        private static void ResetSpriteAndUpdateHealthbars()
+        {
+            roundedSprite = null;
+            CreateSprite();
+            UpdateAllHealthbars();
+        }
+
+        private static void UpdateAllHealthbars()
+        {
+            if (!Main.Config.EnableFeature) return;
+
+            lock (healthbars)
+            {
+                foreach (var kvp in new Dictionary<string, GameObject>(healthbars))
+                {
+                    string id = kvp.Key;
+                    GameObject healthbar = kvp.Value;
+
+                    if (healthbar == null) continue;
+
+                    // Find the creature
+                    Transform parent = healthbar.transform.parent;
+                    if (parent == null) continue;
+
+                    Creature creature = parent.GetComponent<Creature>();
+                    if (creature == null) continue;
+
+                    // Get LiveMixin for health
+                    LiveMixin liveMixin = creature.GetComponent<LiveMixin>();
+                    if (liveMixin == null) continue;
+
+                    // Update the health bar
+                    ShowHealthBar(creature, id, liveMixin.GetHealthFraction());
+                }
+            }
+        }
 
         private static Vector3 CalculateHealthBarPosition(GameObject creature)
         {
