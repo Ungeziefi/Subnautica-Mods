@@ -7,31 +7,26 @@ namespace Ungeziefi.Camera_Zoom
     public class PlayerCamera
     {
         private static Camera Camera => SNCameraRoot.main.mainCamera;
+        private static bool IsDroneCameraActive() => uGUI_CameraDrone.main?.activeCamera != null;
         private static bool isZoomActive, isTransitioning;
         private static float originalFOV, transitionStartFOV, transitionTime;
 
-        // Drone Camera check
-        private static bool IsDroneCameraActive() =>
-            uGUI_CameraDrone.main && uGUI_CameraDrone.main.gameObject.activeInHierarchy &&
-            uGUI_CameraDrone.main.GetCamera()?.IsReady() == true;
-
-        // Check if player is in Seamoth/PRAWN
         private static bool IsInVehicle()
         {
             var player = Player.main;
             return player != null && player.mode == Player.Mode.LockedPiloting;
         }
 
-        // Check for menu, piloting, Drone Camera
+        // Check for menu, piloting, Drone Camera, and building state
         private static bool IsValidState()
         {
             var player = Player.main;
-            return player != null && // 1. Check player exists
-                   Camera != null && // 2. Check camera exists
-                   !Cursor.visible && // 3. Check cursor is hidden
-                   player.mode != Player.Mode.Piloting && // 4. Check not piloting Cyclops
-                   !IsDroneCameraActive() && // 5. Check not using drone camera
-                   (Main.Config.PCAllowWhileBuilding || !Builder.isPlacing); // 6. Check build mode
+            return player != null &&
+                   Camera != null &&
+                   !Cursor.visible &&
+                   player.mode != Player.Mode.Piloting &&
+                   !IsDroneCameraActive() &&
+                   (Main.Config.PCAllowWhileBuilding || !Builder.isPlacing);
         }
 
         // Prevent PDACameraFOVControl from interfering

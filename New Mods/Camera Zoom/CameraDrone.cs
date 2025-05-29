@@ -20,7 +20,7 @@ namespace Ungeziefi.Camera_Zoom
 
             if (disable)
             {
-                // Restore the previous FOV and reset MiscSettings to ensure consistency
+                // Restore FOV
                 Camera.fieldOfView = previousFOV;
                 MiscSettings.fieldOfView = previousFOV;
                 SNCameraRoot.main.SyncFieldOfView(previousFOV);
