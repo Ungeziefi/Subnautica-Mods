@@ -7,27 +7,6 @@ namespace Ungeziefi.Camera_Zoom
     [Menu("Camera Zoom")]
     public class Config : ConfigFile
     {
-        [Toggle("<color=#f1c353>Cyclops Cameras</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool CyclopsCamerasDivider;
-
-        [Toggle(Label = "Enable feature")]
-        public bool CCEnableFeature = true;
-
-        [Keybind(Label = "Zoom in key", Tooltip = "Left Shift by default.")]
-        public KeyCode CCZoomInKey = KeyCode.LeftShift;
-
-        [Keybind(Label = "Zoom out key", Tooltip = "Left Control by default.")]
-        public KeyCode CCZoomOutKey = KeyCode.LeftControl;
-
-        [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]
-        public float CCMinimumFOV = 10f;
-
-        [Slider(Label = "Maximum FOV", DefaultValue = 90f, Min = 60f, Max = 90f, Step = 1)]
-        public float CCMaximumFOV = 90f;
-
-        [Slider(Label = "Zoom speed", DefaultValue = 30f, Min = 1f, Max = 100f, Step = 1)]
-        public float CCZoomSpeed = 30f;
-
         [Toggle("<color=#f1c353>Player</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PlayerDivider;
 
@@ -73,11 +52,53 @@ namespace Ungeziefi.Camera_Zoom
         [Slider(Label = "Zoom speed", DefaultValue = 4f, Min = 1f, Max = 10f, Step = 1)]
         public float VCZoomSpeed = 4f;
 
+        [Toggle("<color=#f1c353>Cyclops Cameras</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool CyclopsCamerasDivider;
+
+        [Toggle(Label = "Enable feature")]
+        public bool CCEnableFeature = true;
+
+        [Toggle(Label = "Use stepped zoom", Tooltip = "When enabled, zoom changes in discrete steps rather than continuously.")]
+        public bool CCSteppedZoom = false;
+
+        [Slider(Label = "Number of zoom steps", DefaultValue = 3f, Min = 1f, Max = 6f, Step = 1f)]
+        public float CCZoomSteps = 3f;
+
+        [Toggle(Label = "Use blink effect", Tooltip = "When enabled, the screen briefly fades to black during stepped zoom transitions.")]
+        public bool CCUseBlinkEffect = true;
+
+        [Keybind(Label = "Zoom in key", Tooltip = "Left Shift by default.")]
+        public KeyCode CCZoomInKey = KeyCode.LeftShift;
+
+        [Keybind(Label = "Zoom out key", Tooltip = "Left Control by default.")]
+        public KeyCode CCZoomOutKey = KeyCode.LeftControl;
+
+        [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]
+        public float CCMinimumFOV = 10f;
+
+        [Slider(Label = "Maximum FOV", DefaultValue = 90f, Min = 60f, Max = 90f, Step = 1)]
+        public float CCMaximumFOV = 90f;
+
+        [Slider(Label = "Zoom speed", DefaultValue = 30f, Min = 1f, Max = 100f, Step = 1)]
+        public float CCZoomSpeed = 30f;
+
+        [Slider(Label = "Blink speed", DefaultValue = 5f, Min = 1f, Max = 20f, Step = 1f)]
+        public float CCBlinkSpeed = 5f;
+
         [Toggle("<color=#f1c353>Camera Drones</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CameraDronesDivider;
 
         [Toggle(Label = "Enable feature")]
         public bool CDEnableFeature = true;
+
+        [Toggle(Label = "Use stepped zoom", Tooltip = "When enabled, zoom changes in discrete steps rather than continuously.")]
+        public bool CDSteppedZoom = false;
+
+        [Slider(Label = "Number of zoom steps", DefaultValue = 3f, Min = 1f, Max = 6f, Step = 1f)]
+        public float CDZoomSteps = 3f;
+
+        [Toggle(Label = "Use blink effect", Tooltip = "When enabled, the screen briefly fades to black during stepped zoom transitions.")]
+        public bool CDUseBlinkEffect = true;
 
         [Keybind(Label = "Zoom in key", Tooltip = "Left Shift by default.")]
         public KeyCode CDZoomInKey = KeyCode.LeftShift;
@@ -93,5 +114,8 @@ namespace Ungeziefi.Camera_Zoom
 
         [Slider(Label = "Zoom speed", DefaultValue = 30f, Min = 1f, Max = 100f, Step = 1)]
         public float CDZoomSpeed = 30f;
+
+        [Slider(Label = "Blink speed", DefaultValue = 5f, Min = 1f, Max = 20f, Step = 1f)]
+        public float CDBlinkSpeed = 5f;
     }
 }

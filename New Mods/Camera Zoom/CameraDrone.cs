@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using UnityEngine;
+using System.Collections;
 
 namespace Ungeziefi.Camera_Zoom
 {
@@ -13,6 +14,13 @@ namespace Ungeziefi.Camera_Zoom
         private static readonly float zoomSpeed = Main.Config.CDZoomSpeed;
         private static float previousFOV;
 
+        // Stepped zoom
+        private static int currentZoomStep = 0;
+
+        // Blink effect
+        private static Coroutine blackFadeCoroutine = null;
+        private const string OVERLAY_NAME = "CameraDrone";
+
         private static void ResetAndDisable(bool disable)
         {
             if (Camera == null || SNCameraRoot.main == null)
@@ -21,13 +29,14 @@ namespace Ungeziefi.Camera_Zoom
             if (disable)
             {
                 // Restore FOV
-                Camera.fieldOfView = previousFOV;
-                MiscSettings.fieldOfView = previousFOV;
-                SNCameraRoot.main.SyncFieldOfView(previousFOV);
+                ZoomUtils.ApplyFOV(previousFOV);
+
+                // Reset zoom state
+                ZoomUtils.ResetZoomState(previousFOV, ref currentZoomStep, OVERLAY_NAME, ref blackFadeCoroutine);
             }
             else
             {
-                Camera.fieldOfView = maxFOV;
+                ZoomUtils.ApplyFOV(maxFOV);
             }
         }
 
@@ -36,6 +45,13 @@ namespace Ungeziefi.Camera_Zoom
         public static void MapRoomCamera_ControlCamera(MapRoomCamera __instance)
         {
             previousFOV = Camera.fieldOfView;
+            currentZoomStep = 0;
+
+            // Initialize black overlay if needed for stepped zoom with blink effect
+            if (Main.Config.CDSteppedZoom && Main.Config.CDUseBlinkEffect)
+            {
+                ZoomUtils.GetBlackOverlay(OVERLAY_NAME);
+            }
         }
 
         // Reset on exit
@@ -64,26 +80,34 @@ namespace Ungeziefi.Camera_Zoom
             if (!Main.Config.CDEnableFeature || !IsCameraActive || Cursor.visible)
                 return;
 
-            int zoomDirection = 0;
-            if (Input.GetKey(Main.Config.CDZoomInKey))
-                zoomDirection = -1; // Zoom in
-            else if (Input.GetKey(Main.Config.CDZoomOutKey))
-                zoomDirection = 1; // Zoom out
-
-            if (zoomDirection != 0)
+            // Handle different zoom modes
+            if (Main.Config.CDSteppedZoom)
             {
-                float currentFOV = Camera.fieldOfView;
-                float newFOV = Mathf.Clamp(
-                    currentFOV + (zoomDirection * zoomSpeed * Time.deltaTime),
+                bool zoomInPressed = Input.GetKeyDown(Main.Config.CDZoomInKey);
+                bool zoomOutPressed = Input.GetKeyDown(Main.Config.CDZoomOutKey);
+
+                ZoomUtils.HandleSteppedZoom(
+                    zoomInPressed,
+                    zoomOutPressed,
+                    ref currentZoomStep,
+                    Main.Config.CDZoomSteps,
+                    Main.Config.CDUseBlinkEffect,
+                    Main.Config.CDBlinkSpeed,
+                    minFOV,
+                    maxFOV,
+                    OVERLAY_NAME,
+                    ref blackFadeCoroutine
+                );
+            }
+            else
+            {
+                ZoomUtils.HandleGradualZoom(
+                    Main.Config.CDZoomInKey,
+                    Main.Config.CDZoomOutKey,
+                    zoomSpeed,
                     minFOV,
                     maxFOV
                 );
-
-                if (newFOV != currentFOV && SNCameraRoot.main != null)
-                {
-                    MiscSettings.fieldOfView = newFOV;
-                    SNCameraRoot.main.SyncFieldOfView(newFOV);
-                }
             }
         }
     }

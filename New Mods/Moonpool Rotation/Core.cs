@@ -102,7 +102,7 @@ namespace Ungeziefi.Moonpool_Rotation
                 yield return null;
             }
 
-            // Ensure final rotation just in case
+            // Force final rotation just in case
             moonpoolAnim.rotation = targetRotation;
         }
     }

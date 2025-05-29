@@ -10,6 +10,7 @@ namespace Ungeziefi.Camera_Zoom
         private static bool IsDroneCameraActive() => uGUI_CameraDrone.main?.activeCamera != null;
         private static bool isZoomActive, isTransitioning;
         private static float originalFOV, transitionStartFOV, transitionTime;
+        private const string OVERLAY_NAME = "PlayerCamera";
 
         private static bool IsInVehicle()
         {
@@ -74,7 +75,7 @@ namespace Ungeziefi.Camera_Zoom
             // Reset when invalid state
             if (!IsValidState() && (isZoomActive || isTransitioning))
             {
-                ResetZoomState(originalFOV);
+                ResetZoomState();
                 return;
             }
 
@@ -90,10 +91,15 @@ namespace Ungeziefi.Camera_Zoom
             {
                 if (!isZoomActive && !isTransitioning) originalFOV = Camera.fieldOfView;
                 isZoomActive = !isZoomActive;
+
                 if (instantZoom)
-                    SNCameraRoot.main.SyncFieldOfView(isZoomActive ? targetFOV : originalFOV);
+                {
+                    ZoomUtils.ApplyFOV(isZoomActive ? targetFOV : originalFOV);
+                }
                 else
+                {
                     StartTransition(isZoomActive);
+                }
             }
 
             // Reset if invalid during transition
@@ -101,16 +107,16 @@ namespace Ungeziefi.Camera_Zoom
             {
                 if (!IsValidState())
                 {
-                    ResetZoomState(originalFOV);
+                    ResetZoomState();
                     return;
                 }
                 UpdateTransition(targetFOV, zoomSpeed);
             }
         }
 
-        private static void ResetZoomState(float targetFOV)
+        private static void ResetZoomState()
         {
-            SNCameraRoot.main.SyncFieldOfView(targetFOV);
+            ZoomUtils.ApplyFOV(originalFOV);
             isTransitioning = isZoomActive = false;
             transitionTime = 0f;
         }
@@ -129,12 +135,14 @@ namespace Ungeziefi.Camera_Zoom
             float t = Mathf.Clamp01(transitionTime / transitionDuration);
             t = t * t * (3f - 2f * t); // Smoothstep interpolation
             float newFOV = Mathf.Lerp(transitionStartFOV, isZoomActive ? targetFOV : originalFOV, t);
-            SNCameraRoot.main.SyncFieldOfView(newFOV);
+
+            ZoomUtils.ApplyFOV(newFOV);
+
             if (t >= 1f)
             {
                 isTransitioning = false;
                 transitionTime = 0f;
-                SNCameraRoot.main.SyncFieldOfView(isZoomActive ? targetFOV : originalFOV);
+                ZoomUtils.ApplyFOV(isZoomActive ? targetFOV : originalFOV);
             }
         }
     }

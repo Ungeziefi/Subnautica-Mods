@@ -12,6 +12,14 @@ namespace Ungeziefi.Camera_Zoom
         private static readonly float zoomSpeed = Main.Config.CCZoomSpeed;
         private static bool isCameraActive;
         private static float previousFOV;
+
+        // Stepped zoom
+        private static int currentZoomStep = 0;
+
+        // Blink effect
+        private static Coroutine blackFadeCoroutine = null;
+        private const string OVERLAY_NAME = "CyclopsCameras";
+
         private static void ResetAndDisable(bool disable)
         {
             if (Camera == null || SNCameraRoot.main == null)
@@ -19,14 +27,33 @@ namespace Ungeziefi.Camera_Zoom
                 isCameraActive = false;
                 return;
             }
+
             isCameraActive = !disable;
-            MiscSettings.fieldOfView = disable ? previousFOV : maxFOV;
-            SNCameraRoot.main.SyncFieldOfView(MiscSettings.fieldOfView);
+
+            if (disable)
+            {
+                // Restore FOV and reset states
+                ZoomUtils.ResetZoomState(previousFOV, ref currentZoomStep, OVERLAY_NAME, ref blackFadeCoroutine);
+            }
+            else
+            {
+                ZoomUtils.ApplyFOV(maxFOV);
+            }
         }
 
         // Save FOV on enter
         [HarmonyPatch(typeof(CyclopsExternalCamsButton), nameof(CyclopsExternalCamsButton.CameraButtonActivated)), HarmonyPrefix]
-        public static void CyclopsExternalCamsButton_CameraButtonActivated() => previousFOV = Camera.fieldOfView;
+        public static void CyclopsExternalCamsButton_CameraButtonActivated()
+        {
+            previousFOV = Camera.fieldOfView;
+            currentZoomStep = 0;
+
+            // Initialize black overlay if needed
+            if (Main.Config.CCSteppedZoom && Main.Config.CCUseBlinkEffect)
+            {
+                ZoomUtils.GetBlackOverlay(OVERLAY_NAME);
+            }
+        }
 
         // Set active state and reset on exit
         [HarmonyPatch(typeof(CyclopsExternalCams), nameof(CyclopsExternalCams.SetActive)), HarmonyPostfix]
@@ -52,28 +79,37 @@ namespace Ungeziefi.Camera_Zoom
             }
 
             // Zoom processing check
-            if (!Main.Config.CCEnableFeature || !isCameraActive || Cursor.visible) return;
+            if (!Main.Config.CCEnableFeature || !isCameraActive || Cursor.visible)
+                return;
 
-            int zoomDirection = 0;
-            if (Input.GetKey(Main.Config.CCZoomInKey))
-                zoomDirection = -1; // Zoom in
-            else if (Input.GetKey(Main.Config.CCZoomOutKey))
-                zoomDirection = 1; // Zoom out
-
-            if (zoomDirection != 0)
+            // Handle different zoom modes
+            if (Main.Config.CCSteppedZoom)
             {
-                float previousFOV = MiscSettings.fieldOfView;
-                float newFOV = Mathf.Clamp(
-                    previousFOV + (zoomDirection * zoomSpeed * Time.deltaTime),
+                bool zoomInPressed = Input.GetKeyDown(Main.Config.CCZoomInKey);
+                bool zoomOutPressed = Input.GetKeyDown(Main.Config.CCZoomOutKey);
+
+                ZoomUtils.HandleSteppedZoom(
+                    zoomInPressed,
+                    zoomOutPressed,
+                    ref currentZoomStep,
+                    Main.Config.CCZoomSteps,
+                    Main.Config.CCUseBlinkEffect,
+                    Main.Config.CCBlinkSpeed,
+                    minFOV,
+                    maxFOV,
+                    OVERLAY_NAME,
+                    ref blackFadeCoroutine
+                );
+            }
+            else
+            {
+                ZoomUtils.HandleGradualZoom(
+                    Main.Config.CCZoomInKey,
+                    Main.Config.CCZoomOutKey,
+                    zoomSpeed,
                     minFOV,
                     maxFOV
                 );
-
-                if (newFOV != previousFOV && SNCameraRoot.main != null)
-                {
-                    MiscSettings.fieldOfView = newFOV;
-                    SNCameraRoot.main.SyncFieldOfView(newFOV);
-                }
             }
         }
     }
