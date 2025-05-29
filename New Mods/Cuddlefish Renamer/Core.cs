@@ -9,7 +9,6 @@ namespace Ungeziefi.Cuddlefish_Renamer
     {
         #region Fields
         private static readonly Dictionary<string, GameObject> nameLabels = new Dictionary<string, GameObject>();
-        private static readonly string renamePrompt = "Press {0} to rename";
         private static bool nameLabelsVisible = true;
         private static bool isRenamingActive = false;
 
@@ -27,7 +26,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
             if (!Main.Config.EnableFeature) return;
 
             string cuddlefishId = GetCuddlefishId(__instance);
-            if (Main.SaveData.CuddlefishNames.TryGetValue(cuddlefishId, out string savedName) && !string.IsNullOrEmpty(savedName) && Main.Config.ShowNameAboveCuddlefish)
+            if (Main.SaveData.CuddlefishNames.TryGetValue(cuddlefishId, out string savedName) && !string.IsNullOrEmpty(savedName) && Main.Config.ShowNameAbove)
             {
                 UpdateNameLabel(__instance, savedName);
             }
@@ -37,6 +36,17 @@ namespace Ungeziefi.Cuddlefish_Renamer
         public static void CuteFishHandTarget_OnHandHover(CuteFishHandTarget __instance, GUIHand hand)
         {
             if (!Main.Config.EnableFeature || !__instance.AllowedToInteract() || isRenamingActive) return;
+
+            if (Main.Config.CustomPlayPrompt)
+            {
+                string cuddlefishId = GetCuddlefishId(__instance.cuteFish);
+                if (!string.IsNullOrEmpty(cuddlefishId) && 
+                    Main.SaveData.CuddlefishNames.TryGetValue(cuddlefishId, out string savedName) && 
+                    !string.IsNullOrEmpty(savedName))
+                {
+                    HandReticle.main.SetText(HandReticle.TextType.Hand, $"Play With {savedName}", false, GameInput.Button.LeftHand);
+                }
+            }
 
             var primaryDevice = GameInput.GetPrimaryDevice();
             string renameText = primaryDevice == GameInput.Device.Controller ? "Press to rename" : $"Press {Main.Config.RenameKey} to rename";
@@ -93,9 +103,9 @@ namespace Ungeziefi.Cuddlefish_Renamer
             if (!Main.Config.EnableFeature) return;
 
             // Update visibility settings
-            if (Main.Config.ShowNameAboveCuddlefish != nameLabelsVisible)
+            if (Main.Config.ShowNameAbove != nameLabelsVisible)
             {
-                nameLabelsVisible = Main.Config.ShowNameAboveCuddlefish;
+                nameLabelsVisible = Main.Config.ShowNameAbove;
                 UpdateAllNameLabelsVisibility(nameLabelsVisible);
             }
 
@@ -116,7 +126,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
             }
 
             // Distance-based visibility updates
-            if (Main.Config.ShowNameAboveCuddlefish && Main.Config.FadeWithDistance)
+            if (Main.Config.ShowNameAbove && Main.Config.FadeWithDistance)
             {
                 UpdateNameLabelsDistanceVisibility();
             }
@@ -236,7 +246,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
             {
                 Main.SaveData.CuddlefishNames[cuddlefishId] = newName;
 
-                if (Main.Config.ShowNameAboveCuddlefish)
+                if (Main.Config.ShowNameAbove)
                 {
                     UpdateNameLabel(cuddlefish, newName);
                 }
@@ -261,7 +271,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
             }
 
             // Set initial visibility and opacity based on distance
-            if (Main.Config.ShowNameAboveCuddlefish && Player.main != null)
+            if (Main.Config.ShowNameAbove && Player.main != null)
             {
                 float distance = Vector3.Distance(Player.main.transform.position, cuddlefish.transform.position);
 
@@ -276,7 +286,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
             }
             else
             {
-                labelObj.SetActive(Main.Config.ShowNameAboveCuddlefish);
+                labelObj.SetActive(Main.Config.ShowNameAbove);
             }
         }
 
