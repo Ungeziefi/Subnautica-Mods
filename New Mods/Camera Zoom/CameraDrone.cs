@@ -7,20 +7,16 @@ namespace Ungeziefi.Camera_Zoom
     public class CameraDrone
     {
         private static Camera Camera => SNCameraRoot.main.mainCamera;
+        private static bool IsCameraActive => uGUI_CameraDrone.main?.activeCamera != null;
         private static readonly float minFOV = Main.Config.CDMinimumFOV;
         private static readonly float maxFOV = Main.Config.CDMaximumFOV;
         private static readonly float zoomSpeed = Main.Config.CDZoomSpeed;
-        private static bool isCameraActive;
         private static float previousFOV;
 
         private static void ResetAndDisable(bool disable)
         {
             if (Camera == null || SNCameraRoot.main == null)
-            {
-                isCameraActive = false;
                 return;
-            }
-            isCameraActive = !disable;
 
             if (disable)
             {
@@ -40,14 +36,12 @@ namespace Ungeziefi.Camera_Zoom
         public static void MapRoomCamera_ControlCamera(MapRoomCamera __instance)
         {
             previousFOV = Camera.fieldOfView;
-            isCameraActive = true;
         }
 
-        // Set active state and reset on exit
+        // Reset on exit
         [HarmonyPatch(typeof(MapRoomCamera), nameof(MapRoomCamera.FreeCamera)), HarmonyPostfix]
         public static void MapRoomCamera_FreeCamera(MapRoomCamera __instance)
         {
-            isCameraActive = false;
             ResetAndDisable(true);
         }
 
@@ -64,13 +58,11 @@ namespace Ungeziefi.Camera_Zoom
         {
             // Check for return to menu
             if (SNCameraRoot.main == null || Camera == null)
-            {
-                isCameraActive = false; // Reset the active state
                 return;
-            }
 
             // Zoom processing check
-            if (!Main.Config.CDEnableFeature || !isCameraActive || Cursor.visible) return;
+            if (!Main.Config.CDEnableFeature || !IsCameraActive || Cursor.visible)
+                return;
 
             int zoomDirection = 0;
             if (Input.GetKey(Main.Config.CDZoomInKey))
