@@ -7,18 +7,14 @@ namespace Ungeziefi.Camera_Zoom
     public class CyclopsCameras
     {
         private static Camera Camera => SNCameraRoot.main.mainCamera;
+        private static bool isCameraActive;
+        private static float previousFOV;
         private static readonly float minFOV = Main.Config.CCMinimumFOV;
         private static readonly float maxFOV = Main.Config.CCMaximumFOV;
         private static readonly float zoomSpeed = Main.Config.CCZoomSpeed;
-        private static bool isCameraActive;
-        private static float previousFOV;
-
-        // Stepped zoom
         private static int currentZoomStep = 0;
-
-        // Blink effect
         private static Coroutine blackFadeCoroutine = null;
-        private const string OVERLAY_NAME = "CyclopsCameras";
+        private const string CAMERA_TYPE = "CyclopsCameras";
 
         private static void ResetAndDisable(bool disable)
         {
@@ -32,12 +28,13 @@ namespace Ungeziefi.Camera_Zoom
 
             if (disable)
             {
-                // Restore FOV and reset states
-                ZoomUtils.ResetZoomState(previousFOV, ref currentZoomStep, OVERLAY_NAME, ref blackFadeCoroutine);
+                // Restore FOV
+                ZoomUtils.DeactivateCamera(CAMERA_TYPE, previousFOV, ref currentZoomStep, ref blackFadeCoroutine);
             }
             else
             {
-                ZoomUtils.ApplyFOV(maxFOV);
+                // Switch camera without changing FOV
+                ZoomUtils.SwitchCamera(CAMERA_TYPE);
             }
         }
 
@@ -45,14 +42,12 @@ namespace Ungeziefi.Camera_Zoom
         [HarmonyPatch(typeof(CyclopsExternalCamsButton), nameof(CyclopsExternalCamsButton.CameraButtonActivated)), HarmonyPrefix]
         public static void CyclopsExternalCamsButton_CameraButtonActivated()
         {
-            previousFOV = Camera.fieldOfView;
-            currentZoomStep = 0;
-
-            // Initialize black overlay if needed
-            if (Main.Config.CCSteppedZoom && Main.Config.CCUseBlinkEffect)
-            {
-                ZoomUtils.GetBlackOverlay(OVERLAY_NAME);
-            }
+            ZoomUtils.InitializeCameraMode(
+                CAMERA_TYPE,
+                ref previousFOV,
+                ref currentZoomStep,
+                Main.Config.CCSteppedZoom && Main.Config.CCUseBlinkEffect
+            );
         }
 
         // Set active state and reset on exit
@@ -71,10 +66,9 @@ namespace Ungeziefi.Camera_Zoom
         [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.Update)), HarmonyPostfix]
         public static void uGUI_CameraCyclops_Update()
         {
-            // Check for return to menu
             if (SNCameraRoot.main == null || Camera == null)
             {
-                isCameraActive = false; // Reset the active state
+                isCameraActive = false;
                 return;
             }
 
@@ -97,7 +91,7 @@ namespace Ungeziefi.Camera_Zoom
                     Main.Config.CCBlinkSpeed,
                     minFOV,
                     maxFOV,
-                    OVERLAY_NAME,
+                    CAMERA_TYPE,
                     ref blackFadeCoroutine
                 );
             }

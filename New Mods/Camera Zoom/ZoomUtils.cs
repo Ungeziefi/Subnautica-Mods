@@ -10,6 +10,7 @@ namespace Ungeziefi.Camera_Zoom
         private static readonly float maxBlackOverlayAlpha = 1.0f;
         private static readonly Dictionary<string, CanvasGroup> overlays = new Dictionary<string, CanvasGroup>();
         private static readonly Dictionary<string, bool> activeCoroutines = new Dictionary<string, bool>();
+        private static readonly Dictionary<string, float> cameraDefaultFOVs = new Dictionary<string, float>();
 
         // Create or get black overlay for screen transitions
         public static CanvasGroup GetBlackOverlay(string name)
@@ -185,24 +186,70 @@ namespace Ungeziefi.Camera_Zoom
             return false;
         }
 
-        // Reset all zoom-related state
-        public static void ResetZoomState(float targetFOV, ref int currentStep, string overlayName, ref Coroutine coroutineRef)
+        // Initialize camera mode
+        public static void InitializeCameraMode(string cameraType, ref float previousFOV, ref int currentZoomStep, bool useBlinkEffect)
         {
-            string coroutineKey = $"{overlayName}_blink";
+            if (SNCameraRoot.main?.mainCamera == null)
+                return;
 
-            ApplyFOV(targetFOV);
-            currentStep = 0;
+            // Store current FOV as previous (for restoration later)
+            previousFOV = SNCameraRoot.main.mainCamera.fieldOfView;
 
-            if (overlays.TryGetValue(overlayName, out CanvasGroup overlay) && overlay != null)
+            // Store as default for this camera type if not already saved
+            if (!cameraDefaultFOVs.ContainsKey(cameraType))
+                cameraDefaultFOVs[cameraType] = previousFOV;
+
+            // Reset zoom step
+            currentZoomStep = 0;
+
+            // Initialize black overlay if needed
+            if (useBlinkEffect)
+                GetBlackOverlay(cameraType);
+        }
+
+        // Handle camera switch (maintaining FOV settings)
+        public static void SwitchCamera(string cameraType, bool useDefault = false)
+        {
+            if (SNCameraRoot.main?.mainCamera == null)
+                return;
+
+            // When switching cameras, we should maintain current FOV unless useDefault is true
+            if (useDefault && cameraDefaultFOVs.TryGetValue(cameraType, out float defaultFOV))
+                ApplyFOV(defaultFOV);
+
+            // No FOV change otherwise - preserve current camera zoom settings
+        }
+
+        // Deactivate camera and restore settings
+        public static void DeactivateCamera(string cameraType, float previousFOV, ref int currentZoomStep, ref Coroutine coroutineRef)
+        {
+            string coroutineKey = $"{cameraType}_blink";
+
+            // Restore original FOV
+            ApplyFOV(previousFOV);
+
+            // Reset zoom step
+            currentZoomStep = 0;
+
+            // Clear any overlay effects
+            if (overlays.TryGetValue(cameraType, out CanvasGroup overlay) && overlay != null)
                 overlay.alpha = 0f;
 
+            // Stop any active coroutines
             if (coroutineRef != null)
             {
                 UWE.CoroutineHost.StopCoroutine(coroutineRef);
                 coroutineRef = null;
             }
 
+            // Mark coroutine as inactive
             activeCoroutines[coroutineKey] = false;
+        }
+
+        // Reset all zoom-related state (previously ResetZoomState)
+        public static void ResetZoomState(float targetFOV, ref int currentStep, string overlayName, ref Coroutine coroutineRef)
+        {
+            DeactivateCamera(overlayName, targetFOV, ref currentStep, ref coroutineRef);
         }
     }
 }

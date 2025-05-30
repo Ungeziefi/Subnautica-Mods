@@ -10,7 +10,6 @@ namespace Ungeziefi.Camera_Zoom
         private static bool IsDroneCameraActive() => uGUI_CameraDrone.main?.activeCamera != null;
         private static bool isZoomActive, isTransitioning;
         private static float originalFOV, transitionStartFOV, transitionTime;
-        private const string OVERLAY_NAME = "PlayerCamera";
 
         private static bool IsInVehicle()
         {
@@ -67,7 +66,6 @@ namespace Ungeziefi.Camera_Zoom
 
             bool isVehicle = IsInVehicle();
 
-            // Check if feature is enabled based on context
             if ((!config.PCEnableFeature && !isVehicle) ||
                 (!config.VCEnableFeature && isVehicle))
                 return;
