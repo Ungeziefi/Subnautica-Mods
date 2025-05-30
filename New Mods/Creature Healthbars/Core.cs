@@ -70,8 +70,9 @@ namespace Ungeziefi.Creature_Healthbars
         {
             Bounds bounds = GetCreatureBounds(creature);
 
-            // Position above creature's center
-            return new Vector3(0, bounds.size.y, 0);
+            // Above creature's center + padding
+            float padding = bounds.size.y * Main.Config.HeightPadding;
+            return new Vector3(0, bounds.size.y + padding, 0);
         }
 
         private static Bounds GetCreatureBounds(GameObject creature)
@@ -87,17 +88,8 @@ namespace Ungeziefi.Creature_Healthbars
                 return bounds;
             }
 
-            // If no Collider
-            Renderer renderer = creature.GetComponent<Renderer>();
-            if (renderer != null)
-            {
-                bounds = renderer.bounds;
-                // Convert to local space
-                bounds.center = creature.transform.InverseTransformPoint(bounds.center);
-                return bounds;
-            }
-
             // Fallback
+            Main.Logger.LogWarning($"Creature '{creature.name}' (ID: {GetCreatureId(creature)}) has no collider - this is abnormal and should be fixed! Using default bounds as fallback.");
             bounds.center = Vector3.zero;
             bounds.size = new Vector3(1f, 1f, 1f);
             return bounds;

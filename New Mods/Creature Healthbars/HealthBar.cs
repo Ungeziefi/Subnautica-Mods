@@ -7,14 +7,13 @@ namespace Ungeziefi.Creature_Healthbars
     {
         private static void GetBarDimensions(Creature creature, out float width, out float height)
         {
-            // Average of height and largest horizontal dimension
             Bounds bounds = GetCreatureBounds(creature.gameObject);
-            float creatureSize = (bounds.size.y + Mathf.Max(bounds.size.x, bounds.size.z));
 
-            // Size multiplier
+            // Average size based on bounds
+            float creatureSize = (bounds.size.y + bounds.size.x + bounds.size.z) / 3f;
+
+            // Linear scaling with multiplier and minimum size
             float scaledSize = creatureSize * Main.Config.SizeMultiplier;
-
-            // Absolute minimum size
             scaledSize = Mathf.Max(Main.Config.MinimumSize, scaledSize);
 
             // Set dimensions (width and height with aspect ratio)
@@ -92,12 +91,8 @@ namespace Ungeziefi.Creature_Healthbars
 
             lock (healthbars)
             {
-                bool newBar = false;
-
                 if (!healthbars.TryGetValue(id, out bar) || bar == null)
                 {
-                    newBar = true;
-
                     // Create health bar
                     Vector3 position = CalculateHealthBarPosition(creature.gameObject);
 

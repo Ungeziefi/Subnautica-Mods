@@ -11,7 +11,6 @@ namespace Ungeziefi.Creature_Healthbars
         [HarmonyPatch(typeof(LiveMixin), nameof(LiveMixin.TakeDamage)), HarmonyPostfix]
         public static void LiveMixin_TakeDamage(LiveMixin __instance, float originalDamage, GameObject dealer = null)
         {
-            // Check if feature is enabled
             if (!Main.Config.EnableFeature ||
                 __instance == null ||
                 originalDamage <= 0 ||
@@ -23,6 +22,12 @@ namespace Ungeziefi.Creature_Healthbars
             bool isPlayerDamage = dealer == Player.main?.gameObject || dealer == null;
 
             if (Main.Config.OnlyShowForPlayerDamage && !isPlayerDamage)
+                return;
+
+            // Check creature type filter
+            bool isPredator = creature.GetComponent<AggressiveWhenSeeTarget>() != null;
+            if ((Main.Config.CreatureFilter == CreatureFilterOption.OnlyPredators && !isPredator) ||
+                (Main.Config.CreatureFilter == CreatureFilterOption.OnlyNonPredators && isPredator))
                 return;
 
             string id = GetCreatureId(creature.gameObject);
@@ -40,19 +45,21 @@ namespace Ungeziefi.Creature_Healthbars
         [HarmonyPatch(typeof(Player), nameof(Player.Update)), HarmonyPostfix]
         public static void Player_Update()
         {
-            if (!Main.Config.EnableFeature) return;
+            if (!Main.Config.EnableFeature || timers == null || healthbars == null) return;
 
             Dictionary<string, float> timersCopy;
             lock (timers) { timersCopy = new Dictionary<string, float>(timers); }
 
-            List<string> expiredBars = new List<string>(timersCopy.Count / 4);
+            List<string> expiredBars = new List<string>();
 
+            // Process timers and identify expired bars
             foreach (var kvp in timersCopy)
             {
+                if (string.IsNullOrEmpty(kvp.Key)) continue;
+
                 string id = kvp.Key;
                 float time = kvp.Value - Time.deltaTime;
 
-                // Mark for removal if expired
                 if (time <= 0)
                 {
                     expiredBars.Add(id);
@@ -60,44 +67,36 @@ namespace Ungeziefi.Creature_Healthbars
                 }
 
                 // Update timer
-                lock (timers) { timers[id] = time; }
+                lock (timers)
+                {
+                    if (timers.ContainsKey(id))
+                        timers[id] = time;
+                }
 
-                // Last second fade out
-                if (time >= 1.0f || !healthbars.TryGetValue(id, out GameObject bar))
-                    continue;
+                // Fade effect for last second
+                if (time < 1.0f && healthbars.TryGetValue(id, out GameObject bar) && bar != null)
+                {
+                    Transform bgTransform = bar.transform?.Find("Background");
+                    if (bgTransform == null) continue;
 
-                // Get UI components
-                Transform bgTransform = bar.transform.Find("Background");
-                if (bgTransform == null) continue;
+                    Image bgImage = bgTransform.GetComponent<Image>();
+                    Image healthImage = bgTransform.Find("Health")?.GetComponent<Image>();
+                    if (bgImage == null || healthImage == null) continue;
 
-                Image bgImage = bgTransform.GetComponent<Image>();
-                Image healthImage = bgTransform.Find("Health")?.GetComponent<Image>();
-
-                if (bgImage == null || healthImage == null) continue;
-
-                // Alpha fade based on remaining time
-                Color bgColor = Main.Config.BackgroundColor;
-                Color healthColor = Main.Config.HealthColor;
-
-                float alpha = time;
-                bgColor.a *= alpha;
-                healthColor.a *= alpha;
-
-                bgImage.color = bgColor;
-                healthImage.color = healthColor;
+                    float alpha = time;
+                    bgImage.color = new Color(bgImage.color.r, bgImage.color.g, bgImage.color.b, alpha);
+                    healthImage.color = new Color(healthImage.color.r, healthImage.color.g, healthImage.color.b, alpha);
+                }
             }
 
-            // Skip cleanup if nothing to remove
-            if (expiredBars.Count == 0) return;
-
-            // Clean up expired health bars
+            // Remove expired bars
             foreach (string id in expiredBars)
             {
-                // Destroy GameObject if it exists
+                if (string.IsNullOrEmpty(id)) continue;
+
                 if (healthbars.TryGetValue(id, out GameObject bar) && bar != null)
                     GameObject.Destroy(bar);
 
-                // Remove from tracking dictionaries
                 lock (timers) { timers.Remove(id); }
                 lock (healthbars) { healthbars.Remove(id); }
             }

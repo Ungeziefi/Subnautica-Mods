@@ -5,6 +5,13 @@ using UnityEngine;
 
 namespace Ungeziefi.Creature_Healthbars
 {
+    public enum CreatureFilterOption
+    {
+        AllCreatures,
+        OnlyPredators,
+        OnlyNonPredators
+    }
+
     [Menu("Creature Healthbars")]
     public class Config : ConfigFile
     {
@@ -16,6 +23,12 @@ namespace Ungeziefi.Creature_Healthbars
 
         [Toggle(Label = "Only show for player damage")]
         public bool OnlyShowForPlayerDamage = true;
+
+        [Choice(Label = "Creature filter",
+        Tooltip = "Controls which types of creatures will display health bars.",
+        Options = new[] { "All creatures", "Only predators", "Only non-predators" })]
+        [OnChange(nameof(OnVisualChange))]
+        public CreatureFilterOption CreatureFilter = CreatureFilterOption.AllCreatures;
 
         [Slider(Label = "Display duration", Tooltip = "How long the health bar remains visible after taking damage (in seconds).",
             DefaultValue = 5.0f, Min = 1.0f, Max = 15.0f, Step = 1.0f, Format = "{0:0.0}s")]
@@ -43,6 +56,11 @@ namespace Ungeziefi.Creature_Healthbars
             DefaultValue = 8.0f, Min = 4.0f, Max = 16.0f, Step = 1.0f, Format = "{0:0.0}")]
         [OnChange(nameof(OnVisualChange))]
         public float BarRatio = 8.0f;
+
+        [Slider(Label = "Height padding", Tooltip = "Space between the creature and its health bar (as % of creature height).",
+            DefaultValue = 0f, Min = -1.0f, Max = 1.0f, Step = 0.1f, Format = "{0:0.0}")]
+        [OnChange(nameof(OnVisualChange))]
+        public float HeightPadding = 0f;
 
         [Toggle("<color=#f1c353>Sprite</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool SpriteDivider;
