@@ -66,7 +66,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             }
 
             // Handle text visibility
-            bool showText = Main.Config.TextVisibility != "Hide both" &&
+            bool showText = Main.Config.TextVisibility != "Hide all" &&
                           (!Main.Config.LimitTextVisibilityByDistance || distance <= Main.Config.TextVisibilityDistance);
 
             if (showText)

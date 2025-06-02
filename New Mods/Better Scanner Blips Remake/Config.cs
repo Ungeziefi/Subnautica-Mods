@@ -45,6 +45,9 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         [Toggle(Label = "Hide blips inside habitats")]
         public bool HideBlipsInsideHabitats = true;
 
+        [Toggle(Label = "Hide blips inside Cyclops")]
+        public bool HideBlipsInsideCyclops = true;
+
         [Keybind(Label = "Toggle blips hotkey")]
         public KeyCode ToggleBlipsKey = KeyCode.B;
 

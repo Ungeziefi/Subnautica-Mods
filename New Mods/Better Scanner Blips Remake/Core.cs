@@ -17,7 +17,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         {
             if (!Main.Config.EnableFeature) return;
 
-            if (Input.GetKeyDown(Main.Config.ToggleBlipsKey))
+            if (Input.GetKeyDown(Main.Config.ToggleBlipsKey) && !Cursor.visible && !IsInHiddenLocation())
             {
                 blipsEnabled = !blipsEnabled;
             }
@@ -93,13 +93,21 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             }
         }
 
+        private static bool IsInHiddenLocation()
+        {
+            bool inHabitat = Main.Config.HideBlipsInsideHabitats && Player.main.IsInBase() && uGUI_CameraDrone.main?.activeCamera == null;
+            bool inCyclops = Main.Config.HideBlipsInsideCyclops && Player.main.IsInSubmarine();
+
+            return inHabitat || inCyclops;
+        }
+
         private static bool ShouldHideBlip(float distance)
         {
             bool shouldHideBlipManually = !blipsEnabled && (!Main.Config.RangeBasedToggle || distance <= Main.Config.ToggleRange);
             bool shouldAutoHide = Main.Config.AutoHideNearbyBlips && !Main.Config.RangeBasedToggle && distance <= Main.Config.AutoHideDistance;
-            bool shouldHideInHabitat = Main.Config.HideBlipsInsideHabitats && Player.main.IsInBase() && uGUI_CameraDrone.main?.activeCamera == null;
+            bool isInHiddenLocation = IsInHiddenLocation();
 
-            return shouldHideBlipManually || shouldAutoHide || shouldHideInHabitat;
+            return shouldHideBlipManually || shouldAutoHide || isInHiddenLocation;
         }
     }
 }
