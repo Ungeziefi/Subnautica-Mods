@@ -1,46 +1,43 @@
-﻿using System.Collections.Generic;
-using System.Linq;
 using HarmonyLib;
-using UnityEngine;
 
 namespace Ungeziefi.Rotatable_Ladders
 {
     [HarmonyPatch]
     public partial class RotatableLadders
     {
-        [HarmonyPatch(typeof(BaseLadder), nameof(BaseLadder.Start)), HarmonyPostfix]
-        public static void BaseLadder_Start()
+        [HarmonyPatch(typeof(BaseDeconstructable), nameof(BaseDeconstructable.Deconstruct)), HarmonyPrefix]
+        public static void BaseDeconstructable_Deconstruct(BaseDeconstructable __instance)
         {
-            // Get ladders
-            var allLadders = Object.FindObjectsOfType<BaseLadder>();
-            var validCoords = new HashSet<string>();
+            if (__instance == null || __instance.transform == null)
+                return;
 
-            // Get their coords
-            foreach (var ladder in allLadders)
+            BaseLadder ladder = __instance.GetComponentInChildren<BaseLadder>();
+            if (ladder != null && ladder.transform?.parent != null)
             {
-                if (ladder?.transform?.parent != null)
-                {
-                    validCoords.Add(GetLadderCoords(ladder.transform.parent));
-                }
-            }
+                string coords = GetLadderCoords(ladder.transform.parent);
+                bool isTopLadder = ladder.transform.parent.name.Contains("LadderTop");
 
-            // Remove invalid coords
-            var bottomKeys = Main.SaveData.RotatedLaddersBottom.Keys.ToList();
-            var topKeys = Main.SaveData.RotatedLaddersTop.Keys.ToList();
-
-            foreach (var coord in bottomKeys)
-            {
-                if (!validCoords.Contains(coord))
+                // Parse coords
+                string[] coordParts = coords.Split(',');
+                if (coordParts.Length == 3 &&
+                    int.TryParse(coordParts[0], out int x) &&
+                    int.TryParse(coordParts[1], out int y) &&
+                    int.TryParse(coordParts[2], out int z))
                 {
-                    Main.SaveData.RotatedLaddersBottom.Remove(coord);
-                }
-            }
+                    // Clean up the other piece based on whether this is the top or bottom ladder
+                    // Height difference is 3 units
+                    string topCoords = isTopLadder ? coords : $"{x},{y - 3},{z}";
+                    string bottomCoords = isTopLadder ? $"{x},{y + 3},{z}" : coords;
 
-            foreach (var coord in topKeys)
-            {
-                if (!validCoords.Contains(coord))
-                {
-                    Main.SaveData.RotatedLaddersTop.Remove(coord);
+                    if (Main.SaveData.RotatedLaddersTop.ContainsKey(topCoords))
+                    {
+                        Main.SaveData.RotatedLaddersTop.Remove(topCoords);
+                    }
+
+                    if (Main.SaveData.RotatedLaddersBottom.ContainsKey(bottomCoords))
+                    {
+                        Main.SaveData.RotatedLaddersBottom.Remove(bottomCoords);
+                    }
                 }
             }
         }

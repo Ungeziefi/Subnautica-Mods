@@ -18,6 +18,10 @@ namespace Ungeziefi.Rotatable_Ladders
         {
             if (!Main.Config.EnableFeature || __instance == null || !__instance.enabled) return;
 
+            // Empty hands only feature check
+            bool isHoldingItem = Inventory.main.GetHeldTool() != null;
+            if (Main.Config.EmptyHandsOnly && isHoldingItem) return;
+
             var primaryDevice = GameInput.GetPrimaryDevice();
             var rotateText = primaryDevice == GameInput.Device.Controller ? "Press to rotate" : $"Press {Main.Config.RotateLadderKey} to rotate";
 
