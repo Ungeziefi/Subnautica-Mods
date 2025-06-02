@@ -24,8 +24,8 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         public bool VisibilityDivider;
 
         [Choice(Label = "Text content visibility",
-            Options = new[] { "Default", "Hide resource name", "Hide distance", "Hide both" },
-            Tooltip = "Controls what text is displayed on resource blips")]
+            Options = new[] { "Default", "Hide name", "Hide distance", "Hide count", "Hide all" },
+            Tooltip = "Controls what text is displayed on resource blips.")]
         public string TextVisibility = "Default";
 
         [Toggle(Label = "Limit text visibility by distance", Tooltip = "When enabled, blip text will only appear when closer than the distance specified below.")]
@@ -89,7 +89,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         public bool ShowEdgeBlips = true;
 
         [Slider(Label = "Edge margin", Tooltip = "Margin from screen edge for displaying edge blips (in pixels).",
-            DefaultValue = 60f, Min = 5f, Max = 100f, Step = 1f, Format = "{0}px")]
+            DefaultValue = 60f, Min = 0f, Max = 100f, Step = 1f, Format = "{0}px")]
         public float EdgeMargin = 60f;
 
         [Toggle(Label = "Use circular edge blips", Tooltip = "Display off-screen blips in a circle around the screen center instead of at the edges.")]
