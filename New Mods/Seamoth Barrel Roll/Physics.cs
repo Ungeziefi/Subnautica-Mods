@@ -13,7 +13,9 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 !(__instance is SeaMoth seamoth) ||
                 !seamoth.GetPilotingMode() ||
                 (Main.Config.RollingRequiresPower && !HasPower(seamoth)) || // Power
-                (!Main.Config.AllowAirborneRolling && seamoth.transform.position.y > Ocean.GetOceanLevel())) // Airborne rolling
+                (!Main.Config.AllowAirborneRolling && (seamoth.transform.position.y > Ocean.GetOceanLevel() || // Above water
+                                                        seamoth.precursorOutOfWater || // In the QEP moon pool
+                                                        seamoth.onGround))) // Just in case
                 return;
 
             // Get or create roll state
