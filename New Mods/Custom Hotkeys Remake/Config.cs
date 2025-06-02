@@ -11,25 +11,21 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
         [Toggle(Label = "Enable feature")]
         public bool EnableFeature = true;
 
-        [Slider(Label = "Command execution delay (seconds)",
-            DefaultValue = 0.1f, Min = 0f, Max = 5.0f, Step = 0.1f, Format = "{0:0.0}")]
-        public float CommandExecutionDelay = 0.1f;
-
         public class CommandHotkey
         {
             public string Name;
             public List<KeyCode> Keys = new List<KeyCode>();
             public List<string> Commands = new List<string>();
-            public bool ExecuteInstantly = false;
+            public float ExecutionDelay = 0.1f;
 
             public CommandHotkey() { }
 
-            public CommandHotkey(string name, List<KeyCode> keys, List<string> commands, bool executeInstantly = false)
+            public CommandHotkey(string name, List<KeyCode> keys, List<string> commands, float executionDelay = 0.1f)
             {
                 Name = name;
                 Keys = keys;
                 Commands = commands;
-                ExecuteInstantly = executeInstantly;
+                ExecutionDelay = executionDelay;
             }
         }
 
@@ -41,7 +37,8 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
             {
                 "warpforward 10",
                 "spawn seamoth"
-            }),
+            },
+            0.1f),
 
             new CommandHotkey("Example - Multi-Key",
             new List<KeyCode> { KeyCode.LeftControl, KeyCode.H },
@@ -49,7 +46,8 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
             {
                 "warpforward 10",
                 "spawn seamoth"
-            })
+            },
+            0.1f)
         };
     }
 }

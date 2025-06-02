@@ -95,7 +95,7 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
                     try
                     {
                         DevConsole.SendConsoleCommand(command);
-                        if (!hotkeyConfig.ExecuteInstantly)
+                        if (hotkeyConfig.ExecutionDelay > 0)
                             ErrorMessage.AddMessage($"Command: {command}");
                     }
                     catch
@@ -106,8 +106,8 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
 
                     yield return errorOccurred ?
                         new WaitForSeconds(0.5f) :
-                        (!hotkeyConfig.ExecuteInstantly ?
-                            new WaitForSeconds(Main.Config.CommandExecutionDelay) :
+                        (hotkeyConfig.ExecutionDelay > 0 ?
+                            new WaitForSeconds(hotkeyConfig.ExecutionDelay) :
                             null);
                 }
 
