@@ -121,12 +121,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                 // Get the specific fragment name (without known suffix)
                 resourceName = GetFragmentNameWithoutKnown(resource.uniqueId);
 
-                // From Fragment to Fragment(s) if grouped
-                if (count > 1 && resourceName.EndsWith(" Fragment"))
-                {
-                    resourceName += "s";
-                }
-
                 // Add (known)
                 if (Main.Config.AppendKnown && isKnownFragment)
                 {
