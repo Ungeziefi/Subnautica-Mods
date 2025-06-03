@@ -48,7 +48,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         [Toggle(Label = "Hide blips inside Cyclops")]
         public bool HideBlipsInsideCyclops = true;
 
-        [Toggle("<color=#f1c353>Toggle Controls</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#f1c353>Toggle controls</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool ToggleControlsDivider;
 
         [Keybind(Label = "Toggle blips hotkey")]
