@@ -5,18 +5,43 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 {
     public partial class BetterScannerBlipsRemake
     {
+        private static readonly Dictionary<string, TechType> GroupingFragmentTypeCache = new Dictionary<string, TechType>();
+
         private static void GroupResourcesToPool(
             HashSet<ResourceTrackerDatabase.ResourceInfo> resources,
             Vector3 playerPosition,
             List<(ResourceTrackerDatabase.ResourceInfo, int)> resultPool)
         {
-            var processed = new HashSet<ResourceTrackerDatabase.ResourceInfo>();
+            // Clear cache
+            GroupingFragmentTypeCache.Clear();
 
+            var processed = new HashSet<ResourceTrackerDatabase.ResourceInfo>();
+            resultPool.Clear(); // Clear pool
+
+            // Squared distances for performance
             float groupingDistanceSquared = Main.Config.GroupingDistance * Main.Config.GroupingDistance;
             float breakDistanceSquared = Main.Config.GroupBreakingDistance * Main.Config.GroupBreakingDistance;
             bool shouldBreakGroups = Main.Config.GroupNearbyResources && Main.Config.BreakGroupsWhenNearby;
 
-            foreach (var currentResource in resources)
+            bool needsFiltering = ShouldApplyFiltering();
+            List<ResourceTrackerDatabase.ResourceInfo> activeResources;
+            if (needsFiltering)
+            {
+                // Apply filtering
+                activeResources = FilterActiveResources(resources, playerPosition);
+            }
+            else
+            {
+                // No filtering
+                activeResources = new List<ResourceTrackerDatabase.ResourceInfo>(resources);
+            }
+
+            // Nothing to process
+            if (activeResources.Count == 0)
+                return;
+
+            // Group resources
+            foreach (var currentResource in activeResources)
             {
                 if (processed.Contains(currentResource))
                     continue;
@@ -34,35 +59,66 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                     }
                 }
 
-                var groupMembers = new List<ResourceTrackerDatabase.ResourceInfo> { currentResource };
+                // Get TechType for fragments and cache it
+                TechType currentSpecificType = TechType.None;
+                if (currentResource.techType == TechType.Fragment)
+                {
+                    if (!GroupingFragmentTypeCache.TryGetValue(currentResource.uniqueId, out currentSpecificType))
+                    {
+                        currentSpecificType = KnownFragmentFilter.GetFragmentType(currentResource.uniqueId);
+                        GroupingFragmentTypeCache[currentResource.uniqueId] = currentSpecificType;
+                    }
+                }
 
-                foreach (var otherResource in resources)
+                var groupMembers = new List<ResourceTrackerDatabase.ResourceInfo>(16) { currentResource };
+                foreach (var otherResource in activeResources)
                 {
                     if (otherResource == currentResource || processed.Contains(otherResource))
                         continue;
 
-                    // Group only matching types
+                    // Onl group same TechTypes
                     if (currentResource.techType == otherResource.techType)
                     {
-                        float distSquared = Vector3.SqrMagnitude(currentResource.position - otherResource.position);
+                        bool canGroup = true;
 
-                        if (distSquared <= groupingDistanceSquared)
+                        // Fragments
+                        if (currentResource.techType == TechType.Fragment && currentSpecificType != TechType.None)
                         {
-                            // Skip if too close to player
-                            if (shouldBreakGroups)
+                            // Get specific TechType and cache
+                            TechType otherSpecificType;
+                            if (!GroupingFragmentTypeCache.TryGetValue(otherResource.uniqueId, out otherSpecificType))
                             {
-                                float otherDistToPlayerSquared = Vector3.SqrMagnitude(otherResource.position - playerPosition);
-                                if (otherDistToPlayerSquared <= breakDistanceSquared)
-                                    continue;
+                                otherSpecificType = KnownFragmentFilter.GetFragmentType(otherResource.uniqueId);
+                                GroupingFragmentTypeCache[otherResource.uniqueId] = otherSpecificType;
                             }
 
-                            groupMembers.Add(otherResource);
-                            processed.Add(otherResource);
+                            // Only group same specific TechTypes for fragments
+                            canGroup = (otherSpecificType != TechType.None &&
+                                       currentSpecificType == otherSpecificType);
+                        }
+
+                        if (canGroup)
+                        {
+                            float distSquared = Vector3.SqrMagnitude(currentResource.position - otherResource.position);
+
+                            if (distSquared <= groupingDistanceSquared)
+                            {
+                                // Skip if too close to player
+                                if (shouldBreakGroups)
+                                {
+                                    float otherDistToPlayerSquared = Vector3.SqrMagnitude(otherResource.position - playerPosition);
+                                    if (otherDistToPlayerSquared <= breakDistanceSquared)
+                                        continue;
+                                }
+
+                                groupMembers.Add(otherResource);
+                                processed.Add(otherResource);
+                            }
                         }
                     }
                 }
 
-                // Add as group or individual
+                // Find primary resource in group (closest to player)
                 if (groupMembers.Count > 1)
                 {
                     var primaryResource = FindClosestResourceToPlayer(groupMembers, playerPosition);
@@ -73,6 +129,39 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                     resultPool.Add((currentResource, 1));
                 }
             }
+        }
+
+        #region Filtering Helpers
+        private static List<ResourceTrackerDatabase.ResourceInfo> FilterActiveResources(
+            HashSet<ResourceTrackerDatabase.ResourceInfo> resources,
+            Vector3 playerPosition)
+        {
+            var activeResources = new List<ResourceTrackerDatabase.ResourceInfo>(resources.Count);
+
+            foreach (var resource in resources)
+            {
+                float distance = Vector3.Distance(resource.position, playerPosition);
+
+                // Skip if general hide conditions apply
+                if (ShouldHideBlip(distance))
+                    continue;
+
+                // Skip if it's a known fragment that should be hidden
+                if (Main.Config.HideKnownFragmentBlips &&
+                    resource.techType == TechType.Fragment &&
+                    KnownFragmentFilter.IsKnownFragment(resource.uniqueId))
+                    continue;
+
+                activeResources.Add(resource);
+            }
+
+            return activeResources;
+        }
+
+        // Check if filtering is needed
+        private static bool ShouldApplyFiltering()
+        {
+            return ShouldHideBlip(0f) || Main.Config.HideKnownFragmentBlips;
         }
 
         private static ResourceTrackerDatabase.ResourceInfo FindClosestResourceToPlayer(
@@ -94,5 +183,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
             return closestResource;
         }
+        #endregion
     }
 }

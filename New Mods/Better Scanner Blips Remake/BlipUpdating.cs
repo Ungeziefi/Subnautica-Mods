@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,131 +7,209 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 {
     public partial class BetterScannerBlipsRemake
     {
+        private static readonly StringBuilder stringBuilder = new StringBuilder(128);
+
         private static void UpdateBlip(uGUI_ResourceTracker.Blip blip, ResourceTrackerDatabase.ResourceInfo resource, float distance, Camera camera, int count)
         {
-            blip.gameObject.SetActive(true);
+            bool isFragment = resource.techType == TechType.Fragment;
+            bool isKnownFragment = false;
+
+            // Always start enabled to ignore the dot product check in uGUI_ResourceTracker.UpdateBlips
+            blip.gameObject.SetActive(true); 
+
+            // Disable known fragments if configured
+            if (isFragment && (Main.Config.HideKnownFragmentBlips || Main.Config.AppendKnown))
+            {
+                isKnownFragment = KnownFragmentFilter.IsKnownFragment(resource.uniqueId);
+            }
+            if (Main.Config.HideKnownFragmentBlips && isFragment && isKnownFragment)
+            {
+                blip.gameObject.SetActive(false);
+                return;
+            }
 
             // Use or create cache for components
             if (!blipComponents.TryGetValue(blip.gameObject, out var components))
             {
-                var graphic = blip.gameObject.GetComponent<Graphic>();
-                var renderer = blip.gameObject.GetComponent<CanvasRenderer>();
-                components = (graphic, renderer);
+                components = (
+                    blip.gameObject.GetComponent<Graphic>(),
+                    blip.gameObject.GetComponent<CanvasRenderer>()
+                );
                 blipComponents[blip.gameObject] = components;
             }
 
-            // Get viewport position
+            // Calculate screen position
             Vector3 viewportPoint = camera.WorldToViewportPoint(resource.position);
-            Vector2 screenPos;
+            Vector2 screenPos = CalculateScreenPosition(viewportPoint);
 
-            // Handle edge blips
-            if (Main.Config.ShowEdgeBlips)
-            {
-                bool isBehindCamera = viewportPoint.z < 0;
-                bool isOutside = viewportPoint.x < 0 || viewportPoint.x > 1f ||
-                                viewportPoint.y < 0 || viewportPoint.y > 1f || isBehindCamera;
-
-                if (isOutside)
-                {
-                    screenPos = CalculateEdgePosition(viewportPoint, isBehindCamera);
-                }
-                else
-                {
-                    screenPos = new Vector2(viewportPoint.x, viewportPoint.y);
-                }
-            }
-            else
-            {
-                screenPos = new Vector2(viewportPoint.x, viewportPoint.y);
-            }
-
-            // Update position
-            blip.rect.anchorMin = screenPos;
-            blip.rect.anchorMax = screenPos;
-
-            // Update scale based on distance
-            float scale = distance >= Main.Config.MaximumRange ?
-                Main.Config.MinimumScale :
-                (-1f + Main.Config.MinimumScale) * (distance / Main.Config.MaximumRange) + 1f;
+            // Update position and scale
+            blip.rect.anchorMin = blip.rect.anchorMax = screenPos;
+            float scale = CalculateScale(distance);
             blip.rect.localScale = new Vector3(scale, scale, scale);
 
-            // Apply colors
-            if (blip.text != null)
+            ApplyColors(blip, components);
+
+            // Text visibility
+            bool textVisible = Main.Config.TextVisibility != "Hide all" &&
+                (!Main.Config.LimitTextVisibilityByDistance || distance <= Main.Config.TextVisibilityDistance);
+                
+            if (textVisible)
             {
-                blip.text.color = ColorManagement.GetCachedTextColor();
+                UpdateBlipText(blip, resource, distance, count, isFragment, isKnownFragment);
             }
-
-            if (components.graphic != null && components.graphic.material != null)
-            {
-                components.graphic.material.SetColor("_Color", ColorManagement.GetCachedBlipColor());
-            }
-
-            // Handle text visibility
-            bool showText = Main.Config.TextVisibility != "Hide all" &&
-                          (!Main.Config.LimitTextVisibilityByDistance || distance <= Main.Config.TextVisibilityDistance);
-
-            if (showText)
-            {
-                string resourceName = Language.main.Get(resource.techType.AsString(false));
-                string distanceText = $"{Mathf.RoundToInt(distance)}{Language.main.Get("MeterSuffix")}";
-
-                // Format the resource name based on visibility settings
-                string resourceLabel;
-
-                if (Main.Config.TextVisibility == "Hide count" && count > 1)
-                {
-                    // Just show the resource name without count
-                    resourceLabel = resourceName;
-                }
-                else if (count > 1)
-                {
-                    // Show resource name with count
-                    resourceLabel = $"{resourceName} x{count}";
-                }
-                else
-                {
-                    // Single resource
-                    resourceLabel = resourceName;
-                }
-
-                // Generate final display text based on visibility settings
-                string displayText;
-                switch (Main.Config.TextVisibility)
-                {
-                    case "Hide name":
-                        if (count > 1)
-                            displayText = $"x{count}\r\n{distanceText}";
-                        else
-                            displayText = distanceText;
-                        break;
-                    case "Hide distance":
-                        displayText = resourceLabel;
-                        break;
-                    case "Hide all":
-                        displayText = "";
-                        break;
-                    default: // Default or Hide count (count is already handled in resourceLabel)
-                        displayText = $"{resourceLabel}\r\n{distanceText}";
-                        break;
-                }
-
-                blip.text.SetText(displayText);
-                blip.text.SetAlpha(1f);
-            }
-            else
+            else if (blip.text.color.a > 0)
             {
                 blip.text.SetAlpha(0f);
             }
 
             // Adjust alpha for distant blips
+            components.renderer?.SetAlpha(distance >= Main.Config.MaximumRange ?
+                Main.Config.DistantAlpha : 1f);
+        }
+
+        private static Vector2 CalculateScreenPosition(Vector3 viewportPoint)
+        {
+            if (!Main.Config.ShowEdgeBlips)
+#pragma warning disable Harmony003 // Harmony non-ref patch parameters modified
+                return new Vector2(viewportPoint.x, viewportPoint.y);
+
+            bool isBehindCamera = viewportPoint.z < 0;
+            bool isOutside = viewportPoint.x < 0 || viewportPoint.x > 1f ||
+                            viewportPoint.y < 0 || viewportPoint.y > 1f || isBehindCamera;
+
+            return isOutside ? CalculateEdgePosition(viewportPoint, isBehindCamera)
+                              : new Vector2(viewportPoint.x, viewportPoint.y);
+        }
+
+        private static float CalculateScale(float distance)
+        {
             if (distance >= Main.Config.MaximumRange)
+                return Main.Config.MinimumScale;
+
+            return (-1f + Main.Config.MinimumScale) * (distance / Main.Config.MaximumRange) + 1f;
+        }
+
+        private static void ApplyColors(uGUI_ResourceTracker.Blip blip, (Graphic graphic, CanvasRenderer renderer) components)
+        {
+            if (blip.text != null)
+                blip.text.color = ColorManagement.GetCachedTextColor();
+
+            if (components.graphic?.material != null)
+                components.graphic.material.SetColor("_Color", ColorManagement.GetCachedBlipColor());
+#pragma warning restore Harmony003 // Harmony non-ref patch parameters modified
+        }
+
+        private static void UpdateBlipText(uGUI_ResourceTracker.Blip blip, ResourceTrackerDatabase.ResourceInfo resource,
+                                          float distance, int count, bool isFragment, bool isKnownFragment)
+        {
+            string resourceName = GetResourceName(resource, count, isFragment, isKnownFragment);
+            string distanceText = $"{Mathf.RoundToInt(distance)}{Language.main.Get("MeterSuffix")}";
+            string displayText = FormatText(resourceName, distanceText, count);
+
+            blip.text.SetText(displayText);
+            blip.text.SetAlpha(1f);
+        }
+
+        #region Name Helpers
+        private static string GetResourceName(ResourceTrackerDatabase.ResourceInfo resource, int count, bool isFragment, bool isKnownFragment)
+        {
+            string resourceName;
+
+            // Handle fragment names
+            if (isFragment)
             {
-                components.renderer.SetAlpha(Main.Config.DistantAlpha);
+                // Get the specific fragment name (without known suffix)
+                resourceName = GetFragmentNameWithoutKnown(resource.uniqueId);
+
+                // From Fragment to Fragment(s) if grouped
+                if (count > 1 && resourceName.EndsWith(" Fragment"))
+                {
+                    resourceName += "s";
+                }
+
+                // Add (known)
+                if (Main.Config.AppendKnown && isKnownFragment)
+                {
+                    resourceName += " (known)";
+                }
             }
             else
             {
-                components.renderer.SetAlpha(1f);
+                // Standard resource name
+                resourceName = Language.main.Get(resource.techType.AsString(false));
             }
+
+            // Add count if needed
+            if (count > 1 && Main.Config.TextVisibility != "Hide count")
+                resourceName += $" x{count}";
+
+            return resourceName;
         }
+
+        private static string GetFragmentNameWithoutKnown(string uniqueId)
+        {
+            // Default fragment name
+            string name = Language.main.Get("Fragment");
+
+            if (Main.Config.SpecificFragmentNames)
+            {
+                TechType specificType = KnownFragmentFilter.GetFragmentType(uniqueId);
+                if (specificType != TechType.None)
+                {
+                    name = Language.main.Get(specificType.AsString(false));
+                }
+            }
+
+            return name;
+        }
+
+        private static string GetFragmentName(string uniqueId, bool isKnownFragment)
+        {
+            string name = GetFragmentNameWithoutKnown(uniqueId);
+
+            if (Main.Config.AppendKnown && isKnownFragment)
+            {
+                name += " (known)";
+            }
+
+            return name;
+        }
+        #endregion
+
+
+        #region Text Formatter
+        private static string FormatText(string resourceName, string distanceText, int count)
+        {
+            stringBuilder.Clear();
+
+            switch (Main.Config.TextVisibility)
+            {
+                case "Hide name":
+                    if (count > 1)
+                    {
+                        stringBuilder.Append("x");
+                        stringBuilder.Append(count);
+                        stringBuilder.Append("\r\n");
+                    }
+                    stringBuilder.Append(distanceText);
+                    break;
+
+                case "Hide distance":
+                    stringBuilder.Append(resourceName);
+                    break;
+
+                case "Hide all":
+                    break;
+
+                default: // Default
+                    stringBuilder.Append(resourceName);
+                    stringBuilder.Append("\r\n");
+                    stringBuilder.Append(distanceText);
+                    break;
+            }
+
+            return stringBuilder.ToString();
+        }
+        #endregion
     }
 }

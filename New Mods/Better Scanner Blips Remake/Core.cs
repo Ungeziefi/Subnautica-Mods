@@ -12,29 +12,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         private static readonly Dictionary<GameObject, (Graphic graphic, CanvasRenderer renderer)> blipComponents = new();
         private static List<(ResourceTrackerDatabase.ResourceInfo resource, int count)> resourcePool = new(64);
 
-        [HarmonyPatch(typeof(Player), nameof(Player.Update)), HarmonyPostfix]
-        private static void Player_Update()
-        {
-            if (!Main.Config.EnableFeature) return;
-
-            if (Input.GetKeyDown(Main.Config.ToggleBlipsKey) && !Cursor.visible && !IsInHiddenLocation())
-            {
-                blipsEnabled = !blipsEnabled;
-            }
-
-            if (ColorManagement.ColorSettingsChanged())
-            {
-                ColorManagement.UpdateColorCache();
-            }
-        }
-
-        // Clear dictionary on destroy
-        [HarmonyPatch(typeof(uGUI_ResourceTracker), nameof(uGUI_ResourceTracker.OnDestroy)), HarmonyPostfix]
-        private static void uGUI_ResourceTracker_OnDestroy()
-        {
-            blipComponents.Clear();
-        }
-
         [HarmonyPatch(typeof(uGUI_ResourceTracker), nameof(uGUI_ResourceTracker.UpdateBlips)), HarmonyPostfix]
         private static void uGUI_ResourceTracker_UpdateBlips(
             HashSet<ResourceTrackerDatabase.ResourceInfo> ___nodes,
@@ -43,7 +20,16 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         {
             if (!Main.Config.EnableFeature || !___visible) return;
 
-            if (!ColorManagement.colorsInitialized)
+            if (Input.GetKeyDown(Main.Config.ToggleBlipsKey) && !Cursor.visible && !IsInHiddenLocation())
+            {
+                blipsEnabled = !blipsEnabled;
+                if (Main.Config.ShowBlipToggleMessage)
+                {
+                    ErrorMessage.AddMessage(blipsEnabled ? "Scanner blips enabled" : "Scanner blips disabled");
+                }
+            }
+
+            if (!ColorManagement.colorsInitialized || ColorManagement.ColorSettingsChanged())
             {
                 ColorManagement.UpdateColorCache();
             }
@@ -93,6 +79,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             }
         }
 
+        #region Helpers
         private static bool IsInHiddenLocation()
         {
             bool inHabitat = Main.Config.HideBlipsInsideHabitats && Player.main.IsInBase() && uGUI_CameraDrone.main?.activeCamera == null;
@@ -109,5 +96,14 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
             return shouldHideBlipManually || shouldAutoHide || isInHiddenLocation;
         }
+        #endregion
+
+        #region Cleanup
+        [HarmonyPatch(typeof(uGUI_ResourceTracker), nameof(uGUI_ResourceTracker.OnDestroy)), HarmonyPostfix]
+        private static void uGUI_ResourceTracker_OnDestroy()
+        {
+            blipComponents.Clear();
+        }
+        #endregion
     }
 }
