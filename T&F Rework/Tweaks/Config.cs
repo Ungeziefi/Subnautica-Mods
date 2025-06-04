@@ -74,10 +74,6 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Land_tree_01 light removal")]
         public bool Land_tree_01LightRemoval = false;
 
-        [Slider(Label = "Scanner Room speed multiplier", Tooltip = "Lower values mean faster scanning.",
-            DefaultValue = 1f, Min = 0.1f, Max = 3f, Step = 0.1f, Format = "{0:0.0}x")]
-        public float ScannerRoomSpeedMultiplier = 1f;
-
         [Toggle("<color=#f1c353>Inventory transfer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool InventoryTransferDivider;
 
@@ -173,5 +169,9 @@ namespace Ungeziefi.Tweaks
         [Slider(Label = "Day/night cycle speed multiplier", Tooltip = "Higher values make days and nights shorter. Lower values make days and nights longer.",
             DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}x")]
         public float DayNightCycleSpeedMultiplier = 1f;
+
+        [Slider(Label = "Scanner Room speed multiplier", Tooltip = "Lower values mean faster scanning.",
+            DefaultValue = 1f, Min = 0.1f, Max = 3f, Step = 0.1f, Format = "{0:0.0}x")]
+        public float ScannerRoomSpeedMultiplier = 1f;
     }
 }
