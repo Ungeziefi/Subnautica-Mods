@@ -7,7 +7,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
     [HarmonyPatch]
     public class KnownFragmentFilter
     {
-        public static readonly Dictionary<string, TechType> FragmentTypeCache = new ();
+        public static readonly Dictionary<string, TechType> FragmentTypeCache = new();
 
         #region Core Functions
         // Get fragment type from ID
@@ -17,9 +17,8 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             if (FragmentTypeCache.TryGetValue(uniqueId, out TechType type))
                 return type;
 
-            // Try to find in world
-            FindObjectByID(uniqueId);
-            return FragmentTypeCache.TryGetValue(uniqueId, out type) ? type : TechType.None;
+            // No cache yet
+            return TechType.None;
         }
 
         // Is fragment for known blueprint
@@ -31,26 +30,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         #endregion
 
         #region Helpers
-        // Find object and cache its type
-        public static GameObject FindObjectByID(string uniqueId)
-        {
-            // Scanned fragments have the ResourceTracker component
-            var resources = Object.FindObjectsOfType<ResourceTracker>();
-
-            foreach (var resource in resources)
-            {
-                // Get their UniqueIdentifier component
-                var identifier = resource.GetComponent<UniqueIdentifier>();
-                if (identifier != null && identifier.Id == uniqueId)
-                {
-                    var go = identifier.gameObject;
-                    CacheFragmentType(go, uniqueId);
-                    return go;
-                }
-            }
-            return null;
-        }
-
         // Cache type if valid
         private static void CacheFragmentType(GameObject go, string uniqueId)
         {
@@ -70,25 +49,29 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         }
         #endregion
 
-        #region OnResourceDiscovered Listener
+        #region TechType Caching
         private static bool isRegistered = false;
 
-        [HarmonyPatch(typeof(ResourceTracker), nameof(ResourceTracker.Start)), HarmonyPostfix]
-        public static void ResourceTracker_Start()
+        // Capture resource registration to cache fragment types
+        [HarmonyPatch(typeof(ResourceTracker), nameof(ResourceTracker.Register)), HarmonyPostfix]
+        public static void ResourceTracker_Register(ResourceTracker __instance)
         {
-            if (!isRegistered)
-            {
-                ResourceTrackerDatabase.onResourceDiscovered += OnResourceDiscovered;
-                isRegistered = true;
-            }
-        }
-
-        private static void OnResourceDiscovered(ResourceTrackerDatabase.ResourceInfo info)
-        {
-            if (info.techType != TechType.Fragment || FragmentTypeCache.ContainsKey(info.uniqueId))
+            if (__instance == null)
                 return;
 
-            FindObjectByID(info.uniqueId);
+            var uniqueId = __instance.GetComponent<UniqueIdentifier>()?.Id;
+            if (string.IsNullOrEmpty(uniqueId))
+                return;
+
+            var techType = CraftData.GetTechType(__instance.gameObject);
+
+            // Only process fragments with valid types
+            if (techType != TechType.None &&
+                techType != TechType.Fragment &&
+                !FragmentTypeCache.ContainsKey(uniqueId))
+            {
+                FragmentTypeCache[uniqueId] = techType;
+            }
         }
         #endregion
     }
