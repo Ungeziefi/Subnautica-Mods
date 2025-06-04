@@ -10,7 +10,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
     {
         internal static bool blipsEnabled = true;
         private static readonly Dictionary<GameObject, (Graphic graphic, CanvasRenderer renderer)> blipComponents = new();
-        private static List<(ResourceTrackerDatabase.ResourceInfo resource, int count)> resourcePool = new(64);
+        private static List<(ResourceTrackerDatabase.ResourceInfo resource, int count)> resourcePool = new(256);
 
         [HarmonyPatch(typeof(uGUI_ResourceTracker), nameof(uGUI_ResourceTracker.UpdateBlips)), HarmonyPostfix]
         private static void uGUI_ResourceTracker_UpdateBlips(
@@ -18,7 +18,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             List<uGUI_ResourceTracker.Blip> ___blips,
             bool ___visible)
         {
-            if (!Main.Config.EnableFeature || !___visible) return;
+            if (!___visible) return;
 
             if (Input.GetKeyDown(Main.Config.ToggleBlipsKey) && !Cursor.visible && !IsInHiddenLocation())
             {

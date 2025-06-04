@@ -36,11 +36,11 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                     blip.gameObject.GetComponent<CanvasRenderer>()
                 );
                 blipComponents[blip.gameObject] = components;
-            }
+            }   
 
             // Calculate screen position
             Vector3 viewportPoint = camera.WorldToViewportPoint(resource.position);
-            Vector2 screenPos = CalculateScreenPosition(viewportPoint);
+            Vector2 screenPos = CalculateScreenPosition(viewportPoint, resource);
 
             // Update position and scale
             blip.rect.anchorMin = blip.rect.anchorMax = screenPos;
@@ -67,7 +67,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                 Main.Config.DistantAlpha : 1f);
         }
 
-        private static Vector2 CalculateScreenPosition(Vector3 viewportPoint)
+        private static Vector2 CalculateScreenPosition(Vector3 viewportPoint, ResourceTrackerDatabase.ResourceInfo resource = null)
         {
             if (!Main.Config.ShowEdgeBlips)
 #pragma warning disable Harmony003 // Harmony non-ref patch parameters modified
@@ -77,7 +77,9 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             bool isOutside = viewportPoint.x < 0 || viewportPoint.x > 1f ||
                             viewportPoint.y < 0 || viewportPoint.y > 1f || isBehindCamera;
 
-            return isOutside ? CalculateEdgePosition(viewportPoint, isBehindCamera)
+            string resourceId = resource?.uniqueId ?? "";
+            
+            return isOutside ? CalculateEdgePosition(viewportPoint, isBehindCamera, resourceId)
                               : new Vector2(viewportPoint.x, viewportPoint.y);
         }
 

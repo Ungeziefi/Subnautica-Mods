@@ -8,9 +8,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
     [Menu("Better Scanner Blips Remake")]
     public class Config : ConfigFile
     {
-        [Toggle(Label = "Enable feature")]
-        public bool EnableFeature = true;
-
         [Slider(Label = "Maximum range", DefaultValue = 150f, Min = 10f, Max = 300f, Step = 1f)]
         public float MaximumRange = 150f;
 
@@ -53,6 +50,9 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
         [Keybind(Label = "Toggle blips hotkey")]
         public KeyCode ToggleBlipsKey = KeyCode.B;
+
+        [Toggle(Label = "Show blip toggle message")]
+        public bool ShowBlipToggleMessage = false;
 
         [Toggle(Label = "Range-based toggle", Tooltip = "When enabled, the hotkey will only toggle blips within the range specified below.")]
         public bool RangeBasedToggle = false;
@@ -105,6 +105,10 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             DefaultValue = 35f, Min = 10f, Max = 50f, Step = 1f, Format = "{0}%")]
         public float CircleRadius = 35f;
 
+        [Slider(Label = "Smoothing time", Tooltip = "Controls how smoothly edge blips move when changing position. Lower values = faster response, higher values = smoother movement.",
+            DefaultValue = 0.1f, Min = 0.01f, Max = 0.5f, Step = 0.01f, Format = "{0:0.00}")]
+        public float SmoothingTime = 0.1f;
+
         [Toggle("<color=#f1c353>Fragments</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool FragmentsDivider;
 
@@ -138,12 +142,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         [ColorPicker(Label = "Preview", Tooltip = "The color of text on scanner blips when custom text color is enabled.", Advanced = true)]
         [OnChange(nameof(OnColorSettingChanged))]
         public Color TextColor = new Color(1.00f, 0.68f, 0.00f, 1.00f);
-
-        [Toggle("<color=#f1c353>Debug</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool DebugDivider;
-
-        [Toggle(Label = "Show blip toggle message")]
-        public bool ShowBlipToggleMessage = false;
 
         #region Color Management
         private void OnColorSettingChanged()
