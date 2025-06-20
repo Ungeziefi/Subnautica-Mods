@@ -5,8 +5,8 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 {
     public partial class BetterScannerBlipsRemake
     {
-        private static readonly Dictionary<string, Vector2> lastPositions = new Dictionary<string, Vector2>();
-        private static readonly Dictionary<string, Vector2> velocities = new Dictionary<string, Vector2>();
+        private static readonly Dictionary<string, Vector2> lastPositions = new();
+        private static readonly Dictionary<string, Vector2> velocities = new();
 
         private static Vector2 CalculateEdgePosition(Vector3 viewportPoint, bool isBehindCamera = false, string resourceId = "")
         {

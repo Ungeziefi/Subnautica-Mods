@@ -42,6 +42,13 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             Vector3 viewportPoint = camera.WorldToViewportPoint(resource.position);
             Vector2 screenPos = CalculateScreenPosition(viewportPoint, resource);
 
+            // Check if outside viewport
+            if (float.IsNaN(screenPos.x) && float.IsNaN(screenPos.y))
+            {
+                blip.gameObject.SetActive(false);
+                return;
+            }
+
             // Update position and scale
             blip.rect.anchorMin = blip.rect.anchorMax = screenPos;
             float scale = CalculateScale(distance);
@@ -69,11 +76,20 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
         private static Vector2 CalculateScreenPosition(Vector3 viewportPoint, ResourceTrackerDatabase.ResourceInfo resource = null)
         {
-            if (!Main.Config.ShowEdgeBlips)
 #pragma warning disable Harmony003 // Harmony non-ref patch parameters modified
-                return new Vector2(viewportPoint.x, viewportPoint.y);
-
             bool isBehindCamera = viewportPoint.z < 0;
+
+            // Set NaN for blips outside viewport when edge blips are disabled
+            if (!Main.Config.ShowEdgeBlips && isBehindCamera)
+            {
+                return new Vector2(float.NaN, float.NaN);
+            }
+
+            if (!Main.Config.ShowEdgeBlips)
+            {
+                return new Vector2(viewportPoint.x, viewportPoint.y);
+            }
+
             bool isOutside = viewportPoint.x < 0 || viewportPoint.x > 1f ||
                             viewportPoint.y < 0 || viewportPoint.y > 1f || isBehindCamera;
 

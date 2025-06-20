@@ -1,6 +1,5 @@
 ﻿using Nautilus.Json;
 using Nautilus.Options.Attributes;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ungeziefi.Better_Scanner_Blips_Remake

@@ -5,7 +5,8 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 {
     public partial class BetterScannerBlipsRemake
     {
-        private static readonly Dictionary<string, TechType> GroupingFragmentTypeCache = new Dictionary<string, TechType>();
+        private static readonly Dictionary<string, TechType> GroupingFragmentTypeCache = new();
+        private static readonly List<ResourceTrackerDatabase.ResourceInfo> filteredResourcesPool = new(256);
 
         private static void GroupResourcesToPool(
             HashSet<ResourceTrackerDatabase.ResourceInfo> resources,
@@ -76,7 +77,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                     if (otherResource == currentResource || processed.Contains(otherResource))
                         continue;
 
-                    // Onl group same TechTypes
+                    // Only group same TechTypes
                     if (currentResource.techType == otherResource.techType)
                     {
                         bool canGroup = true;
@@ -136,7 +137,8 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             HashSet<ResourceTrackerDatabase.ResourceInfo> resources,
             Vector3 playerPosition)
         {
-            var activeResources = new List<ResourceTrackerDatabase.ResourceInfo>(resources.Count);
+            // Clear pool
+            filteredResourcesPool.Clear();
 
             foreach (var resource in resources)
             {
@@ -152,10 +154,10 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                     KnownFragmentFilter.IsKnownFragment(resource.uniqueId))
                     continue;
 
-                activeResources.Add(resource);
+                filteredResourcesPool.Add(resource);
             }
 
-            return activeResources;
+            return filteredResourcesPool;
         }
 
         // Check if filtering is needed
