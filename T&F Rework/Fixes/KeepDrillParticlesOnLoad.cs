@@ -30,7 +30,7 @@ namespace Ungeziefi.Fixes
                 new CodeMatch(OpCodes.Brtrue)
             );
 
-            // Move back to before Brtrue and insert check
+            // Insert check right before the Brtrue
             matcher.Insert(
                 new CodeInstruction(OpCodes.Ldarg_0),  // Load ExosuitDrillArm instance (this)
                 Transpilers.EmitDelegate(CheckParticleSystem)

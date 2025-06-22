@@ -10,6 +10,10 @@ namespace Ungeziefi.Tweaks
 {
     [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
     [BepInDependency("com.snmodding.nautilus")]
+
+    // Incompatible plugins (GUID)
+    [BepInIncompatibility("qqqbbb.subnautica.tweaksAndFixes")]
+
     public class Main : BaseUnityPlugin
     {
         public const string PLUGIN_GUID = "Ungeziefi.Tweaks";
@@ -20,41 +24,10 @@ namespace Ungeziefi.Tweaks
         internal static new ManualLogSource Logger { get; private set; }
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
-        #region Incompatible Plugins
-        private static readonly Dictionary<string, string> IncompatiblePlugins = new Dictionary<string, string>
-        {
-            {"qqqbbb.subnautica.tweaksAndFixes", "Tweaks and Fixes"},
-            // {"plugin.guid", "Plugin Display Name"},
-        };
-
-        private bool HasIncompatiblePlugins(out string incompatiblePluginNames)
-        {
-            List<string> foundIncompatiblePlugins = new List<string>();
-
-            foreach (var plugin in IncompatiblePlugins)
-            {
-                if (Chainloader.PluginInfos.ContainsKey(plugin.Key))
-                {
-                    foundIncompatiblePlugins.Add(plugin.Value);
-                }
-            }
-
-            incompatiblePluginNames = string.Join(", ", foundIncompatiblePlugins);
-            return foundIncompatiblePlugins.Count > 0;
-        }
-        #endregion
-
         public void Awake()
         {
             Logger = base.Logger;
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
-
-            if (HasIncompatiblePlugins(out string incompatiblePluginNames))
-            {
-                Logger.LogError($"Incompatible mod(s) detected: {incompatiblePluginNames}");
-                Logger.LogError("Please remove the incompatible mod(s) to use this mod properly.");
-                return; // Prevent patch loading
-            }
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
             MiscTweaks.ApplyAllTweaks();

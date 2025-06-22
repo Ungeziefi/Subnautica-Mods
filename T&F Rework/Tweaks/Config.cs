@@ -15,6 +15,8 @@ namespace Ungeziefi.Tweaks
     [Menu("Tweaks")]
     public class Config : ConfigFile
     {
+        // T&F Tweaks
+
         [Toggle(Label = "Seamoth pushing", Tooltip = "Allows pushing the Seamoth when it's on land.")]
         public bool SeamothPushing = false;
 
@@ -26,9 +28,6 @@ namespace Ungeziefi.Tweaks
 
         [Toggle(Label = "Chair swivelling")]
         public bool ChairSwivelling = false;
-
-        [Toggle(Label = "No obstacle check when sitting", Tooltip = "Allows sitting even if there's an object in the way.")]
-        public bool NoObstacleCheckWhenSitting = false;
 
         [Toggle(Label = "Outcrops require tool", Tooltip = "Harvesting outcrops requires any tool to be equipped.")]
         public bool OutcropsRequireTool = false;
@@ -42,19 +41,8 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Plant rotation randomizer")]
         public bool PlantRotationRandomizer = false;
 
-        [Choice(Label = "No bundled batteries",
-            Tooltip = "Tools and vehicles don't include batteries.\nVanilla recipes: Cyclops, PRAWN Suit, and Repair Tool.",
-            Options = new[] { "Disabled", "Vanilla recipes", "All recipes" })]
-        public NoBundledBatteriesOption NoBundledBatteriesOption = NoBundledBatteriesOption.Disabled;
-
-        [Toggle(Label = "No floodlights on build", Tooltip = "Stops the floodlights from being defaulted to on when a Cyclops is built.")]
-        public bool NoFloodlightsOnBuild = false;
-
         [Toggle(Label = "Mobile Vehicle Bay beacon")]
         public bool MobileVehicleBayBeacon = false;
-
-        [Toggle(Label = "Escape closes PDA")]
-        public bool EscapeClosesPDA = false;
 
         [Toggle(Label = "Cyclops displays needs power", Tooltip = "Disables various screens and systems when the power is off.")]
         public bool CyclopsDisplaysNeedPower = false;
@@ -65,79 +53,94 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "No PDA delay")]
         public bool NoPDADelay = false;
 
-        [Toggle(Label = "Disable email box", Tooltip = "Disables the email box in the main menu when news are disabled.")]
-        public bool DisableEmailBox = false;
-
         [Toggle(Label = "Destructible Drooping Stingers")]
         public bool DestructibleDroopingStingers = false;
 
         [Toggle(Label = "Land_tree_01 light removal")]
         public bool Land_tree_01LightRemoval = false;
 
-        [Toggle("<color=#f1c353>Inventory transfer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool InventoryTransferDivider;
+        [Toggle(Label = "No Reefback surfacing")]
+        public bool NoReefbackSurfacing = false;
 
-        [Toggle(Label = "Enable transfer all items", Tooltip = "Hold a key to transfer all items between containers at once.")]
-        public bool EnableTransferAllItems = false;
+        [Toggle(Label = "Moveable Mobile Vehicle Bay", Tooltip = "Allows the repulsion and propulsion cannons to move the Mobile Vehicle Bay.")]
+        public bool MoveableMobileVehicleBay = false;
 
-        [Toggle(Label = "Enable transfer similar items", Tooltip = "Hold a key to transfer all items of the same type between containers at once.")]
-        public bool EnableTransferSimilarItems = false;
+        [Toggle(Label = "Creepvine unlocks Fiber Mesh", Tooltip = "Scanning Creepvine unlocks the Fiber Mesh blueprint.")]
+        public bool CreepvineUnlocksFiberMesh = false;
 
-        [Keybind(Label = "Transfer all items key", Tooltip = "Hold this key while clicking an item to transfer all items.")]
-        public KeyCode TransferAllItemsKey = KeyCode.LeftShift;
+        [Toggle(Label = "Openable chests in PRAWN", Tooltip = "The PRAWN Suit can now open supply chests.")]
+        public bool OpenableChestsInPRAWN = false;
 
-        [Keybind(Label = "Transfer similar items key", Tooltip = "Hold this key while clicking an item to transfer all items of the same type.")]
-        public KeyCode TransferSimilarItemsKey = KeyCode.LeftControl;
+        // New Tweaks
 
-        [Toggle("<color=#f1c353>Seaglide light angle</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool SeaglideAngleLightDivider;
+        [Toggle(Label = "No obstacle check when sitting", Tooltip = "Allows sitting even if there's an object in the way.")]
+        public bool NoObstacleCheckWhenSitting = false;
+
+        [Choice(Label = "No bundled batteries",
+            Tooltip = "Tools and vehicles don't include batteries.\nVanilla recipes: Cyclops, PRAWN Suit, and Repair Tool.",
+            Options = new[] { "Disabled", "Vanilla recipes", "All recipes" })]
+        public NoBundledBatteriesOption NoBundledBatteriesOption = NoBundledBatteriesOption.Disabled;
+
+        [Toggle(Label = "No floodlights on build", Tooltip = "Stops the floodlights from being defaulted to on when a Cyclops is built.")]
+        public bool NoFloodlightsOnBuild = false;
+
+        [Toggle(Label = "Escape closes PDA")]
+        public bool EscapeClosesPDA = false;
+
+        [Slider(Label = "Seaglide light angle", Tooltip = "The angle in degrees to tilt the Seaglide light beam upward (higher value) or downward (lower value).",
+            DefaultValue = 0f, Min = -10f, Max = 60f, Step = 1f, Format = "{0:0}°")]
+        public float SeaglideLightAngle = 0f;
+
+        [Slider(Label = "PRAWN Suit claw damage", DefaultValue = 50f, Min = 10f, Max = 1000f, Step = 1f)]
+        public float PRAWNSuitClawDamage = 50f;
+
+        //[Toggle("<color=#f1c353>Inventory transfer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        //public bool InventoryTransferDivider;
+
+        //[Toggle(Label = "Enable transfer all items", Tooltip = "Hold a key to transfer all items between containers at once.")]
+        //public bool EnableTransferAllItems = false;
+
+        //[Toggle(Label = "Enable transfer similar items", Tooltip = "Hold a key to transfer all items of the same type between containers at once.")]
+        //public bool EnableTransferSimilarItems = false;
+
+        //[Keybind(Label = "Transfer all items key", Tooltip = "Hold this key while clicking an item to transfer all items.")]
+        //public KeyCode TransferAllItemsKey = KeyCode.LeftShift;
+
+        //[Keybind(Label = "Transfer similar items key", Tooltip = "Hold this key while clicking an item to transfer all items of the same type.")]
+        //public KeyCode TransferSimilarItemsKey = KeyCode.LeftControl;
+
+        //[Toggle(Label = "Dim unallowed items")]
+        //public bool DimUnallowedItems = false;
+
+        [Toggle("<color=#f1c353>Torpedo cycling</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool TorpedoCyclingDivider;
 
         [Toggle(Label = "Enable feature")]
-        public bool SLAEnableFeature = false;
+        public bool TCEnableFeature = false;
 
-        [Slider(Label = "Light angle", Tooltip = "The angle in degrees to tilt the Seaglide light beam upward (higher value) or downward (lower value).",
-            DefaultValue = 30f, Min = -10f, Max = 60f, Step = 1f, Format = "{0:0}°")]
-        public float LightAngle = 30f;
+        [Keybind(Label = "Seamoth cycle torpedo key")]
+        public KeyCode SeamothCycleTorpedoKey = KeyCode.R;
 
-        [Toggle("<color=#f1c353>New commands</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool NewCommandsDivider;
+        [Keybind(Label = "PRAWN Suit cycle torpedo key")]
+        public KeyCode PRAWNSuitCycleTorpedoKey = KeyCode.R;
 
-        [Toggle(Label = "RestoreHealth")]
-        public bool RestoreHealth = false;
+        [Toggle("<color=#f1c353>Animated locker doors</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool AnimatedLockerDoorsDivider;
 
-        [Toggle(Label = "RestoreHunger")]
-        public bool RestoreHunger = false;
+        [Toggle(Label = "Animate small lockers")]
+        public bool AnimateSmallLockers = true;
 
-        [Toggle(Label = "RestoreThirst")]
-        public bool RestoreThirst = false;
+        [Toggle(Label = "Animate large lockers")]
+        public bool AnimateLargeLockers = true;
 
-        [Toggle(Label = "RestoreAll")]
-        public bool RestoreAll = false;
+        [Slider(Label = "Locker door animation duration", DefaultValue = 0.5f, Min = 0.1f, Max = 1f, Step = 0.1f, Format = "{0:0.0}s")]
+        public float LockerDoorAnimationDuration = 0.5f;
 
-        [Toggle(Label = "QQQ", Tooltip= "Quits the game without confirmation.")]
-        public bool QQQ = false;
+        [Slider(Label = "Single door opening angle", DefaultValue = 135f, Min = 15f, Max = 180f, Step = 5f, Format = "{0:0}°")]
+        public float SingleDoorOpenAngle = 135f;
 
-        [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool CreatureSizeRandomizerDivider;
-
-        [Toggle(Label = "Enable feature")]
-        public bool CSREnableFeature = false;
-
-        public List<string> CSRTargetCreatures = new List<string>
-        {
-            "CaveCrawler",
-            "LavaLarva",
-            "Bleeder",
-            "Rockgrub",
-            "Blighter",
-            "Floater"
-        };
-
-        [Slider(Label = "Minimum multiplier", DefaultValue = 0.75f, Min = 0.01f, Max = 1f, Step = 0.01f, Format = "{0:0.00}x")]
-        public float MinCreatureSize = 0.75f;
-
-        [Slider(Label = "Maximum multiplier", DefaultValue = 1.25f, Min = 1f, Max = 2f, Step = 0.01f, Format = "{0:0.00}x")]
-        public float MaxCreatureSize = 1.25f;
+        [Slider(Label = "Double door opening angle", DefaultValue = 90f, Min = 15f, Max = 135f, Step = 5f, Format = "{0:0}°")]
+        public float DoubleDoorOpenAngle = 90f;
 
         [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool MiscellaneousTweaksDivider;
@@ -171,7 +174,47 @@ namespace Ungeziefi.Tweaks
         public float DayNightCycleSpeedMultiplier = 1f;
 
         [Slider(Label = "Scanner Room speed multiplier", Tooltip = "Lower values mean faster scanning.",
-            DefaultValue = 1f, Min = 0.1f, Max = 3f, Step = 0.1f, Format = "{0:0.0}x")]
+            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}x")]
         public float ScannerRoomSpeedMultiplier = 1f;
+
+        [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool CreatureSizeRandomizerDivider;
+
+        [Toggle(Label = "Enable feature")]
+        public bool CSREnableFeature = false;
+
+        public List<string> CSRTargetCreatures = new List<string>
+        {
+            "CaveCrawler",
+            "LavaLarva",
+            "Bleeder",
+            "Rockgrub",
+            "Blighter",
+            "Floater"
+        };
+
+        [Slider(Label = "Minimum multiplier", DefaultValue = 0.75f, Min = 0.01f, Max = 1f, Step = 0.01f, Format = "{0:0.00}x")]
+        public float MinCreatureSize = 0.75f;
+
+        [Slider(Label = "Maximum multiplier", DefaultValue = 1.25f, Min = 1f, Max = 2f, Step = 0.01f, Format = "{0:0.00}x")]
+        public float MaxCreatureSize = 1.25f;
+
+        [Toggle("<color=#f1c353>New commands</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool NewCommandsDivider;
+
+        [Toggle(Label = "RestoreHealth")]
+        public bool RestoreHealth = false;
+
+        [Toggle(Label = "RestoreHunger")]
+        public bool RestoreHunger = false;
+
+        [Toggle(Label = "RestoreThirst")]
+        public bool RestoreThirst = false;
+
+        [Toggle(Label = "RestoreAll")]
+        public bool RestoreAll = false;
+
+        [Toggle(Label = "QQQ", Tooltip = "Quits the game without confirmation.")]
+        public bool QQQ = false;
     }
 }
