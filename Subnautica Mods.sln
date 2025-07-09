@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cuddlefish Renamer", "New M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Creature Healthbars", "New Mods\Creature Healthbars\Creature Healthbars.csproj", "{8A05687C-BAD6-85B9-97CD-2AA7855E3451}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Container Utilities", "New Mods\Container Utilities\Container Utilities.csproj", "{FBE22281-EDAA-02BC-A762-9256879B7F53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,10 @@ Global
 		{8A05687C-BAD6-85B9-97CD-2AA7855E3451}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A05687C-BAD6-85B9-97CD-2AA7855E3451}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A05687C-BAD6-85B9-97CD-2AA7855E3451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBE22281-EDAA-02BC-A762-9256879B7F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBE22281-EDAA-02BC-A762-9256879B7F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBE22281-EDAA-02BC-A762-9256879B7F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE22281-EDAA-02BC-A762-9256879B7F53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +154,7 @@ Global
 		{752E7E29-0029-5114-D57C-500D67757260} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{EB48D98C-EC21-FE2F-7E11-A78505D71074} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{8A05687C-BAD6-85B9-97CD-2AA7855E3451} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
+		{FBE22281-EDAA-02BC-A762-9256879B7F53} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64328EDE-8342-4276-8236-6A9D23D0BEBD}
