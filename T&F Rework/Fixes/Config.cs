@@ -141,6 +141,9 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Dead Peepers close eye LOD", Tooltip = "Fixes the Peepers' eyes in LOD distance from being open when dead.")]
         public bool DeadPeepersCloseEyeLOD = true;
 
+        [Toggle(Label = "Oxygen Pipes across sub-biomes", Tooltip = "Allows Oxygen Pipes to be placed across sub-biomes such as caves or plateaus.")]
+        public bool OxygenPipesAcrossSubBiomes = true;
+
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
 
