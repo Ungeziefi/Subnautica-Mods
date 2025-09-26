@@ -128,10 +128,10 @@ namespace Ungeziefi.Tweaks
         public bool AnimatedLockerDoorsDivider;
 
         [Toggle(Label = "Animate small lockers")]
-        public bool AnimateSmallLockers = true;
+        public bool AnimateSmallLockers = false;
 
         [Toggle(Label = "Animate large lockers")]
-        public bool AnimateLargeLockers = true;
+        public bool AnimateLargeLockers = false;
 
         [Slider(Label = "Locker door animation duration", DefaultValue = 0.5f, Min = 0.1f, Max = 1f, Step = 0.1f, Format = "{0:0.0}s")]
         public float LockerDoorAnimationDuration = 0.5f;
