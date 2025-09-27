@@ -69,7 +69,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
             }
 
             // Check for input
-            if ((Input.GetKeyDown(Main.Config.RenameKey) ||
+            if ((GameInput.GetKeyDown(Main.Config.RenameKey) ||
                 ((GameInput.GetPrimaryDevice() == GameInput.Device.Controller) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
                 && !Cursor.visible)
             {

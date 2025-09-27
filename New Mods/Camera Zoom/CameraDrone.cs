@@ -75,8 +75,8 @@ namespace Ungeziefi.Camera_Zoom
             // Handle different zoom modes
             if (Main.Config.CDSteppedZoom)
             {
-                bool zoomInPressed = Input.GetKeyDown(Main.Config.CDZoomInKey);
-                bool zoomOutPressed = Input.GetKeyDown(Main.Config.CDZoomOutKey);
+                bool zoomInPressed = GameInput.GetKeyDown(Main.Config.CDZoomInKey);
+                bool zoomOutPressed = GameInput.GetKeyDown(Main.Config.CDZoomOutKey);
 
                 ZoomUtils.HandleSteppedZoom(
                     zoomInPressed,

@@ -13,7 +13,7 @@ namespace Ungeziefi.Creature_Healthbars
         {
             if (!Main.Config.EnableFeature || !Main.Config.FreezeCreatures) return;
 
-            if (Input.GetKeyDown(Main.Config.FreezeCreaturesKey))
+            if (GameInput.GetKeyDown(Main.Config.FreezeCreaturesKey))
             {
                 freezeActive = !freezeActive;
 

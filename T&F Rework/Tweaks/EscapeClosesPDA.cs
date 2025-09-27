@@ -11,7 +11,7 @@ namespace Ungeziefi.Tweaks
         {
             if (Main.Config.EscapeClosesPDA &&
                 __instance.isInUse && __instance.isFocused && !__instance.ui.introActive &&
-                Input.GetKeyDown(KeyCode.Escape))
+                GameInput.GetKeyDown(KeyCode.Escape))
             {
                 __instance.Close();
             }

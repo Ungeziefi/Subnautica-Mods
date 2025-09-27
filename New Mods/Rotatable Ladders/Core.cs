@@ -30,7 +30,7 @@ namespace Ungeziefi.Rotatable_Ladders
                 translate: false,
                 button: primaryDevice == GameInput.Device.Controller ? GameInput.Button.AltTool : GameInput.Button.None);
 
-            if (Input.GetKeyDown(Main.Config.RotateLadderKey) ||
+            if (GameInput.GetKeyDown(Main.Config.RotateLadderKey) ||
                 ((GameInput.GetPrimaryDevice() == GameInput.Device.Controller) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
             {
                 Transform parent = __instance.transform.parent;

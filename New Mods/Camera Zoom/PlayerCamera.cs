@@ -85,7 +85,7 @@ namespace Ungeziefi.Camera_Zoom
             float zoomSpeed = isVehicle ? config.VCZoomSpeed : config.PCZoomSpeed;
 
             // Input and set original FOV
-            if (IsValidState() && (Input.GetKeyDown(primaryKey) || Input.GetKeyDown(secondaryKey)))
+            if (IsValidState() && (GameInput.GetKeyDown(primaryKey) || GameInput.GetKeyDown(secondaryKey)))
             {
                 if (!isZoomActive && !isTransitioning) originalFOV = Camera.fieldOfView;
                 isZoomActive = !isZoomActive;
