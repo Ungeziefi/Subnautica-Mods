@@ -18,9 +18,6 @@ namespace Ungeziefi.Container_Utilities
         [Toggle(Label = "All items 1x1")]
         public bool AllItems1x1 = false;
 
-        [Toggle(Label = "Allow drop in habitats", Tooltip = "Allows dropping items inside habitats.")]
-        public bool AllowDropInHabitats = false;
-
         [Toggle("<color=#f1c353>Quick transfer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool QuickTransferDivider;
 

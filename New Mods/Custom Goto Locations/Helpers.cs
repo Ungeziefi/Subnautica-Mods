@@ -9,7 +9,6 @@ namespace Ungeziefi.Custom_Goto_Locations
 {
     public partial class CustomGoto
     {
-        #region Helper Methods
         private static string GetFilterFromNotification(NotificationCenter.Notification n)
         {
             return (n.data != null && n.data.Count > 0) ? (string)n.data[0] : string.Empty;
@@ -197,6 +196,5 @@ namespace Ungeziefi.Custom_Goto_Locations
             Main.Config.CustomTeleportLocations.Add(newLocation);
             Main.SaveConfig();
         }
-        #endregion
     }
 }

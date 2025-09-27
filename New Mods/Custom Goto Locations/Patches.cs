@@ -8,7 +8,6 @@ namespace Ungeziefi.Custom_Goto_Locations
 {
     public partial class CustomGoto
     {
-        #region Harmony Patches
         [HarmonyPatch(typeof(GotoConsoleCommand), nameof(GotoConsoleCommand.HandleGotoCommand))]
         private static class GotoHandleCommandPatch
         {
@@ -88,6 +87,5 @@ namespace Ungeziefi.Custom_Goto_Locations
                 return false;
             }
         }
-        #endregion
     }
 }
