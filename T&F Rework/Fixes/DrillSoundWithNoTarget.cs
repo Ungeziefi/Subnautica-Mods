@@ -29,7 +29,7 @@ namespace Ungeziefi.Fixes
             return matcher.InstructionEnumeration();
         }
 
-        // Sound need to be stopped manually
+        // Sound needs to be stopped manually
         // When deactivated
         [HarmonyPatch(typeof(ExosuitDrillArm), "IExosuitArm.OnUseUp"), HarmonyPostfix]
         public static void IExosuitArm_OnUseUp(ExosuitDrillArm __instance)
