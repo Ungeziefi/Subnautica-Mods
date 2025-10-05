@@ -81,7 +81,7 @@ namespace Ungeziefi.Container_Utilities
             foreach (var pair in inventoryTab.inventory.items)
             {
                 TechType techType = pair.Key.item.GetTechType();
-                EquipmentType itemType = CraftData.GetEquipmentType(techType);
+                EquipmentType itemType = TechData.GetEquipmentType(techType);
 
                 // Dim incompatible items
                 if (!equipment.GetCompatibleSlot(itemType, out string _))

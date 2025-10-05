@@ -12,7 +12,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
     {
         public const string PLUGIN_GUID = "Ungeziefi.Cuddlefish_Renamer";
         public const string PLUGIN_NAME = "Cuddlefish Renamer";
-        public const string PLUGIN_VERSION = "1.2.0";
+        public const string PLUGIN_VERSION = "1.2.1";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }

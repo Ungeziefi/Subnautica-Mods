@@ -43,5 +43,8 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
 
         [Toggle(Label = "Stabilization requires power")]
         public bool StabilizationRequiresPower = true;
+
+        [Toggle(Label = "Star Fox sound", Tooltip = "Plays the Star Fox \"Do a barrel roll\" when pressing down the roll keys.")]
+        public bool StarFoxSound = false;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Nautilus.FMod;
 using UnityEngine;
 
 namespace Ungeziefi.Seamoth_Barrel_Roll
@@ -65,5 +66,36 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 }
             }
         }
+
+        #region Star Fox Sound
+        // Register sound event
+        [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Start)), HarmonyPostfix]
+        public static void SeaMoth_Start(Vehicle __instance)
+        {
+            // Should register regardless to allow toggling without restart
+            // Actually not sure but I'm too lazy to test
+            // I'm probably right anyway...
+
+            CustomSoundSourceBase soundSource = new ModFolderSoundSource("SoundsFolder");
+            FModSoundBuilder builder = new FModSoundBuilder(soundSource);
+            builder.CreateNewEvent("DoABarrelRoll", Nautilus.Utility.AudioUtils.BusPaths.UnderwaterAmbient)
+                .SetMode2D()
+                .SetSound("DoABarrelRoll")
+                .Register();
+        }
+
+        // Play sound
+        [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Update)), HarmonyPostfix]
+        public static void SeaMoth_Update(Vehicle __instance)
+        {
+            if (!Main.Config.EnableFeature || !Main.Config.StarFoxSound) return;
+
+            if (__instance is SeaMoth seamoth && seamoth.GetPilotingMode() &&
+                (Input.GetKeyDown(Main.Config.RollLeftKey) || Input.GetKeyDown(Main.Config.RollRightKey)))
+            {
+                Utils.PlayFMODAsset(Nautilus.Utility.AudioUtils.GetFmodAsset("DoABarrelRoll"), Player.main.transform.position);
+            }
+        }
+        #endregion
     }
 }

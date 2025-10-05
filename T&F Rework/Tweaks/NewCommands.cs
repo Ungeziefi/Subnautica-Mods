@@ -20,6 +20,7 @@ namespace Ungeziefi.Tweaks
             }
         }
 
+        [System.Obsolete]
         private void Awake()
         {
             string[] commands = {

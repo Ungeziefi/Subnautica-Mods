@@ -1,6 +1,3 @@
-<p align="center"><span style="color:red; font-size:2em; font-weight:bold;">ONLY COMPATIBLE WITH THE STEAM 2023 BRANCH</span></p>
-
-
 ### T&F Rework
 A rework of [Tweaks and Fixes](https://www.nexusmods.com/subnautica/mods/722), full documentation in the [Docs folder](https://github.com/Ungeziefi/Subnautica-Mods/tree/main/T%26F%20Rework/Docs) and more information in the respective Nexus Mods description.
 - [Fixes](https://www.nexusmods.com/subnautica/mods/2059)

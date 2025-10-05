@@ -55,6 +55,7 @@ namespace Ungeziefi.Custom_Goto_Locations
         }
 
         // Register new commands on CustomGotoManager Awake
+        [System.Obsolete]
         private void Awake()
         {
             string[] commands = {

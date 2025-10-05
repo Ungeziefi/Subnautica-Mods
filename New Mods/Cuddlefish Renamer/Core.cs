@@ -47,9 +47,8 @@ namespace Ungeziefi.Cuddlefish_Renamer
                     HandReticle.main.SetText(HandReticle.TextType.Hand, $"Play With {savedName}", false, GameInput.Button.LeftHand);
                 }
             }
-
-            var primaryDevice = GameInput.GetPrimaryDevice();
-            string renameText = primaryDevice == GameInput.Device.Controller ? "Press to rename" : $"Press {Main.Config.RenameKey} to rename";
+                
+            string renameText = GameInput.IsPrimaryDeviceGamepad() ? "Press to rename" : $"Press {Main.Config.RenameKey} to rename";
 
             // Add rename prompt
             var handReticle = HandReticle.main;
@@ -64,13 +63,13 @@ namespace Ungeziefi.Cuddlefish_Renamer
                         HandReticle.TextType.HandSubscript,
                         newText,
                         false,
-                        primaryDevice == GameInput.Device.Controller ? GameInput.Button.AltTool : GameInput.Button.None);
+                        GameInput.IsPrimaryDeviceGamepad() ? GameInput.Button.AltTool : GameInput.Button.None);
                 }
             }
 
             // Check for input
-            if ((GameInput.GetKeyDown(Main.Config.RenameKey) ||
-                ((GameInput.GetPrimaryDevice() == GameInput.Device.Controller) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
+            if ((Input.GetKeyDown(Main.Config.RenameKey) ||
+                ((GameInput.IsPrimaryDeviceGamepad()) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
                 && !Cursor.visible)
             {
                 CuteFish cuddlefish = __instance.cuteFish;

@@ -20,7 +20,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         {
             if (!___visible) return;
 
-            if (GameInput.GetKeyDown(Main.Config.ToggleBlipsKey) && !Cursor.visible && !IsInHiddenLocation())
+            if (Input.GetKeyDown(Main.Config.ToggleBlipsKey) && !Cursor.visible && !IsInHiddenLocation())
             {
                 blipsEnabled = !blipsEnabled;
                 if (Main.Config.ShowBlipToggleMessage)

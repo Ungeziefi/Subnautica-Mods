@@ -22,16 +22,15 @@ namespace Ungeziefi.Rotatable_Ladders
             bool isHoldingItem = Inventory.main.GetHeldTool() != null;
             if (Main.Config.EmptyHandsOnly && isHoldingItem) return;
 
-            var primaryDevice = GameInput.GetPrimaryDevice();
-            var rotateText = primaryDevice == GameInput.Device.Controller ? "Press to rotate" : $"Press {Main.Config.RotateLadderKey} to rotate";
+            var rotateText = GameInput.IsPrimaryDeviceGamepad() ? "Press to rotate" : $"Press {Main.Config.RotateLadderKey} to rotate";
 
             HandReticle.main.SetText(type: HandReticle.TextType.HandSubscript,
                 text: rotateText,
                 translate: false,
-                button: primaryDevice == GameInput.Device.Controller ? GameInput.Button.AltTool : GameInput.Button.None);
+                button: GameInput.IsPrimaryDeviceGamepad() ? GameInput.Button.AltTool : GameInput.Button.None);
 
-            if (GameInput.GetKeyDown(Main.Config.RotateLadderKey) ||
-                ((GameInput.GetPrimaryDevice() == GameInput.Device.Controller) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
+            if (Input.GetKeyDown(Main.Config.RotateLadderKey) ||
+                ((GameInput.IsPrimaryDeviceGamepad()) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
             {
                 Transform parent = __instance.transform.parent;
                 if (parent == null) return;

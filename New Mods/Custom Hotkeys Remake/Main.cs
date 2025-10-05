@@ -12,7 +12,7 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
     {
         public const string PLUGIN_GUID = "Ungeziefi.Custom_Hotkeys_Remake";
         public const string PLUGIN_NAME = "Custom Hotkeys Remake";
-        public const string PLUGIN_VERSION = "1.1.0";
+        public const string PLUGIN_VERSION = "1.1.1";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }

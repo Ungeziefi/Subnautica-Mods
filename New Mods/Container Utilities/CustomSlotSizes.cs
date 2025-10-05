@@ -57,8 +57,8 @@ namespace Ungeziefi.Container_Utilities
             initialized = false;
         }
 
-        [HarmonyPatch(typeof(CraftData), nameof(CraftData.GetItemSize)), HarmonyPrefix]
-        public static bool CraftData_GetItemSize(TechType techType, ref Vector2int __result)
+        [HarmonyPatch(typeof(TechData), nameof(TechData.GetItemSize)), HarmonyPrefix]
+        public static bool TechData_GetItemSize(TechType techType, ref Vector2int __result)
         {
             InitializeFromConfig();
 

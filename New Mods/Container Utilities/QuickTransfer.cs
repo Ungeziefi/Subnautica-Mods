@@ -91,11 +91,11 @@ namespace Ungeziefi.Container_Utilities
         [HarmonyPatch(typeof(GamepadInputModule), nameof(GamepadInputModule.OnUpdate)), HarmonyPostfix]
         public static void GamepadInputModule_OnUpdate(GamepadInputModule __instance)
         {
-            if (GameInput.GetKeyDown(Main.Config.TransferSimilarItemsKey) && Main.Config.EnableTransferSimilarItems)
+            if (Input.GetKeyDown(Main.Config.TransferSimilarItemsKey) && Main.Config.EnableTransferSimilarItems)
             {
                 MoveSameItems(selectedItem);
             }
-            else if (GameInput.GetKeyDown(Main.Config.TransferAllItemsKey) && Main.Config.EnableTransferAllItems)
+            else if (Input.GetKeyDown(Main.Config.TransferAllItemsKey) && Main.Config.EnableTransferAllItems)
             {
                 MoveAllItems(selectedItem);
             }

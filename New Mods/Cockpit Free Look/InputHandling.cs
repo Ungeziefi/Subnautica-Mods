@@ -26,8 +26,8 @@ namespace Ungeziefi.Cockpit_Free_Look
             if (!isValidVehicle) return;
 
             // Check for key press
-            bool isAnyKeyPressed = GameInput.GetKey(Main.Config.FreeLookKey) ||
-                                 GameInput.GetKey(Main.Config.SecondaryFreeLookKey);
+            bool isAnyKeyPressed = Input.GetKey(Main.Config.FreeLookKey) ||
+                                 Input.GetKey(Main.Config.SecondaryFreeLookKey);
 
             if (Main.Config.HoldKeyMode)
             {

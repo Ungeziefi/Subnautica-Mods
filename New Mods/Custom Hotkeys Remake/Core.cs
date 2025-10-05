@@ -69,7 +69,7 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
             foreach (var key in keys)
             {
                 if (!Input.GetKey(key)) return false;
-                if (GameInput.GetKeyDown(key)) hasKeyDown = true;
+                if (Input.GetKeyDown(key)) hasKeyDown = true;
             }
             return hasKeyDown;
         }
