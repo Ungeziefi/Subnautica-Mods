@@ -94,6 +94,12 @@ namespace Ungeziefi.Tweaks
         [Slider(Label = "PRAWN Suit claw damage", DefaultValue = 50f, Min = 10f, Max = 1000f, Step = 1f)]
         public float PRAWNSuitClawDamage = 50f;
 
+        [Toggle(Label = "PRAWN Suit light follows camera")]
+        public bool PRAWNSuitLightFollowsCamera = false;
+
+        [Toggle(Label = "PRAWN Suit arms need power")]
+        public bool PRAWNSuitArmsNeedPower = false;
+
         //[Toggle("<color=#f1c353>Inventory transfer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         //public bool InventoryTransferDivider;
 
@@ -216,5 +222,14 @@ namespace Ungeziefi.Tweaks
 
         [Toggle(Label = "QQQ", Tooltip = "Quits the game without confirmation.")]
         public bool QQQ = false;
+
+        [Toggle("<color=#f1c353>Toggle PRAWN Suit lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool TogglePRAWNSuitLightsDivider;
+
+        [Toggle(Label = "Enable feature")]
+        public bool TPSLEnableFeature = false;
+
+        [Keybind(Label = "PRAWN Suit lights toggle key")]
+        public KeyCode PRAWNSuitLightsToggleKey = KeyCode.L;
     }
 }

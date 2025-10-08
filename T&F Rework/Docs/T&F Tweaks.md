@@ -24,6 +24,9 @@
 - **Openable chests in PRAWN**: The PRAWN Suit can now open supply chests.
 - **Manual torpedo selection**.
 - **Animated locker doors**.
+- **PRAWN Suit light toggle**.
+- **PRAWN Suit light follows camera**.
+- **PRAWN Suit arms need power**. (Undocumented but found in the code.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -36,7 +39,6 @@
 
 ### <span style="color: orange;">To-Do</span>
 - **Lighter Seamoth collisions**: Reduces the mass of Spadefish and Shuttlebug to prevent them from damaging your Seamoth upon collision.
-- **PRAWN Suit light toggle**.
 - **Base lights toggle**.
 - **Passive engine overheating**: An overheated Cyclops engine can catch fire even outside of piloting.
 - **Geysers fish cooking**: Lava geysers cook dead fish.
@@ -75,7 +77,6 @@
 - "Sulfur Plant now can't be moved with propulsion or repulsion cannon."
 - "Reduced size of alien containment hatch collision box so you dont get stuck when using ladder next to it."
 - "Removed collision box from railing you get in your multipurpose room when you build a hatch or a corridor."
-- "Prawn suit lights now follow the camera when you look up or down."
 - "Gaspods attracted by grav trap do not explode."
 - "Resources from harvesting nodes now don't fade in when you break nodes."
 - "Fish you release from your hand now does not fade in."
