@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +14,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             bool isKnownFragment = false;
 
             // Always start enabled to ignore the dot product check in uGUI_ResourceTracker.UpdateBlips
-            blip.gameObject.SetActive(true); 
+            blip.gameObject.SetActive(true);
 
             // Disable known fragments if configured
             if (isFragment && (Main.Config.HideKnownFragmentBlips || Main.Config.AppendKnown))
@@ -36,7 +35,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                     blip.gameObject.GetComponent<CanvasRenderer>()
                 );
                 blipComponents[blip.gameObject] = components;
-            }   
+            }
 
             // Calculate screen position
             Vector3 viewportPoint = camera.WorldToViewportPoint(resource.position);
@@ -59,7 +58,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             // Text visibility
             bool textVisible = Main.Config.TextVisibility != "Hide all" &&
                 (!Main.Config.LimitTextVisibilityByDistance || distance <= Main.Config.TextVisibilityDistance);
-                
+
             if (textVisible)
             {
                 UpdateBlipText(blip, resource, distance, count, isFragment, isKnownFragment);
@@ -94,7 +93,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                             viewportPoint.y < 0 || viewportPoint.y > 1f || isBehindCamera;
 
             string resourceId = resource?.uniqueId ?? "";
-            
+
             return isOutside ? CalculateEdgePosition(viewportPoint, isBehindCamera, resourceId)
                               : new Vector2(viewportPoint.x, viewportPoint.y);
         }

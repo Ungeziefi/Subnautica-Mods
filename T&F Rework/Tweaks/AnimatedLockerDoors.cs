@@ -10,7 +10,7 @@ namespace Ungeziefi.Tweaks
     {
         private static FMODAsset openSound;
         private static FMODAsset closeSound;
-        
+
         private const string SmallLockerDoorPath = "model/submarine_locker_02/submarine_locker_02_door";
         private const string LargeLockerLeftDoorPath = "model/submarine_Storage_locker_big_01/submarine_Storage_locker_big_01_hinges_L";
         private const string LargeLockerRightDoorPath = "model/submarine_Storage_locker_big_01/submarine_Storage_locker_big_01_hinges_R";
@@ -72,7 +72,7 @@ namespace Ungeziefi.Tweaks
                     yield return null;
                 }
             }
-            
+
             private void ReparentLabel(Transform door)
             {
                 var cl = door.GetComponentInChildren<ColoredLabel>();
@@ -202,7 +202,7 @@ namespace Ungeziefi.Tweaks
                 if (!Main.Config.AnimateSmallLockers && !Main.Config.AnimateLargeLockers)
                     return;
 
-                var techTag = instance.GetComponent<TechTag>() ?? 
+                var techTag = instance.GetComponent<TechTag>() ??
                               instance.transform.parent.GetComponent<TechTag>();
                 if (techTag == null) return;
 

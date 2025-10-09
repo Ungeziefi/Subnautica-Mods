@@ -9,7 +9,7 @@ namespace Ungeziefi.Tweaks
         public static void PDAScanner_Initialize()
         {
             if (!Main.Config.CreepvineUnlocksFiberMesh) return;
-            
+
             if (PDAScanner.mapping.ContainsKey(TechType.Creepvine))
             {
                 PDAScanner.mapping[TechType.Creepvine].blueprint = TechType.FiberMesh;

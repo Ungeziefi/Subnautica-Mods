@@ -10,9 +10,9 @@ namespace Ungeziefi.Fixes
         {
             // "Harmony non-ref patch parameter position.x modified. This assignment have no effect."
             // Safe to ignore because we're only reading
-            #pragma warning disable Harmony003
+#pragma warning disable Harmony003
             return $"{position.x},{position.y},{position.z}";
-            #pragma warning restore Harmony003
+#pragma warning restore Harmony003
         }
 
         [HarmonyPatch(nameof(BulkheadDoor.OnHandClick)), HarmonyPostfix]

@@ -24,8 +24,8 @@
 - **Openable chests in PRAWN**: The PRAWN Suit can now open supply chests.
 - **Manual torpedo selection**.
 - **Animated locker doors**.
-- **PRAWN Suit light toggle**.
-- **PRAWN Suit light follows camera**.
+- **PRAWN Suit lights toggle**.
+- **PRAWN Suit lights follows camera**.
 - **PRAWN Suit arms need power**. (Undocumented but found in the code.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.

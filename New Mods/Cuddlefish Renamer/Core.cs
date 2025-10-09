@@ -40,14 +40,14 @@ namespace Ungeziefi.Cuddlefish_Renamer
             if (Main.Config.CustomPlayPrompt)
             {
                 string cuddlefishId = GetCuddlefishId(__instance.cuteFish);
-                if (!string.IsNullOrEmpty(cuddlefishId) && 
-                    Main.SaveData.CuddlefishNames.TryGetValue(cuddlefishId, out string savedName) && 
+                if (!string.IsNullOrEmpty(cuddlefishId) &&
+                    Main.SaveData.CuddlefishNames.TryGetValue(cuddlefishId, out string savedName) &&
                     !string.IsNullOrEmpty(savedName))
                 {
                     HandReticle.main.SetText(HandReticle.TextType.Hand, $"Play With {savedName}", false, GameInput.Button.LeftHand);
                 }
             }
-                
+
             string renameText = GameInput.IsPrimaryDeviceGamepad() ? "Press to rename" : $"Press {Main.Config.RenameKey} to rename";
 
             // Add rename prompt

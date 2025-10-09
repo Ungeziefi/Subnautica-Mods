@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using UnityEngine;
 using TeleportLocation = Ungeziefi.Custom_Goto_Locations.Config.TeleportLocation;
 

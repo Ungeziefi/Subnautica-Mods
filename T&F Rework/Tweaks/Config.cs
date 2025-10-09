@@ -94,8 +94,8 @@ namespace Ungeziefi.Tweaks
         [Slider(Label = "PRAWN Suit claw damage", DefaultValue = 50f, Min = 10f, Max = 1000f, Step = 1f)]
         public float PRAWNSuitClawDamage = 50f;
 
-        [Toggle(Label = "PRAWN Suit light follows camera")]
-        public bool PRAWNSuitLightFollowsCamera = false;
+        [Toggle(Label = "PRAWN Suit lights follow camera")]
+        public bool PRAWNSuitLightsFollowCamera = false;
 
         [Toggle(Label = "PRAWN Suit arms need power")]
         public bool PRAWNSuitArmsNeedPower = false;

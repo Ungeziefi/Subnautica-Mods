@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using BepInEx;
-using BepInEx.Bootstrap;
+﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
+using System.Reflection;
 
 namespace Ungeziefi.Tweaks
 {
@@ -23,6 +21,7 @@ namespace Ungeziefi.Tweaks
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static SaveData SaveData { get; private set; }
 
         public void Awake()
         {
@@ -31,6 +30,7 @@ namespace Ungeziefi.Tweaks
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
             MiscTweaks.ApplyAllTweaks();
+            SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();
         }
     }
 }

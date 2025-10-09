@@ -1,9 +1,7 @@
 ﻿using BepInEx;
-using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace Ungeziefi.Fixes
@@ -29,7 +27,7 @@ namespace Ungeziefi.Fixes
         {
             Logger = base.Logger;
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
-            
+
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
             MiscFixes.ApplyAllFixes();
             SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();

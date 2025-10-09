@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using UnityEngine;
-using System.Collections;
 
 namespace Ungeziefi.Camera_Zoom
 {
