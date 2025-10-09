@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿// To-Do: Fix not loading saved data on fresh game start
+
+using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Tweaks
@@ -69,7 +71,7 @@ namespace Ungeziefi.Tweaks
             }
         }
 
-        // TO-DO: Fix not loading saved data on fresh game start
+        // Load state on start
         [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.Start)), HarmonyPostfix]
         public static void Exosuit_Start(Exosuit __instance)
         {
