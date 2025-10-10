@@ -39,7 +39,6 @@ namespace Ungeziefi.Drillable_Scan_Remake
 
             if (key.IndexOf("drillable", StringComparison.OrdinalIgnoreCase) >= 0)
             {
-                Main.Logger.LogInfo($"Found {key}");
                 __result += " (Drillable)";
             }
         }
