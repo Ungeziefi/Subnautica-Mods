@@ -1,6 +1,6 @@
-﻿using Nautilus.Handlers;
-using System;
+﻿using System;
 using System.Reflection;
+using Nautilus.Handlers;
 
 namespace Ungeziefi.Tweaks
 {

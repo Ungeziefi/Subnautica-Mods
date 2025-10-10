@@ -1,7 +1,7 @@
-﻿using BepInEx;
+﻿using System.Reflection;
+using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using System.Reflection;
 
 namespace Ungeziefi.Anisotropic_Fix
 {

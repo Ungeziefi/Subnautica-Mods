@@ -1,6 +1,6 @@
-using HarmonyLib;
 using System;
 using System.Linq;
+using HarmonyLib;
 using TeleportLocation = Ungeziefi.Custom_Goto_Locations.Config.TeleportLocation;
 
 namespace Ungeziefi.Custom_Goto_Locations

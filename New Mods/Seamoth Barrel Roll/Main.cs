@@ -1,8 +1,8 @@
-﻿using BepInEx;
+﻿using System.Reflection;
+using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
-using System.Reflection;
 
 namespace Ungeziefi.Seamoth_Barrel_Roll
 {

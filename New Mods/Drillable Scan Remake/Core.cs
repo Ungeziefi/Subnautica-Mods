@@ -1,8 +1,8 @@
 ﻿// To-Do: Fix Kyanite
 
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using HarmonyLib;
 
 namespace Ungeziefi.Drillable_Scan_Remake
 {

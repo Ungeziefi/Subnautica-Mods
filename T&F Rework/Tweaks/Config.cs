@@ -1,6 +1,6 @@
-﻿using Nautilus.Json;
+﻿using System.Collections.Generic;
+using Nautilus.Json;
 using Nautilus.Options.Attributes;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ungeziefi.Tweaks

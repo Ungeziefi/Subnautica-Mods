@@ -1,5 +1,5 @@
-﻿using HarmonyLib;
-using System;
+﻿using System;
+using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Fixes

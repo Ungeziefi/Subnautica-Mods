@@ -1,6 +1,6 @@
-﻿using Nautilus.Json;
+﻿using System;
+using Nautilus.Json;
 using Nautilus.Options.Attributes;
-using System;
 using UnityEngine;
 
 namespace Ungeziefi.Creature_Healthbars
