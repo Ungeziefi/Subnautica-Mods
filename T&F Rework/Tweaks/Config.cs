@@ -100,24 +100,6 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "PRAWN Suit arms need power")]
         public bool PRAWNSuitArmsNeedPower = false;
 
-        //[Toggle("<color=#f1c353>Inventory transfer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        //public bool InventoryTransferDivider;
-
-        //[Toggle(Label = "Enable transfer all items", Tooltip = "Hold a key to transfer all items between containers at once.")]
-        //public bool EnableTransferAllItems = false;
-
-        //[Toggle(Label = "Enable transfer similar items", Tooltip = "Hold a key to transfer all items of the same type between containers at once.")]
-        //public bool EnableTransferSimilarItems = false;
-
-        //[Keybind(Label = "Transfer all items key", Tooltip = "Hold this key while clicking an item to transfer all items.")]
-        //public KeyCode TransferAllItemsKey = KeyCode.LeftShift;
-
-        //[Keybind(Label = "Transfer similar items key", Tooltip = "Hold this key while clicking an item to transfer all items of the same type.")]
-        //public KeyCode TransferSimilarItemsKey = KeyCode.LeftControl;
-
-        //[Toggle(Label = "Dim unallowed items")]
-        //public bool DimUnallowedItems = false;
-
         [Toggle("<color=#f1c353>Torpedo cycling</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TorpedoCyclingDivider;
 
@@ -223,13 +205,13 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "QQQ", Tooltip = "Quits the game without confirmation.")]
         public bool QQQ = false;
 
-        [Toggle("<color=#f1c353>Toggle PRAWN Suit lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool TogglePRAWNSuitLightsDivider;
+        //[Toggle("<color=#f1c353>Toggle PRAWN Suit lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        //public bool TogglePRAWNSuitLightsDivider;
 
-        [Toggle(Label = "Enable feature")]
-        public bool TPSLEnableFeature = false;
+        //[Toggle(Label = "Enable feature")]
+        //public bool TPSLEnableFeature = false;
 
-        [Keybind(Label = "PRAWN Suit lights toggle key")]
-        public KeyCode PRAWNSuitLightsToggleKey = KeyCode.L;
+        //[Keybind(Label = "PRAWN Suit lights toggle key")]
+        //public KeyCode PRAWNSuitLightsToggleKey = KeyCode.L;
     }
 }

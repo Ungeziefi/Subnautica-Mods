@@ -13,11 +13,6 @@
 - **No PDA delay**. (Better compatibility by not using bool Prefix.)
 - **Destructible Drooping Stingers**.
 - **Land_tree_01 light removal**.
-<!--
-**Transfer all items**: Hold a key to transfer all items between containers at once.
-- **Transfer all similar items**: Hold a key to transfer all items of the same type between containers at once.
-- **Dim unallowed items**.
--->
 - **No Reefback surfacing**: Prevents Reefbacks from swimming to the surface.
 - **Moveable Mobile Vehicle Bay**: Allows the repulsion and propulsion cannons to move the Mobile Vehicle Bay.
 - **Creepvine unlocks Fiber Mesh**: Scanning Creepvine unlocks the Fiber Mesh.
@@ -92,9 +87,9 @@
 - "You can light flare in your hand without throwing it." ([Flare Repair (BepInEx)](https://www.nexusmods.com/subnautica/mods/452) already does that and more.)
 - "When in main menu you can use mouse wheel to select next or previous savegame slot." (Adding it without keyboard support doesn't make sense, you'd still need to click with the mouse.)
 - Main menu email box toggle. (Undocumented but found in the code. (You can use [Minimal Main Menu](https://www.nexusmods.com/subnautica/mods/2319) instead.)
-- "Key bind to transfer all items from a container." <!-- ([Container Utilities](https://www.nexusmods.com/subnautica/mods/x) already does that and more.) -->
-- "Key bind to to transfer all items of the same type from a container." <!-- ([Container Utilities](https://www.nexusmods.com/subnautica/mods/x) already does that and more.) -->
-- "Now when you open a container that allows to add only certain types of items, you can easily see those items in your inventory." <!-- ([Container Utilities](https://www.nexusmods.com/subnautica/mods/x) already does that and more.) -->
+- "Key bind to transfer all items from a container." ([Container Utilities](https://www.nexusmods.com/subnautica/mods/x) already does that and more.)
+- "Key bind to to transfer all items of the same type from a container." ([Container Utilities](https://www.nexusmods.com/subnautica/mods/x) already does that and more.)
+- "Now when you open a container that allows to add only certain types of items, you can easily see those items in your inventory." ([Container Utilities](https://www.nexusmods.com/subnautica/mods/x) already does that and more.)
 
 ---
 
