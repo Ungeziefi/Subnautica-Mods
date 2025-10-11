@@ -22,6 +22,8 @@
 - **PRAWN Suit lights toggle**.
 - **PRAWN Suit lights follows camera**.
 - **PRAWN Suit arms need power**. (Undocumented but found in the code.)
+- **Passive engine overheating**: The Cyclops engine can now overheat even when the throttle is not applied. (Doesn't rework the whole system like T&F does. Better compatibility by not using bool Prefix.)
+- **Geysers push objects**.
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -33,11 +35,7 @@
 ---
 
 ### <span style="color: orange;">To-Do</span>
-- **Lighter Seamoth collisions**: Reduces the mass of Spadefish and Shuttlebug to prevent them from damaging your Seamoth upon collision.
 - **Base lights toggle**.
-- **Passive engine overheating**: An overheated Cyclops engine can catch fire even outside of piloting.
-- **Geysers fish cooking**: Lava geysers cook dead fish.
-- **Geysers push objects**.
 - **Improved collision logic**: Improves the vehicle collision code.
 - **No rotten food value**: Removes food value from rotten cooked fish.
 - **Torpedo launcher creature decoy**: Allows the Seamoth and PRAWN Suit to launch Creature Decoys.
@@ -58,6 +56,7 @@
 - "Key bind to select next or previous PDA tab."
 - "Quickslot cycle key."
 - "Brain coral now spawns 1 bubble instead of 3 but it spawns them 3 times more often."
+- "Reduced mass of spadefish and shuttlebug so they do not damage your seamoth when colliding with it."
 - "Hull reinforcement module now reduces any physical damage, not just damage from collisions. First installed hull reinforcement module reduces incoming damage by 30%, second one by another 20%, third one by another 10%."
 - "When your seamoth or prawn suit gets destroyed, items stored in it will drop."
 - "New storage UI system. Now you don't have to target certain part of a container to rename it."
@@ -83,6 +82,7 @@
 #### Vanilla feature
 - "When in main menu you can press 'escape' key to close options menu."
 - "Reefbacks now avoid your life pod." (They already have the AvoidObstacles component, so they should avoid it.)
+- "Lava geysers now cook dead fish." (Geyser.OnTriggerStay already applies Fire damage.)
 #### Other Reasons
 - "You can light flare in your hand without throwing it." ([Flare Repair (BepInEx)](https://www.nexusmods.com/subnautica/mods/452) already does that and more.)
 - "When in main menu you can use mouse wheel to select next or previous savegame slot." (Adding it without keyboard support doesn't make sense, you'd still need to click with the mouse.)

@@ -100,6 +100,9 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "PRAWN Suit arms need power")]
         public bool PRAWNSuitArmsNeedPower = false;
 
+        [Toggle(Label = "Passive engine overheating", Tooltip = "The Cyclops engine can now overheat even when the throttle is not applied.")]
+        public bool PassiveEngineOverheating = false;
+
         [Toggle("<color=#f1c353>Torpedo cycling</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TorpedoCyclingDivider;
 
@@ -213,5 +216,16 @@ namespace Ungeziefi.Tweaks
 
         //[Keybind(Label = "PRAWN Suit lights toggle key")]
         //public KeyCode PRAWNSuitLightsToggleKey = KeyCode.L;
+
+
+        [Toggle("<color=#f1c353>Geysers push objects</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool GeysersPushObjectsDivider;
+
+        [Toggle(Label = "Geysers push objects")]
+        public bool GPOEnableFeature = false;
+
+        [Slider(Label = "Eruption force", Tooltip = "The force applied to objects during geyser eruptions. Higher values push objects farther.",
+            DefaultValue = 50f, Min = 0f, Max = 200f, Step = 5f)]
+        public float GeyserEruptionForce = 50f;
     }
 }
