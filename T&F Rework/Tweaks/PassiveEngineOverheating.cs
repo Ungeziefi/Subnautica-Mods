@@ -26,11 +26,6 @@ namespace Ungeziefi.Tweaks
             matcher.SetOpcodeAndAdvance(OpCodes.Nop);
             matcher.SetOpcodeAndAdvance(OpCodes.Nop);
 
-            foreach (var item in matcher.InstructionEnumeration())
-            {
-                Main.Logger.LogInfo($"{item.opcode} {item.operand}");
-            }
-
             return matcher.InstructionEnumeration();
         }
     }
