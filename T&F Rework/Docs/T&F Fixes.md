@@ -38,6 +38,7 @@
 - **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in. (Improved by making the distance configurable.)
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
 - **Dead Peepers closed eyes**: Fixes the Peepers' eyes in LOD distance from being open when dead.
+- **No Geyser safe spot**: Extends the Geysers' capsule collider vertically, removing the safe spot at the bottom. AFAIK, this becomes a problem only outside of vanilla, for instance when using the "Geysers cook fish" or "Geysers push objects" feature in [Tweaks](https://www.nexusmods.com/subnautica/mods/x), or anything similar in other mods dealing with Geysers. (Undocumented but found in the code.)
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.
@@ -60,7 +61,6 @@
 - "Coffee vending machine now spawns coffee properly." (Probably fixed by Living Large.)
 - "After reloading 1st person model was used for waterproof lockers that were not in inventory."
 - "When you damaged a creature with knife 2 instances of damage particle effect spawned."
-- "Remove safe spot at bottom of geyser." (Undocumented but found in the code.)
 - "Light on top of cyclops cabin now works."
 #### Vanilla feature
 - "Eggs in your AC now disappear when they hatch."

@@ -144,6 +144,9 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Oxygen Pipes across sub-biomes", Tooltip = "Allows Oxygen Pipes to be placed across sub-biomes such as caves or plateaus.")]
         public bool OxygenPipesAcrossSubBiomes = true;
 
+        [Toggle(Label = "No Geyser safe spot", Tooltip = "Extends the Geysers' capsule collider vertically, removing the safe spot at the bottom.")]
+        public bool NoGeyserSafeSpot = true;
+
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
 
