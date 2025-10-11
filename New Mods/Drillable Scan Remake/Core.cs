@@ -1,4 +1,4 @@
-﻿// To-Do: Fix Kyanite
+﻿// To-Do: Fix Kyanite and Language patching
 
 using System;
 using System.Collections.Generic;
@@ -31,17 +31,17 @@ namespace Ungeziefi.Drillable_Scan_Remake
         };
 
         // Append "Drillable"
-        [HarmonyPatch(typeof(Language), nameof(Language.Get)), HarmonyPostfix]
-        private static void Language_Get(ref string __result, string key)
-        {
-            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(__result))
-                return;
+        //[HarmonyPatch(typeof(Language), nameof(Language.Get)), HarmonyPostfix]
+        //private static void Language_Get(ref string __result, string key)
+        //{
+        //    if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(__result))
+        //        return;
 
-            if (key.IndexOf("drillable", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
-                __result += " (Drillable)";
-            }
-        }
+        //    if (key.IndexOf("drillable", StringComparison.OrdinalIgnoreCase) >= 0)
+        //    {
+        //        __result += " (Drillable)";
+        //    }
+        //}
 
         // Override TechType
         [HarmonyPatch(typeof(ResourceTracker), nameof(ResourceTracker.Start)), HarmonyPrefix]
