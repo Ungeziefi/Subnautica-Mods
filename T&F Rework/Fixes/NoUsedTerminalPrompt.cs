@@ -10,11 +10,15 @@ namespace Ungeziefi.Fixes
         {
             if (!Main.Config.NoUsedTerminalPrompt) return true;
 
-            // Skip hover text if used
-            var Terminal = __instance.GetComponent<PrecursorComputerTerminal>();
-            if (Terminal && Terminal.used) return false;
+            // Precursor terminal already used
+            var precursorTerminal = __instance.GetComponent<PrecursorComputerTerminal>();
+            if (precursorTerminal?.used == true) return false;
 
-            // Allow hover text if not used
+            // Generic console already used
+            var genericConsole = __instance.GetComponent<GenericConsole>();
+            if (genericConsole?.gotUsed == true) return false;
+
+            // Not used yet, keep hover prompt
             return true;
         }
     }

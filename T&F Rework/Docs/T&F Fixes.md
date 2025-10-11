@@ -18,7 +18,7 @@
 - **Coffee drinking sound**: Changes the consume sound of coffee from eating to drinking.
 - **Drill sound with no target**: Prevents the drill sounds from stopping when nothing is being drilled. (Better compatibility by not using bool Prefix.)
 - **Keep drill particles on load**: Fixes the missing drilling particles when drilling directly after loading and while the drill was already pointed at the deposit. (Better compatibility by not using bool Prefix.)
-- **No used Data Box light**. (Improved by picking the closest light instead of the first light it finds within range.)
+- **No used Data Box light**. (Improved by directly disabling DataboxLightContainer instead of scanning the player's proximity.)
 - **No Seamoth drip particles**.
 - **No used terminal prompt**: Data terminals don't show the download prompt after downloading.
 - **No fleeing to origin**: Makes fleeing use the direction vector by adding it to the creature's current position. (Improved by adding configurable damage/distance ratio and ceiling, which fixes excessive fleeing distances.)
@@ -69,7 +69,6 @@
 #### Other reasons
 - "Cyclops hatch flaps now always close when you enter cyclops." (Inconsequential, you can't see a closed flap from inside.)
 - "You could see your neck when using seaglide with high FOV." (Very complex, not worth the effort.)
-- "Gasopod in stasis field does not attack you." ([Stasis Rifle Freeze Fix](https://www.nexusmods.com/subnautica/mods/1255) already does that and more.)
 - "Fixed unused lava geyser particles spawning on every game load." (Does cleaning them really help with anything?)
 - "When you saved game while taking poison damage, your health would not restore after reload." (Can't figure out a fix.)
 

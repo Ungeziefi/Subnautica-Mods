@@ -1,50 +1,43 @@
+using System.Collections;
 using HarmonyLib;
-using UnityEngine;
+using Nautilus.Handlers;
 
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch]
     public class SaveLastHeldItem
     {
-        private static bool isLoadingGame = true;
-
-        [HarmonyPatch(typeof(Player), nameof(Player.Start)), HarmonyPostfix]
-        public static void Player_Start()
-        {
-            if (!Main.Config.SaveLastHeldItem) return;
-
-            isLoadingGame = true;
-            UWE.CoroutineHost.StartCoroutine(LoadSavedSlotWhenReady());
-        }
-
-        private static System.Collections.IEnumerator LoadSavedSlotWhenReady()
-        {
-            yield return new WaitUntil(() =>
-                Player.main != null &&
-                Inventory.main.quickSlots != null);
-
-            // Wait for player mode to update
-            yield return new WaitForSeconds(0.1f);
-
-            if (Main.SaveData.LastHeldItemSlot >= 0 && Player.main.mode == Player.Mode.Normal)
-            {
-                QuickSlots quickSlots = Inventory.main.quickSlots;
-                quickSlots.SelectImmediate(Main.SaveData.LastHeldItemSlot);
-            }
-
-            isLoadingGame = false;
-        }
-
         [HarmonyPatch(typeof(QuickSlots), nameof(QuickSlots.Select)), HarmonyPostfix]
         public static void QuickSlots_Select(QuickSlots __instance)
         {
             if (!Main.Config.SaveLastHeldItem ||
-                isLoadingGame ||
+                WaitScreen.IsWaiting ||
                 Player.main.mode != Player.Mode.Normal)
                 return;
 
             Main.SaveData.LastHeldItemSlot = __instance.GetActiveSlotID();
             Main.SaveData.Save();
+        }
+
+        public static void RegisterLoadingTask()
+        {
+            if (!Main.Config.SaveLastHeldItem) return;
+
+            WaitScreenHandler.RegisterLateAsyncLoadTask(
+                Main.PLUGIN_NAME,
+                RestoreLastHeldItem,
+                "Restoring last held item"
+            );
+        }
+
+        private static IEnumerator RestoreLastHeldItem(WaitScreenHandler.WaitScreenTask task)
+        {
+            if (Main.SaveData.LastHeldItemSlot >= 0 && Player.main.mode == Player.Mode.Normal)
+            {
+                Inventory.main.quickSlots.SelectImmediate(Main.SaveData.LastHeldItemSlot);
+            }
+
+            yield break;
         }
     }
 }

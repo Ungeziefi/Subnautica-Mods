@@ -19,6 +19,9 @@ namespace Ungeziefi.Fixes
 
         private static void RestoreExternalLightState(CyclopsLightingPanel panel, string cyclopsId)
         {
+            if (panel == null || string.IsNullOrEmpty(cyclopsId))
+                return;
+
             if (Main.SaveData.CyclopsesWithFloodlightsOn.Contains(cyclopsId))
             {
                 panel.floodlightsOn = true;
@@ -42,8 +45,10 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.SubConstructionComplete)), HarmonyPostfix]
         public static void CyclopsLightingPanel_SubConstructionComplete(CyclopsLightingPanel __instance)
         {
+            if (!Main.Config.SaveCyclopsFloodlights) return;
+
             string cyclopsId = GetCyclopsId(__instance);
-            if (!Main.Config.SaveCyclopsFloodlights || cyclopsId != null)
+            if (cyclopsId != null)
                 UpdateExternalLightState(cyclopsId, __instance.floodlightsOn);
         }
 
@@ -51,8 +56,10 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.Start)), HarmonyPostfix]
         public static void CyclopsLightingPanel_Start(CyclopsLightingPanel __instance)
         {
+            if (!Main.Config.SaveCyclopsFloodlights) return;
+
             string cyclopsId = GetCyclopsId(__instance);
-            if (!Main.Config.SaveCyclopsFloodlights || cyclopsId != null)
+            if (cyclopsId != null)
                 RestoreExternalLightState(__instance, cyclopsId);
         }
     }

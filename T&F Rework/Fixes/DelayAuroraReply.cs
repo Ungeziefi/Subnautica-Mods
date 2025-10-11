@@ -1,3 +1,4 @@
+using System.Collections;
 using HarmonyLib;
 using Story;
 using UnityEngine;
@@ -7,53 +8,37 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch]
     public class DelayAuroraReply
     {
-        private const float REPAIR_VO_DURATION = 18f;
-        private static float repairVOEndTime = -1f;
+        private static bool isPlayingRepairVO = false;
+        private const float AURORA_REPLY_DELAY = 20f;
 
-        // Checks if VO is playing
-        private static bool IsPlayingRepairVO()
+        [HarmonyPatch(typeof(Radio), nameof(Radio.OnRepair)), HarmonyPrefix]
+        public static bool Radio_OnRepair(Radio __instance)
         {
-            return Time.time < repairVOEndTime;
+            if (!Main.Config.DelayAuroraReply) return true;
+
+            __instance.StartCoroutine(DelayedRadioRepair(__instance));
+            return false;
         }
 
-        [HarmonyPatch(typeof(Radio), nameof(Radio.OnRepair))]
-        public static class Radio_OnRepair_Patch
+        private static IEnumerator DelayedRadioRepair(Radio radio)
         {
-            public static bool Prefix(Radio __instance)
-            {
-                if (!Main.Config.DelayAuroraReply) return true;
+            isPlayingRepairVO = true;
 
-                // Set when the repair VO will finish
-                repairVOEndTime = Time.time + REPAIR_VO_DURATION;
-                __instance.Invoke("PlayRadioRepairVO", 2f);
-                StoryGoalManager.main.Invoke("PulsePendingMessages", REPAIR_VO_DURATION);
+            radio.Invoke("PlayRadioRepairVO", 2f);
 
-                return false;
-            }
+            Main.Logger.LogInfo($"Delaying Aurora reply by {AURORA_REPLY_DELAY} seconds.");
+            yield return new WaitForSeconds(AURORA_REPLY_DELAY);
+            Main.Logger.LogInfo("Playing Aurora reply after delay.");
+
+            StoryGoalManager.main.PulsePendingMessages();
+
+            isPlayingRepairVO = false;
         }
 
-        [HarmonyPatch(typeof(Radio), nameof(Radio.OnHandClick))]
-        public static class Radio_OnHandClick_Patch
-        {
-            public static bool Prefix(Radio __instance)
-            {
-                if (!Main.Config.DelayAuroraReply) return true;
+        [HarmonyPatch(typeof(Radio), nameof(Radio.OnHandClick)), HarmonyPrefix]
+        public static bool BlockRadioInteraction() => !Main.Config.DelayAuroraReply || !isPlayingRepairVO;
 
-                // Block interaction during VO
-                return !IsPlayingRepairVO();
-            }
-        }
-
-        [HarmonyPatch(typeof(Radio), nameof(Radio.OnHandHover))]
-        public static class Radio_OnHandHover_Patch
-        {
-            public static bool Prefix(Radio __instance)
-            {
-                if (!Main.Config.DelayAuroraReply) return true;
-
-                // Block hover UI during VO
-                return !IsPlayingRepairVO();
-            }
-        }
+        [HarmonyPatch(typeof(Radio), nameof(Radio.OnHandHover)), HarmonyPrefix]
+        public static bool BlockRadioHover() => !Main.Config.DelayAuroraReply || !isPlayingRepairVO;
     }
 }
