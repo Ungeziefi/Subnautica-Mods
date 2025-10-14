@@ -24,6 +24,7 @@
 - **PRAWN Suit arms need power**. (Undocumented but found in the code.)
 - **Passive engine overheating**: The Cyclops engine can now overheat even when the throttle is not applied. (Doesn't rework the whole system like T&F does. Better compatibility by not using bool Prefix.)
 - **Geysers push objects**.
+- **Smoke clears on open**: Opening the top hatch of the life pod clears the smoke inside.
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -46,7 +47,6 @@
 - **Full inventory harvesting**: Harvesting with a full inventory will drop the items.
 - **Universal creature decoy**: Makes the creature decoy work on all predators.
 - **Propulsion Cannon can grab fruit**.
-- **Smoke clears on open**: Opening the top hatch of the life pod clears the smoke inside.
 
 ---
 

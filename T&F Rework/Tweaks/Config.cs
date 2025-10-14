@@ -103,6 +103,9 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Passive engine overheating", Tooltip = "The Cyclops engine can now overheat even when the throttle is not applied.")]
         public bool PassiveEngineOverheating = false;
 
+        [Toggle(Label = "Smoke clears on open", Tooltip = "Opening the top hatch of the life pod clears the smoke inside.")]
+        public bool SmokeClearsOnOpen = true;
+
         [Toggle("<color=#f1c353>Torpedo cycling</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TorpedoCyclingDivider;
 
