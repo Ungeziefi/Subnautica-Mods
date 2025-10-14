@@ -76,6 +76,9 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "No obstacle check when sitting", Tooltip = "Allows sitting even if there's an object in the way.")]
         public bool NoObstacleCheckWhenSitting = false;
 
+        [Toggle(Label = "No obstacle check when sleeping", Tooltip = "Allows sleeping even if there's an object in the way.")]
+        public bool NoObstacleCheckWhenSleeping = false;
+
         [Choice(Label = "No bundled batteries",
             Tooltip = "Tools and vehicles don't include batteries.\nVanilla recipes: Cyclops, PRAWN Suit, and Repair Tool.",
             Options = new[] { "Disabled", "Vanilla recipes", "All recipes" })]
@@ -104,7 +107,7 @@ namespace Ungeziefi.Tweaks
         public bool PassiveEngineOverheating = false;
 
         [Toggle(Label = "Smoke clears on open", Tooltip = "Opening the top hatch of the life pod clears the smoke inside.")]
-        public bool SmokeClearsOnOpen = true;
+        public bool SmokeClearsOnOpen = false;
 
         [Toggle("<color=#f1c353>Torpedo cycling</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TorpedoCyclingDivider;
@@ -220,6 +223,20 @@ namespace Ungeziefi.Tweaks
         //[Keybind(Label = "PRAWN Suit lights toggle key")]
         //public KeyCode PRAWNSuitLightsToggleKey = KeyCode.L;
 
+        [Toggle("<color=#f1c353>Base lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool BaseLightsDivider;
+
+        [Toggle(Label = "Toggle base lights", Tooltip = "Allows toggling the lights in the current base. Keybind configurable in the \"Mod Input\" menu.")]
+        public bool ToggleBaseLights = false;
+
+        [Slider(Label = "Toggle hold duration", Tooltip = "The duration (in seconds) you need to hold the key to toggle base lights.", DefaultValue = 2, Min = 1, Max = 4, Step = 1, Format = "{0}s")]
+        public int ToggleHoldDuration = 2;
+
+        [Toggle(Label = "Toggle lights for sleep", Tooltip = "Automatically toggles the lights when going to bed and waking up.")]
+        public bool ToggleLightsForSleep = false;
+
+        [Slider(Label = "Lights on after sleep delay", Tooltip = "Delay (in seconds) before base lights turn back on after sleeping.", DefaultValue = 10, Min = 1, Max = 10, Step = 1, Format = "{0}s")]
+        public int LightsOnAfterSleepDelay = 10;
 
         [Toggle("<color=#f1c353>Geysers push objects</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool GeysersPushObjectsDivider;

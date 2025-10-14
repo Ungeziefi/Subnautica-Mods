@@ -25,6 +25,7 @@
 - **Passive engine overheating**: The Cyclops engine can now overheat even when the throttle is not applied. (Doesn't rework the whole system like T&F does. Better compatibility by not using bool Prefix.)
 - **Geysers push objects**.
 - **Smoke clears on open**: Opening the top hatch of the life pod clears the smoke inside.
+- **Base lights toggle**. (Far simpler than the T&F implementation. Doesn't rely on [Base Light Switch](https://www.nexusmods.com/subnautica/mods/46), but it also doesn't use a physical switch.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -36,7 +37,6 @@
 ---
 
 ### <span style="color: orange;">To-Do</span>
-- **Base lights toggle**.
 - **Improved collision logic**: Improves the vehicle collision code.
 - **No rotten food value**: Removes food value from rotten cooked fish.
 - **Torpedo launcher creature decoy**: Allows the Seamoth and PRAWN Suit to launch Creature Decoys.
