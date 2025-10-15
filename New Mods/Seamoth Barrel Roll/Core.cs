@@ -5,7 +5,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
     public partial class SeamothBarrelRoll
     {
         // State and Power Check
-        public static Dictionary<SeaMoth, RollState> activeRolls = new Dictionary<SeaMoth, RollState>();
+        public static Dictionary<SeaMoth, RollState> activeRolls = new();
 
         public class RollState
         {

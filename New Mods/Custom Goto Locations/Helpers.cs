@@ -72,7 +72,7 @@ namespace Ungeziefi.Custom_Goto_Locations
 
         private static void DisplayLocationList(IEnumerable<string> locationNames)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             foreach (var name in locationNames)
             {
                 if (sb.Length > 0)
@@ -86,8 +86,8 @@ namespace Ungeziefi.Custom_Goto_Locations
         {
             bool hasVanillaMatches = false;
             bool hasCustomMatches = false;
-            StringBuilder vanillaSb = new StringBuilder();
-            StringBuilder customSb = new StringBuilder();
+            StringBuilder vanillaSb = new();
+            StringBuilder customSb = new();
 
             // Get matching vanilla locations
             if (GotoConsoleCommand.main?.data?.locations != null)
@@ -192,7 +192,7 @@ namespace Ungeziefi.Custom_Goto_Locations
 
         private void SaveLocation(string name, Vector3 position)
         {
-            TeleportLocation newLocation = new TeleportLocation(name, position);
+            TeleportLocation newLocation = new(name, position);
             Main.Config.CustomTeleportLocations.Add(newLocation);
             Main.SaveConfig();
         }

@@ -46,7 +46,7 @@ namespace Ungeziefi.Creature_Healthbars
             if (textTransform == null)
             {
                 // Create new text object if it doesn't exist
-                GameObject textObj = new GameObject(name);
+                GameObject textObj = new(name);
                 textObj.transform.SetParent(parent.transform, false);
                 textObj.transform.localPosition = position;
 
@@ -108,7 +108,7 @@ namespace Ungeziefi.Creature_Healthbars
                     canvas.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 
                     // Background
-                    GameObject bgObj = new GameObject("Background");
+                    GameObject bgObj = new("Background");
                     bgObj.transform.SetParent(bar.transform, false);
 
                     RectTransform bgRectTransform = bgObj.AddComponent<RectTransform>();
@@ -121,7 +121,7 @@ namespace Ungeziefi.Creature_Healthbars
                     bgImageComponent.color = Main.Config.BackgroundColor;
 
                     // Health fill bar
-                    GameObject healthObj = new GameObject("Health");
+                    GameObject healthObj = new("Health");
                     healthObj.transform.SetParent(bgObj.transform, false);
 
                     RectTransform healthRectTransform = healthObj.AddComponent<RectTransform>();

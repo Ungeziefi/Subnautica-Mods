@@ -48,7 +48,7 @@ namespace Ungeziefi.Custom_Goto_Locations
 
             if (instance == null)
             {
-                GameObject customGotoObject = new GameObject("CustomGotoManager");
+                GameObject customGotoObject = new("CustomGotoManager");
                 instance = customGotoObject.AddComponent<CustomGoto>();
                 DontDestroyOnLoad(customGotoObject);
             }

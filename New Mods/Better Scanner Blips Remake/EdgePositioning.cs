@@ -42,7 +42,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             float upDot = Vector3.Dot(dirToResource, camUp);
 
             // Create 2D direction
-            Vector2 direction = new Vector2(rightDot, upDot);
+            Vector2 direction = new(rightDot, upDot);
 
             // Handle zero direction
             if (direction.sqrMagnitude < 0.001f)

@@ -7,7 +7,7 @@ namespace Ungeziefi.Tweaks
     [HarmonyPatch]
     public class CreatureSizeRandomizer
     {
-        private static readonly HashSet<TechType> targetCreatures = new HashSet<TechType>();
+        private static readonly HashSet<TechType> targetCreatures = new();
         private static bool listInitialized = false;
 
         private static void LoadTargetCreatures()

@@ -98,7 +98,7 @@ namespace Ungeziefi.Tweaks
                     {
                         ItemsContainer container = __instance.exosuit.storageContainer.container;
                         supplyCrate.itemInside.Initialize();
-                        InventoryItem inventoryItem = new InventoryItem(supplyCrate.itemInside);
+                        InventoryItem inventoryItem = new(supplyCrate.itemInside);
                         container.UnsafeAdd(inventoryItem);
                         Utils.PlayFMODAsset(__instance.pickupSound, __instance.front, 5f);
                         supplyCrate.itemInside = null;

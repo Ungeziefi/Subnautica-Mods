@@ -14,7 +14,7 @@ namespace Ungeziefi.Tweaks
         {
             if (instance == null)
             {
-                GameObject commandsObject = new GameObject("TweaksCommandsManager");
+                GameObject commandsObject = new("TweaksCommandsManager");
                 instance = commandsObject.AddComponent<NewCommands>();
                 DontDestroyOnLoad(commandsObject);
             }

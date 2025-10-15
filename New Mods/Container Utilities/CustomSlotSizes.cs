@@ -123,7 +123,7 @@ namespace Ungeziefi.Container_Utilities
                 return null;
 
             TechType techType = TechType.None;
-            Vector2int size = new Vector2int(1, 1);
+            Vector2int size = new(1, 1);
 
             reader.Read(); // Start object
 

@@ -8,7 +8,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
     public class CuddlefishRenamer
     {
         #region Fields
-        private static readonly Dictionary<string, GameObject> nameLabels = new Dictionary<string, GameObject>();
+        private static readonly Dictionary<string, GameObject> nameLabels = new();
         private static bool nameLabelsVisible = true;
         private static bool isRenamingActive = false;
 
@@ -291,7 +291,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
 
         private static GameObject CreateNameLabel(CuteFish cuddlefish, string cuddlefishId)
         {
-            GameObject labelObj = new GameObject("CuddlefishNameLabel");
+            GameObject labelObj = new("CuddlefishNameLabel");
             labelObj.transform.SetParent(cuddlefish.transform, false);
             labelObj.transform.localPosition = new Vector3(0, Main.Config.NameLabelHeight, 0);
 

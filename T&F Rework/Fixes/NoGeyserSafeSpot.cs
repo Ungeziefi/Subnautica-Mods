@@ -7,7 +7,7 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch]
     public class NoGeyserSafeSpot
     {
-        private static readonly HashSet<(int x, int z)> FixedGeyserPositions = new HashSet<(int, int)>
+        private static readonly HashSet<(int x, int z)> FixedGeyserPositions = new()
         {
             (961, 470),
             (965, 625),

@@ -8,7 +8,7 @@ namespace Ungeziefi.Fixes
     public class KeepRawFishStored
     {
         // Track corpses
-        private static readonly HashSet<CreatureDeath> creatureDeathsToDestroy = new HashSet<CreatureDeath>();
+        private static readonly HashSet<CreatureDeath> creatureDeathsToDestroy = new();
 
         public static void TryRemoveCorpses()
         {

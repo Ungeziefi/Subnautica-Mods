@@ -16,8 +16,8 @@ namespace Ungeziefi.Tweaks
         // Get available torpedos
         private static List<TechType> GetAvailableTorpedoTypes(Vehicle vehicle)
         {
-            List<TechType> result = new List<TechType>();
-            List<ItemsContainer> containers = new List<ItemsContainer>();
+            List<TechType> result = new();
+            List<ItemsContainer> containers = new();
 
             if (vehicle is SeaMoth seamoth)
             {

@@ -22,7 +22,7 @@
 //                return false;
 
 //            // Create transfer list
-//            List<InventoryItem> itemsToTransfer = new List<InventoryItem>();
+//            List<InventoryItem> itemsToTransfer = new();
 
 //            // Populate transfer list based on mode
 //            if (transferSimilarOnly)

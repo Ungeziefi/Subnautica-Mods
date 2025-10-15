@@ -5,8 +5,8 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
     public static class ColorManagement
     {
         // Original colors
-        public static Color originalBlipColor = new Color(1.00f, 0.64f, 0.00f, 1.00f);
-        public static Color originalTextColor = new Color(1.00f, 0.68f, 0.00f, 1.00f);
+        public static Color originalBlipColor = new(1.00f, 0.64f, 0.00f, 1.00f);
+        public static Color originalTextColor = new(1.00f, 0.68f, 0.00f, 1.00f);
 
         // Cached colors
         private static Color cachedBlipColor;

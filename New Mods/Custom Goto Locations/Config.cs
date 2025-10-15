@@ -23,6 +23,6 @@ namespace Ungeziefi.Custom_Goto_Locations
             }
         }
 
-        public List<TeleportLocation> CustomTeleportLocations = new List<TeleportLocation>();
+        public List<TeleportLocation> CustomTeleportLocations = new();
     }
 }

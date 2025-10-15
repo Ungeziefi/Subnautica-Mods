@@ -7,7 +7,7 @@ namespace Ungeziefi.Fixes
     public class NoDepositPopIn
     {
         // List of all drillable resource types
-        private static readonly HashSet<TechType> drillables = new HashSet<TechType>
+        private static readonly HashSet<TechType> drillables = new()
         {
             TechType.DrillableAluminiumOxide,
             TechType.DrillableCopper,

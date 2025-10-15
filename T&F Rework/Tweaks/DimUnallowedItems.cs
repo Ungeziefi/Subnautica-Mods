@@ -6,7 +6,7 @@
 //    [HarmonyPatch]
 //    public class DimUnallowedItems
 //    {
-//        private static Dictionary<ItemsContainer, Planter> planters = new Dictionary<ItemsContainer, Planter>();
+//        private static Dictionary<ItemsContainer, Planter> planters = new();
 //        private static bool chargerOpen = false;
 //        private static bool powerCellChargerOpen = false;
 

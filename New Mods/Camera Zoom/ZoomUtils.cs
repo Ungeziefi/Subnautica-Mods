@@ -8,9 +8,9 @@ namespace Ungeziefi.Camera_Zoom
     public static class ZoomUtils
     {
         private static readonly float maxBlackOverlayAlpha = 1.0f;
-        private static readonly Dictionary<string, CanvasGroup> overlays = new Dictionary<string, CanvasGroup>();
-        private static readonly Dictionary<string, bool> activeCoroutines = new Dictionary<string, bool>();
-        private static readonly Dictionary<string, float> cameraDefaultFOVs = new Dictionary<string, float>();
+        private static readonly Dictionary<string, CanvasGroup> overlays = new();
+        private static readonly Dictionary<string, bool> activeCoroutines = new();
+        private static readonly Dictionary<string, float> cameraDefaultFOVs = new();
 
         // Create or get black overlay for screen transitions
         public static CanvasGroup GetBlackOverlay(string name)
@@ -18,7 +18,7 @@ namespace Ungeziefi.Camera_Zoom
             if (overlays.TryGetValue(name, out CanvasGroup overlay) && overlay != null)
                 return overlay;
 
-            GameObject overlayObj = new GameObject($"{name}BlackOverlay");
+            GameObject overlayObj = new($"{name}BlackOverlay");
             overlayObj.transform.SetParent(uGUI.main.transform, false);
 
             Canvas canvas = overlayObj.AddComponent<Canvas>();

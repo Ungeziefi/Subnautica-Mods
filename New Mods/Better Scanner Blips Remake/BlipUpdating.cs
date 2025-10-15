@@ -6,7 +6,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 {
     public partial class BetterScannerBlipsRemake
     {
-        private static readonly StringBuilder stringBuilder = new StringBuilder(128);
+        private static readonly StringBuilder stringBuilder = new(128);
 
         private static void UpdateBlip(uGUI_ResourceTracker.Blip blip, ResourceTrackerDatabase.ResourceInfo resource, float distance, Camera camera, int count)
         {

@@ -50,7 +50,7 @@ namespace Ungeziefi.Creature_Healthbars
             Dictionary<string, float> timersCopy;
             lock (timers) { timersCopy = new Dictionary<string, float>(timers); }
 
-            List<string> expiredBars = new List<string>();
+            List<string> expiredBars = new();
 
             // Process timers and identify expired bars
             foreach (var kvp in timersCopy)

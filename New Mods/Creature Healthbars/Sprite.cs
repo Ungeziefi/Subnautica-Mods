@@ -10,7 +10,7 @@ namespace Ungeziefi.Creature_Healthbars
 
             int width = Main.Config.SpriteWidth;
             int height = Main.Config.SpriteHeight;
-            Texture2D texture = new Texture2D(width, height, TextureFormat.RGBA32, true);
+            Texture2D texture = new(width, height, TextureFormat.RGBA32, true);
             Color[] pixels = new Color[width * height];
 
             // Fill with transparent pixels initially

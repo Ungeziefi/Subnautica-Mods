@@ -154,10 +154,10 @@ namespace Ungeziefi.Container_Utilities
             }
         }
 
-        public List<ItemSizeOverride> SizeOverrides = new List<ItemSizeOverride>
+        public List<ItemSizeOverride> SizeOverrides = new()
         {
-            new ItemSizeOverride(TechType.Seaglide, new Vector2int(1, 2)),
-            new ItemSizeOverride(TechType.ScrapMetal, new Vector2int(1, 1))
+            new(TechType.Seaglide, new Vector2int(1, 2)),
+            new(TechType.ScrapMetal, new Vector2int(1, 1))
         };
         #endregion
     }

@@ -180,7 +180,7 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Enable feature")]
         public bool CSREnableFeature = false;
 
-        public List<string> CSRTargetCreatures = new List<string>
+        public List<string> CSRTargetCreatures = new()
         {
             "CaveCrawler",
             "LavaLarva",

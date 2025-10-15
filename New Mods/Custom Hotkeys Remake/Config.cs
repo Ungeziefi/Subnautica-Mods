@@ -14,8 +14,8 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
         public class CommandHotkey
         {
             public string Name;
-            public List<KeyCode> Keys = new List<KeyCode>();
-            public List<string> Commands = new List<string>();
+            public List<KeyCode> Keys = new();
+            public List<string> Commands = new();
             public float ExecutionDelay = 0.1f;
 
             public CommandHotkey() { }
@@ -29,7 +29,7 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
             }
         }
 
-        public List<CommandHotkey> HotkeyConfigurations = new List<CommandHotkey>
+        public List<CommandHotkey> HotkeyConfigurations = new()
         {
             new CommandHotkey("Example - Simple",
             new List<KeyCode> { KeyCode.K },

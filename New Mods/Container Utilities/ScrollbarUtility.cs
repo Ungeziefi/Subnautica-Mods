@@ -7,8 +7,8 @@ namespace Ungeziefi.Container_Utilities
 {
     public static class ScrollbarUtility
     {
-        private static readonly Color BackgroundColor = new Color(0.1f, 0.1f, 0.12f, 0.7f);
-        private static readonly Color HandleColor = new Color(0.75f, 0.75f, 0.75f, 0.8f);
+        private static readonly Color BackgroundColor = new(0.1f, 0.1f, 0.12f, 0.7f);
+        private static readonly Color HandleColor = new(0.75f, 0.75f, 0.75f, 0.8f);
 
         #region Public Methods
         public static ScrollRect SetupScrollView(
@@ -124,7 +124,7 @@ namespace Ungeziefi.Container_Utilities
         #region Private Helper Methods
         private static GameObject CreateScrollViewObject(uGUI_ItemsContainer instance)
         {
-            GameObject scrollObject = new GameObject() { name = "InventoryScrollView" };
+            GameObject scrollObject = new() { name = "InventoryScrollView" };
             scrollObject.transform.SetParent(instance.transform.parent, false); // worldPositionStays = false is important
             scrollObject.AddComponent<RectTransform>();
             return scrollObject;
@@ -132,7 +132,7 @@ namespace Ungeziefi.Container_Utilities
 
         private static GameObject CreateMaskObject(GameObject scrollObject, uGUI_ItemsContainer instance)
         {
-            GameObject mask = new GameObject { name = "Mask" };
+            GameObject mask = new() { name = "Mask" };
             mask.transform.SetParent(scrollObject.transform, false);
             mask.AddComponent<RectTransform>();
 
@@ -168,8 +168,8 @@ namespace Ungeziefi.Container_Utilities
             // Calculate viewport size
             float viewportWidth = needsHorizontalScroll ? vanillaWidth * cellSize : container.sizeX * cellSize;
             float viewportHeight = needsVerticalScroll ? vanillaHeight * cellSize : container.sizeY * cellSize;
-            Vector2 viewportSize = new Vector2(viewportWidth, viewportHeight);
-            Vector2 contentSize = new Vector2(container.sizeX * cellSize, container.sizeY * cellSize);
+            Vector2 viewportSize = new(viewportWidth, viewportHeight);
+            Vector2 contentSize = new(container.sizeX * cellSize, container.sizeY * cellSize);
 
             // Configure scroll view
             RectTransform scrollViewRect = scrollRect.gameObject.GetComponent<RectTransform>();
@@ -200,7 +200,7 @@ namespace Ungeziefi.Container_Utilities
 
         private static List<Transform> SaveCornerObjects(uGUI_ItemsContainer instance)
         {
-            List<Transform> cornerObjects = new List<Transform>();
+            List<Transform> cornerObjects = new();
             Transform gridTransform = instance.transform.Find("Grid");
 
             if (gridTransform != null)
@@ -223,7 +223,7 @@ namespace Ungeziefi.Container_Utilities
 
         private static void RestoreCornerObjects(List<Transform> cornerObjects, Transform scrollViewTransform)
         {
-            Dictionary<string, Vector2> cornerPositions = new Dictionary<string, Vector2>
+            Dictionary<string, Vector2> cornerPositions = new()
             {
                 { "TL", new Vector2(1, 0) },
                 { "TR", new Vector2(-4, 0) },
@@ -285,7 +285,7 @@ namespace Ungeziefi.Container_Utilities
         private static GameObject CreateScrollbar(GameObject parent, ScrollRect scrollRect, Sprite scrollbarSprite, Image scrollbarImage, bool isVertical)
         {
             string name = isVertical ? "VerticalScrollbar" : "HorizontalScrollbar";
-            GameObject customScrollbar = new GameObject(name);
+            GameObject customScrollbar = new(name);
             customScrollbar.transform.SetParent(parent.transform, false); // Set worldPositionStays to false
 
             RectTransform scrollbarRect = customScrollbar.AddComponent<RectTransform>();
@@ -323,7 +323,7 @@ namespace Ungeziefi.Container_Utilities
             }
 
             // Create sliding area for the scrollbar handle
-            GameObject slidingArea = new GameObject("Sliding Area");
+            GameObject slidingArea = new("Sliding Area");
             slidingArea.transform.SetParent(customScrollbar.transform, false);
             RectTransform slidingAreaRect = slidingArea.AddComponent<RectTransform>();
             slidingAreaRect.anchorMin = Vector2.zero;
@@ -333,7 +333,7 @@ namespace Ungeziefi.Container_Utilities
             slidingAreaRect.sizeDelta = Vector2.zero;
 
             // Create handle that user drags
-            GameObject handle = new GameObject("Handle");
+            GameObject handle = new("Handle");
             handle.transform.SetParent(slidingArea.transform, false);
             RectTransform handleRect = handle.AddComponent<RectTransform>();
 
@@ -415,7 +415,7 @@ namespace Ungeziefi.Container_Utilities
         private static void CreateStylizedScrollbar(GameObject parent, ScrollRect scrollRect, bool isVertical)
         {
             string name = isVertical ? "VerticalScrollbar" : "HorizontalScrollbar";
-            GameObject scrollbarObject = new GameObject(name);
+            GameObject scrollbarObject = new(name);
             scrollbarObject.transform.SetParent(parent.transform, false);
             RectTransform scrollbarRect = scrollbarObject.AddComponent<RectTransform>();
             Image scrollbarImage = scrollbarObject.AddComponent<Image>();
@@ -424,7 +424,7 @@ namespace Ungeziefi.Container_Utilities
             scrollbarImage.color = BackgroundColor;
 
             // Create sliding area
-            GameObject slidingArea = new GameObject("SlidingArea");
+            GameObject slidingArea = new("SlidingArea");
             slidingArea.transform.SetParent(scrollbarObject.transform, false);
             RectTransform slidingAreaRect = slidingArea.AddComponent<RectTransform>();
             slidingAreaRect.anchorMin = Vector2.zero;
@@ -433,7 +433,7 @@ namespace Ungeziefi.Container_Utilities
             slidingAreaRect.pivot = new Vector2(0.5f, 0.5f);
 
             // Create handle
-            GameObject handle = new GameObject("Handle");
+            GameObject handle = new("Handle");
             handle.transform.SetParent(slidingArea.transform, false);
             RectTransform handleRect = handle.AddComponent<RectTransform>();
             Image handleImage = handle.AddComponent<Image>();

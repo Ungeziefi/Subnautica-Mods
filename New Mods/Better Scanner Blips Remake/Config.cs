@@ -129,7 +129,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
         [ColorPicker(Label = "Preview", Tooltip = "The color of scanner blips when custom color is enabled.", Advanced = true)]
         [OnChange(nameof(OnColorSettingChanged))]
-        public Color BlipColor = new Color(1.00f, 0.64f, 0.00f, 1.00f);
+        public Color BlipColor = new(1.00f, 0.64f, 0.00f, 1.00f);
 
         [Toggle("<color=#f1c353>Text color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TextColorDivider;
@@ -140,7 +140,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
         [ColorPicker(Label = "Preview", Tooltip = "The color of text on scanner blips when custom text color is enabled.", Advanced = true)]
         [OnChange(nameof(OnColorSettingChanged))]
-        public Color TextColor = new Color(1.00f, 0.68f, 0.00f, 1.00f);
+        public Color TextColor = new(1.00f, 0.68f, 0.00f, 1.00f);
 
         #region Color Management
         private void OnColorSettingChanged()
