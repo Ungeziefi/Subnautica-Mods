@@ -33,6 +33,6 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="mkdir &quot;C:\Modding\Subnautica-Mods\Release\Abandon Ship During Cyclops Fire\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Modding\Subnautica-Mods\Release\Abandon Ship During Cyclops Fire\BepInEx\plugins\$(TargetName)&quot;" />
+    <Exec Command="mkdir &quot;C:\Modding\Subnautica\Subnautica-Mods\Release\Abandon Ship During Cyclops Fire\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Modding\Subnautica\Subnautica-Mods\Release\Abandon Ship During Cyclops Fire\BepInEx\plugins\$(TargetName)&quot;" />
   </Target>
 </Project>
