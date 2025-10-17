@@ -1,4 +1,3 @@
-using System.Collections;
 using HarmonyLib;
 using UnityEngine;
 
@@ -52,7 +51,7 @@ namespace Ungeziefi.Tweaks
                 string soundId = __instance.subLightsOn ? "2103" : "2102";
                 string soundName = __instance.subLightsOn ? "5384ec29-f493-4ac1-9f74-2c0b14d61440" : "95b877e8-2ccd-451d-ab5f-fc654feab173";
                 FMODUWE.PlayOneShot(new FMODAsset() { id = soundId, path = soundPath, name = soundName, hideFlags = HideFlags.None }, MainCamera.camera.transform.position, 1f);
-                
+
                 hasToggled = true;
             }
             else if (!isHoldingButton)
