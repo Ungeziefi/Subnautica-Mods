@@ -26,6 +26,7 @@
 - **Geysers push objects**.
 - **Smoke clears on open**: Opening the top hatch of the life pod clears the smoke inside.
 - **Base lights toggle**. (Far simpler than the T&F implementation. Doesn't rely on [Base Light Switch](https://www.nexusmods.com/subnautica/mods/46), but it also doesn't use a physical switch.)
+- **Soft collision sound minimum mass**: Prevents the soft collision sound from playing on objects with very low mass, such as Brain Coral bubbles. (T&F removes the collision sound if the object has a mass lower than 6, Fixes just checks for mass <1, which is enough to filter out the bubbles.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -43,7 +44,6 @@
 - **No collision with small plants**: Removes collision from the Veined Nettle, Writhing Weed, and some other unnamed plants.
 - **Propulsion Cannon fast transfer**: Holding Table Coral with the Propulsion Cannon allows you to put it in your inventory directly.
 - **No remote leaking notifications**: Base leak notifications are sent only if you're in that base.
-- **Less Cyclops collisions**: Removed collision sounds from Brain Coral bubbles and small fish hitting the Cyclops.
 - **Full inventory harvesting**: Harvesting with a full inventory will drop the items.
 - **Universal creature decoy**: Makes the creature decoy work on all predators.
 - **Propulsion Cannon can grab fruit**.
