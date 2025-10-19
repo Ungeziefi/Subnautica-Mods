@@ -16,8 +16,8 @@ namespace Ungeziefi.Cuddlefish_Renamer
         [Toggle(Label = "Show name above")]
         public bool ShowNameAbove = true;
 
-        [Toggle(Label = "Custom play prompt", Tooltip = "Show 'Play With [Name]' instead of 'Play With Fish'.")]
-        public bool CustomPlayPrompt = true;
+        [Toggle(Label = "Use name in play prompt")]
+        public bool UseNameInPlayPrompt = true;
 
         [Slider(Label = "Name label height", Tooltip = "Height of the name label above the Cuddlefish.",
             DefaultValue = 0.5f, Min = 0.2f, Max = 1.0f, Step = 0.1f, Format = "{0:0.0}")]

@@ -26,74 +26,19 @@ namespace Ungeziefi.Cuddlefish_Renamer
             if (!Main.Config.EnableFeature) return;
 
             string cuddlefishId = GetCuddlefishId(__instance);
-            if (Main.SaveData.CuddlefishNames.TryGetValue(cuddlefishId, out string savedName) && !string.IsNullOrEmpty(savedName) && Main.Config.ShowNameAbove)
+            if (TryGetSavedName(cuddlefishId, out string savedName) && Main.Config.ShowNameAbove)
             {
                 UpdateNameLabel(__instance, savedName);
             }
         }
 
         [HarmonyPatch(typeof(CuteFishHandTarget), nameof(CuteFishHandTarget.OnHandHover)), HarmonyPostfix]
-        public static void CuteFishHandTarget_OnHandHover(CuteFishHandTarget __instance, GUIHand hand)
+        public static void CuteFishHandTarget_OnHandHover(CuteFishHandTarget __instance)
         {
-            if (!Main.Config.EnableFeature || !__instance.AllowedToInteract() || isRenamingActive) return;
+            if (!ShouldProcessInteraction(__instance)) return;
 
-            if (Main.Config.CustomPlayPrompt)
-            {
-                string cuddlefishId = GetCuddlefishId(__instance.cuteFish);
-                if (!string.IsNullOrEmpty(cuddlefishId) &&
-                    Main.SaveData.CuddlefishNames.TryGetValue(cuddlefishId, out string savedName) &&
-                    !string.IsNullOrEmpty(savedName))
-                {
-                    HandReticle.main.SetText(HandReticle.TextType.Hand, $"Play With {savedName}", false, GameInput.Button.LeftHand);
-                }
-            }
-
-            string renameText = GameInput.IsPrimaryDeviceGamepad() ? "Press to rename" : $"Press {Main.Config.RenameKey} to rename";
-
-            // Add rename prompt
-            var handReticle = HandReticle.main;
-            if (handReticle.textHandSubscript.Length > 0)
-            {
-                string currentText = handReticle.textHandSubscript;
-
-                if (!currentText.Contains(renameText))
-                {
-                    string newText = string.IsNullOrEmpty(currentText) ? renameText : $"{currentText}\n{renameText}";
-                    handReticle.SetText(
-                        HandReticle.TextType.HandSubscript,
-                        newText,
-                        false,
-                        GameInput.IsPrimaryDeviceGamepad() ? GameInput.Button.AltTool : GameInput.Button.None);
-                }
-            }
-
-            // Check for input
-            if ((Input.GetKeyDown(Main.Config.RenameKey) ||
-                ((GameInput.IsPrimaryDeviceGamepad()) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
-                && !Cursor.visible)
-            {
-                CuteFish cuddlefish = __instance.cuteFish;
-                if (cuddlefish != null && __instance.liveMixin.IsAlive())
-                {
-                    string cuddlefishId = GetCuddlefishId(cuddlefish);
-                    if (string.IsNullOrEmpty(cuddlefishId)) return;
-
-                    Main.SaveData.CuddlefishNames.TryGetValue(cuddlefishId, out string currentName);
-
-                    isRenamingActive = true;
-
-                    uGUI.main.userInput.RequestString(
-                        "Cuddlefish Name",
-                        "Submit",
-                        currentName ?? string.Empty,
-                        Main.Config.MaxNameLength,
-                        (newName) =>
-                        {
-                            isRenamingActive = false;
-                            SetCuddlefishName(cuddlefish, cuddlefishId, newName);
-                        });
-                }
-            }
+            UpdateHandReticle(__instance);
+            CheckRenameInput(__instance);
         }
 
         [HarmonyPatch(typeof(Player), nameof(Player.Update)), HarmonyPostfix]
@@ -101,34 +46,98 @@ namespace Ungeziefi.Cuddlefish_Renamer
         {
             if (!Main.Config.EnableFeature) return;
 
-            // Update visibility settings
-            if (Main.Config.ShowNameAbove != nameLabelsVisible)
+            UpdateVisibilitySettings();
+            UpdateAppearanceSettings();
+            UpdateDistanceBasedVisibility();
+        }
+        #endregion
+
+        #region Interaction Logic
+        private static bool ShouldProcessInteraction(CuteFishHandTarget handTarget)
+        {
+            return Main.Config.EnableFeature &&
+                   handTarget.AllowedToInteract() &&
+                   !isRenamingActive;
+        }
+
+        private static void UpdateHandReticle(CuteFishHandTarget handTarget)
+        {
+            // Update play prompt with custom name
+            if (Main.Config.UseNameInPlayPrompt)
             {
-                nameLabelsVisible = Main.Config.ShowNameAbove;
-                UpdateAllNameLabelsVisibility(nameLabelsVisible);
+                string cuddlefishId = GetCuddlefishId(handTarget.cuteFish);
+                if (TryGetSavedName(cuddlefishId, out string savedName))
+                {
+                    HandReticle.main.SetText(HandReticle.TextType.Hand, $"Play With {savedName}", false, GameInput.Button.LeftHand);
+                }
             }
 
-            // Check setting changes
-            if (lastNameLabelHeight != Main.Config.NameLabelHeight ||
-                lastBoldText != Main.Config.BoldText ||
-                lastNameFontSize != Main.Config.NameFontSize ||
-                lastNameColor != Main.Config.NameColor)
-            {
-                // Update appearance settings for all labels
-                UpdateAllNameLabelsAppearance();
+            // Add rename prompt
+            string renameText = GameInput.FormatButton(Main.RenameCuddlefishButton, false);
+            HandReticle.main.SetText(
+                HandReticle.TextType.HandSubscript,
+                $"Press {renameText} to rename",
+                false);
+        }
 
-                // Update cache
-                lastNameLabelHeight = Main.Config.NameLabelHeight;
-                lastBoldText = Main.Config.BoldText;
-                lastNameFontSize = Main.Config.NameFontSize;
-                lastNameColor = Main.Config.NameColor;
-            }
+        private static void CheckRenameInput(CuteFishHandTarget handTarget)
+        {
+            if (!GameInput.GetButtonDown(Main.RenameCuddlefishButton) || Cursor.visible) return;
 
-            // Distance-based visibility updates
-            if (Main.Config.ShowNameAbove && Main.Config.FadeWithDistance)
-            {
-                UpdateNameLabelsDistanceVisibility();
-            }
+            CuteFish cuddlefish = handTarget.cuteFish;
+            if (cuddlefish == null || !handTarget.liveMixin.IsAlive()) return;
+
+            string cuddlefishId = GetCuddlefishId(cuddlefish);
+            if (string.IsNullOrEmpty(cuddlefishId)) return;
+
+            TryGetSavedName(cuddlefishId, out string currentName);
+            isRenamingActive = true;
+
+            uGUI.main.userInput.RequestString(
+                "Cuddlefish Name",
+                "Submit",
+                currentName ?? string.Empty,
+                Main.Config.MaxNameLength,
+                (newName) =>
+                {
+                    isRenamingActive = false;
+                    SetCuddlefishName(cuddlefish, cuddlefishId, newName);
+                });
+        }
+        #endregion
+
+        #region Settings Updates
+        private static void UpdateVisibilitySettings()
+        {
+            if (Main.Config.ShowNameAbove == nameLabelsVisible) return;
+
+            nameLabelsVisible = Main.Config.ShowNameAbove;
+            UpdateAllNameLabelsVisibility(nameLabelsVisible);
+        }
+
+        private static void UpdateAppearanceSettings()
+        {
+            bool settingsChanged = lastNameLabelHeight != Main.Config.NameLabelHeight ||
+                                   lastBoldText != Main.Config.BoldText ||
+                                   lastNameFontSize != Main.Config.NameFontSize ||
+                                   lastNameColor != Main.Config.NameColor;
+
+            if (!settingsChanged) return;
+
+            UpdateAllNameLabelsAppearance();
+
+            // Update cache
+            lastNameLabelHeight = Main.Config.NameLabelHeight;
+            lastBoldText = Main.Config.BoldText;
+            lastNameFontSize = Main.Config.NameFontSize;
+            lastNameColor = Main.Config.NameColor;
+        }
+
+        private static void UpdateDistanceBasedVisibility()
+        {
+            if (!Main.Config.ShowNameAbove || !Main.Config.FadeWithDistance) return;
+
+            UpdateNameLabelsDistanceVisibility();
         }
         #endregion
 
@@ -148,8 +157,6 @@ namespace Ungeziefi.Cuddlefish_Renamer
                 if (cuddlefish == null) continue;
 
                 float distance = Vector3.Distance(playerPosition, cuddlefish.transform.position);
-
-                // Calculate opacity based on distance
                 UpdateLabelOpacity(entry.Value, distance, fadeStartDistance);
             }
         }
@@ -159,24 +166,21 @@ namespace Ungeziefi.Cuddlefish_Renamer
             TMPro.TextMeshPro text = labelObj.GetComponent<TMPro.TextMeshPro>();
             if (text == null) return;
 
-            // If closer than fade start distance, full opacity
+            float maxDistance = fadeStartDistance * 2;
+
             if (distance <= fadeStartDistance)
             {
                 text.alpha = 1f;
                 labelObj.SetActive(true);
             }
-            // If beyond 2x fade start distance, hide completely
-            else if (distance >= fadeStartDistance * 2)
+            else if (distance >= maxDistance)
             {
                 text.alpha = 0f;
                 labelObj.SetActive(false);
             }
-            // Otherwise, fade gradually
             else
             {
-                // Calculate opacity: 1.0 at fadeStartDistance, 0.0 at 2*fadeStartDistance
-                float fadeRange = fadeStartDistance;
-                float fadeAmount = (distance - fadeStartDistance) / fadeRange;
+                float fadeAmount = (distance - fadeStartDistance) / fadeStartDistance;
                 text.alpha = Mathf.Clamp01(1f - fadeAmount);
                 labelObj.SetActive(true);
             }
@@ -186,19 +190,14 @@ namespace Ungeziefi.Cuddlefish_Renamer
         {
             foreach (var label in nameLabels.Values)
             {
-                if (label != null)
-                {
-                    label.SetActive(visible);
+                if (label == null) continue;
 
-                    // Reset opacity to full when toggling visibility
-                    if (visible)
-                    {
-                        TMPro.TextMeshPro text = label.GetComponent<TMPro.TextMeshPro>();
-                        if (text != null)
-                        {
-                            text.alpha = 1f;
-                        }
-                    }
+                label.SetActive(visible);
+
+                if (visible)
+                {
+                    TMPro.TextMeshPro text = label.GetComponent<TMPro.TextMeshPro>();
+                    if (text != null) text.alpha = 1f;
                 }
             }
 
@@ -214,10 +213,8 @@ namespace Ungeziefi.Cuddlefish_Renamer
             {
                 if (entry.Value == null) continue;
 
-                // Update height
                 entry.Value.transform.localPosition = new Vector3(0, Main.Config.NameLabelHeight, 0);
 
-                // Update text formatting
                 TMPro.TextMeshPro text = entry.Value.GetComponent<TMPro.TextMeshPro>();
                 if (text != null)
                 {
@@ -269,23 +266,25 @@ namespace Ungeziefi.Cuddlefish_Renamer
                 ApplyTextFormatting(text);
             }
 
-            // Set initial visibility and opacity based on distance
-            if (Main.Config.ShowNameAbove && Player.main != null)
+            UpdateInitialVisibility(labelObj, cuddlefish);
+        }
+
+        private static void UpdateInitialVisibility(GameObject labelObj, CuteFish cuddlefish)
+        {
+            if (!Main.Config.ShowNameAbove || Player.main == null)
+            {
+                labelObj.SetActive(Main.Config.ShowNameAbove);
+                return;
+            }
+
+            if (Main.Config.FadeWithDistance)
             {
                 float distance = Vector3.Distance(Player.main.transform.position, cuddlefish.transform.position);
-
-                if (Main.Config.FadeWithDistance)
-                {
-                    UpdateLabelOpacity(labelObj, distance, Main.Config.FadeStartDistance);
-                }
-                else
-                {
-                    labelObj.SetActive(true);
-                }
+                UpdateLabelOpacity(labelObj, distance, Main.Config.FadeStartDistance);
             }
             else
             {
-                labelObj.SetActive(Main.Config.ShowNameAbove);
+                labelObj.SetActive(true);
             }
         }
 
@@ -317,12 +316,15 @@ namespace Ungeziefi.Cuddlefish_Renamer
         private static string GetCuddlefishId(CuteFish cuddlefish)
         {
             UniqueIdentifier identifier = cuddlefish.GetComponent<UniqueIdentifier>();
-            if (identifier != null && !string.IsNullOrEmpty(identifier.Id))
-            {
-                return identifier.Id;
-            }
+            return identifier?.Id;
+        }
 
-            return null;
+        private static bool TryGetSavedName(string cuddlefishId, out string name)
+        {
+            name = null;
+            return !string.IsNullOrEmpty(cuddlefishId) &&
+                   Main.SaveData.CuddlefishNames.TryGetValue(cuddlefishId, out name) &&
+                   !string.IsNullOrEmpty(name);
         }
         #endregion
     }
