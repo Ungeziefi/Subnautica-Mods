@@ -47,9 +47,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         [Toggle("<color=#f1c353>Toggle controls</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool ToggleControlsDivider;
 
-        [Keybind(Label = "Toggle blips hotkey")]
-        public KeyCode ToggleBlipsKey = KeyCode.B;
-
         [Toggle(Label = "Show blip toggle message")]
         public bool ShowBlipToggleMessage = false;
 

@@ -17,16 +17,22 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
     {
         public const string PLUGIN_GUID = "Ungeziefi.Better_Scanner_Blips_Remake";
         public const string PLUGIN_NAME = "Better Scanner Blips Remake";
-        public const string PLUGIN_VERSION = "1.3.3";
+        public const string PLUGIN_VERSION = "2.0.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        public static GameInput.Button ToggleBlipsButton;
 
         public void Awake()
         {
             Logger = base.Logger;
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
+
+            ToggleBlipsButton = EnumHandler.AddEntry<GameInput.Button>("ToggleBlipsButton")
+                .CreateInput("Toggle blips")
+                .WithKeyboardBinding(GameInputHandler.Paths.Keyboard.B)
+                .WithCategory("Better Scanner Blips Remake");
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
         }
