@@ -26,7 +26,7 @@
 - **Geysers push objects**.
 - **Smoke clears on open**: Opening the top hatch of the life pod clears the smoke inside.
 - **Base lights toggle**. (Far simpler than the T&F implementation. Doesn't rely on [Base Light Switch](https://www.nexusmods.com/subnautica/mods/46), but it also doesn't use a physical switch.)
-- **Soft collision sound minimum mass**: Prevents the soft collision sound from playing on objects with very low mass, such as Brain Coral bubbles. (T&F removes the collision sound if the object has a mass lower than 6, Fixes just checks for mass <1, which is enough to filter out the bubbles.)
+- **Soft collision sound minimum mass**: Prevents the soft collision sound from playing for objects with very low mass, such as Brain Coral bubbles. (T&F removes the collision sound if the object has a mass lower than 6, Fixes just checks for mass <1, which is enough to filter out the bubbles.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers

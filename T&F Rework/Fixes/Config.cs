@@ -147,7 +147,7 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "No Geyser safe spot", Tooltip = "Extends the Geysers' capsule collider vertically, removing the safe spot at the bottom.")]
         public bool NoGeyserSafeSpot = true;
 
-        [Toggle(Label = "Soft collision sound minimum mass", Tooltip = "Prevents the soft collision sound from playing on objects with very low mass, such as Brain Coral bubbles.")]
+        [Toggle(Label = "Soft collision sound minimum mass", Tooltip = "Prevents the soft collision sound from playing for objects with very low mass, such as Brain Coral bubbles.")]
         public bool SoftCollisionSoundMinimumMass = true;
 
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
