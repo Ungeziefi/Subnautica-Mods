@@ -8,9 +8,9 @@ namespace Ungeziefi.Tweaks
     {
         public static void UpdateDisplayComponents(SubRoot cyclops, bool isPowered)
         {
-            void SetActive(Transform transform, bool active)
+            static void SetActive(Transform transform, bool active)
             {
-                if (transform != null) transform.gameObject.SetActive(active);
+                transform?.gameObject.SetActive(active);
             }
 
             var sonarMap = cyclops.GetComponentInChildren<CyclopsSonarDisplay>(true);
