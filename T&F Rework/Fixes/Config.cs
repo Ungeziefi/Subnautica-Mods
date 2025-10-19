@@ -3,14 +3,6 @@ using Nautilus.Options.Attributes;
 
 namespace Ungeziefi.Fixes
 {
-    public enum ViewDistanceOption
-    {
-        Disabled,
-        Medium,
-        Far,
-        VeryFar
-    }
-
     [Menu("Fixes")]
     public class Config : ConfigFile
     {
@@ -122,15 +114,13 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Add missing VFXSurfaces")]
         public bool AddMissingVFXSurfaces = true;
 
-        [Choice(Label = "No deposit pop in",
-            Tooltip = "Controls how far away resource deposits become visible.",
+        [Choice(Label = "No deposit pop in", Tooltip = "Controls how far away resource deposits become visible.",
             Options = new[] { "Disabled", "Medium", "Far", "Very Far" })]
-        public ViewDistanceOption NoDepositPopIn = ViewDistanceOption.Medium;
+        public string NoDepositPopIn = "Far";
 
-        [Choice(Label = "No Jellyshroom Cave pop in",
-            Tooltip = "Controls how far away Jellyshroom Cave entities become visible.",
+        [Choice(Label = "No Jellyshroom Cave pop in", Tooltip = "Controls how far away Jellyshroom Cave entities become visible.",
             Options = new[] { "Disabled", "Medium", "Far", "Very Far" })]
-        public ViewDistanceOption NoJellyshroomCavePopIn = ViewDistanceOption.Medium;
+        public string NoJellyshroomCavePopIn = "Far";
 
         [Toggle(Label = "Delay Aurora reply", Tooltip = "Prevents the Aurora reply from being received before sending the distress signal.")]
         public bool DelayAuroraReply = true;

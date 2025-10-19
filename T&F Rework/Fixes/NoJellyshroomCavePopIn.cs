@@ -8,20 +8,18 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(LargeWorldEntity), nameof(LargeWorldEntity.Awake)), HarmonyPostfix]
         private static void LargeWorldEntity_Awake(LargeWorldEntity __instance)
         {
-            if (Main.Config.NoJellyshroomCavePopIn == ViewDistanceOption.Disabled) return;
+            if (Main.Config.NoJellyshroomCavePopIn == "Disabled") return;
 
             if (__instance.name.StartsWith("Crab_snake_mushrooms") ||
                 __instance.name.StartsWith("coral_reef_Stalactite"))
             {
-                var cellLevel = Main.Config.NoJellyshroomCavePopIn switch
+                __instance.cellLevel = Main.Config.NoJellyshroomCavePopIn switch
                 {
-                    ViewDistanceOption.Medium => LargeWorldEntity.CellLevel.Medium,
-                    ViewDistanceOption.Far => LargeWorldEntity.CellLevel.Far,
-                    ViewDistanceOption.VeryFar => LargeWorldEntity.CellLevel.VeryFar,
+                    "Medium" => LargeWorldEntity.CellLevel.Medium,
+                    "Far" => LargeWorldEntity.CellLevel.Far,
+                    "VeryFar" => LargeWorldEntity.CellLevel.VeryFar,
                     _ => LargeWorldEntity.CellLevel.Near // Default
                 };
-
-                __instance.cellLevel = cellLevel;
             }
         }
     }
