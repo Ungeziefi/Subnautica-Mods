@@ -20,7 +20,7 @@
 - **Keep drill particles on load**: Fixes the missing drilling particles when drilling directly after loading and while the drill was already pointed at the deposit. (Better compatibility by not using bool Prefix.)
 - **No used Data Box light**. (Improved by directly disabling DataboxLightContainer instead of scanning the player's proximity.)
 - **No Seamoth drip particles**.
-- **No used terminal prompt**: Data terminals don't show the download prompt after downloading.
+- **No used terminal prompt**: Data terminals don't show the download prompt after downloading. (Improved by applying this to generic consoles as well.)
 - **No fleeing to origin**: Makes fleeing use the direction vector by adding it to the creature's current position. (Improved by adding configurable damage/distance ratio and ceiling, which fixes excessive fleeing distances.)
   - To be more specific, the old behaviour was `destination = WhereIAm - WhereDamageCameFrom` and the new one is `destination = WhereIAm + normalized(WhereIAm - WhereDamageCameFrom) * fleeDistance`. Credits to [Mikjaw](https://next.nexusmods.com/profile/Mikjaw) for the pointer on why this happens.
 - **Sulfur Plant rotation**: Fixes the rotation of 2 Sulfur Plants (`280 -40 -195` and `272 -41 -199`).
@@ -39,6 +39,7 @@
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
 - **Dead Peepers closed eyes**: Fixes the Peepers' eyes in LOD distance from being open when dead.
 - **No Geyser safe spot**: Extends the Geysers' capsule collider vertically, removing the safe spot at the bottom. AFAIK, this becomes a problem only outside of vanilla, for instance when using the "Geysers cook fish" or "Geysers push objects" feature in [Tweaks](https://www.nexusmods.com/subnautica/mods/x), or anything similar in other mods dealing with Geysers. (Undocumented but found in the code.)
+- **Soft collision sound minimum mass**: Prevents the soft collision sound from playing for objects with very low mass, such as Brain Coral bubbles. (T&F removes the collision sound if the object has a mass lower than 6, Fixes just checks for mass <1, which is enough to filter out the bubbles.)
 #### Persistence Fixes
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.

@@ -26,7 +26,6 @@
 - **Geysers push objects**.
 - **Smoke clears on open**: Opening the top hatch of the life pod clears the smoke inside.
 - **Base lights toggle**. (Far simpler than the T&F implementation. Doesn't rely on [Base Light Switch](https://www.nexusmods.com/subnautica/mods/46), but it also doesn't use a physical switch.)
-- **Soft collision sound minimum mass**: Prevents the soft collision sound from playing for objects with very low mass, such as Brain Coral bubbles. (T&F removes the collision sound if the object has a mass lower than 6, Fixes just checks for mass <1, which is enough to filter out the bubbles.)
 #### Miscellaneous
 - **Bladderfish tooltip**: Adds a tooltip about the Bladderfish providing oxygen if consumed raw.
 #### Multipliers
@@ -98,8 +97,9 @@ These were originally in T&F's list of "other changes" but are actually fixes:
 - "No voice while loading." -> "No voice while loading"
 - "All plants now have proper VFXSurface component." + Other objects that weren't documented -> "Add missing VFXSurfaces"
 - "Coffee vending machine now spawns coffee properly." -> Can't reproduce
-- "Precursor terminal does not prompt you to use it after you used it." -> "No used terminal prompt"
+- "Precursor terminal does not prompt you to use it after you used it." + Generic consoles -> "No used terminal prompt"
 - "Light on top of cyclops cabin now works." -> Can't reproduce
+- "You don't hear when brain coral bubbles or small fish collide with cyclops." -> "Soft collision sound minimum mass"
 - All persistence-related features:
   - "Save open wreck doors"
   - "Save closed Cyclops doors"
