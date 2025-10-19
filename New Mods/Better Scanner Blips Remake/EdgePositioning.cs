@@ -59,7 +59,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
             if (Main.Config.UseCircularEdgeBlips)
             {
-                // Place in a circle around the center of the screen
+                // Place blips in a circle around screen center
                 float minScreenDim = Mathf.Min(Screen.width, Screen.height);
                 float maxRadius = 0.5f - (Main.Config.EdgeMargin / minScreenDim);
                 float radius = Mathf.Min(Main.Config.CircleRadius / 100f, maxRadius);
@@ -71,15 +71,18 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             }
             else
             {
-                // Place at screen edge
+                // Place blips at screen edges
                 float x, y;
+                // Determine which edge to use based on direction and screen aspect ratio
                 if (Mathf.Abs(direction.x) * Screen.height > Mathf.Abs(direction.y) * Screen.width)
                 {
+                    // Hit left/right edge
                     x = Mathf.Sign(direction.x) * 0.5f;
                     y = direction.y / direction.x * x;
                 }
                 else
                 {
+                    // Hit top/bottom edge
                     y = Mathf.Sign(direction.y) * 0.5f;
                     x = direction.x / direction.y * y;
                 }
@@ -97,13 +100,10 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             if (!string.IsNullOrEmpty(resourceId))
             {
                 // Init velocity
-                if (!velocities.ContainsKey(resourceId))
+                if (!velocities.TryGetValue(resourceId, out var currentVelocity))
                 {
-                    velocities[resourceId] = Vector2.zero;
+                    currentVelocity = velocities[resourceId] = Vector2.zero;
                 }
-
-                // Get current velocity
-                Vector2 currentVelocity = velocities[resourceId];
 
                 // Apply smoothing
                 if (lastPositions.TryGetValue(resourceId, out Vector2 prevPos))
@@ -114,15 +114,12 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
                         ref currentVelocity,
                         Main.Config.SmoothingTime,
                         Mathf.Infinity,
-                        Time.deltaTime
-                    );
+                        Time.deltaTime);
                 }
 
-                // Update velocity
+                // Update stored values for next frame
                 velocities[resourceId] = currentVelocity;
-
-                // Store position for next frame
-                lastPositions[resourceId] = targetPosition;
+                return lastPositions[resourceId] = targetPosition;
             }
             #endregion
 

@@ -35,8 +35,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             }
 
             var camera = MainCamera.camera;
-            var cameraPosition = camera.transform.position;
-            var cameraForward = camera.transform.forward;
 
             // Clear pool but keep capacity
             resourcePool.Clear();
@@ -56,7 +54,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             int activeBlipCount = 0;
             foreach (var (resource, count) in resourcePool)
             {
-                float distance = Vector3.Distance(resource.position, cameraPosition);
+                float distance = Vector3.Distance(resource.position, camera.transform.position);
 
                 // Skip hidden blips
                 if (ShouldHideBlip(distance))

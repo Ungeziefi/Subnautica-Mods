@@ -130,31 +130,13 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         #region Name Helpers
         private static string GetResourceName(ResourceTrackerDatabase.ResourceInfo resource, int count, bool isFragment, bool isKnownFragment)
         {
-            string resourceName;
+            string resourceName = isFragment
+                ? GetFragmentNameWithoutKnown(resource.uniqueId) + (Main.Config.AppendKnown && isKnownFragment ? " (known)" : "")
+                : Language.main.Get(resource.techType.AsString(false));
 
-            // Handle fragment names
-            if (isFragment)
-            {
-                // Get the specific fragment name (without known suffix)
-                resourceName = GetFragmentNameWithoutKnown(resource.uniqueId);
-
-                // Add (known)
-                if (Main.Config.AppendKnown && isKnownFragment)
-                {
-                    resourceName += " (known)";
-                }
-            }
-            else
-            {
-                // Standard resource name
-                resourceName = Language.main.Get(resource.techType.AsString(false));
-            }
-
-            // Add count if needed
-            if (count > 1 && Main.Config.TextVisibility != "Hide count")
-                resourceName += $" x{count}";
-
-            return resourceName;
+            return count > 1 && Main.Config.TextVisibility != "Hide count"
+                ? $"{resourceName} x{count}"
+                : resourceName;
         }
 
         private static string GetFragmentNameWithoutKnown(string uniqueId)
@@ -173,53 +155,20 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
             return name;
         }
-
-        private static string GetFragmentName(string uniqueId, bool isKnownFragment)
-        {
-            string name = GetFragmentNameWithoutKnown(uniqueId);
-
-            if (Main.Config.AppendKnown && isKnownFragment)
-            {
-                name += " (known)";
-            }
-
-            return name;
-        }
         #endregion
-
 
         #region Text Formatter
         private static string FormatText(string resourceName, string distanceText, int count)
         {
             stringBuilder.Clear();
 
-            switch (Main.Config.TextVisibility)
+            return Main.Config.TextVisibility switch
             {
-                case "Hide name":
-                    if (count > 1)
-                    {
-                        stringBuilder.Append("x");
-                        stringBuilder.Append(count);
-                        stringBuilder.Append("\r\n");
-                    }
-                    stringBuilder.Append(distanceText);
-                    break;
-
-                case "Hide distance":
-                    stringBuilder.Append(resourceName);
-                    break;
-
-                case "Hide all":
-                    break;
-
-                default: // Default
-                    stringBuilder.Append(resourceName);
-                    stringBuilder.Append("\r\n");
-                    stringBuilder.Append(distanceText);
-                    break;
-            }
-
-            return stringBuilder.ToString();
+                "Hide name" => count > 1 ? $"x{count}\r\n{distanceText}" : distanceText,
+                "Hide distance" => resourceName,
+                "Hide all" => "",
+                _ => $"{resourceName}\r\n{distanceText}"
+            };
         }
         #endregion
     }
