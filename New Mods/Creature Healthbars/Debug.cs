@@ -11,9 +11,9 @@ namespace Ungeziefi.Creature_Healthbars
         [HarmonyPatch(typeof(Player), nameof(Player.Update)), HarmonyPostfix]
         public static void Player_Update()
         {
-            if (!Main.Config.EnableFeature || !Main.Config.FreezeCreatures) return;
+            if (!Main.Config.EnableFeature || !Main.Config.EnableFreezeCreaturesKey) return;
 
-            if (Input.GetKeyDown(Main.Config.FreezeCreaturesKey))
+            if (GameInput.GetButtonDown(Main.FreezeCreaturesButton))
             {
                 freezeActive = !freezeActive;
 
