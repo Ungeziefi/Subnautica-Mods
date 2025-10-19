@@ -13,8 +13,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 return;
 
             // Reset engine sound
-            if (__instance.engineSound != null)
-                __instance.engineSound.AccelerateInput(1f);
+            __instance.engineSound?.AccelerateInput(1f);
 
             // Apply stabilization when empty if configured
             if (Main.Config.StabilizationMode == StabilizationMode.OnlyWhenEmpty &&

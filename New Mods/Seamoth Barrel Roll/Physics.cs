@@ -7,94 +7,156 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
     [HarmonyPatch]
     public partial class SeamothBarrelRoll
     {
+        private static bool registeredSound = false;
+
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.FixedUpdate)), HarmonyPostfix]
         public static void Vehicle_FixedUpdate(Vehicle __instance)
         {
-            if (!Main.Config.EnableFeature ||
-                !(__instance is SeaMoth seamoth) ||
-                !seamoth.GetPilotingMode() ||
-                (Main.Config.RollingRequiresPower && !HasPower(seamoth)) || // Power
-                (!Main.Config.AllowAirborneRolling && (seamoth.transform.position.y > Ocean.GetOceanLevel() || // Above water
-                                                        seamoth.precursorOutOfWater || // In the QEP moon pool
-                                                        seamoth.onGround))) // Just in case
-                return;
+            if (!ShouldProcessRolling(__instance, out SeaMoth seamoth)) return;
 
-            // Get or create roll state
-            var state = activeRolls.ContainsKey(seamoth) ? activeRolls[seamoth] : activeRolls[seamoth] = new RollState();
+            var state = GetOrCreateRollState(seamoth);
+            UpdateRollInput(state);
+            ApplyRollPhysics(seamoth, state);
+            UpdateRollEffects(seamoth, state);
+        }
 
-            // Force from input
-            bool rollLeft = Input.GetKey(Main.Config.RollLeftKey);
-            bool rollRight = Input.GetKey(Main.Config.RollRightKey);
+        private static bool ShouldProcessRolling(Vehicle vehicle, out SeaMoth seamoth)
+        {
+            seamoth = null;
+
+            if (!Main.Config.EnableFeature)
+                return false;
+
+            seamoth = vehicle as SeaMoth;
+            if (seamoth == null || !seamoth.GetPilotingMode())
+                return false;
+
+            if (Main.Config.RollingRequiresPower && !HasPower(seamoth))
+                return false;
+
+            if (!Main.Config.AllowAirborneRolling && IsAirborne(seamoth))
+                return false;
+
+            return true;
+        }
+
+        private static bool IsAirborne(SeaMoth seamoth)
+        {
+            return seamoth.transform.position.y > Ocean.GetOceanLevel() ||
+                   seamoth.precursorOutOfWater ||
+                   seamoth.onGround;
+        }
+
+        private static RollState GetOrCreateRollState(SeaMoth seamoth)
+        {
+            if (!activeRolls.TryGetValue(seamoth, out var state))
+            {
+                state = new RollState();
+                activeRolls[seamoth] = state;
+            }
+            return state;
+        }
+
+        private static void UpdateRollInput(RollState state)
+        {
+            bool rollLeft = GameInput.GetButtonHeld(Main.RollLeftButton);
+            bool rollRight = GameInput.GetButtonHeld(Main.RollRightButton);
+
             state.isRolling = rollLeft || rollRight;
-            state.targetRollForce = rollLeft ? Main.Config.RollForce : // Left is positive
-                                  rollRight ? -Main.Config.RollForce : // Right is negative
-                                  0f; // No input
+            state.targetRollForce = rollLeft ? Main.Config.RollForce :
+                                   rollRight ? -Main.Config.RollForce :
+                                   0f;
 
             // Interpolate towards target
-            state.currentRollForce = Mathf.MoveTowards(state.currentRollForce, state.targetRollForce,
-                                                     Main.Config.RollAcceleration * Time.fixedDeltaTime);
+            state.currentRollForce = Mathf.MoveTowards(
+                state.currentRollForce,
+                state.targetRollForce,
+                Main.Config.RollAcceleration * Time.fixedDeltaTime);
+        }
 
-            // Roll when enough force
+        private static void ApplyRollPhysics(SeaMoth seamoth, RollState state)
+        {
             if (Mathf.Abs(state.currentRollForce) > 0.01f)
-                seamoth.useRigidbody.AddTorque(seamoth.transform.forward * state.currentRollForce * Time.fixedDeltaTime,
+            {
+                seamoth.useRigidbody.AddTorque(
+                    seamoth.transform.forward * state.currentRollForce * Time.fixedDeltaTime,
                     ForceMode.VelocityChange);
+            }
+        }
 
-            // Engine sound transitions
+        private static void UpdateRollEffects(SeaMoth seamoth, RollState state)
+        {
+            UpdateEngineSound(seamoth, state);
+            UpdateBubbleEffects(seamoth, state);
+        }
+
+        private static void UpdateEngineSound(SeaMoth seamoth, RollState state)
+        {
+            if (seamoth.engineSound == null) return;
+
+            // Handle state transitions
             if (state.isRolling != state.wasRolling)
             {
-                if (!state.isRolling && seamoth.engineSound != null)
-                    seamoth.engineSound.AccelerateInput(1f);  // Reset engine sound when stopping roll
+                if (!state.isRolling)
+                {
+                    seamoth.engineSound.AccelerateInput(1f);
+                }
                 state.wasRolling = state.isRolling;
             }
 
-            // Rolling effects
+            // Adjust sound during roll
             if (state.isRolling)
             {
-                // Adjust engine sound based on roll intensity
-                if (seamoth.engineSound != null)
-                {
-                    float speedRatio = Mathf.Abs(state.currentRollForce) / Main.Config.RollForce;
-                    seamoth.engineSound.AccelerateInput(1f + speedRatio * 0.5f);
-                }
-
-                // Adjust bubble effects based on roll intensity
-                if (seamoth.bubbles != null)
-                {
-                    var emission = seamoth.bubbles.emission;
-                    emission.rateOverTime = Mathf.Lerp(20f, 50f,
-                        Mathf.Abs(state.currentRollForce) / Main.Config.RollForce);
-                }
+                float speedRatio = Mathf.Abs(state.currentRollForce) / Main.Config.RollForce;
+                seamoth.engineSound.AccelerateInput(1f + speedRatio * 0.5f);
             }
+        }
+
+        private static void UpdateBubbleEffects(SeaMoth seamoth, RollState state)
+        {
+            if (!state.isRolling || seamoth.bubbles == null) return;
+
+            var emission = seamoth.bubbles.emission;
+            float rollIntensity = Mathf.Abs(state.currentRollForce) / Main.Config.RollForce;
+            emission.rateOverTime = Mathf.Lerp(20f, 50f, rollIntensity);
         }
 
         #region Star Fox Sound
-        // Register sound event
         [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Start)), HarmonyPostfix]
-        public static void SeaMoth_Start(Vehicle __instance)
+        public static void SeaMoth_Start()
         {
-            // Should register regardless to allow toggling without restart
-            // Actually not sure but I'm too lazy to test
-            // I'm probably right anyway...
+            if (registeredSound) return;
 
             CustomSoundSourceBase soundSource = new ModFolderSoundSource("SoundsFolder");
-            FModSoundBuilder builder = new FModSoundBuilder(soundSource);
-            builder.CreateNewEvent("DoABarrelRoll", Nautilus.Utility.AudioUtils.BusPaths.UnderwaterAmbient)
+            new FModSoundBuilder(soundSource)
+                .CreateNewEvent("DoABarrelRoll", Nautilus.Utility.AudioUtils.BusPaths.UnderwaterAmbient)
                 .SetMode2D()
                 .SetSound("DoABarrelRoll")
                 .Register();
+
+            registeredSound = true;
         }
 
-        // Play sound
         [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Update)), HarmonyPostfix]
         public static void SeaMoth_Update(Vehicle __instance)
         {
-            if (!Main.Config.EnableFeature || !Main.Config.StarFoxSound) return;
+            if (!ShouldPlayBarrelRollSound(__instance)) return;
 
-            if (__instance is SeaMoth seamoth && seamoth.GetPilotingMode() &&
-                (Input.GetKeyDown(Main.Config.RollLeftKey) || Input.GetKeyDown(Main.Config.RollRightKey)))
+            if (GameInput.GetButtonDown(Main.RollLeftButton) ||
+                GameInput.GetButtonDown(Main.RollRightButton))
             {
-                Utils.PlayFMODAsset(Nautilus.Utility.AudioUtils.GetFmodAsset("DoABarrelRoll"), Player.main.transform.position);
+                Utils.PlayFMODAsset(
+                    Nautilus.Utility.AudioUtils.GetFmodAsset("DoABarrelRoll"),
+                    Player.main.transform.position);
             }
+        }
+
+        private static bool ShouldPlayBarrelRollSound(Vehicle vehicle)
+        {
+            return Main.Config.EnableFeature &&
+                   Main.Config.StarFoxSound &&
+                   vehicle is SeaMoth seamoth &&
+                   seamoth.GetPilotingMode();
         }
         #endregion
     }

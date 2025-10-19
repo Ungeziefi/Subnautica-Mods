@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using UnityEngine;
 
 namespace Ungeziefi.Seamoth_Barrel_Roll
 {
@@ -29,7 +28,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 // Only stabilize when not actively rolling
                 else if (Main.Config.StabilizationMode == StabilizationMode.OnlyWhenIdle)
                 {
-                    bool isRolling = Input.GetKey(Main.Config.RollLeftKey) || Input.GetKey(Main.Config.RollRightKey);
+                    bool isRolling = GameInput.GetButtonDown(Main.RollLeftButton) || GameInput.GetButtonDown(Main.RollRightButton);
                     return !isRolling;
                 }
             }
