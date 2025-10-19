@@ -14,7 +14,7 @@ namespace Ungeziefi.Rotatable_Ladders
 
         // Hover prompt
         [HarmonyPatch(typeof(BaseLadder), nameof(BaseLadder.OnHandHover)), HarmonyPostfix]
-        public static void BaseLadder_OnHandHover(BaseLadder __instance, GUIHand hand)
+        public static void BaseLadder_OnHandHover(BaseLadder __instance)
         {
             if (!Main.Config.EnableFeature || __instance == null || !__instance.enabled) return;
 
@@ -22,15 +22,13 @@ namespace Ungeziefi.Rotatable_Ladders
             bool isHoldingItem = Inventory.main.GetHeldTool() != null;
             if (Main.Config.EmptyHandsOnly && isHoldingItem) return;
 
-            var rotateText = GameInput.IsPrimaryDeviceGamepad() ? "Press to rotate" : $"Press {Main.Config.RotateLadderKey} to rotate";
+            string rotateText = GameInput.FormatButton(Main.RotateLadderButton, false);
+            HandReticle.main.SetText
+                (HandReticle.TextType.HandSubscript,
+                $"Press {rotateText} to rotate",
+                false);
 
-            HandReticle.main.SetText(type: HandReticle.TextType.HandSubscript,
-                text: rotateText,
-                translate: false,
-                button: GameInput.IsPrimaryDeviceGamepad() ? GameInput.Button.AltTool : GameInput.Button.None);
-
-            if (Input.GetKeyDown(Main.Config.RotateLadderKey) ||
-                ((GameInput.IsPrimaryDeviceGamepad()) && GameInput.GetButtonDown(GameInput.Button.AltTool)))
+            if (GameInput.GetButtonDown(Main.RotateLadderButton))
             {
                 Transform parent = __instance.transform.parent;
                 if (parent == null) return;

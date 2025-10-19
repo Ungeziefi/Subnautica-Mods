@@ -3,6 +3,7 @@ using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
+using InputPaths = Nautilus.Handlers.GameInputHandler.Paths;
 
 namespace Ungeziefi.Rotatable_Ladders
 {
@@ -12,17 +13,24 @@ namespace Ungeziefi.Rotatable_Ladders
     {
         public const string PLUGIN_GUID = "Ungeziefi.Rotatable_Ladders";
         public const string PLUGIN_NAME = "Rotatable Ladders";
-        public const string PLUGIN_VERSION = "1.1.1";
+        public const string PLUGIN_VERSION = "2.0.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
         internal static SaveData SaveData { get; private set; }
+        public static GameInput.Button RotateLadderButton;
 
         public void Awake()
         {
             Logger = base.Logger;
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
+
+            RotateLadderButton = EnumHandler.AddEntry<GameInput.Button>("RotateLadderButton")
+                .CreateInput("Rotate ladder")
+                .WithKeyboardBinding(InputPaths.Keyboard.R)
+                .WithControllerBinding(InputPaths.Gamepad.DpadUp)
+                .WithCategory("Rotatable Ladders");
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
             SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();
