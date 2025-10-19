@@ -3,6 +3,7 @@ using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
+using InputPaths = Nautilus.Handlers.GameInputHandler.Paths;
 
 namespace Ungeziefi.Cockpit_Free_Look
 {
@@ -12,16 +13,23 @@ namespace Ungeziefi.Cockpit_Free_Look
     {
         public const string PLUGIN_GUID = "Ungeziefi.Cockpit_Free_Look";
         public const string PLUGIN_NAME = "Cockpit Free Look";
-        public const string PLUGIN_VERSION = "1.2.1";
+        public const string PLUGIN_VERSION = "2.0.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        public static GameInput.Button FreeLookKey;
 
         public void Awake()
         {
             Logger = base.Logger;
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
+
+            FreeLookKey = EnumHandler.AddEntry<GameInput.Button>("FreeLookKey")
+                .CreateInput("Toggle free look")
+                .WithKeyboardBinding(InputPaths.Keyboard.F)
+                .WithControllerBinding(InputPaths.Gamepad.DpadUp)
+                .WithCategory("Cockpit Free Look");
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
         }

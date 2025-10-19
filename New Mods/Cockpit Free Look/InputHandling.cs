@@ -6,81 +6,93 @@ namespace Ungeziefi.Cockpit_Free_Look
     [HarmonyPatch]
     public partial class CockpitFreeLook
     {
-        [HarmonyPatch(typeof(Player), nameof(Player.UpdateRotation)), HarmonyPostfix]
-        public static void Player_UpdateRotation()
+        [HarmonyPatch(typeof(Player), nameof(Player.Update)), HarmonyPostfix]
+        public static void Player_Update()
         {
-            if (!Main.Config.SeamothEnableFeature && !Main.Config.PRAWNEnableFeature) return;
-
-            Player player = Player.main;
-            if (player == null || player.mode != Player.Mode.LockedPiloting) return;
-
-            if (Cursor.visible) return;
-
-            // Get current vehicle
-            Vehicle vehicle = player.currentMountedVehicle;
-            if (vehicle == null) return;
-
-            // Check vehicle and config
-            bool isExosuit = vehicle is Exosuit;
-            bool isValidVehicle = (isExosuit && Main.Config.PRAWNEnableFeature) || (!isExosuit && Main.Config.SeamothEnableFeature);
-            if (!isValidVehicle) return;
-
-            // Check for key press
-            bool isAnyKeyPressed = Input.GetKey(Main.Config.FreeLookKey) ||
-                                 Input.GetKey(Main.Config.SecondaryFreeLookKey);
+            if (!ShouldProcessFreeLook(out Vehicle vehicle, out bool isExosuit)) return;
 
             if (Main.Config.HoldKeyMode)
             {
-                // Hold mode
-                if (isAnyKeyPressed && !isLooking)
-                {
-                    // Start free look when key is held
-                    isLooking = true;
-                    isReturning = false;
-                    originalRotation = mainCamera.transform.localRotation;
-                    currentRotation = Vector2.zero;
-
-                    if (isExosuit)
-                    {
-                        DisableExosuitArms(vehicle as Exosuit);
-                    }
-                }
-                else if (!isAnyKeyPressed && isLooking)
-                {
-                    // End free look when key is released
-                    isLooking = false;
-                    isReturning = true;
-                    returnTime = 0f;
-                }
+                HandleHoldMode(vehicle, isExosuit);
             }
             else
             {
-                // Toggle mode
-                if (isAnyKeyPressed && !wasKeyPressed)
-                {
-                    if (!isLooking)
-                    {
-                        // Start
-                        isLooking = true;
-                        isReturning = false;
-                        originalRotation = mainCamera.transform.localRotation;
-                        currentRotation = Vector2.zero;
+                HandleToggleMode(vehicle, isExosuit);
+            }
+        }
 
-                        if (isExosuit)
-                        {
-                            DisableExosuitArms(vehicle as Exosuit);
-                        }
-                    }
-                    else
-                    {
-                        // End
-                        isLooking = false;
-                        isReturning = true;
-                        returnTime = 0f;
-                    }
+        private static bool ShouldProcessFreeLook(out Vehicle vehicle, out bool isExosuit)
+        {
+            vehicle = null;
+            isExosuit = false;
+
+            if (!Main.Config.SeamothEnableFeature && !Main.Config.PRAWNEnableFeature)
+                return false;
+
+            Player player = Player.main;
+            if (player == null || player.mode != Player.Mode.LockedPiloting || Cursor.visible)
+                return false;
+
+            vehicle = player.currentMountedVehicle;
+            if (vehicle == null)
+                return false;
+
+            isExosuit = vehicle is Exosuit;
+            bool isValidVehicle = (isExosuit && Main.Config.PRAWNEnableFeature) ||
+                                  (!isExosuit && Main.Config.SeamothEnableFeature);
+
+            return isValidVehicle;
+        }
+
+        private static void HandleHoldMode(Vehicle vehicle, bool isExosuit)
+        {
+            bool isKeyHeld = GameInput.GetButtonHeld(Main.FreeLookKey);
+
+            if (isKeyHeld && !isLooking)
+            {
+                StartFreeLook(vehicle, isExosuit);
+            }
+            else if (!isKeyHeld && isLooking)
+            {
+                EndFreeLook();
+            }
+        }
+
+        private static void HandleToggleMode(Vehicle vehicle, bool isExosuit)
+        {
+            bool isKeyPressed = GameInput.GetButtonDown(Main.FreeLookKey);
+
+            if (isKeyPressed)
+            {
+                if (!isLooking)
+                {
+                    StartFreeLook(vehicle, isExosuit);
+                }
+                else
+                {
+                    EndFreeLook();
                 }
             }
-            wasKeyPressed = isAnyKeyPressed;
+        }
+
+        private static void StartFreeLook(Vehicle vehicle, bool isExosuit)
+        {
+            isLooking = true;
+            isReturning = false;
+            originalRotation = mainCamera.transform.localRotation;
+            currentRotation = Vector2.zero;
+
+            if (isExosuit)
+            {
+                DisableExosuitArms(vehicle as Exosuit);
+            }
+        }
+
+        private static void EndFreeLook()
+        {
+            isLooking = false;
+            isReturning = true;
+            returnTime = 0f;
         }
     }
 }
