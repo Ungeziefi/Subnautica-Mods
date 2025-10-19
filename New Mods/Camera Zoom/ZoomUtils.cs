@@ -155,20 +155,15 @@ namespace Ungeziefi.Camera_Zoom
         }
 
         // Handle gradual zoom inputs and effects
-        public static bool HandleGradualZoom(KeyCode zoomInKey, KeyCode zoomOutKey, float zoomSpeed, float minFOV, float maxFOV)
+        public static bool HandleGradualZoom(GameInput.Button zoomInKey, GameInput.Button zoomOutKey, float zoomSpeed, float minFOV, float maxFOV)
         {
-            int zoomDirection = 0;
-            if (Input.GetKey(zoomInKey))
-                zoomDirection = -1; // Zoom in
-            else if (Input.GetKey(zoomOutKey))
-                zoomDirection = 1; // Zoom out
+            int zoomDirection = GameInput.GetButtonHeld(zoomInKey) ? -1 :
+                               GameInput.GetButtonHeld(zoomOutKey) ? 1 : 0;
 
-            if (zoomDirection == 0)
-                return false;
+            if (zoomDirection == 0) return false;
 
             Camera camera = SNCameraRoot.main?.mainCamera;
-            if (camera == null)
-                return false;
+            if (camera == null) return false;
 
             float currentFOV = camera.fieldOfView;
             float newFOV = Mathf.Clamp(

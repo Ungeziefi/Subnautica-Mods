@@ -74,8 +74,8 @@ namespace Ungeziefi.Camera_Zoom
             // Handle different zoom modes
             if (Main.Config.CDSteppedZoom)
             {
-                bool zoomInPressed = Input.GetKeyDown(Main.Config.CDZoomInKey);
-                bool zoomOutPressed = Input.GetKeyDown(Main.Config.CDZoomOutKey);
+                bool zoomInPressed = GameInput.GetButtonDown(Main.CDZoomInButton);
+                bool zoomOutPressed = GameInput.GetButtonDown(Main.CDZoomOutButton);
 
                 ZoomUtils.HandleSteppedZoom(
                     zoomInPressed,
@@ -93,8 +93,8 @@ namespace Ungeziefi.Camera_Zoom
             else
             {
                 ZoomUtils.HandleGradualZoom(
-                    Main.Config.CDZoomInKey,
-                    Main.Config.CDZoomOutKey,
+                    Main.CDZoomInButton,
+                    Main.CDZoomOutButton,
                     zoomSpeed,
                     minFOV,
                     maxFOV

@@ -79,13 +79,12 @@ namespace Ungeziefi.Camera_Zoom
 
             // Get context-specific settings
             bool instantZoom = isVehicle ? config.VCInstantZoom : config.PCInstantZoom;
-            KeyCode primaryKey = isVehicle ? config.VCZoomKey : config.PCZoomKey;
-            KeyCode secondaryKey = isVehicle ? config.VCSecondaryZoomKey : config.PCSecondaryZoomKey;
+            GameInput.Button zoomKey = isVehicle ? Main.VCZoomButton : Main.PCZoomButton;
             float targetFOV = isVehicle ? config.VCTargetFOV : config.PCTargetFOV;
             float zoomSpeed = isVehicle ? config.VCZoomSpeed : config.PCZoomSpeed;
 
             // Input and set original FOV
-            if (IsValidState() && (Input.GetKeyDown(primaryKey) || Input.GetKeyDown(secondaryKey)))
+            if (IsValidState() && GameInput.GetButtonDown(zoomKey))
             {
                 if (!isZoomActive && !isTransitioning) originalFOV = Camera.fieldOfView;
                 isZoomActive = !isZoomActive;

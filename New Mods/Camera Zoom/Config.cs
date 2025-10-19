@@ -19,12 +19,6 @@ namespace Ungeziefi.Camera_Zoom
         [Toggle(Label = "Allow while building")]
         public bool PCAllowWhileBuilding = false;
 
-        [Keybind(Label = "Zoom key", Tooltip = "Scroll wheel click by default.")]
-        public KeyCode PCZoomKey = KeyCode.Mouse2;
-
-        [Keybind(Label = "Secondary zoom key", Tooltip = "Controller left thumb stick click by default.")]
-        public KeyCode PCSecondaryZoomKey = KeyCode.JoystickButton8;
-
         [Slider(Label = "Target FOV", DefaultValue = 20f, Min = 10f, Max = 40f, Step = 1)]
         public float PCTargetFOV = 20f;
 
@@ -39,12 +33,6 @@ namespace Ungeziefi.Camera_Zoom
 
         [Toggle(Label = "Instant zoom")]
         public bool VCInstantZoom = false;
-
-        [Keybind(Label = "Zoom key", Tooltip = "Scroll wheel click by default.")]
-        public KeyCode VCZoomKey = KeyCode.Mouse2;
-
-        [Keybind(Label = "Secondary zoom key", Tooltip = "Controller left thumb stick click by default.")]
-        public KeyCode VCSecondaryZoomKey = KeyCode.JoystickButton8;
 
         [Slider(Label = "Target FOV", DefaultValue = 20f, Min = 10f, Max = 40f, Step = 1)]
         public float VCTargetFOV = 20f;
@@ -66,12 +54,6 @@ namespace Ungeziefi.Camera_Zoom
 
         [Toggle(Label = "Use blink effect", Tooltip = "When enabled, the screen briefly fades to black during stepped zoom transitions.")]
         public bool CCUseBlinkEffect = true;
-
-        [Keybind(Label = "Zoom in key", Tooltip = "Left Shift by default.")]
-        public KeyCode CCZoomInKey = KeyCode.LeftShift;
-
-        [Keybind(Label = "Zoom out key", Tooltip = "Left Control by default.")]
-        public KeyCode CCZoomOutKey = KeyCode.LeftControl;
 
         [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]
         public float CCMinimumFOV = 10f;
@@ -99,12 +81,6 @@ namespace Ungeziefi.Camera_Zoom
 
         [Toggle(Label = "Use blink effect", Tooltip = "When enabled, the screen briefly fades to black during stepped zoom transitions.")]
         public bool CDUseBlinkEffect = true;
-
-        [Keybind(Label = "Zoom in key", Tooltip = "Left Shift by default.")]
-        public KeyCode CDZoomInKey = KeyCode.LeftShift;
-
-        [Keybind(Label = "Zoom out key", Tooltip = "Left Control by default.")]
-        public KeyCode CDZoomOutKey = KeyCode.LeftControl;
 
         [Slider(Label = "Minimum FOV", DefaultValue = 10f, Min = 10f, Max = 60f, Step = 1)]
         public float CDMinimumFOV = 10f;
