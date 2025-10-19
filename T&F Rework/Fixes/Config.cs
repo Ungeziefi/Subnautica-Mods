@@ -140,6 +140,9 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Soft collision sound minimum mass", Tooltip = "Prevents the soft collision sound from playing for objects with very low mass, such as Brain Coral bubbles.")]
         public bool SoftCollisionSoundMinimumMass = true;
 
+        [Toggle(Label = "Disable ghost helm buttons", Tooltip = "Disables the invisible (but still clickable) Cyclops helm HUD buttons when the HUD is off.")]
+        public bool DisableGhostHelmButtons = true;
+
         [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
 

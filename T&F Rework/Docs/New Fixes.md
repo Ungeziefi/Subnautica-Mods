@@ -2,3 +2,4 @@
 - **Force engine shutdown**: Automatically shuts down the Cyclops engine when the power is off.
 - **Delay Aurora reply**: Prevents the Aurora reply from being received before sending the distress signal.
 - **Oxygen Pipes across sub-biomes**: Allows Oxygen Pipes to be placed across sub-biomes such as caves or plateaus.
+- **Disable ghost helm buttons**: Disables the invisible (but still clickable) Cyclops helm HUD buttons when the HUD is off.
