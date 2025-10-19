@@ -12,7 +12,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         {
             // Get camera orientation vectors
             var camera = MainCamera.camera;
-            Vector3 camForward = camera.transform.forward;
             Vector3 camRight = camera.transform.right;
             Vector3 camUp = camera.transform.up;
 
