@@ -26,7 +26,7 @@ namespace Ungeziefi.Moonpool_Rotation
             {
                 // Start advanced rotation sequence
                 isRotatingAny = true;
-                __instance.StartCoroutine(AdvancedRotationSequence(__instance, moonpoolAnim, dockingVehicle.transform));
+                __instance.StartCoroutine(AdvancedRotationSequence(moonpoolAnim, dockingVehicle.transform));
                 return false; // Skip LateUpdate during rotation
             }
             else
@@ -35,7 +35,7 @@ namespace Ungeziefi.Moonpool_Rotation
                 if (Vector3.Dot(dockingVehicle.transform.right, moonpoolAnim.right) < 0)
                 {
                     isRotatingAny = true;
-                    __instance.StartCoroutine(RotationSequence(__instance, moonpoolAnim));
+                    __instance.StartCoroutine(RotationSequence(moonpoolAnim));
                     return false; // Skip LateUpdate during rotation
                 }
             }
@@ -43,7 +43,7 @@ namespace Ungeziefi.Moonpool_Rotation
             return true;
         }
 
-        private static IEnumerator RotationSequence(VehicleDockingBay dockingBay, Transform moonpoolAnim)
+        private static IEnumerator RotationSequence(Transform moonpoolAnim)
         {
             // Store original rotation
             Quaternion originalRotation = moonpoolAnim.rotation;
@@ -61,7 +61,7 @@ namespace Ungeziefi.Moonpool_Rotation
             isRotatingAny = false;
         }
 
-        private static IEnumerator AdvancedRotationSequence(VehicleDockingBay dockingBay, Transform moonpoolAnim, Transform vehicleTransform)
+        private static IEnumerator AdvancedRotationSequence(Transform moonpoolAnim, Transform vehicleTransform)
         {
             // Store original rotation
             Quaternion originalRotation = moonpoolAnim.rotation;
