@@ -3,6 +3,7 @@ using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
+using InputPaths = Nautilus.Handlers.GameInputHandler.Paths;
 
 namespace Ungeziefi.Better_Scanner_Blips_Remake
 {
@@ -31,7 +32,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
             ToggleBlipsButton = EnumHandler.AddEntry<GameInput.Button>("ToggleBlipsButton")
                 .CreateInput("Toggle blips")
-                .WithKeyboardBinding(GameInputHandler.Paths.Keyboard.B)
+                .WithKeyboardBinding(InputPaths.Keyboard.B)
                 .WithCategory("Better Scanner Blips Remake");
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
