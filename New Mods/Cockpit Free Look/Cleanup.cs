@@ -27,7 +27,7 @@ namespace Ungeziefi.Cockpit_Free_Look
                 }
             }
 
-            wasKeyPressed = false;
+            wasButtonPressed = false;
             cachedAimIKComponents = null;
         }
     }

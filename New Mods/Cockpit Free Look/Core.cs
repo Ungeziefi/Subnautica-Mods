@@ -15,7 +15,7 @@ namespace Ungeziefi.Cockpit_Free_Look
         private static bool isReturning = false;
         private static Vector2 currentRotation = Vector2.zero;
         private static Quaternion originalRotation;
-        private static bool wasKeyPressed = false; // Toggle detection
+        private static bool wasButtonPressed = false; // Toggle detection
         private static float returnTime = 0f; // Time elapsed during return animation
     }
 }

@@ -18,14 +18,14 @@ namespace Ungeziefi.Cockpit_Free_Look
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-        public static GameInput.Button FreeLookKey;
+        public static GameInput.Button FreeLookButton;
 
         public void Awake()
         {
             Logger = base.Logger;
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
 
-            FreeLookKey = EnumHandler.AddEntry<GameInput.Button>("FreeLookKey")
+            FreeLookButton = EnumHandler.AddEntry<GameInput.Button>("FreeLookButton")
                 .CreateInput("Toggle free look")
                 .WithKeyboardBinding(InputPaths.Keyboard.F)
                 .WithControllerBinding(InputPaths.Gamepad.DpadUp)

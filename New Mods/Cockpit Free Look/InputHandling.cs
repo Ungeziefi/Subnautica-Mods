@@ -46,13 +46,13 @@ namespace Ungeziefi.Cockpit_Free_Look
 
         private static void HandleHoldMode(Vehicle vehicle, bool isExosuit)
         {
-            bool isKeyHeld = GameInput.GetButtonHeld(Main.FreeLookKey);
+            bool isButtonHeld = GameInput.GetButtonHeld(Main.FreeLookButton);
 
-            if (isKeyHeld && !isLooking)
+            if (isButtonHeld && !isLooking)
             {
                 StartFreeLook(vehicle, isExosuit);
             }
-            else if (!isKeyHeld && isLooking)
+            else if (!isButtonHeld && isLooking)
             {
                 EndFreeLook();
             }
@@ -60,9 +60,9 @@ namespace Ungeziefi.Cockpit_Free_Look
 
         private static void HandleToggleMode(Vehicle vehicle, bool isExosuit)
         {
-            bool isKeyPressed = GameInput.GetButtonDown(Main.FreeLookKey);
+            bool isButtonPressed = GameInput.GetButtonDown(Main.FreeLookButton);
 
-            if (isKeyPressed)
+            if (isButtonPressed)
             {
                 if (!isLooking)
                 {
