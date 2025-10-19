@@ -39,24 +39,20 @@ namespace Ungeziefi.Tweaks
                 lightingPanel.SetExternalLighting(false);
                 lightingPanel.UpdateLightingButtons();
             }
-
-            var helmHUD = cyclops.GetComponentInChildren<CyclopsHelmHUDManager>(true);
-            if (helmHUD != null)
-            {
-                AccessTools.Field(typeof(CyclopsHelmHUDManager), "hudActive").SetValue(helmHUD, isPowered);
-            }
         }
 
-        [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPostfix]
-        public static void CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
+        [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPrefix]
+        public static bool CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
         {
-            if (!Main.Config.CyclopsDisplaysNeedPower || !__instance.LOD.IsFull()) return;
+            if (!Main.Config.CyclopsDisplaysNeedPower || !__instance.LOD.IsFull())
+                return true;
 
             var powerRelay = __instance.GetComponentInParent<PowerRelay>();
             bool isPowered = powerRelay != null && powerRelay.IsPowered();
 
-            // Disable when power is off
             UpdateDisplayComponents(__instance.subRoot, isPowered);
+
+            return isPowered;
         }
     }
 }
