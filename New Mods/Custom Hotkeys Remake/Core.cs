@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
-using UWE;
 
 namespace Ungeziefi.Custom_Hotkeys_Remake
 {
@@ -75,12 +74,12 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
 
         private bool IsHotkeyPressed(List<KeyCode> keys)
         {
-            if (keys == null || keys.Count == 0) 
+            if (keys == null || keys.Count == 0)
                 return false;
 
             // Check if at least one key was just pressed
             bool hasKeyDown = keys.Any(Input.GetKeyDown);
-            if (!hasKeyDown) 
+            if (!hasKeyDown)
                 return false;
 
             // Check if all other keys are held
