@@ -95,7 +95,7 @@ namespace Ungeziefi.Camera_Zoom
                 }
                 else
                 {
-                    StartTransition(isZoomActive);
+                    StartTransition();
                 }
             }
 
@@ -118,7 +118,7 @@ namespace Ungeziefi.Camera_Zoom
             transitionTime = 0f;
         }
 
-        private static void StartTransition(bool zoomingIn)
+        private static void StartTransition()
         {
             isTransitioning = true;
             transitionStartFOV = Camera.fieldOfView;

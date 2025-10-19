@@ -35,7 +35,7 @@ namespace Ungeziefi.Camera_Zoom
 
         // Save FOV on enter
         [HarmonyPatch(typeof(MapRoomCamera), nameof(MapRoomCamera.ControlCamera)), HarmonyPrefix]
-        public static void MapRoomCamera_ControlCamera(MapRoomCamera __instance)
+        public static void MapRoomCamera_ControlCamera()
         {
             ZoomUtils.InitializeCameraMode(
                 CAMERA_TYPE,
@@ -47,7 +47,7 @@ namespace Ungeziefi.Camera_Zoom
 
         // Reset on exit
         [HarmonyPatch(typeof(MapRoomCamera), nameof(MapRoomCamera.FreeCamera)), HarmonyPostfix]
-        public static void MapRoomCamera_FreeCamera(MapRoomCamera __instance)
+        public static void MapRoomCamera_FreeCamera()
         {
             ResetAndDisable(true);
         }
