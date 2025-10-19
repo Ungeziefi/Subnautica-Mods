@@ -30,7 +30,7 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
 
         #region Initialization
         [HarmonyPatch(typeof(Player), nameof(Player.Start)), HarmonyPostfix]
-        public static void Player_Start(Player __instance)
+        public static void Player_Start()
         {
             if (!Main.Config.EnableFeature) return;
 
@@ -46,32 +46,45 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
         #region Input Processing
         private void Update()
         {
-            if (!Main.Config.EnableFeature || isExecutingCommands) return;
+            if (ShouldProcessInput())
+                CheckHotkeyInputs();
+        }
 
-            if ((DevConsole.instance != null &&
-                DevConsole.instance.IsVisible()) ||
-                FreezeTime.PleaseWait ||
-                Time.timeScale == 0f) return;
+        private bool ShouldProcessInput()
+        {
+            if (!Main.Config.EnableFeature ||
+                isExecutingCommands ||
+                DevConsole.instance.IsVisible() ||
+                WaitScreen.IsWaiting)
+                return false;
 
+            return true;
+        }
+
+        private void CheckHotkeyInputs()
+        {
             foreach (var config in Main.Config.HotkeyConfigurations)
-                if (AreAllKeysPressed(config.Keys))
+            {
+                if (IsHotkeyPressed(config.Keys))
                 {
                     StartCoroutine(ExecuteCommands(config));
                     break;
                 }
+            }
         }
 
-        private bool AreAllKeysPressed(List<KeyCode> keys)
+        private bool IsHotkeyPressed(List<KeyCode> keys)
         {
-            if (keys == null || keys.Count == 0) return false;
-            bool hasKeyDown = false;
+            if (keys == null || keys.Count == 0) 
+                return false;
 
-            foreach (var key in keys)
-            {
-                if (!Input.GetKey(key)) return false;
-                if (Input.GetKeyDown(key)) hasKeyDown = true;
-            }
-            return hasKeyDown;
+            // Check if at least one key was just pressed
+            bool hasKeyDown = keys.Any(Input.GetKeyDown);
+            if (!hasKeyDown) 
+                return false;
+
+            // Check if all other keys are held
+            return keys.All(Input.GetKey);
         }
         #endregion
 
