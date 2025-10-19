@@ -9,22 +9,23 @@ namespace Ungeziefi.Fixes
         // List of all drillable resource types
         private static readonly HashSet<TechType> drillables = new()
         {
-            TechType.DrillableAluminiumOxide,
+            TechType.DrillableSalt,
+            TechType.DrillableQuartz,
             TechType.DrillableCopper,
+            TechType.DrillableTitanium,
+            TechType.DrillableLead,
+            TechType.DrillableSilver,
             TechType.DrillableDiamond,
             TechType.DrillableGold,
-            TechType.DrillableKyanite,
-            TechType.DrillableLead,
-            TechType.DrillableLithium,
             TechType.DrillableMagnetite,
+            TechType.DrillableLithium,
             TechType.DrillableMercury,
+            TechType.DrillableUranium,
             TechType.DrillableNickel,
-            TechType.DrillableQuartz,
-            TechType.DrillableSalt,
-            TechType.DrillableSilver,
             TechType.DrillableSulphur,
-            TechType.DrillableTitanium,
-            TechType.DrillableUranium
+            TechType.DrillableKyanite,
+            TechType.DrillableKyanite,
+            TechType.DrillableAluminiumOxide
         };
 
         [HarmonyPatch(typeof(LargeWorldEntity), nameof(LargeWorldEntity.Awake)), HarmonyPostfix]
