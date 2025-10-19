@@ -45,21 +45,25 @@ namespace Ungeziefi.Camera_Zoom
             CCZoomInButton = EnumHandler.AddEntry<GameInput.Button>("CCZoomInButton")
                 .CreateInput("Cyclops cameras zoom in")
                 .WithKeyboardBinding(InputPaths.Keyboard.Shift)
+                .WithControllerBinding(InputPaths.Gamepad.ButtonNorth)
                 .WithCategory("Camera Zoom");
 
             CCZoomOutButton = EnumHandler.AddEntry<GameInput.Button>("CCZoomOutButton")
                 .CreateInput("Cyclops cameras zoom out")
                 .WithKeyboardBinding(InputPaths.Keyboard.Ctrl)
+                .WithControllerBinding(InputPaths.Gamepad.ButtonWest)
                 .WithCategory("Camera Zoom");
 
             CDZoomInButton = EnumHandler.AddEntry<GameInput.Button>("CDZoomInButton")
                 .CreateInput("Camera Drones zoom in")
                 .WithKeyboardBinding(InputPaths.Keyboard.Shift)
+                .WithControllerBinding(InputPaths.Gamepad.ButtonNorth)
                 .WithCategory("Camera Zoom");
 
             CDZoomOutButton = EnumHandler.AddEntry<GameInput.Button>("CDZoomOutButton")
                 .CreateInput("Camera Drones zoom out")
                 .WithKeyboardBinding(InputPaths.Keyboard.Ctrl)
+                .WithControllerBinding(InputPaths.Gamepad.ButtonWest)
                 .WithCategory("Camera Zoom");
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");

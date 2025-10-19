@@ -101,5 +101,16 @@ namespace Ungeziefi.Camera_Zoom
                 );
             }
         }
+
+        // Add zoom controls to camera bindings display
+        [HarmonyPatch(typeof(uGUI_CameraDrone), nameof(uGUI_CameraDrone.UpdateBindings)), HarmonyPostfix]
+        public static void uGUI_CameraDrone_UpdateBindings(uGUI_CameraDrone __instance)
+        {
+            if (!Main.Config.CCEnableFeature) return;
+
+            string zoomIn = GameInput.FormatButton(Main.CDZoomInButton, false);
+            string zoomOut = GameInput.FormatButton(Main.CDZoomOutButton, false);
+            __instance.stringControls = __instance.stringControls.Insert(0, $"Use {zoomIn} and {zoomOut} to zoom\n");
+        }
     }
 }
