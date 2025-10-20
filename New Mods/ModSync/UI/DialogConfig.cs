@@ -4,7 +4,7 @@ namespace Ungeziefi.ModSync.UI
     {
         // Dialog
         public const float DIALOG_WIDTH = 900f;
-        public const float DIALOG_HEIGHT = 700f;
+        public const float DIALOG_HEIGHT = 800f;
 
         // Buttons
         public const float CLOSE_BUTTON_SIZE = 64f;
