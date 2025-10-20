@@ -143,7 +143,7 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Disable ghost helm buttons", Tooltip = "Disables the invisible (but still clickable) Cyclops helm HUD buttons when the HUD is off.")]
         public bool DisableGhostHelmButtons = true;
 
-        [Toggle("<color=#f1c353>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
 
         [Toggle(Label = "Enable feature", Tooltip = "Stops creatures from returning to the origin coordinates (0, 0, 0) when fleeing.")]
@@ -159,7 +159,7 @@ namespace Ungeziefi.Fixes
             DefaultValue = 50f, Min = 10f, Max = 100f, Step = 5f)]
         public float MaxDamageBasedDistance = 50f;
 
-        [Toggle("<color=#f1c353>Persistence</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Persistence</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PersistenceDivider;
 
         [Toggle(Label = "Save open wreck doors")]

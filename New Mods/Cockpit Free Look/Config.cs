@@ -23,7 +23,7 @@ namespace Ungeziefi.Cockpit_Free_Look
         [Slider(Label = "Look sensitivity", DefaultValue = 1.0f, Min = 0.1f, Max = 5.0f, Step = 0.1f, Format = "{0:0.0}")]
         public float FreeLookSensitivity = 1.0f;
 
-        [Toggle("<color=#f1c353>Seamoth</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Seamoth</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool SeamothDivider;
 
         [Toggle(Label = "Enable feature")]
@@ -39,7 +39,7 @@ namespace Ungeziefi.Cockpit_Free_Look
             DefaultValue = 10f, Min = 0f, Max = 15f, Step = 1f, Format = "{0:0}°")]
         public float CameraTiltAngle = 10f;
 
-        [Toggle("<color=#f1c353>PRAWN Suit</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>PRAWN Suit</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PRAWNSuitDivider;
 
         [Toggle(Label = "Enable feature")]

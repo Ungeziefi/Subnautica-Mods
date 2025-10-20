@@ -62,7 +62,7 @@ namespace Ungeziefi.Creature_Healthbars
         [OnChange(nameof(OnVisualChange))]
         public float HeightPadding = 0f;
 
-        [Toggle("<color=#f1c353>Sprite</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Sprite</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool SpriteDivider;
 
         [Slider(Label = "Sprite width", Tooltip = "Width in pixels, a higher resolution will look smoother.",
@@ -79,28 +79,28 @@ namespace Ungeziefi.Creature_Healthbars
         [OnChange(nameof(OnSpriteChange))]
         public float CornerRoundness = 0.250f;
 
-        [Toggle("<color=#f1c353>Health color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Health color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool HealthColorDivider;
 
         [ColorPicker(Label = "Preview", Tooltip = "The color of the health portion of the bar.", Advanced = true)]
         [OnChange(nameof(OnVisualChange))]
         public Color HealthColor = new(1.0f, 0.1f, 0.1f, 0.85f); // Bright red
 
-        [Toggle("<color=#f1c353>Background color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Background color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool BackgroundColorDivider;
 
         [ColorPicker(Label = "Preview", Tooltip = "The color of the background portion of the bar.", Advanced = true)]
         [OnChange(nameof(OnVisualChange))]
         public Color BackgroundColor = new(0.5f, 0.0f, 0.0f, 0.5f); // Dark red with transparency
 
-        [Toggle("<color=#f1c353>Text color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Text color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TextColorDivider;
 
         [ColorPicker(Label = "Preview", Advanced = true)]
         [OnChange(nameof(OnVisualChange))]
         public Color TextColor = Color.white;
 
-        [Toggle("<color=#f1c353>Debug</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Debug</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool DebugDivider;
 
         [Toggle(Label = "Enable freeze creatures toggle")]

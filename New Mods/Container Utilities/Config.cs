@@ -18,7 +18,7 @@ namespace Ungeziefi.Container_Utilities
         [Toggle(Label = "All items 1x1")]
         public bool AllItems1x1 = false;
 
-        [Toggle("<color=#f1c353>Quick transfer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Quick transfer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool QuickTransferDivider;
 
         [Toggle(Label = "Enable transfer all items", Tooltip = "Hold a key to transfer all items between containers at once.")]
@@ -33,7 +33,7 @@ namespace Ungeziefi.Container_Utilities
         [Keybind(Label = "Transfer similar items key", Tooltip = "Hold this key while clicking an item to transfer all items of the same type.")]
         public KeyCode TransferSimilarItemsKey = KeyCode.LeftControl;
 
-        [Toggle("<color=#f1c353>Custom container sizes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Custom container sizes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CustomContainerSizesDivider;
 
         [Toggle(Label = "Enable custom container sizes", Tooltip = "Enable resizing storage containers with the settings below.")]
@@ -81,7 +81,7 @@ namespace Ungeziefi.Container_Utilities
         [Slider(Label = "Bioreactor height", DefaultValue = 4, Min = 1, Max = 8, Step = 1)]
         public int BioreactorHeight = 4;
 
-        [Toggle("<color=#f1c353>Water filtration machine</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Water filtration machine</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool WaterFiltrationMachineDivider;
 
         [Slider(Label = "Storage width", DefaultValue = 2, Min = 1, Max = 6, Step = 1)]
@@ -98,7 +98,7 @@ namespace Ungeziefi.Container_Utilities
             Tooltip = "Maximum salt that can be stored (shares space with water bottles).")]
         public int FiltrationMaxSalt = 2;
 
-        [Toggle("<color=#f1c353>Trashcan</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Trashcan</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TrashcanDivider;
 
         [Slider(Label = "Trashcan width", DefaultValue = 4, Min = 2, Max = 8, Step = 1)]
@@ -113,7 +113,7 @@ namespace Ungeziefi.Container_Utilities
         [Slider(Label = "Destruction interval (seconds)", DefaultValue = 1, Min = 0.1f, Max = 5, Step = 0.1f, Tooltip = "How frequently items are destroyed from the trashcan")]
         public float TrashcanDestroyInterval = 1f;
 
-        [Toggle("<color=#f1c353>Custom inventory size</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Custom inventory size</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CustomInventorySizeDivider;
 
         [Toggle(Label = "Enable custom inventory size", Tooltip = "Enable resizing the player's personal inventory.")]
@@ -125,7 +125,7 @@ namespace Ungeziefi.Container_Utilities
         [Slider(Label = "Inventory height", DefaultValue = 8, Min = 4, Max = 10, Step = 1)]
         public int InventoryHeight = 8;
 
-        [Toggle("<color=#f1c353>Inventory warnings</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Inventory warnings</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool InventoryWarningsDivider;
 
         [Toggle(Label = "Show free slots warning", Tooltip = "Show a message when picking up items with limited inventory space.")]

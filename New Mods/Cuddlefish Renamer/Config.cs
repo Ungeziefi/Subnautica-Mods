@@ -40,7 +40,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
             DefaultValue = 10f, Min = 5f, Max = 45f, Step = 1f, Format = "{0:0}m")]
         public float FadeStartDistance = 10f;
 
-        [Toggle("<color=#f1c353>Name color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Name color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NameColorDivider;
 
         [ColorPicker(Label = "Preview", Advanced = true)]

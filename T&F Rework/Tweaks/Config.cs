@@ -108,13 +108,13 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Smoke clears on open", Tooltip = "Opening the top hatch of the life pod clears the smoke inside.")]
         public bool SmokeClearsOnOpen = false;
 
-        [Toggle("<color=#f1c353>Torpedo cycling</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Torpedo cycling</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TorpedoCyclingDivider;
 
         [Toggle(Label = "Enable feature")]
         public bool TCEnableFeature = false;
 
-        [Toggle("<color=#f1c353>Animated locker doors</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Animated locker doors</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool AnimatedLockerDoorsDivider;
 
         [Toggle(Label = "Animate small lockers")]
@@ -132,7 +132,7 @@ namespace Ungeziefi.Tweaks
         [Slider(Label = "Double door opening angle", DefaultValue = 90f, Min = 15f, Max = 135f, Step = 5f, Format = "{0:0}°")]
         public float DoubleDoorOpenAngle = 90f;
 
-        [Toggle("<color=#f1c353>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool MiscellaneousTweaksDivider;
 
         [Toggle(Label = "Bladderfish tooltip", Tooltip = "Adds a tooltip about the Bladderfish providing oxygen if consumed raw.")]
@@ -144,7 +144,7 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Capitalize \"Use\"", Tooltip = "Capitalizes the \"Use\" prompt for consistency with other prompts.")]
         public bool CapitalizeUseString = false;
 
-        [Toggle("<color=#f1c353>Multipliers</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Multipliers</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool MultipliersDivider;
 
         [Slider(Label = "Build time multiplier", Tooltip = "Higher values make building take longer. Lower values make building faster.",
@@ -167,7 +167,7 @@ namespace Ungeziefi.Tweaks
             DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}x")]
         public float ScannerRoomSpeedMultiplier = 1f;
 
-        [Toggle("<color=#f1c353>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CreatureSizeRandomizerDivider;
 
         [Toggle(Label = "Enable feature")]
@@ -189,7 +189,7 @@ namespace Ungeziefi.Tweaks
         [Slider(Label = "Maximum multiplier", DefaultValue = 1.25f, Min = 1f, Max = 2f, Step = 0.01f, Format = "{0:0.00}x")]
         public float MaxCreatureSize = 1.25f;
 
-        [Toggle("<color=#f1c353>New commands</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>New commands</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NewCommandsDivider;
 
         [Toggle(Label = "RestoreHealth")]
@@ -207,13 +207,13 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "QQQ", Tooltip = "Quits the game without confirmation.")]
         public bool QQQ = false;
 
-        //[Toggle("<color=#f1c353>Toggle PRAWN Suit lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        //[Toggle("<color=#FFAC09FF>Toggle PRAWN Suit lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         //public bool TogglePRAWNSuitLightsDivider;
 
         //[Toggle(Label = "Enable feature")]
         //public bool TPSLEnableFeature = false;
 
-        [Toggle("<color=#f1c353>Base lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Base lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool BaseLightsDivider;
 
         [Toggle(Label = "Toggle base lights", Tooltip = "Allows toggling the lights in the current base. Keybind configurable in the \"Mod Input\" menu.")]
@@ -228,7 +228,7 @@ namespace Ungeziefi.Tweaks
         [Slider(Label = "Lights on after sleep delay", Tooltip = "Delay (in seconds) before base lights turn back on after sleeping.", DefaultValue = 10, Min = 1, Max = 10, Step = 1, Format = "{0}s")]
         public int LightsOnAfterSleepDelay = 10;
 
-        [Toggle("<color=#f1c353>Geysers push objects</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Geysers push objects</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool GeysersPushObjectsDivider;
 
         [Toggle(Label = "Geysers push objects")]

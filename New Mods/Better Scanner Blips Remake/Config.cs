@@ -16,7 +16,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         [Slider(Label = "Distant blip alpha", DefaultValue = 0.1f, Min = 0f, Max = 1f, Step = 0.1f, Format = "{0:0.0}")]
         public float DistantAlpha = 0.1f;
 
-        [Toggle("<color=#f1c353>Visibility</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Visibility</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool VisibilityDivider;
 
         [Choice(Label = "Text content visibility",
@@ -44,7 +44,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         [Toggle(Label = "Hide blips inside Cyclops")]
         public bool HideBlipsInsideCyclops = true;
 
-        [Toggle("<color=#f1c353>Toggle controls</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Toggle controls</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool ToggleControlsDivider;
 
         [Toggle(Label = "Show blip toggle message")]
@@ -57,7 +57,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             DefaultValue = 20f, Min = 1f, Max = 100f, Step = 1f)]
         public float ToggleRange = 20f;
 
-        [Toggle("<color=#f1c353>Blip limits</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Blip limits</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool BlipLimitsDivider;
 
         [Toggle(Label = "Limit visible blips", Tooltip = "When enabled, only the specified number of blips will be visible.")]
@@ -67,7 +67,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             DefaultValue = 6, Min = 1, Max = 20, Step = 1)]
         public int MaximumVisibleBlips = 6;
 
-        [Toggle("<color=#f1c353>Grouping</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Grouping</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool GroupingDivider;
 
         [Toggle(Label = "Group nearby resources", Tooltip = "Group resources of the same type that are very close together.")]
@@ -84,7 +84,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             DefaultValue = 40f, Min = 10f, Max = 100f, Step = 5f)]
         public float GroupBreakingDistance = 40f;
 
-        [Toggle("<color=#f1c353>Edge blips</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Edge blips</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool EdgeBlipsDivider;
 
         [Toggle(Label = "Show off-screen blips at edge", Tooltip = "Show blips that are outside your view at the edge of the screen.")]
@@ -105,7 +105,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             DefaultValue = 0.1f, Min = 0.01f, Max = 0.5f, Step = 0.01f, Format = "{0:0.00}")]
         public float SmoothingTime = 0.1f;
 
-        [Toggle("<color=#f1c353>Fragments</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Fragments</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool FragmentsDivider;
 
         [Toggle(Label = "Hide known fragment blips")]
@@ -117,7 +117,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         [Toggle(Label = "Append '(known)'", Tooltip = "When enabled, fragments for blueprints you already know will be marked with '(known)'.")]
         public bool AppendKnown = true;
 
-        [Toggle("<color=#f1c353>Blip color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Blip color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool BlipColorDivider;
 
         [Toggle(Label = "Use custom blip color", Tooltip = "Enable to use a custom color for scanner blips.")]
@@ -128,7 +128,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         [OnChange(nameof(OnColorSettingChanged))]
         public Color BlipColor = new(1.00f, 0.64f, 0.00f, 1.00f);
 
-        [Toggle("<color=#f1c353>Text color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Text color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TextColorDivider;
 
         [Toggle(Label = "Use custom text color", Tooltip = "Enable to use a different color for text than for blips.")]

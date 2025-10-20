@@ -6,7 +6,7 @@ namespace Ungeziefi.Camera_Zoom
     [Menu("Camera Zoom")]
     public class Config : ConfigFile
     {
-        [Toggle("<color=#f1c353>Player</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Player</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool PlayerDivider;
 
         [Toggle(Label = "Enable feature")]
@@ -24,7 +24,7 @@ namespace Ungeziefi.Camera_Zoom
         [Slider(Label = "Zoom speed", DefaultValue = 4f, Min = 1f, Max = 10f, Step = 1)]
         public float PCZoomSpeed = 4f;
 
-        [Toggle("<color=#f1c353>Vehicles</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Vehicles</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool VehiclesDivider;
 
         [Toggle(Label = "Enable feature")]
@@ -39,7 +39,7 @@ namespace Ungeziefi.Camera_Zoom
         [Slider(Label = "Zoom speed", DefaultValue = 4f, Min = 1f, Max = 10f, Step = 1)]
         public float VCZoomSpeed = 4f;
 
-        [Toggle("<color=#f1c353>Cyclops Cameras</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Cyclops Cameras</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CyclopsCamerasDivider;
 
         [Toggle(Label = "Enable feature")]
@@ -66,7 +66,7 @@ namespace Ungeziefi.Camera_Zoom
         [Slider(Label = "Blink speed", DefaultValue = 5f, Min = 1f, Max = 20f, Step = 1f)]
         public float CCBlinkSpeed = 5f;
 
-        [Toggle("<color=#f1c353>Camera Drones</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        [Toggle("<color=#FFAC09FF>Camera Drones</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CameraDronesDivider;
 
         [Toggle(Label = "Enable feature")]
