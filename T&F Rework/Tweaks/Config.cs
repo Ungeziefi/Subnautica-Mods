@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Nautilus.Json;
 using Nautilus.Options.Attributes;
-using UnityEngine;
 
 namespace Ungeziefi.Tweaks
 {
@@ -115,12 +114,6 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Enable feature")]
         public bool TCEnableFeature = false;
 
-        [Keybind(Label = "Seamoth cycle torpedo key")]
-        public KeyCode SeamothCycleTorpedoKey = KeyCode.R;
-
-        [Keybind(Label = "PRAWN Suit cycle torpedo key")]
-        public KeyCode PRAWNSuitCycleTorpedoKey = KeyCode.R;
-
         [Toggle("<color=#f1c353>Animated locker doors</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool AnimatedLockerDoorsDivider;
 
@@ -219,9 +212,6 @@ namespace Ungeziefi.Tweaks
 
         //[Toggle(Label = "Enable feature")]
         //public bool TPSLEnableFeature = false;
-
-        //[Keybind(Label = "PRAWN Suit lights toggle key")]
-        //public KeyCode PRAWNSuitLightsToggleKey = KeyCode.L;
 
         [Toggle("<color=#f1c353>Base lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool BaseLightsDivider;

@@ -121,7 +121,7 @@ namespace Ungeziefi.Tweaks
             if (!Main.Config.TCEnableFeature || !__instance.GetPilotingMode())
                 return;
 
-            if (Input.GetKeyDown(Main.Config.SeamothCycleTorpedoKey))
+            if (GameInput.GetButtonDown(Main.SeamothCycleTorpedoButton))
                 CycleTorpedoSelection(__instance);
         }
 
@@ -132,7 +132,7 @@ namespace Ungeziefi.Tweaks
             if (!Main.Config.TCEnableFeature || !__instance.GetPilotingMode())
                 return;
 
-            if (Input.GetKeyDown(Main.Config.PRAWNSuitCycleTorpedoKey))
+            if (GameInput.GetButtonDown(Main.PRAWNSuitCycleTorpedoButton))
                 CycleTorpedoSelection(__instance);
         }
 

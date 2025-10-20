@@ -100,7 +100,7 @@
 
 //            if (!Cursor.visible &&
 //                Player.main.currentMountedVehicle == __instance &&
-//                Input.GetKeyDown(Main.Config.PRAWNSuitLightsToggleKey))
+//                GameInput.GetButtonDown(Main.PRAWNSuitLightsToggleButton))
 //            {
 //                ToggleLights(__instance);
 //            }
