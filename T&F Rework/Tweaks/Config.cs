@@ -14,8 +14,6 @@ namespace Ungeziefi.Tweaks
     [Menu("Tweaks")]
     public class Config : ConfigFile
     {
-        // T&F Tweaks
-
         [Toggle(Label = "Seamoth pushing", Tooltip = "Allows pushing the Seamoth when it's on land.")]
         public bool SeamothPushing = false;
 
@@ -69,8 +67,6 @@ namespace Ungeziefi.Tweaks
 
         [Toggle(Label = "Openable chests in PRAWN", Tooltip = "The PRAWN Suit can now open supply chests.")]
         public bool OpenableChestsInPRAWN = false;
-
-        // New Tweaks
 
         [Toggle(Label = "No obstacle check when sitting", Tooltip = "Allows sitting even if there's an object in the way.")]
         public bool NoObstacleCheckWhenSitting = false;
