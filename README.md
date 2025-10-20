@@ -19,6 +19,7 @@ These are separate from the T&F rework because they don't fit its scope. More in
 - [Custom Hotkeys Remake](https://www.nexusmods.com/subnautica/mods/2299)
 - [Cuddlefish Renamer](https://www.nexusmods.com/subnautica/mods/2333)
 - [Creature Healthbars](https://www.nexusmods.com/subnautica/mods/2349)
+- [ModSync](https://www.nexusmods.com/subnautica/mods/2704)
 
 **Note**: I realized after release that [Mikjaw](https://next.nexusmods.com/profile/Mikjaw) already created mods with the same goal as Seamoth Barrel Roll and Cockpit Free Look. Check the originals and make your own choice!
 - [Roll Control](https://www.nexusmods.com/subnautica/mods/515)
