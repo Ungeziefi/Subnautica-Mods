@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Ungeziefi.ModSync.UI
 {
     public static class DialogConfig
