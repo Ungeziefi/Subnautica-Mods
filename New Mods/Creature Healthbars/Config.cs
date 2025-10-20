@@ -103,8 +103,8 @@ namespace Ungeziefi.Creature_Healthbars
         [Toggle("<color=#f1c353>Debug</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool DebugDivider;
 
-        [Toggle(Label = "Enable freeze creatures key")]
-        public bool EnableFreezeCreaturesKey = false;
+        [Toggle(Label = "Enable freeze creatures toggle")]
+        public bool EnableFreezeCreaturesToggle = false;
 
         [Keybind(Label = "Freeze creatures key", Tooltip = "Right bracket key by default.")]
         public KeyCode FreezeCreaturesKey = KeyCode.RightBracket;

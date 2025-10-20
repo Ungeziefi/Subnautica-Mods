@@ -18,15 +18,15 @@ namespace Ungeziefi.Creature_Healthbars
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
         internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-        public static GameInput.Button FreezeCreaturesButton;
+        public static GameInput.Button FreezeCreaturesToggleButton;
 
         public void Awake()
         {
             Logger = base.Logger;
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
 
-            FreezeCreaturesButton = EnumHandler.AddEntry<GameInput.Button>("FreezeCreaturesButton")
-                .CreateInput("Freeze creatures")
+            FreezeCreaturesToggleButton = EnumHandler.AddEntry<GameInput.Button>("FreezeCreaturesToggleButton")
+                .CreateInput("Freeze creatures toggle")
                 .WithKeyboardBinding(InputPaths.Keyboard.Backslash)
                 .WithCategory("Creature Healthbars (Debug)");
 
