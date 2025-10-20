@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Container Utilities", "New 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drillable Scan Remake", "New Mods\Drillable Scan Remake\Drillable Scan Remake.csproj", "{1285A8A7-B556-5D6D-C2C7-7AA3E2F6313B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModSync", "New Mods\ModSync\ModSync.csproj", "{D2500ECD-015D-518C-D051-97938B60C0CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,10 @@ Global
 		{1285A8A7-B556-5D6D-C2C7-7AA3E2F6313B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1285A8A7-B556-5D6D-C2C7-7AA3E2F6313B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1285A8A7-B556-5D6D-C2C7-7AA3E2F6313B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2500ECD-015D-518C-D051-97938B60C0CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2500ECD-015D-518C-D051-97938B60C0CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2500ECD-015D-518C-D051-97938B60C0CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2500ECD-015D-518C-D051-97938B60C0CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,6 +168,7 @@ Global
 		{8A05687C-BAD6-85B9-97CD-2AA7855E3451} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{FBE22281-EDAA-02BC-A762-9256879B7F53} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{1285A8A7-B556-5D6D-C2C7-7AA3E2F6313B} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
+		{D2500ECD-015D-518C-D051-97938B60C0CD} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64328EDE-8342-4276-8236-6A9D23D0BEBD}
