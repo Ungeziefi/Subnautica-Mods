@@ -1,6 +1,5 @@
 ﻿using Nautilus.Json;
 using Nautilus.Options.Attributes;
-using UnityEngine;
 
 namespace Ungeziefi.Console_Autocompletion
 {
