@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 
 namespace Ungeziefi.Container_Utilities
@@ -6,92 +7,92 @@ namespace Ungeziefi.Container_Utilities
     [HarmonyPatch]
     public class DimUnallowedItems
     {
-        private static readonly Dictionary<ItemsContainer, Planter> planters = new();
-        private static bool chargerOpen = false;
-        private static bool powerCellChargerOpen = false;
+        private static readonly Dictionary<ItemsContainer, Planter> planterContainers = new();
+        private static readonly Dictionary<ItemsContainer, Aquarium> aquariumContainers = new();
+        private static readonly ConditionalWeakTable<ItemsContainer, HashSet<TechType>> unallowedTechTable = new();
 
-        // Register planters
+        // Track planters
         [HarmonyPatch(typeof(Planter), nameof(Planter.Start)), HarmonyPostfix]
         public static void Planter_Start(Planter __instance)
         {
             if (!Main.Config.DimUnallowedItems) return;
-            planters[__instance.storageContainer.container] = __instance;
+
+            planterContainers[__instance.storageContainer.container] = __instance;
         }
 
-        [HarmonyPatch(typeof(uGUI_InventoryTab), nameof(uGUI_InventoryTab.OnOpenPDA)), HarmonyPostfix]
-        public static void uGUI_InventoryTab_OnOpenPDA(uGUI_InventoryTab __instance)
+        // Track aquariums
+        [HarmonyPatch(typeof(Aquarium), nameof(Aquarium.Start)), HarmonyPostfix]
+        public static void Aquarium_Start(Aquarium __instance)
         {
             if (!Main.Config.DimUnallowedItems) return;
 
-            // Get the current container player is interacting with
-            IItemsContainer itemsContainer = GetActiveContainer();
-            if (itemsContainer == null) return;
+            aquariumContainers[__instance.storageContainer.container] = __instance;
+        }
 
-            // Handle special case for Equipment
-            if (itemsContainer is Equipment equipment)
+        [HarmonyPatch(typeof(uGUI_InventoryTab), nameof(uGUI_InventoryTab.OnOpenPDA)), HarmonyPostfix]
+        public static void OnOpenPDA(uGUI_InventoryTab __instance)
+        {
+            if (!Main.Config.DimUnallowedItems) return;
+
+            // Find open container
+            IItemsContainer openContainer = null;
+            for (int i = 0; i < Inventory.main.usedStorage.Count; i++)
+            {
+                openContainer = Inventory.main.GetUsedStorage(i);
+                if (openContainer != null) break;
+            }
+
+            if (openContainer == null) return;
+
+            // Equipment containers
+            if (openContainer is Equipment equipment)
             {
                 HandleEquipmentContainer(equipment, __instance);
                 return;
             }
 
-            // Handle standard ItemsContainer
-            if (itemsContainer is ItemsContainer container)
+            if (openContainer is ItemsContainer container)
             {
-                // Special handling for planters
-                if (planters.ContainsKey(container))
+                // Check if planter
+                if (planterContainers.TryGetValue(container, out Planter planter))
                 {
-                    HandlePlanterContainer(planters[container], __instance);
+                    HandlePlanterContainer(planter, __instance);
                     return;
                 }
 
-                // Standard container handling
+                // Check if aquarium
+                if (aquariumContainers.TryGetValue(container, out Aquarium aquarium))
+                {
+                    HandleAquariumContainer(aquarium, __instance);
+                    return;
+                }
+
+                // Standard containers
                 HandleStandardContainer(container, __instance);
             }
         }
 
-        // Reset on close
+        // Reset
         [HarmonyPatch(typeof(uGUI_InventoryTab), nameof(uGUI_InventoryTab.OnClosePDA)), HarmonyPostfix]
-        public static void uGUI_InventoryTab_OnClosePDA(uGUI_InventoryTab __instance)
+        public static void OnClosePDA(uGUI_InventoryTab __instance)
         {
             if (!Main.Config.DimUnallowedItems) return;
 
-            chargerOpen = false;
-            powerCellChargerOpen = false;
-            ResetItemAppearance(__instance);
-        }
-
-        #region Helpers
-        private static IItemsContainer GetActiveContainer()
-        {
-            for (int i = 0; i < Inventory.main.usedStorage.Count; i++)
-            {
-                IItemsContainer container = Inventory.main.GetUsedStorage(i);
-                if (container != null)
-                    return container;
-            }
-            return null;
+            __instance.inventory.items.Values.ForEach(icon => icon.SetChroma(1f));
         }
 
         private static void HandleEquipmentContainer(Equipment equipment, uGUI_InventoryTab inventoryTab)
         {
-            // Check what kind of charger is open
-            chargerOpen = equipment.GetCompatibleSlot(EquipmentType.BatteryCharger, out string _);
-            powerCellChargerOpen = equipment.GetCompatibleSlot(EquipmentType.PowerCellCharger, out string _);
-
             foreach (var pair in inventoryTab.inventory.items)
             {
-                TechType techType = pair.Key.item.GetTechType();
+                InventoryItem invItem = pair.Key;
+                uGUI_ItemIcon icon = pair.Value;
+                TechType techType = invItem.item.GetTechType();
                 EquipmentType itemType = TechData.GetEquipmentType(techType);
 
-                // Dim incompatible items
-                if (!equipment.GetCompatibleSlot(itemType, out string _))
+                if (!equipment.GetCompatibleSlot(itemType, out _))
                 {
-                    if ((chargerOpen && !IsBattery(techType)) ||
-                        (powerCellChargerOpen && !IsPowerCell(techType)) ||
-                        (!chargerOpen && !powerCellChargerOpen))
-                    {
-                        pair.Value.SetChroma(0f);
-                    }
+                    icon.SetChroma(0f);
                 }
             }
         }
@@ -100,8 +101,27 @@ namespace Ungeziefi.Container_Utilities
         {
             foreach (var pair in inventoryTab.inventory.items)
             {
-                if (!planter.IsAllowedToAdd(pair.Key.item, false))
-                    pair.Value.SetChroma(0f);
+                InventoryItem invItem = pair.Key;
+                uGUI_ItemIcon icon = pair.Value;
+
+                if (!planter.IsAllowedToAdd(invItem.item, false))
+                {
+                    icon.SetChroma(0f);
+                }
+            }
+        }
+
+        private static void HandleAquariumContainer(Aquarium aquarium, uGUI_InventoryTab inventoryTab)
+        {
+            foreach (var pair in inventoryTab.inventory.items)
+            {
+                InventoryItem invItem = pair.Key;
+                uGUI_ItemIcon icon = pair.Value;
+
+                if (!aquarium.IsAllowedToAdd(invItem.item, false))
+                {
+                    icon.SetChroma(0f);
+                }
             }
         }
 
@@ -109,34 +129,58 @@ namespace Ungeziefi.Container_Utilities
         {
             foreach (var pair in inventoryTab.inventory.items)
             {
-                TechType techType = pair.Key.item.GetTechType();
+                InventoryItem invItem = pair.Key;
+                uGUI_ItemIcon icon = pair.Value;
+                TechType techType = invItem.item.GetTechType();
+
                 if (!container.IsTechTypeAllowed(techType))
-                    pair.Value.SetChroma(0f);
+                {
+                    icon.SetChroma(0f);
+                }
             }
         }
 
-        private static void ResetItemAppearance(uGUI_InventoryTab inventoryTab)
+        #region Fix Allowed Items
+        [HarmonyPatch(typeof(ItemsContainer), nameof(ItemsContainer.IsTechTypeAllowed)), HarmonyPostfix]
+        public static void IsTechTypeAllowed_Postfix(ItemsContainer __instance, TechType techType, ref bool __result)
         {
-            foreach (var pair in inventoryTab.inventory.items)
-                pair.Value.SetChroma(1f);
+            if (!Main.Config.DimUnallowedItems) return;
+
+            // If whitelist already denied it, respect that
+            if (!__result) return;
+
+            // Add blacklist system
+            if (unallowedTechTable.TryGetValue(__instance, out HashSet<TechType> unallowedTech) && unallowedTech.Count > 0)
+            {
+                __result = !unallowedTech.Contains(techType);
+            }
         }
 
-        private static bool IsBattery(TechType techType)
+        [HarmonyPatch(typeof(Trashcan), nameof(Trashcan.OnEnable)), HarmonyPostfix]
+        public static void Trashcan_OnEnable(Trashcan __instance)
         {
-            return techType switch
+            if (!Main.Config.DimUnallowedItems) return;
+
+            // Reactor rods whitelist
+            if (__instance.biohazard)
             {
-                TechType.Battery or TechType.LithiumIonBattery or TechType.PrecursorIonBattery => true,
-                _ => false,
-            };
+                if (__instance.storageContainer.container.allowedTech == null)
+                {
+                    __instance.storageContainer.container.allowedTech = new HashSet<TechType> { TechType.ReactorRod, TechType.DepletedReactorRod };
+                }
+            }
+
+            // Reactor rods blacklist
+            else
+            {
+                SetUnallowedTech(__instance.storageContainer.container, new HashSet<TechType> { TechType.ReactorRod, TechType.DepletedReactorRod });
+            }
         }
 
-        private static bool IsPowerCell(TechType techType)
+        public static void SetUnallowedTech(ItemsContainer container, HashSet<TechType> unallowedTech)
         {
-            return techType switch
-            {
-                TechType.PowerCell or TechType.PrecursorIonPowerCell => true,
-                _ => false,
-            };
+            unallowedTechTable.Remove(container);
+            unallowedTechTable.Add(container, unallowedTech);
         }
         #endregion
     }
