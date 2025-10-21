@@ -68,7 +68,8 @@ namespace Ungeziefi.Tweaks
 
             Player player = Player.main;
             SubRoot currentSub = player?.currentSub;
-            if (!CanToggleLights(player, currentSub))
+            bool isHoldingItem = Inventory.main.GetHeldTool() != null;
+            if (!CanToggleLights(player, currentSub) || isHoldingItem)
                 return;
 
             HandReticle.main.SetText(HandReticle.TextType.Use, $"Hold {GameInput.FormatButton(Main.ToggleBaseLightsButton)} to toggle base lights", false);
