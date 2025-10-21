@@ -89,12 +89,10 @@ namespace Ungeziefi.Container_Utilities
         [Slider(Label = "Storage height", DefaultValue = 2, Min = 1, Max = 6, Step = 1)]
         public int FiltrationHeight = 2;
 
-        [Slider(Label = "Max water bottles", DefaultValue = 2, Min = 1, Max = 10, Step = 1,
-            Tooltip = "Maximum water bottles that can be stored (shares space with salt).")]
+        [Slider(Label = "Max water bottles", Tooltip = "Maximum water bottles that can be stored (shares space with salt).", DefaultValue = 2, Min = 1, Max = 10, Step = 1)]
         public int FiltrationMaxWater = 2;
 
-        [Slider(Label = "Max salt", DefaultValue = 2, Min = 1, Max = 10, Step = 1,
-            Tooltip = "Maximum salt that can be stored (shares space with water bottles).")]
+        [Slider(Label = "Max salt", Tooltip = "Maximum salt that can be stored (shares space with water bottles).", DefaultValue = 2, Min = 1, Max = 10, Step = 1)]
         public int FiltrationMaxSalt = 2;
 
         [Toggle("<color=#FFAC09FF>Trashcan</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
@@ -106,23 +104,23 @@ namespace Ungeziefi.Container_Utilities
         [Slider(Label = "Trashcan height", DefaultValue = 4, Min = 1, Max = 8, Step = 1)]
         public int TrashcanHeight = 4;
 
-        [Slider(Label = "Destruction delay (seconds)", DefaultValue = 5, Min = 0, Max = 30, Step = 1, Tooltip = "How long items stay in the trashcan before being destroyed")]
+        [Slider(Label = "Destruction delay (seconds)", Tooltip = "How long items stay in the trashcan before being destroyed.", DefaultValue = 5, Min = 0, Max = 30, Step = 1)]
         public float TrashcanDestroyDelay = 5f;
 
-        [Slider(Label = "Destruction interval (seconds)", DefaultValue = 1, Min = 0.1f, Max = 5, Step = 0.1f, Tooltip = "How frequently items are destroyed from the trashcan")]
+        [Slider(Label = "Destruction interval (seconds)", Tooltip = "How frequently items are destroyed from the trashcan.", DefaultValue = 1, Min = 0.1f, Max = 5, Step = 0.1f)]
         public float TrashcanDestroyInterval = 1f;
 
-        [Toggle("<color=#FFAC09FF>Custom inventory size</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool CustomInventorySizeDivider;
+        //[Toggle("<color=#FFAC09FF>Custom inventory size</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        //public bool CustomInventorySizeDivider;
 
-        [Toggle(Label = "Enable custom inventory size", Tooltip = "Enable resizing the player's personal inventory.")]
-        public bool EnableCustomInventorySize = true;
+        //[Toggle(Label = "Enable custom inventory size", Tooltip = "Enable resizing the player's personal inventory.")]
+        //public bool EnableCustomInventorySize = true;
 
-        [Slider(Label = "Inventory width", DefaultValue = 6, Min = 1, Max = 6, Step = 1)]
-        public int InventoryWidth = 6;
+        //[Slider(Label = "Inventory width", DefaultValue = 6, Min = 1, Max = 6, Step = 1)]
+        //public int InventoryWidth = 6;
 
-        [Slider(Label = "Inventory height", DefaultValue = 8, Min = 1, Max = 16, Step = 1)]
-        public int InventoryHeight = 8;
+        //[Slider(Label = "Inventory height", DefaultValue = 8, Min = 1, Max = 16, Step = 1)]
+        //public int InventoryHeight = 8;
 
         [Toggle("<color=#FFAC09FF>Inventory warnings</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool InventoryWarningsDivider;
@@ -130,11 +128,10 @@ namespace Ungeziefi.Container_Utilities
         [Toggle(Label = "Show free slots warning", Tooltip = "Show a message when picking up items with limited inventory space.")]
         public bool ShowFreeSlotWarnings = true;
 
-        [Slider(Label = "Free slots threshold", DefaultValue = 5, Min = 1, Max = 20, Step = 1,
-            Tooltip = "Show warning when free slots are below this number")]
+        [Slider(Label = "Free slots threshold",Tooltip = "The number of remaining free slots below which the warning shows.", DefaultValue = 5, Min = 1, Max = 20, Step = 1)]
         public int FreeSlotWarningThreshold = 3;
 
-        [Toggle(Label = "Show full inventory warning", Tooltip = "Show a message when inventory is completely full")]
+        [Toggle(Label = "Show full inventory warning")]
         public bool ShowFullInventoryWarning = true;
 
         #region JSON Converter
