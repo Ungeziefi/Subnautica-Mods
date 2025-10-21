@@ -35,7 +35,6 @@ namespace Ungeziefi.Fixes
             if (!Main.Config.DisableGhostHelmButtons) return;
 
             ToggleRaycasters(__instance, false);
-            Main.Logger.LogInfo("Disabled Cyclops Helm HUD raycasters on start.");
         }
 
         // Enable raycasters when piloting
@@ -45,7 +44,6 @@ namespace Ungeziefi.Fixes
             if (!Main.Config.DisableGhostHelmButtons) return;
 
             ToggleRaycasters(__instance, true);
-            Main.Logger.LogInfo("Enabled Cyclops Helm HUD raycasters when piloting.");
         }
 
         // Disable again when stopping piloting
@@ -55,7 +53,6 @@ namespace Ungeziefi.Fixes
             if (!Main.Config.DisableGhostHelmButtons) return;
 
             ToggleRaycasters(__instance, false);
-            Main.Logger.LogInfo("Disabled Cyclops Helm HUD raycasters when stopping piloting.");
         }
     }
 }
