@@ -8,13 +8,13 @@ namespace Ungeziefi.Console_Autocompletion
     [HarmonyPatch]
     public class Console_Autocompletion
     {
-        // Cache
         private static HashSet<string> commandCache = new();
         private static HashSet<string> techtypeCache = new();
+        private static HashSet<string> gotoLocationCache = new();
 
         // Start caching
         [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.Start)), HarmonyPostfix]
-        public static void SubRoot_Start(SubRoot __instance)
+        public static void SubRoot_Start()
         {
             if (Main.Config.EnableFeature) InitializeCaches();
         }
@@ -25,12 +25,12 @@ namespace Ungeziefi.Console_Autocompletion
             if (!Main.Config.EnableFeature) return true;
 
             // Only handle tab completion at end of text
-            if (__instance.processingEvent.keyCode != Main.Config.ConsoleAutocompletionKey
+            if (!GameInput.GetButtonDown(Main.AutocompleteButton)
                 || string.IsNullOrEmpty(__instance.text)
                 || __instance.caretPosition != __instance.text.Length)
                 return true;
 
-            // Complete text
+            // Complete
             string completion = TryCompleteText(__instance.text);
             if (!string.IsNullOrEmpty(completion))
             {
@@ -42,72 +42,65 @@ namespace Ungeziefi.Console_Autocompletion
             return false;
         }
 
-        // Build command and item caches
+        // Build caches
         private static void InitializeCaches()
         {
-            // Cache commands
             commandCache = new HashSet<string>(DevConsole.commands.Keys.Select(k => k.ToLower()));
 
-            // Cache item types
+            // Item TechTypes
             techtypeCache = new HashSet<string>(
                 System.Enum.GetValues(typeof(TechType))
                     .Cast<TechType>()
                     .Select(t => t.ToString().ToLower())
             );
+
+            // TeleportCommandData locations
+            if (GotoConsoleCommand.main != null && GotoConsoleCommand.main.data != null)
+            {
+                gotoLocationCache = new HashSet<string>(
+                    GotoConsoleCommand.main.data.locations
+                        .Select(loc => loc.name.ToLower())
+                );
+            }
         }
 
-        // Complete command or parameter
         private static string TryCompleteText(string text)
         {
             int lastSpace = text.LastIndexOf(' ');
 
             // Complete command if no space
-            if (lastSpace == -1)
-                return TryCompleteString(text, commandCache);
+            if (lastSpace == -1) return TryCompleteString(text, commandCache);
 
             // Complete parameter if after space
             string cmd = text[..lastSpace].Trim().ToLower();
             var targetCache = cmd switch
             {
                 "spawn" => techtypeCache,
-                _ => commandCache
+                "goto" => gotoLocationCache,
+                "gotofast" => gotoLocationCache,
+                "item" => techtypeCache,
+                "unlock" => techtypeCache,
+                _ => null
             };
 
+            // Return original if no cache
+            if (targetCache == null) return text;
+
             string param = text[(lastSpace + 1)..];
-            // Don't complete if parameter is empty (just spaces)
-            if (string.IsNullOrWhiteSpace(param))
-                return text;
+
+            // Don't complete if no parameter
+            if (string.IsNullOrWhiteSpace(param)) return text;
 
             string completion = TryCompleteString(param, targetCache);
             return string.IsNullOrEmpty(completion) ? text : $"{cmd} {completion}";
         }
 
-        // Find and return matching completion
         private static string TryCompleteString(string input, HashSet<string> cache)
         {
             var matches = cache.Where(c => c.StartsWith(input, StringComparison.OrdinalIgnoreCase)).ToList();
 
-            if (Main.Config.LogMatchingItems)
-            {
-                Main.Logger.LogInfo($"Input: {input}");
-                Main.Logger.LogInfo($"Matches found: {matches.Count}");
-                Main.Logger.LogInfo($"Matches: {string.Join(", ", matches)}");
-            }
-
             if (!matches.Any()) return string.Empty;
 
-            // Return original case for commands
-            if (cache == commandCache)
-            {
-                var originalCase = DevConsole.commands.Keys.First(k =>
-                    k.Equals(matches[0], StringComparison.OrdinalIgnoreCase));
-                if (Main.Config.LogMatchingItems)
-                    Main.Logger.LogInfo($"Command match, returning: {originalCase}");
-                return originalCase;
-            }
-
-            if (Main.Config.LogMatchingItems)
-                Main.Logger.LogInfo($"Non-command match, returning: {matches[0]}");
             return matches[0];
         }
     }
