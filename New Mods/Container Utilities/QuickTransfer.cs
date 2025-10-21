@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using HarmonyLib;
-using UnityEngine;
 
 namespace Ungeziefi.Container_Utilities
 {
@@ -12,35 +11,43 @@ namespace Ungeziefi.Container_Utilities
 
         private static bool TransferItems(InventoryItem item, bool transferSimilarOnly)
         {
-            // Validate input item
-            if (item == null || !(item.container is ItemsContainer container))
+            if (item == null || item.container is not ItemsContainer container)
                 return false;
 
             // Get target container
             IItemsContainer targetContainer = Inventory.main.GetOppositeContainer(item);
-            if (targetContainer == null)
-                return false;
+            if (targetContainer == null) return false;
 
             // Create transfer list
             List<InventoryItem> itemsToTransfer = new();
 
             // Populate transfer list based on mode
             if (transferSimilarOnly)
-                container.GetItems(item.techType, itemsToTransfer);  // Only same type items
+            {
+                container.GetItems(item.techType, itemsToTransfer); // Only same type items
+            }
             else
+            {
                 foreach (TechType type in container.GetItemTypes())
-                    container.GetItems(type, itemsToTransfer);  // All items
+                {
+                    container.GetItems(type, itemsToTransfer); // All items
+                }
+            }
 
             // Attempt to transfer all items in list
             bool anyTransferred = false;
             foreach (InventoryItem inventoryItem in itemsToTransfer)
+            {
                 if (Inventory.AddOrSwap(inventoryItem, targetContainer))
+                {
                     anyTransferred = true;
+                }
+            }
 
             return anyTransferred;
         }
 
-        // Track selected inventory item
+        // Track selected item
         [HarmonyPatch(typeof(uGUI_ItemsContainer), nameof(uGUI_ItemsContainer.SelectItem)), HarmonyPostfix]
         public static void uGUI_ItemsContainer_SelectItem(uGUI_ItemsContainer __instance, object item)
         {
@@ -68,36 +75,33 @@ namespace Ungeziefi.Container_Utilities
         [HarmonyPatch(typeof(Inventory), "ExecuteItemAction", new System.Type[] { typeof(ItemAction), typeof(InventoryItem) }), HarmonyPrefix]
         public static bool Inventory_ExecuteItemAction(Inventory __instance, InventoryItem item, ItemAction action)
         {
-            // Only intercept switch actions
             IItemsContainer oppositeContainer = __instance.GetOppositeContainer(item);
             if (action != ItemAction.Switch || oppositeContainer == null ||
                 item.container is Equipment || oppositeContainer is Equipment)
                 return true;
 
-            // Check if transfer keys are pressed and features are enabled
-            if (Input.GetKey(Main.Config.TransferSimilarItemsKey) && Main.Config.EnableTransferSimilarItems)
-            {
-                return !MoveSameItems(item);
-            }
-            else if (Input.GetKey(Main.Config.TransferAllItemsKey) && Main.Config.EnableTransferAllItems)
+            if (Main.Config.EnableTransferAllItems && GameInput.GetButtonHeld(Main.TransferAllItemsButton))
             {
                 return !MoveAllItems(item);
+            }
+            else if (Main.Config.EnableTransferSimilarItems && GameInput.GetButtonHeld(Main.TransferAllSimilarItemsButton))
+            {
+                return !MoveSameItems(item);
             }
 
             return true;
         }
 
-        // Support for gamepad/keyboard button press outside of click handling
         [HarmonyPatch(typeof(GamepadInputModule), nameof(GamepadInputModule.OnUpdate)), HarmonyPostfix]
-        public static void GamepadInputModule_OnUpdate(GamepadInputModule __instance)
+        public static void GamepadInputModule_OnUpdate()
         {
-            if (Input.GetKeyDown(Main.Config.TransferSimilarItemsKey) && Main.Config.EnableTransferSimilarItems)
-            {
-                MoveSameItems(selectedItem);
-            }
-            else if (Input.GetKeyDown(Main.Config.TransferAllItemsKey) && Main.Config.EnableTransferAllItems)
+            if (Main.Config.EnableTransferAllItems && GameInput.GetButtonHeld(Main.TransferAllSimilarItemsButton))
             {
                 MoveAllItems(selectedItem);
+            }
+            else if (Main.Config.EnableTransferSimilarItems && GameInput.GetButtonHeld(Main.TransferAllSimilarItemsButton))
+            {
+                MoveSameItems(selectedItem);
             }
         }
         #endregion

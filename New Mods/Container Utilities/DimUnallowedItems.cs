@@ -6,7 +6,7 @@ namespace Ungeziefi.Container_Utilities
     [HarmonyPatch]
     public class DimUnallowedItems
     {
-        private static Dictionary<ItemsContainer, Planter> planters = new();
+        private static readonly Dictionary<ItemsContainer, Planter> planters = new();
         private static bool chargerOpen = false;
         private static bool powerCellChargerOpen = false;
 
@@ -123,27 +123,20 @@ namespace Ungeziefi.Container_Utilities
 
         private static bool IsBattery(TechType techType)
         {
-            switch (techType)
+            return techType switch
             {
-                case TechType.Battery:
-                case TechType.LithiumIonBattery:
-                case TechType.PrecursorIonBattery:
-                    return true;
-                default:
-                    return false;
-            }
+                TechType.Battery or TechType.LithiumIonBattery or TechType.PrecursorIonBattery => true,
+                _ => false,
+            };
         }
 
         private static bool IsPowerCell(TechType techType)
         {
-            switch (techType)
+            return techType switch
             {
-                case TechType.PowerCell:
-                case TechType.PrecursorIonPowerCell:
-                    return true;
-                default:
-                    return false;
-            }
+                TechType.PowerCell or TechType.PrecursorIonPowerCell => true,
+                _ => false,
+            };
         }
         #endregion
     }

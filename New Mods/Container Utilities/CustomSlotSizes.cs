@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using Newtonsoft.Json;
 
@@ -9,24 +10,14 @@ namespace Ungeziefi.Container_Utilities
     public class CustomSlotSizes
     {
 
-        private static readonly Dictionary<TechType, Vector2int> customItemSizes = new();
-        private static bool initialized = false;
+        private static Dictionary<TechType, Vector2int> customItemSizes;
 
         private static void InitializeFromConfig()
         {
-            if (initialized) return;
+            if (customItemSizes != null) return;
 
-            customItemSizes.Clear();
-
-            foreach (var override_ in Main.Config.SizeOverrides)
-            {
-                if (!customItemSizes.ContainsKey(override_.TechType))
-                {
-                    customItemSizes.Add(override_.TechType, override_.Size);
-                }
-            }
-
-            initialized = true;
+            customItemSizes = Main.Config.SizeOverrides
+                .ToDictionary(o => o.TechType, o => o.Size);
         }
 
         public static bool HasCustomSizeFor(TechType techType)
@@ -40,9 +31,13 @@ namespace Ungeziefi.Container_Utilities
             InitializeFromConfig();
 
             if (customItemSizes.ContainsKey(techType))
+            {
                 customItemSizes[techType] = size;
+            }
             else
+            {
                 customItemSizes.Add(techType, size);
+            }
         }
 
         public static bool RemoveCustomSize(TechType techType)
@@ -54,15 +49,14 @@ namespace Ungeziefi.Container_Utilities
         public static void ClearCustomSizes()
         {
             customItemSizes.Clear();
-            initialized = false;
         }
 
         [HarmonyPatch(typeof(TechData), nameof(TechData.GetItemSize)), HarmonyPrefix]
         public static bool TechData_GetItemSize(TechType techType, ref Vector2int __result)
         {
-            InitializeFromConfig();
-
             if (!Main.Config.CustomSlotSizes) return true;
+
+            InitializeFromConfig();
 
             if (customItemSizes.TryGetValue(techType, out Vector2int customSize))
             {
@@ -77,30 +71,6 @@ namespace Ungeziefi.Container_Utilities
         {
             InitializeFromConfig();
             return new Dictionary<TechType, Vector2int>(customItemSizes);
-        }
-
-        public static void AddSizeOverrideToConfig(TechType techType, Vector2int size)
-        {
-            SetCustomSize(techType, size);
-
-            bool exists = Main.Config.SizeOverrides.Exists(o => o.TechType == techType);
-            if (!exists)
-            {
-                Main.Config.SizeOverrides.Add(new Config.ItemSizeOverride(techType, size));
-            }
-        }
-
-        public static bool RemoveSizeOverrideFromConfig(TechType techType)
-        {
-            RemoveCustomSize(techType);
-
-            int index = Main.Config.SizeOverrides.FindIndex(o => o.TechType == techType);
-            if (index >= 0)
-            {
-                Main.Config.SizeOverrides.RemoveAt(index);
-                return true;
-            }
-            return false;
         }
     }
 
@@ -125,7 +95,7 @@ namespace Ungeziefi.Container_Utilities
             TechType techType = TechType.None;
             Vector2int size = new(1, 1);
 
-            reader.Read(); // Start object
+            reader.Read();
 
             while (reader.TokenType != JsonToken.EndObject)
             {

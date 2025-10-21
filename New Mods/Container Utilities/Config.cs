@@ -2,7 +2,6 @@
 using Nautilus.Json;
 using Nautilus.Options.Attributes;
 using Newtonsoft.Json;
-using UnityEngine;
 
 namespace Ungeziefi.Container_Utilities
 {
@@ -27,12 +26,6 @@ namespace Ungeziefi.Container_Utilities
         [Toggle(Label = "Enable transfer similar items", Tooltip = "Hold a key to transfer all items of the same type between containers at once.")]
         public bool EnableTransferSimilarItems = true;
 
-        [Keybind(Label = "Transfer all items key", Tooltip = "Hold this key while clicking an item to transfer all items.")]
-        public KeyCode TransferAllItemsKey = KeyCode.LeftShift;
-
-        [Keybind(Label = "Transfer similar items key", Tooltip = "Hold this key while clicking an item to transfer all items of the same type.")]
-        public KeyCode TransferSimilarItemsKey = KeyCode.LeftControl;
-
         [Toggle("<color=#FFAC09FF>Custom container sizes</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CustomContainerSizesDivider;
 
@@ -50,6 +43,12 @@ namespace Ungeziefi.Container_Utilities
 
         [Slider(Label = "Wall locker height", DefaultValue = 6, Min = 1, Max = 10, Step = 1)]
         public int WallLockerHeight = 6;
+
+        [Slider(Label = "Waterproof locker width", DefaultValue = 3, Min = 1, Max = 8, Step = 1)]
+        public int WaterproofLockerWidth = 3;
+
+        [Slider(Label = "Waterproof locker height", DefaultValue = 6, Min = 1, Max = 10, Step = 1)]
+        public int WaterproofLockerHeight = 6;
 
         [Slider(Label = "Seamoth storage width", DefaultValue = 4, Min = 1, Max = 8, Step = 1)]
         public int SeamothStorageWidth = 4;
@@ -101,10 +100,10 @@ namespace Ungeziefi.Container_Utilities
         [Toggle("<color=#FFAC09FF>Trashcan</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TrashcanDivider;
 
-        [Slider(Label = "Trashcan width", DefaultValue = 4, Min = 2, Max = 8, Step = 1)]
+        [Slider(Label = "Trashcan width", DefaultValue = 4, Min = 1, Max = 8, Step = 1)]
         public int TrashcanWidth = 4;
 
-        [Slider(Label = "Trashcan height", DefaultValue = 4, Min = 2, Max = 8, Step = 1)]
+        [Slider(Label = "Trashcan height", DefaultValue = 4, Min = 1, Max = 8, Step = 1)]
         public int TrashcanHeight = 4;
 
         [Slider(Label = "Destruction delay (seconds)", DefaultValue = 5, Min = 0, Max = 30, Step = 1, Tooltip = "How long items stay in the trashcan before being destroyed")]
@@ -119,10 +118,10 @@ namespace Ungeziefi.Container_Utilities
         [Toggle(Label = "Enable custom inventory size", Tooltip = "Enable resizing the player's personal inventory.")]
         public bool EnableCustomInventorySize = true;
 
-        [Slider(Label = "Inventory width", DefaultValue = 6, Min = 3, Max = 8, Step = 1)]
+        [Slider(Label = "Inventory width", DefaultValue = 6, Min = 1, Max = 6, Step = 1)]
         public int InventoryWidth = 6;
 
-        [Slider(Label = "Inventory height", DefaultValue = 8, Min = 4, Max = 10, Step = 1)]
+        [Slider(Label = "Inventory height", DefaultValue = 8, Min = 1, Max = 16, Step = 1)]
         public int InventoryHeight = 8;
 
         [Toggle("<color=#FFAC09FF>Inventory warnings</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]

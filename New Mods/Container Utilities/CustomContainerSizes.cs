@@ -1,17 +1,15 @@
 using System.Reflection;
 using HarmonyLib;
-using Ungeziefi.Container_Utilities;
 using UnityEngine;
 
-namespace CustomizedStorage.Patches
+namespace Ungeziefi.Container_Utilities
 {
     [HarmonyPatch(typeof(StorageContainer), nameof(StorageContainer.Awake))]
     class StorageContainer_Awake_Patch
     {
         private static bool Prefix(StorageContainer __instance)
         {
-            if (!Main.Config.EnableCustomContainerSizes)
-                return true;
+            if (!Main.Config.EnableCustomContainerSizes) return true;
 
             var (width, height) = __instance switch
             {
@@ -19,7 +17,7 @@ namespace CustomizedStorage.Patches
                 _ when IsLargeLocker(__instance) => (Main.Config.StandardLockerWidth, Main.Config.StandardLockerHeight),
                 _ when IsEscapePodLocker(__instance) => (Main.Config.EscapePodLockerWidth, Main.Config.EscapePodLockerHeight),
                 _ when IsCyclopsLocker(__instance) => (Main.Config.CyclopsLockerWidth, Main.Config.CyclopsLockerHeight),
-                _ when IsWaterproofLocker(__instance) => (Main.Config.WallLockerWidth, Main.Config.WallLockerHeight),
+                _ when IsWaterproofLocker(__instance) => (Main.Config.WaterproofLockerWidth, Main.Config.WaterproofLockerHeight),
                 _ when IsTrashcan(__instance) => (Main.Config.TrashcanWidth, Main.Config.TrashcanHeight),
                 _ => (0, 0)
             };
@@ -98,13 +96,11 @@ namespace CustomizedStorage.Patches
     {
         private static void Postfix(FiltrationMachine __instance)
         {
-            if (!Main.Config.EnableCustomContainerSizes)
-                return;
+            if (!Main.Config.EnableCustomContainerSizes) return;
 
-            // Calculate maximum allowed items based on container size
             int totalSlots = Main.Config.FiltrationWidth * Main.Config.FiltrationHeight;
 
-            // Adjust max water/salt if they exceed container capacity
+            // Adjust max water/salt
             int requestedTotal = Main.Config.FiltrationMaxWater + Main.Config.FiltrationMaxSalt;
             if (requestedTotal > totalSlots)
             {

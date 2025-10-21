@@ -11,14 +11,12 @@ namespace Ungeziefi.Container_Utilities
         private static readonly FieldInfo itemsMapField = typeof(ItemsContainer).GetField("itemsMap", BindingFlags.NonPublic | BindingFlags.Instance);
 
         [HarmonyPatch(typeof(Inventory), nameof(Inventory.OnAddItem)), HarmonyPostfix]
-        private static void Inventory_OnAddItem(Inventory __instance, InventoryItem item)
+        private static void Inventory_OnAddItem(Inventory __instance)
         {
-            if (!Main.Config.ShowFreeSlotWarnings && !Main.Config.ShowFullInventoryWarning)
-                return;
+            if (!Main.Config.ShowFreeSlotWarnings && !Main.Config.ShowFullInventoryWarning) return;
 
             // Only track player inventory
-            if (__instance != Inventory.main)
-                return;
+            if (__instance != Inventory.main) return;
 
             UpdateWarnings(__instance);
         }
