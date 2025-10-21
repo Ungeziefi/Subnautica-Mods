@@ -66,13 +66,12 @@ namespace Ungeziefi.Tweaks
 
             bool isRotating = false;
 
-            // Rotate based on input
-            if (GameInput.moveDirection.x > 0f)
+            if (GameInput.moveDirection.x > 0f) // Move to the right
                 HandleRotation(ref currentDirection, 1, __instance, ref isRotating);
-            else if (GameInput.moveDirection.x < 0f)
+            else if (GameInput.moveDirection.x < 0f) // Move to the left
                 HandleRotation(ref currentDirection, -1, __instance, ref isRotating);
 
-            // Tooltip
+            // Subscript
             string moveRightText = GameInput.FormatButton(GameInput.Button.MoveRight, false);
             string moveLeftText = GameInput.FormatButton(GameInput.Button.MoveLeft, false);
             string gamepadMoveText = GameInput.FormatButton(GameInput.Button.Move, false);
