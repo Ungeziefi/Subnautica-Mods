@@ -6,10 +6,10 @@ namespace Ungeziefi.Tweaks
     [HarmonyPatch]
     public class ChairSwivelling
     {
-        private static bool IsSitting = false;
-        private static float maxChairRotSpeed = 300f;
-        private static float chairRotAcceleration = 80f;
-        private static float chairRotDeceleration = 40f;
+        private static Bench currentBench = null;
+        private static readonly float maxChairRotSpeed = 300f;
+        private static readonly float chairRotAcceleration = 80f;
+        private static readonly float chairRotDeceleration = 40f;
         private static float currentRotSpeed = 0f;
         private static int currentDirection = 0; // 1 = right, -1 = left
 
@@ -43,14 +43,17 @@ namespace Ungeziefi.Tweaks
         }
 
         [HarmonyPatch(typeof(Bench), nameof(Bench.EnterSittingMode)), HarmonyPostfix]
-        static void Bench_EnterSittingMode(Bench __instance) => IsSitting = true;
+        static void Bench_EnterSittingMode(Bench __instance) => currentBench = __instance;
 
         [HarmonyPatch(typeof(Bench), nameof(Bench.ExitSittingMode)), HarmonyPostfix]
         static void Bench_ExitSittingMode(Bench __instance)
         {
-            IsSitting = false;
-            currentRotSpeed = 0f;
-            currentDirection = 0;
+            if (currentBench == __instance)
+            {
+                currentBench = null;
+                currentRotSpeed = 0f;
+                currentDirection = 0;
+            }
         }
 
         [HarmonyPatch(typeof(Bench), nameof(Bench.OnUpdate)), HarmonyPostfix]
@@ -58,16 +61,25 @@ namespace Ungeziefi.Tweaks
         {
             if (!Main.Config.ChairSwivelling ||
                 CraftData.GetTechType(__instance.gameObject) != TechType.StarshipChair ||
-                !IsSitting)
+                currentBench != __instance)
                 return;
 
             bool isRotating = false;
 
             // Rotate based on input
-            if (GameInput.GetButtonHeld(GameInput.Button.MoveRight))
+            if (GameInput.moveDirection.x > 0f)
                 HandleRotation(ref currentDirection, 1, __instance, ref isRotating);
-            else if (GameInput.GetButtonHeld(GameInput.Button.MoveLeft))
+            else if (GameInput.moveDirection.x < 0f)
                 HandleRotation(ref currentDirection, -1, __instance, ref isRotating);
+
+            // Tooltip
+            string moveRightText = GameInput.FormatButton(GameInput.Button.MoveRight, false);
+            string moveLeftText = GameInput.FormatButton(GameInput.Button.MoveLeft, false);
+            string gamepadMoveText = GameInput.FormatButton(GameInput.Button.Move, false);
+            bool isGamepad = GameInput.IsPrimaryDeviceGamepad();
+            HandReticle.main.SetText(HandReticle.TextType.UseSubscript, isGamepad
+                ? $"{gamepadMoveText} to swivel chair" // Gamepad
+                : $"Hold {moveLeftText} and {moveRightText} to swivel chair", false); // Keyboard
 
             // Decelerate when no input
             if (!isRotating) DecelerateRotation(__instance);
