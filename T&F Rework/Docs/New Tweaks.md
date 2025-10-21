@@ -7,6 +7,7 @@
 - **Seaglide light angle**.
 - **PRAWN Suit claw damage**.
 - **Toggle lights for sleep**: Turns off base lights when the player gets into bed and restores them when getting up (with a configurable delay).
+- **Upgrade only when docked**: Prevents opening the Seamoth's or PRAWN Suit's upgrade panel unless docked.
 #### Miscellaneous
 - **From "Use Trashcan" to "Use Trash can"**: Adds a missing space to the Trashcan prompt for consistency with its recipe name.
 - **Capitalize "Use"**: Capitalizes the "Use" prompt for consistency with other prompts.

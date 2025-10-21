@@ -104,6 +104,9 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Smoke clears on open", Tooltip = "Opening the top hatch of the life pod clears the smoke inside.")]
         public bool SmokeClearsOnOpen = false;
 
+        [Toggle(Label = "Upgrade only when docked", Tooltip = "Prevents opening the Seamoth's or PRAWN Suit's upgrade panel unless docked.")]
+        public bool UpgradeOnlyWhenDocked = false;
+
         [Toggle("<color=#FFAC09FF>Torpedo cycling</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TorpedoCyclingDivider;
 
