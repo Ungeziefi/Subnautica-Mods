@@ -21,6 +21,7 @@ namespace Ungeziefi.Tweaks
             // - Not using a Camera Drone (CameraDrone is inactive)
             return player != null
                 && sub != null
+                && sub.powerRelay != null
                 && player.IsInBase()
                 && sub.powerRelay.GetPowerStatus() != PowerSystem.Status.Offline
                 && sub.lightingState != 1
@@ -38,8 +39,8 @@ namespace Ungeziefi.Tweaks
             if (!CanToggleLights(player, __instance) || player.currentSub != __instance)
                 return;
 
-            bool isHoldingButton = GameInput.GetButtonHeld(GameInput.Button.AltTool);
-            float holdTime = GameInput.GetButtonHeldTime(GameInput.Button.AltTool);
+            bool isHoldingButton = GameInput.GetButtonHeld(Main.ToggleBaseLightsButton);
+            float holdTime = GameInput.GetButtonHeldTime(Main.ToggleBaseLightsButton);
 
             if (isHoldingButton && holdTime > Main.Config.ToggleHoldDuration && !hasToggled)
             {
@@ -58,6 +59,19 @@ namespace Ungeziefi.Tweaks
             {
                 hasToggled = false;
             }
+        }
+
+        [HarmonyPatch(typeof(GUIHand), nameof(GUIHand.OnUpdate)), HarmonyPostfix]
+        public static void GUIHand_OnUpdate()
+        {
+            if (!Main.Config.ToggleBaseLights) return;
+
+            Player player = Player.main;
+            SubRoot currentSub = player?.currentSub;
+            if (!CanToggleLights(player, currentSub))
+                return;
+
+            HandReticle.main.SetText(HandReticle.TextType.Use, $"Hold {GameInput.FormatButton(Main.ToggleBaseLightsButton)} to toggle base lights", false);
         }
     }
 }

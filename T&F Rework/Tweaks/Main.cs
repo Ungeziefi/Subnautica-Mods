@@ -26,6 +26,7 @@ namespace Ungeziefi.Tweaks
         public static GameInput.Button SeamothCycleTorpedoButton;
         public static GameInput.Button PRAWNSuitCycleTorpedoButton;
         public static GameInput.Button PRAWNSuitLightsToggleButton;
+        public static GameInput.Button ToggleBaseLightsButton;
 
         public void Awake()
         {
@@ -46,6 +47,12 @@ namespace Ungeziefi.Tweaks
 
             PRAWNSuitLightsToggleButton = EnumHandler.AddEntry<GameInput.Button>("PRAWNSuitLightsToggleButton")
                 .CreateInput("PRAWN Suit lights toggle")
+                .WithKeyboardBinding(InputPaths.Keyboard.L)
+                .WithControllerBinding(InputPaths.Gamepad.RightBumper)
+                .WithCategory("Tweaks");
+
+            ToggleBaseLightsButton = EnumHandler.AddEntry<GameInput.Button>("ToggleBaseLightsButton")
+                .CreateInput("Base lights toggle")
                 .WithKeyboardBinding(InputPaths.Keyboard.L)
                 .WithControllerBinding(InputPaths.Gamepad.RightBumper)
                 .WithCategory("Tweaks");
