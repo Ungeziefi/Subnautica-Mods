@@ -25,7 +25,7 @@ namespace Ungeziefi.Tweaks
         {
             if (ShouldPreventAction())
             {
-                HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "A tool needs to be equipped");
+                HandReticle.main.SetText(HandReticle.TextType.Hand, "A tool needs to be equipped", false);
                 return false;
             }
             return true;
