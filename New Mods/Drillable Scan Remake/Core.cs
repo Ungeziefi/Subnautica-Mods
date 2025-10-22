@@ -1,5 +1,6 @@
-﻿// To-Do: Fix Kyanite and Language patching
+﻿// To-Do: Fix Kyanite
 
+using System;
 using System.Collections.Generic;
 using HarmonyLib;
 
@@ -29,18 +30,38 @@ namespace Ungeziefi.Drillable_Scan_Remake
             { "109bbd29-c445-4ad8-a4bf-be7bc6d421d6", TechType.AluminumOxide }
         };
 
-        // Append "Drillable"
-        //[HarmonyPatch(typeof(Language), nameof(Language.Get)), HarmonyPostfix]
-        //private static void Language_Get(ref string __result, string key)
-        //{
-        //    if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(__result))
-        //        return;
+        private static readonly HashSet<string> drillableLanguageKeys = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "DrillableAluminumOxide",
+            "DrillableCopper",
+            "DrillableDiamond",
+            "DrillableGold",
+            "DrillableKyanite",
+            "DrillableLead",
+            "DrillableLithium",
+            "DrillableMagnetite",
+            "DrillableNickel",
+            "DrillableQuartz",
+            "DrillableSalt",
+            "DrillableSilver",
+            "DrillableSulphur",
+            "DrillableTitanium",
+            "DrillableUranium",
+            "DrillableMercury",
+            "DrillableAluminiumOxide"
+        };
 
-        //    if (key.IndexOf("drillable", StringComparison.OrdinalIgnoreCase) >= 0)
-        //    {
-        //        __result += " (Drillable)";
-        //    }
-        //}
+        [HarmonyPatch(typeof(Language), nameof(Language.Get)), HarmonyPostfix]
+        private static void Language_Get(ref string __result, string key)
+        {
+            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(__result))
+                return;
+
+            if (drillableLanguageKeys.Contains(key))
+            {
+                __result += " (Drillable)";
+            }
+        }
 
         // Override TechType
         [HarmonyPatch(typeof(ResourceTracker), nameof(ResourceTracker.Start)), HarmonyPrefix]
