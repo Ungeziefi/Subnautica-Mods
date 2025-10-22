@@ -75,6 +75,7 @@ namespace Ungeziefi.Creature_Healthbars
             width = baseWidth * scaledSize;
             height = width / Main.Config.BarRatio;
         }
+
         private static TMPro.TextMeshPro CreateOrUpdateTextElement(
             GameObject parent,
             string name,
@@ -84,30 +85,19 @@ namespace Ungeziefi.Creature_Healthbars
             Color color,
             bool isActive)
         {
-            Transform textTransform = parent.transform.Find(name);
+
+            GameObject textObj = new(name);
+            textObj.transform.SetParent(parent.transform, false);
+
             TMPro.TextMeshPro textComponent;
 
-            if (textTransform == null)
-            {
-                // Create new text object if it doesn't exist
-                GameObject textObj = new(name);
-                textObj.transform.SetParent(parent.transform, false);
-                textObj.transform.localPosition = position;
+            textObj.transform.localPosition = position;
+            textComponent = textObj.AddComponent<TMPro.TextMeshPro>();
+            textComponent.alignment = TMPro.TextAlignmentOptions.Center;
+            textComponent.enableWordWrapping = false;
+            textComponent.isOrthographic = true;
+            textComponent.sortingOrder = 1;
 
-                textComponent = textObj.AddComponent<TMPro.TextMeshPro>();
-                textComponent.alignment = TMPro.TextAlignmentOptions.Center;
-                textComponent.enableWordWrapping = false;
-                textComponent.isOrthographic = true;
-                textComponent.sortingOrder = 1;
-            }
-            else
-            {
-                // Update existing text object
-                textComponent = textTransform.GetComponent<TMPro.TextMeshPro>();
-                textTransform.localPosition = position;
-            }
-
-            // Update properties
             textComponent.text = text;
             textComponent.color = color;
             textComponent.fontSize = fontSize;
@@ -206,10 +196,6 @@ namespace Ungeziefi.Creature_Healthbars
                         fontSize,
                         Main.Config.TextColor,
                         true);
-
-                    // Hide the name text object if it exists
-                    Transform nameTransform = bar.transform.Find("CHB_CreatureName");
-                    nameTransform?.gameObject.SetActive(false);
                 }
                 else if (Main.Config.ShowHealthNumbers)
                 {
@@ -224,10 +210,6 @@ namespace Ungeziefi.Creature_Healthbars
                         fontSize,
                         Main.Config.TextColor,
                         true);
-
-                    // Hide the name text object if it exists
-                    Transform nameTransform = bar.transform.Find("CHB_CreatureName");
-                    nameTransform?.gameObject.SetActive(false);
                 }
                 else if (Main.Config.ShowName)
                 {
@@ -240,19 +222,6 @@ namespace Ungeziefi.Creature_Healthbars
                         fontSize,
                         Main.Config.TextColor,
                         true);
-
-                    // Hide the health text object if it exists
-                    Transform healthTextTransform = bar.transform.Find("CHB_HealthText");
-                    healthTextTransform?.gameObject.SetActive(false);
-                }
-                else
-                {
-                    // Neither, just hide both
-                    Transform healthTextTransform = bar.transform.Find("CHB_HealthText");
-                    healthTextTransform?.gameObject.SetActive(false);
-
-                    Transform nameTransform = bar.transform.Find("CHB_CreatureName");
-                    nameTransform?.gameObject.SetActive(false);
                 }
 
                 // Update position
