@@ -76,7 +76,7 @@ namespace Ungeziefi.Creature_Healthbars
             height = width / Main.Config.BarRatio;
         }
 
-        private static TMPro.TextMeshPro CreateOrUpdateTextElement(
+        private static TMPro.TextMeshPro CreateTextElement(
             GameObject parent,
             string name,
             string text,
@@ -188,7 +188,7 @@ namespace Ungeziefi.Creature_Healthbars
                     // Combine name and health numbers
                     string combinedText = $"{creatureName}: {Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
 
-                    CreateOrUpdateTextElement(
+                    CreateTextElement(
                         bar,
                         "CHB_HealthText",
                         combinedText,
@@ -202,7 +202,7 @@ namespace Ungeziefi.Creature_Healthbars
                     // Only health numbers
                     string healthNumbersText = $"{Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
 
-                    CreateOrUpdateTextElement(
+                    CreateTextElement(
                         bar,
                         "CHB_HealthText",
                         healthNumbersText,
@@ -214,7 +214,7 @@ namespace Ungeziefi.Creature_Healthbars
                 else if (Main.Config.ShowName)
                 {
                     // Only name
-                    CreateOrUpdateTextElement(
+                    CreateTextElement(
                         bar,
                         "CHB_CreatureName",
                         creatureName,
