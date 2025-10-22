@@ -1,6 +1,4 @@
-﻿// To-Do: Fix CreateOrUpdateTextElement affecting the player needs UI
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -76,33 +74,30 @@ namespace Ungeziefi.Creature_Healthbars
             height = width / Main.Config.BarRatio;
         }
 
-        private static TMPro.TextMeshPro CreateTextElement(
+        private static TMPro.TextMeshProUGUI CreateTextElement(
             GameObject parent,
             string name,
             string text,
-            Vector3 position,
             float fontSize,
             Color color,
             bool isActive)
         {
-
+            // Create text object
             GameObject textObj = new(name);
             textObj.transform.SetParent(parent.transform, false);
+            textObj.transform.localPosition = Vector3.zero;
 
-            TMPro.TextMeshPro textComponent;
+            // Add text component
+            var textComponent = textObj.AddComponent<TMPro.TextMeshProUGUI>();
 
-            textObj.transform.localPosition = position;
-            textComponent = textObj.AddComponent<TMPro.TextMeshPro>();
+            // Properties
             textComponent.alignment = TMPro.TextAlignmentOptions.Center;
             textComponent.enableWordWrapping = false;
-            textComponent.isOrthographic = true;
-            textComponent.sortingOrder = 1;
-
-            textComponent.text = text;
-            textComponent.color = color;
             textComponent.fontSize = fontSize;
-            textComponent.gameObject.SetActive(isActive);
+            textComponent.color = color;
+            textComponent.text = text;
 
+            textObj.SetActive(isActive);
             return textComponent;
         }
         #endregion
@@ -179,9 +174,6 @@ namespace Ungeziefi.Creature_Healthbars
                 // Calculate proper text positions based on the health bar height
                 float fontSize = Mathf.Max(3f, barHeight * 6f);
 
-                // Text position (centered in bar)
-                Vector3 textPosition = Vector3.zero;
-
                 // Text display options
                 if (Main.Config.ShowHealthNumbers && Main.Config.ShowName)
                 {
@@ -192,7 +184,6 @@ namespace Ungeziefi.Creature_Healthbars
                         bar,
                         "CHB_HealthText",
                         combinedText,
-                        textPosition,
                         fontSize,
                         Main.Config.TextColor,
                         true);
@@ -206,7 +197,6 @@ namespace Ungeziefi.Creature_Healthbars
                         bar,
                         "CHB_HealthText",
                         healthNumbersText,
-                        textPosition,
                         fontSize,
                         Main.Config.TextColor,
                         true);
@@ -218,7 +208,6 @@ namespace Ungeziefi.Creature_Healthbars
                         bar,
                         "CHB_CreatureName",
                         creatureName,
-                        textPosition,
                         fontSize,
                         Main.Config.TextColor,
                         true);
