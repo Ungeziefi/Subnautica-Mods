@@ -9,7 +9,7 @@ namespace Ungeziefi.Creature_Healthbars
     public partial class CreatureHealthbars
     {
         [HarmonyPatch(typeof(LiveMixin), nameof(LiveMixin.TakeDamage)), HarmonyPostfix]
-        public static void LiveMixin_TakeDamage(LiveMixin __instance, float originalDamage, GameObject dealer = null)
+        public static void LiveMixin_TakeDamage(LiveMixin __instance, float originalDamage, GameObject dealer)
         {
             if (!Main.Config.EnableFeature ||
                 __instance == null ||
@@ -18,10 +18,8 @@ namespace Ungeziefi.Creature_Healthbars
                 __instance.GetComponent<Creature>() is not Creature creature)
                 return;
 
-            // Apparently hits from the player don't register a dealer
-            bool isPlayerDamage = dealer == Player.main?.gameObject || dealer == null;
-
-            if (Main.Config.OnlyShowForPlayerDamage && !isPlayerDamage)
+            if (Main.Config.OnlyShowForPlayerDamage &&
+                dealer != null) // Player damage registers as null dealer
                 return;
 
             // Check creature type filter
@@ -45,7 +43,7 @@ namespace Ungeziefi.Creature_Healthbars
         [HarmonyPatch(typeof(Player), nameof(Player.Update)), HarmonyPostfix]
         public static void Player_Update()
         {
-            if (!Main.Config.EnableFeature || timers == null || healthbars == null) return;
+            if (!Main.Config.EnableFeature || timers == null || healthBars == null) return;
 
             Dictionary<string, float> timersCopy;
             lock (timers) { timersCopy = new Dictionary<string, float>(timers); }
@@ -74,13 +72,13 @@ namespace Ungeziefi.Creature_Healthbars
                 }
 
                 // Fade effect for last second
-                if (time < 1.0f && healthbars.TryGetValue(id, out GameObject bar) && bar != null)
+                if (time < 1.0f && healthBars.TryGetValue(id, out GameObject bar) && bar != null)
                 {
-                    Transform bgTransform = bar.transform?.Find("Background");
+                    Transform bgTransform = bar.transform?.Find("CHB_Background");
                     if (bgTransform == null) continue;
 
                     Image bgImage = bgTransform.GetComponent<Image>();
-                    Image healthImage = bgTransform.Find("Health")?.GetComponent<Image>();
+                    Image healthImage = bgTransform.Find("CHB_Health")?.GetComponent<Image>();
                     if (bgImage == null || healthImage == null) continue;
 
                     float alpha = time;
@@ -94,11 +92,11 @@ namespace Ungeziefi.Creature_Healthbars
             {
                 if (string.IsNullOrEmpty(id)) continue;
 
-                if (healthbars.TryGetValue(id, out GameObject bar) && bar != null)
-                    GameObject.Destroy(bar);
+                if (healthBars.TryGetValue(id, out GameObject bar) && bar != null)
+                    Object.Destroy(bar);
 
                 lock (timers) { timers.Remove(id); }
-                lock (healthbars) { healthbars.Remove(id); }
+                lock (healthBars) { healthBars.Remove(id); }
             }
         }
     }
