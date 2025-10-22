@@ -26,7 +26,7 @@ namespace Ungeziefi.Creature_Healthbars
             Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
 
             FreezeCreaturesToggleButton = EnumHandler.AddEntry<GameInput.Button>("FreezeCreaturesToggleButton")
-                .CreateInput("Freeze creatures toggle")
+                .CreateInput("Toggle frozen creatures")
                 .WithKeyboardBinding(InputPaths.Keyboard.Backslash)
                 .WithCategory("Creature Healthbars (Debug)");
 
