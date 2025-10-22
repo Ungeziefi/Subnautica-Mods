@@ -128,7 +128,7 @@ namespace Ungeziefi.Container_Utilities
         [Toggle(Label = "Show free slots warning", Tooltip = "Show a message when picking up items with limited inventory space.")]
         public bool ShowFreeSlotWarnings = true;
 
-        [Slider(Label = "Free slots threshold",Tooltip = "The number of remaining free slots below which the warning shows.", DefaultValue = 5, Min = 1, Max = 20, Step = 1)]
+        [Slider(Label = "Free slots threshold", Tooltip = "The number of remaining free slots below which the warning shows.", DefaultValue = 5, Min = 1, Max = 20, Step = 1)]
         public int FreeSlotWarningThreshold = 3;
 
         [Toggle(Label = "Show full inventory warning")]
