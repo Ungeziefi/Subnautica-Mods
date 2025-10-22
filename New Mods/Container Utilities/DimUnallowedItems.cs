@@ -28,7 +28,10 @@ namespace Ungeziefi.Container_Utilities
                 if (invItem?.item == null || icon == null) continue;
 
                 Pickupable pickupable = invItem.item;
-                if (!container.AllowedToAdd(pickupable, false))
+                TechType techType = invItem.item.GetTechType();
+                EquipmentType itemType = TechData.GetEquipmentType(techType);
+
+                if (!container.AllowedToAdd(pickupable, false) || (container is Equipment equipment && !equipment.GetCompatibleSlot(itemType, out _)))
                 {
                     icon.SetChroma(0f);
                 }
