@@ -1,15 +1,15 @@
-using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Container_Utilities
 {
-    [HarmonyPatch(typeof(StorageContainer), nameof(StorageContainer.Awake))]
-    class StorageContainer_Awake_Patch
+    [HarmonyPatch]
+    class CustomContainerSizes
     {
-        private static bool Prefix(StorageContainer __instance)
+        [HarmonyPatch(typeof(StorageContainer), nameof(StorageContainer.Awake)), HarmonyPrefix]
+        private static void StorageContainer_Awake(StorageContainer __instance)
         {
-            if (!Main.Config.EnableCustomContainerSizes) return true;
+            if (!Main.Config.EnableCustomContainerSizes) return;
 
             var (width, height) = __instance switch
             {
@@ -24,8 +24,6 @@ namespace Ungeziefi.Container_Utilities
 
             if (width > 0 && height > 0)
                 __instance.Resize(width, height);
-
-            return true;
         }
 
         private static bool IsSmallLocker(StorageContainer instance) =>
@@ -45,56 +43,37 @@ namespace Ungeziefi.Container_Utilities
 
         private static bool IsTrashcan(StorageContainer instance) =>
             instance.gameObject.GetComponent<Trashcan>() != null;
-    }
 
-    [HarmonyPatch(typeof(SeamothStorageContainer), nameof(SeamothStorageContainer.Init))]
-    class SeamothStorageContainer_Init_Patch
-    {
-        private static bool Prefix(SeamothStorageContainer __instance)
+
+        [HarmonyPatch(typeof(SeamothStorageContainer), nameof(SeamothStorageContainer.Init)), HarmonyPostfix]
+        public static void SeamothStorageContainer_Init(SeamothStorageContainer __instance)
         {
-            if (!Main.Config.EnableCustomContainerSizes)
-                return true;
+            if (!Main.Config.EnableCustomContainerSizes) return;
 
             __instance.width = Main.Config.SeamothStorageWidth;
             __instance.height = Main.Config.SeamothStorageHeight;
-            return true;
         }
-    }
 
-    [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.UpdateStorageSize))]
-    class Exosuit_UpdateStorageSize_Patch
-    {
-        private static void Postfix(Exosuit __instance)
+        [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.UpdateStorageSize)), HarmonyPostfix]
+        private static void Exosuit_UpdateStorageSize(Exosuit __instance)
         {
-            if (!Main.Config.EnableCustomContainerSizes)
-                return;
+            if (!Main.Config.EnableCustomContainerSizes) return;
 
             __instance.storageContainer.Resize(
                 Main.Config.ExosuitStorageWidth,
                 Main.Config.ExosuitStorageHeight);
         }
-    }
 
-    [HarmonyPatch(typeof(BaseBioReactor), nameof(BaseBioReactor.container), MethodType.Getter)]
-    class BaseBioReactor_get_container_Patch
-    {
-        private static readonly FieldInfo BaseBioReactor_container = typeof(BaseBioReactor)
-            .GetField("_container", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        private static void Postfix(BaseBioReactor __instance)
+        [HarmonyPatch(typeof(BaseBioReactor), nameof(BaseBioReactor.Start)), HarmonyPostfix]
+        private static void BaseBioReactor_Start(BaseBioReactor __instance)
         {
-            if (!Main.Config.EnableCustomContainerSizes)
-                return;
+            if (!Main.Config.EnableCustomContainerSizes) return;
 
-            if (BaseBioReactor_container.GetValue(__instance) is ItemsContainer container)
-                container.Resize(Main.Config.BioreactorWidth, Main.Config.BioreactorHeight);
+            __instance.container.Resize(Main.Config.FiltrationWidth, Main.Config.FiltrationHeight);
         }
-    }
 
-    [HarmonyPatch(typeof(FiltrationMachine), nameof(FiltrationMachine.Start))]
-    class FiltrationMachine_Start_Patch
-    {
-        private static void Postfix(FiltrationMachine __instance)
+        [HarmonyPatch(typeof(FiltrationMachine), nameof(FiltrationMachine.Start)), HarmonyPostfix]
+        private static void FiltrationMachine_Start(FiltrationMachine __instance)
         {
             if (!Main.Config.EnableCustomContainerSizes) return;
 
@@ -116,38 +95,14 @@ namespace Ungeziefi.Container_Utilities
 
             __instance.storageContainer.Resize(Main.Config.FiltrationWidth, Main.Config.FiltrationHeight);
         }
-    }
 
-    [HarmonyPatch(typeof(Trashcan), nameof(Trashcan.OnEnable))]
-    class Trashcan_OnEnable_Patch
-    {
-        private static void Postfix(Trashcan __instance)
+        [HarmonyPatch(typeof(Trashcan), nameof(Trashcan.OnEnable)), HarmonyPostfix]
+        private static void Trashcan_OnEnable(Trashcan __instance)
         {
-            if (!Main.Config.EnableCustomContainerSizes)
-                return;
+            if (!Main.Config.EnableCustomContainerSizes) return;
 
             __instance.startDestroyTimeOut = Main.Config.TrashcanDestroyDelay;
             __instance.destroyInterval = Main.Config.TrashcanDestroyInterval;
-        }
-    }
-
-    [HarmonyPatch(typeof(uGUI_ItemsContainer), nameof(uGUI_ItemsContainer.OnResize))]
-    class uGUI_ItemsContainer_OnResize_Patch
-    {
-        private static void Postfix(uGUI_ItemsContainer __instance, int width, int height)
-        {
-            float x = __instance.rectTransform.anchoredPosition.x;
-            float y = height switch
-            {
-                9 => -39f,
-                10 => -75f,
-                _ => -4f
-            };
-
-            float sign = Mathf.Sign(x);
-            float newX = sign * (width == 8 ? 292f : 284f);
-
-            __instance.rectTransform.anchoredPosition = new Vector2(newX, y);
         }
     }
 }
