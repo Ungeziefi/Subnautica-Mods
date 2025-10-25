@@ -1,6 +1,5 @@
-﻿// To-Do: Fix Kyanite
+﻿// To-Do: Fix Kyanite and patch Language strings for drillable resources
 
-using System;
 using System.Collections.Generic;
 using HarmonyLib;
 
@@ -30,48 +29,18 @@ namespace Ungeziefi.Drillable_Scan_Remake
             { "109bbd29-c445-4ad8-a4bf-be7bc6d421d6", TechType.AluminumOxide }
         };
 
-        private static readonly HashSet<string> drillableLanguageKeys = new(StringComparer.OrdinalIgnoreCase)
-        {
-            "DrillableAluminumOxide",
-            "DrillableCopper",
-            "DrillableDiamond",
-            "DrillableGold",
-            "DrillableKyanite",
-            "DrillableLead",
-            "DrillableLithium",
-            "DrillableMagnetite",
-            "DrillableNickel",
-            "DrillableQuartz",
-            "DrillableSalt",
-            "DrillableSilver",
-            "DrillableSulphur",
-            "DrillableTitanium",
-            "DrillableUranium",
-            "DrillableMercury",
-            "DrillableAluminiumOxide"
-        };
-
-        [HarmonyPatch(typeof(Language), nameof(Language.Get)), HarmonyPostfix]
-        private static void Language_Get(ref string __result, string key)
-        {
-            if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(__result))
-                return;
-
-            if (drillableLanguageKeys.Contains(key))
-            {
-                __result += " (Drillable)";
-            }
-        }
-
         // Override TechType
         [HarmonyPatch(typeof(ResourceTracker), nameof(ResourceTracker.Start)), HarmonyPrefix]
         private static bool ResourceTracker_Start(ResourceTracker __instance)
         {
+            if (!Main.Config.EnableFeature) return true;
+
             var classId = CraftData.GetClassIdForTechType(CraftData.GetTechType(__instance.gameObject));
             if (!string.IsNullOrEmpty(classId) && drillableClassIdToNormalMap.ContainsKey(classId))
             {
                 __instance.overrideTechType = TechType.None;
             }
+
             return true;
         }
 
@@ -79,6 +48,8 @@ namespace Ungeziefi.Drillable_Scan_Remake
         [HarmonyPatch(typeof(uGUI_MapRoomResourceNode), nameof(uGUI_MapRoomResourceNode.SetTechType)), HarmonyPostfix]
         private static void MapRoomResourceNode_SetTechType(uGUI_MapRoomResourceNode __instance, TechType techType)
         {
+            if (!Main.Config.EnableFeature) return;
+
             var classId = CraftData.GetClassIdForTechType(techType);
             if (!string.IsNullOrEmpty(classId) && drillableClassIdToNormalMap.TryGetValue(classId, out TechType normalType))
             {
@@ -91,6 +62,8 @@ namespace Ungeziefi.Drillable_Scan_Remake
         [HarmonyPatch(typeof(uGUI_MapRoomScanner), nameof(uGUI_MapRoomScanner.UpdateGUIState)), HarmonyPostfix]
         private static void MapRoomScanner_UpdateGUIState(uGUI_MapRoomScanner __instance)
         {
+            if (!Main.Config.EnableFeature) return;
+
             TechType activeTechType = __instance.mapRoom.GetActiveTechType();
             var classId = CraftData.GetClassIdForTechType(activeTechType);
             if (!string.IsNullOrEmpty(classId) && drillableClassIdToNormalMap.TryGetValue(classId, out TechType normalType))

@@ -1,3 +1,5 @@
+// To-Do: Fix not restoring on game reload
+
 using HarmonyLib;
 
 namespace Ungeziefi.Fixes
@@ -22,7 +24,7 @@ namespace Ungeziefi.Fixes
             if (Main.SaveData.CyclopsesWithInternalLightOff.Contains(cyclopsId))
             {
                 panel.lightingOn = false;
-                panel.cyclopsRoot.ForceLightingState(false);
+                panel.cyclopsRoot.ForceLightingState(panel.lightingOn);
                 panel.UpdateLightingButtons();
             }
         }

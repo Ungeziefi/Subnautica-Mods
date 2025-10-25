@@ -1,3 +1,5 @@
+// To-Do: Fix not restoring on game reload
+
 using HarmonyLib;
 
 namespace Ungeziefi.Fixes
