@@ -57,9 +57,6 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Force engine shutdown", Tooltip = "Automatically shuts down the Cyclops engine when the power is off.")]
         public bool ForceEngineShutdown = true;
 
-        [Toggle(Label = "Frozen Gas Pods in stasis", Tooltip = "Prevents Gas Pods from exploding while in stasis.")]
-        public bool FrozenGasPodsInStasis = true;
-
         [Toggle(Label = "Coffee drinking sound", Tooltip = "Changes the consume sound of coffee from eating to drinking.")]
         public bool CoffeeDrinkingSound = true;
 

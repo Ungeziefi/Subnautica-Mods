@@ -14,7 +14,6 @@
 - **Seamoth storage modules gap**: Removes the gap between the Seamoth and its lower storage modules.
 - **Docking bay sound checks**: Stops the Cyclops docking bay sounds from playing if it's already occupied. (Better compatibility by not using bool Prefix.)
 - **Thermoblade dynamic particles**: Applies the correct particle effects from the Thermoblade depending on whether the player is underwater or not.
-- **Frozen Gas Pods in stasis**: Prevents Gas Pods from exploding while in stasis.
 - **Coffee drinking sound**: Changes the consume sound of coffee from eating to drinking.
 - **Drill sound with no target**: Prevents the drill sounds from stopping when nothing is being drilled. (Better compatibility by not using bool Prefix.)
 - **Keep drill particles on load**: Fixes the missing drilling particles when drilling directly after loading and while the drill was already pointed at the deposit. (Better compatibility by not using bool Prefix.)
@@ -72,6 +71,7 @@
 - "You could see your neck when using seaglide with high FOV." (Very complex, not worth the effort.)
 - "Fixed unused lava geyser particles spawning on every game load." (Does cleaning them really help with anything?)
 - "When you saved game while taking poison damage, your health would not restore after reload." (Can't figure out a fix.)
+- Fixed Gas Pods exploding while in stasis. (Undocumented but found in the code. [Stasis Rifle Freeze Fix (BepInEx)](https://www.nexusmods.com/subnautica/mods/1255) already does that and more.)
 
 ---
 
