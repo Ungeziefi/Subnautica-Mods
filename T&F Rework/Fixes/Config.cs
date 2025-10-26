@@ -137,6 +137,9 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Disable ghost helm buttons", Tooltip = "Disables the invisible (but still clickable) Cyclops helm HUD buttons when the HUD is off.")]
         public bool DisableGhostHelmButtons = true;
 
+        [Toggle(Label = "Unmoveable props", Tooltip = "Prevents various objects from being moved with the Propulsion or Repulsion Cannon (list in the documentation).")]
+        public bool UnmoveableProps = true;
+
         [Toggle("<color=#FFAC09FF>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
 
