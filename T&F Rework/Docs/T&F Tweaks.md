@@ -37,11 +37,9 @@
 ---
 
 ### <span style="color: orange;">To-Do</span>
-- **Improved collision logic**: Improves the vehicle collision code.
 - **No rotten food value**: Removes food value from rotten cooked fish.
 - **Torpedo launcher creature decoy**: Allows the Seamoth and PRAWN Suit to launch Creature Decoys.
-- **No collision with small plants**: Removes collision from the Veined Nettle, Writhing Weed, and some other unnamed plants.
-- **Propulsion Cannon fast transfer**: Holding Table Coral with the Propulsion Cannon allows you to put it in your inventory directly.
+- **Propulsion Cannon fast transfer**: Allows moving various items directly to your inventory while holding them with the Propulsion or Repulsion Cannon.
 - **No remote leaking notifications**: Base leak notifications are sent only if you're in that base.
 - **Full inventory harvesting**: Harvesting with a full inventory will drop the items.
 - **Universal creature decoy**: Makes the creature decoy work on all predators.
@@ -74,6 +72,7 @@
 - "Resources from harvesting nodes now don't fade in when you break nodes."
 - "Fish you release from your hand now does not fade in."
 - "Items that you place in your base now dont fade in."
+- "Removed collision from veined nettle, writhing weed, some small unnamed plants."
 #### Gameplay balance implications
 - "Wild lantern tree fruits did not respawn."
 - "Wild blood oil did not respawn."
