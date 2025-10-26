@@ -40,7 +40,6 @@
 - **No rotten food value**: Removes food value from rotten cooked fish.
 - **Torpedo launcher creature decoy**: Allows the Seamoth and PRAWN Suit to launch Creature Decoys.
 - **Propulsion Cannon fast transfer**: Allows moving various items directly to your inventory while holding them with the Propulsion or Repulsion Cannon.
-- **No remote leaking notifications**: Base leak notifications are sent only if you're in that base.
 - **Full inventory harvesting**: Harvesting with a full inventory will drop the items.
 - **Universal creature decoy**: Makes the creature decoy work on all predators.
 - **Propulsion Cannon can grab fruit**.
@@ -81,6 +80,7 @@
 - "When in main menu you can press 'escape' key to close options menu."
 - "Reefbacks now avoid your life pod." (They already have the AvoidObstacles component, so they should avoid it.)
 - "Lava geysers now cook dead fish." (Geyser.OnTriggerStay already applies Fire damage.)
+- "You get messages about leaks in your base only when you are inside that base."
 #### Other Reasons
 - "You can light flare in your hand without throwing it." ([Flare Repair (BepInEx)](https://www.nexusmods.com/subnautica/mods/452) already does that and more.)
 - "When in main menu you can use mouse wheel to select next or previous savegame slot." (Adding it without keyboard support doesn't make sense, you'd still need to click with the mouse.)
