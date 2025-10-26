@@ -41,7 +41,7 @@ namespace Ungeziefi.Tweaks
                         if (progress >= 0.6f && playCloseSound && closeSound != null)
                         {
                             playCloseSound = false;
-                            Utils.PlayFMODAsset(closeSound, door.transform);
+                            FMODUWE.PlayOneShot(closeSound, door.transform);
                         }
                         else if (progress >= 1f)
                         {
@@ -67,7 +67,7 @@ namespace Ungeziefi.Tweaks
                     if (progress >= 0.4f && playCloseSound && closeSound != null)
                     {
                         playCloseSound = false;
-                        Utils.PlayFMODAsset(closeSound, doorLeft.transform.parent);
+                        FMODUWE.PlayOneShot(closeSound, doorLeft.transform.parent);
                     }
                     yield return null;
                 }
@@ -107,7 +107,7 @@ namespace Ungeziefi.Tweaks
                 rotater.StartCoroutine(rotater.Rotate(door));
 
                 if (openSound != null)
-                    Utils.PlayFMODAsset(openSound, instance.transform);
+                    FMODUWE.PlayOneShot(openSound, instance.transform);
             }
 
             private static void CloseWallLocker(StorageContainer instance)
@@ -142,7 +142,7 @@ namespace Ungeziefi.Tweaks
                 rotater.StartCoroutine(rotater.Rotate(doorLeft, doorRight));
 
                 if (openSound != null)
-                    Utils.PlayFMODAsset(openSound, instance.transform);
+                    FMODUWE.PlayOneShot(openSound, instance.transform);
             }
 
             private static void CloseLargeLocker(StorageContainer instance)

@@ -145,7 +145,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             if (GameInput.GetButtonDown(Main.RollLeftButton) ||
                 GameInput.GetButtonDown(Main.RollRightButton))
             {
-                Utils.PlayFMODAsset(
+                FMODUWE.PlayOneShot(
                     Nautilus.Utility.AudioUtils.GetFmodAsset("DoABarrelRoll"),
                     Player.main.transform.position);
             }

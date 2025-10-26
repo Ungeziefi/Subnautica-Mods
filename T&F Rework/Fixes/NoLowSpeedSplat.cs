@@ -53,7 +53,7 @@ namespace Ungeziefi.Fixes
                 asset = __instance.hitSoundSlow;
 
             float volume = Mathf.Clamp01(magnitude / 8f);
-            Utils.PlayFMODAsset(asset, col.contacts[0].point, volume);
+            FMODUWE.PlayOneShot(asset, col.contacts[0].point, volume);
             return false;
         }
     }

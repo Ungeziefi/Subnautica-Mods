@@ -100,7 +100,7 @@ namespace Ungeziefi.Tweaks
                         supplyCrate.itemInside.Initialize();
                         InventoryItem inventoryItem = new(supplyCrate.itemInside);
                         container.UnsafeAdd(inventoryItem);
-                        Utils.PlayFMODAsset(__instance.pickupSound, __instance.front, 5f);
+                        FMODUWE.PlayOneShot(__instance.pickupSound, __instance.front, 5f);
                         supplyCrate.itemInside = null;
                         playAnim = true;
                     }

@@ -53,7 +53,7 @@
 //                }
 //                if (lightsOnSound != null)
 //                {
-//                    Utils.PlayFMODAsset(lightsOnSound, exosuit.transform.position);
+//                    FMODUWE.PlayOneShot(lightsOnSound, exosuit.transform.position);
 //                }
 //            }
 //            else if (isCurrentlyOn)
@@ -65,7 +65,7 @@
 //                }
 //                if (lightsOffSound != null)
 //                {
-//                    Utils.PlayFMODAsset(lightsOffSound, exosuit.transform.position);
+//                    FMODUWE.PlayOneShot(lightsOffSound, exosuit.transform.position);
 //                }
 //            }
 //        }
