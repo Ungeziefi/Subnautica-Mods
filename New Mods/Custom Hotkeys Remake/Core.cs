@@ -52,7 +52,7 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
             {
                 if (config.Keys == null || config.Keys.Count == 0) return;
 
-                if (config.Keys.All(Input.GetKeyDown))
+                if (config.Keys.Any(Input.GetKeyDown) && config.Keys.All(Input.GetKey))
                 {
                     StartCoroutine(ExecuteCommands(config));
                     break;
