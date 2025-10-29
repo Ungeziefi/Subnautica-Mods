@@ -1,33 +1,16 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Custom_Hotkeys_Remake
 {
-    #region Extensions
-    public static class DevConsoleExtensions
-    {
-        public static bool IsVisible(this DevConsole console)
-        {
-            if (console == null) return false;
-            var stateField = typeof(DevConsole).GetField("state", BindingFlags.Instance | BindingFlags.NonPublic);
-            return stateField != null && (bool)stateField.GetValue(console);
-        }
-    }
-    #endregion
-
     [HarmonyPatch]
     public class ConsoleHotkeys : MonoBehaviour
     {
-        #region Fields
         private static ConsoleHotkeys instance;
         private bool isExecutingCommands = false;
-        #endregion
 
-        #region Initialization
         [HarmonyPatch(typeof(Player), nameof(Player.Start)), HarmonyPostfix]
         public static void Player_Start()
         {
@@ -40,31 +23,36 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
                 DontDestroyOnLoad(instance.gameObject);
             }
         }
-        #endregion
 
-        #region Input Processing
-        private void Update()
+        [HarmonyPatch(typeof(WaitScreen), nameof(WaitScreen.ReportStageDurations)), HarmonyPostfix]
+        public static void WaitScreen_ReportStageDurations()
         {
-            if (ShouldProcessInput())
-                CheckHotkeyInputs();
+            if (!Main.Config.EnableFeature) return;
+
+            foreach (var config in Main.Config.HotkeyConfigurations)
+            {
+                if (config.RunOnLoad)
+                {
+                    instance.StartCoroutine(instance.ExecuteCommands(config));
+                    Main.Logger.LogInfo($"Executing on load: {config.Name}");
+                    break;
+                }
+            }
         }
 
-        private bool ShouldProcessInput()
+        private void Update()
         {
             if (!Main.Config.EnableFeature ||
                 isExecutingCommands ||
-                DevConsole.instance.IsVisible() ||
+                DevConsole.instance.state ||
                 WaitScreen.IsWaiting)
-                return false;
+                return;
 
-            return true;
-        }
-
-        private void CheckHotkeyInputs()
-        {
             foreach (var config in Main.Config.HotkeyConfigurations)
             {
-                if (IsHotkeyPressed(config.Keys))
+                if (config.Keys == null || config.Keys.Count == 0) return;
+
+                if (config.Keys.All(Input.GetKeyDown))
                 {
                     StartCoroutine(ExecuteCommands(config));
                     break;
@@ -72,22 +60,6 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
             }
         }
 
-        private bool IsHotkeyPressed(List<KeyCode> keys)
-        {
-            if (keys == null || keys.Count == 0)
-                return false;
-
-            // Check if at least one key was just pressed
-            bool hasKeyDown = keys.Any(Input.GetKeyDown);
-            if (!hasKeyDown)
-                return false;
-
-            // Check if all other keys are held
-            return keys.All(Input.GetKey);
-        }
-        #endregion
-
-        #region Command Execution
         private IEnumerator ExecuteCommands(Config.CommandHotkey hotkeyConfig)
         {
             if (hotkeyConfig.Commands == null || hotkeyConfig.Commands.Count == 0) yield break;
@@ -102,25 +74,15 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
                 for (int i = 0; i < commandsToExecute.Count; i++)
                 {
                     string command = commandsToExecute[i];
-                    bool errorOccurred = false;
 
-                    try
-                    {
-                        DevConsole.SendConsoleCommand(command);
-                        if (hotkeyConfig.ExecutionDelay > 0)
-                            ErrorMessage.AddMessage($"Command: {command}");
-                    }
-                    catch
-                    {
-                        errorOccurred = true;
-                        ErrorMessage.AddMessage($"Error executing command #{i + 1}");
-                    }
+                    ErrorMessage.AddMessage($"Executing command #{i + 1}: {command}");
+                    DevConsole.SendConsoleCommand(command);
 
-                    yield return errorOccurred ?
-                        new WaitForSeconds(0.5f) :
-                        (hotkeyConfig.ExecutionDelay > 0 ?
-                            new WaitForSeconds(hotkeyConfig.ExecutionDelay) :
-                            null);
+                    if (hotkeyConfig.ExecutionDelay > 0 && i < commandsToExecute.Count - 1)
+                    {
+                        Main.Logger.LogInfo($"Index is now {i} and count is {commandsToExecute.Count}");
+                        yield return new WaitForSeconds(hotkeyConfig.ExecutionDelay);
+                    }
                 }
 
                 ErrorMessage.AddMessage($"Completed: {hotkeyConfig.Name}");
@@ -130,6 +92,5 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
                 isExecutingCommands = false;
             }
         }
-        #endregion
     }
 }

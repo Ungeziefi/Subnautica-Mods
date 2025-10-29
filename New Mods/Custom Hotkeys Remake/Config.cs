@@ -17,15 +17,17 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
             public List<KeyCode> Keys = new();
             public List<string> Commands = new();
             public float ExecutionDelay = 0.1f;
+            public bool RunOnLoad = false;
 
             public CommandHotkey() { }
 
-            public CommandHotkey(string name, List<KeyCode> keys, List<string> commands, float executionDelay = 0.1f)
+            public CommandHotkey(string name, List<KeyCode> keys, List<string> commands, float executionDelay = 0.1f, bool runOnLoad = false)
             {
                 Name = name;
                 Keys = keys;
                 Commands = commands;
                 ExecutionDelay = executionDelay;
+                RunOnLoad = runOnLoad;
             }
         }
 
@@ -38,7 +40,8 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
                 "warpforward 10",
                 "spawn seamoth"
             },
-            0.1f),
+            0.1f,
+            false),
 
             new CommandHotkey("Example - Multi-Key",
             new List<KeyCode> { KeyCode.LeftControl, KeyCode.H },
@@ -47,7 +50,8 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
                 "warpforward 10",
                 "spawn seamoth"
             },
-            0.1f)
+            0.1f,
+            false)
         };
     }
 }
