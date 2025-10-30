@@ -6,6 +6,16 @@ namespace Ungeziefi.Tweaks
     [HarmonyPatch]
     public class NewCommands : MonoBehaviour
     {
+        #region Messages
+        private const string HealedPlayer = "Player health restored to 100%";
+        private const string RestoredHunger = "Player hunger restored to 100%";
+        private const string RestoredWater = "Player water restored to 100%";
+        private const string RestoredAll = "Player health, hunger, and water restored to 100%";
+
+        private const string PlayerNotFound = "Player not found";
+        private const string CommandDisabled = "This command is disabled in the Tweaks settings";
+        #endregion
+
         #region Initialization
         private static NewCommands instance;
 
@@ -36,16 +46,6 @@ namespace Ungeziefi.Tweaks
                 DevConsole.RegisterConsoleCommand(this, cmd, false, false);
             }
         }
-        #endregion
-
-        #region Messages
-        private const string HealedPlayer = "Player health restored to 100%";
-        private const string RestoredHunger = "Player hunger restored to 100%";
-        private const string RestoredWater = "Player water restored to 100%";
-        private const string RestoredAll = "Player health, hunger, and water restored to 100%";
-
-        private const string PlayerNotFound = "Player not found";
-        private const string CommandDisabled = "This command is disabled in the Tweaks settings";
         #endregion
 
         #region Command Handlers
