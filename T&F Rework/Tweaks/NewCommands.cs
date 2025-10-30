@@ -11,8 +11,6 @@ namespace Ungeziefi.Tweaks
         private const string RestoredHunger = "Player hunger restored to 100%";
         private const string RestoredWater = "Player water restored to 100%";
         private const string RestoredAll = "Player health, hunger, and water restored to 100%";
-
-        private const string PlayerNotFound = "Player not found";
         private const string CommandDisabled = "This command is disabled in the Tweaks settings";
         #endregion
 
@@ -20,7 +18,7 @@ namespace Ungeziefi.Tweaks
         private static NewCommands instance;
 
         [HarmonyPatch(typeof(Player), nameof(Player.Start)), HarmonyPostfix]
-        public static void Player_Start(Player __instance)
+        public static void Player_Start()
         {
             if (instance == null)
             {
@@ -49,17 +47,11 @@ namespace Ungeziefi.Tweaks
         #endregion
 
         #region Command Handlers
-        private void OnConsoleCommand_restorehealth(NotificationCenter.Notification n)
+        private void OnConsoleCommand_restorehealth()
         {
             if (!Main.Config.RestoreHealth)
             {
                 ErrorMessage.AddMessage(CommandDisabled);
-                return;
-            }
-
-            if (Player.main == null)
-            {
-                ErrorMessage.AddMessage(PlayerNotFound);
                 return;
             }
 
@@ -68,17 +60,11 @@ namespace Ungeziefi.Tweaks
             ErrorMessage.AddMessage(HealedPlayer);
         }
 
-        private void OnConsoleCommand_restorehunger(NotificationCenter.Notification n)
+        private void OnConsoleCommand_restorehunger()
         {
             if (!Main.Config.RestoreHunger)
             {
                 ErrorMessage.AddMessage(CommandDisabled);
-                return;
-            }
-
-            if (Player.main == null || Player.main.GetComponent<Survival>() == null)
-            {
-                ErrorMessage.AddMessage(PlayerNotFound);
                 return;
             }
 
@@ -87,17 +73,11 @@ namespace Ungeziefi.Tweaks
             ErrorMessage.AddMessage(RestoredHunger);
         }
 
-        private void OnConsoleCommand_restorethirst(NotificationCenter.Notification n)
+        private void OnConsoleCommand_restorethirst()
         {
             if (!Main.Config.RestoreThirst)
             {
                 ErrorMessage.AddMessage(CommandDisabled);
-                return;
-            }
-
-            if (Player.main == null || Player.main.GetComponent<Survival>() == null)
-            {
-                ErrorMessage.AddMessage(PlayerNotFound);
                 return;
             }
 
@@ -106,17 +86,11 @@ namespace Ungeziefi.Tweaks
             ErrorMessage.AddMessage(RestoredWater);
         }
 
-        private void OnConsoleCommand_restoreall(NotificationCenter.Notification n)
+        private void OnConsoleCommand_restoreall()
         {
             if (!Main.Config.RestoreAll)
             {
                 ErrorMessage.AddMessage(CommandDisabled);
-                return;
-            }
-
-            if (Player.main == null || Player.main.GetComponent<Survival>() == null)
-            {
-                ErrorMessage.AddMessage(PlayerNotFound);
                 return;
             }
 
@@ -127,7 +101,7 @@ namespace Ungeziefi.Tweaks
             ErrorMessage.AddMessage(RestoredAll);
         }
 
-        private void OnConsoleCommand_qqq(NotificationCenter.Notification n)
+        private void OnConsoleCommand_qqq()
         {
             if (!Main.Config.QQQ)
             {
@@ -135,11 +109,7 @@ namespace Ungeziefi.Tweaks
                 return;
             }
 
-            IngameMenu menu = IngameMenu.main;
-            if (menu != null)
-            {
-                menu.QuitGame(true);
-            }
+            IngameMenu.main.QuitGame(true);
         }
         #endregion
     }
