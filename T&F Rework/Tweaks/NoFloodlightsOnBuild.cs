@@ -6,6 +6,6 @@ namespace Ungeziefi.Tweaks
     public class NoFloodlightsOnBuild
     {
         [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.SubConstructionComplete)), HarmonyPrefix]
-        static bool CyclopsLightingPanel_SubConstructionComplete(CyclopsLightingPanel __instance) => !Main.Config.NoFloodlightsOnBuild;
+        static bool CyclopsLightingPanel_SubConstructionComplete() => !Main.Config.NoFloodlightsOnBuild;
     }
 }

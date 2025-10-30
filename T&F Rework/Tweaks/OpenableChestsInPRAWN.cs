@@ -8,7 +8,7 @@ namespace Ungeziefi.Tweaks
     public class OpenableChestsInPRAWN
     {
         [HarmonyPatch(typeof(ExosuitClawArm), "IExosuitArm.GetInteractableRoot"), HarmonyPostfix]
-        public static void IExosuitArm_GetInteractableRoot(ExosuitClawArm __instance, GameObject target, ref GameObject __result)
+        public static void IExosuitArm_GetInteractableRoot(GameObject target, ref GameObject __result)
         {
             if (!Main.Config.OpenableChestsInPRAWN) return;
 
