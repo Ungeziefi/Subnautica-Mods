@@ -24,6 +24,12 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
             }
         }
 
+        [System.Obsolete]
+        private void Awake()
+        {
+            DevConsole.RegisterConsoleCommand(this, "refreshhotkeys", false, false);
+        }
+
         [HarmonyPatch(typeof(WaitScreen), nameof(WaitScreen.ReportStageDurations)), HarmonyPostfix]
         public static void WaitScreen_ReportStageDurations()
         {
@@ -48,6 +54,12 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
                 WaitScreen.IsWaiting)
                 return;
 
+            if (GameInput.GetButtonDown(Main.RefreshHotkeysButton))
+            {
+                OnConsoleCommand_refreshhotkeys();
+                return;
+            }
+
             foreach (var config in Main.Config.HotkeyConfigurations)
             {
                 if (config.Keys == null || config.Keys.Count == 0) return;
@@ -58,6 +70,12 @@ namespace Ungeziefi.Custom_Hotkeys_Remake
                     break;
                 }
             }
+        }
+
+        private void OnConsoleCommand_refreshhotkeys()
+        {
+            Main.ReloadConfig();
+            ErrorMessage.AddMessage("Hotkeys configuration reloaded");
         }
 
         private IEnumerator ExecuteCommands(Config.CommandHotkey hotkeyConfig)
