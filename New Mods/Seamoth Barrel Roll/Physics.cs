@@ -59,6 +59,14 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
 
         private static void UpdateRollInput(RollState state)
         {
+            if (!AvatarInputHandler.main.IsEnabled())
+            {
+                state.isRolling = false;
+                state.targetRollForce = 0f;
+                state.currentRollForce = 0f;
+                return;
+            }
+
             bool rollLeft = GameInput.GetButtonHeld(Main.RollLeftButton);
             bool rollRight = GameInput.GetButtonHeld(Main.RollRightButton);
 
@@ -76,7 +84,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
 
         private static void ApplyRollPhysics(SeaMoth seamoth, RollState state)
         {
-            if (Mathf.Abs(state.currentRollForce) > 0.01f)
+            if (state.isRolling && Mathf.Abs(state.currentRollForce) > 0.01f)
             {
                 seamoth.useRigidbody.AddTorque(
                     seamoth.transform.forward * state.currentRollForce * Time.fixedDeltaTime,
