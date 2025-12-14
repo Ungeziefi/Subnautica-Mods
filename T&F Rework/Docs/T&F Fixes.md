@@ -37,7 +37,7 @@
 - **No Jellyshroom Cave pop in**: Stalactites, mushrooms, and plants in the Jellyshroom Cave no longer pop in. (Improved by making the distance configurable.)
 - **No low speed splat**: Removes the fish collision sound when hitting objects at low speed with a Seamoth.
 - **Dead Peepers closed eyes**: Fixes the Peepers' eyes in LOD distance from being open when dead.
-- **No Geyser safe spot**: Extends the Geysers' capsule collider vertically, removing the safe spot at the bottom. AFAIK, this becomes a problem only outside of vanilla, for instance when using the "Geysers cook fish" or "Geysers push objects" feature in [Tweaks](https://www.nexusmods.com/subnautica/mods/x), or anything similar in other mods dealing with Geysers. (Undocumented but found in the code.)
+- **No Geyser safe spot**: Extends the Geysers' capsule collider vertically, removing the safe spot at the bottom. AFAIK, this becomes a problem only outside of vanilla, for instance when using the "Geysers cook fish" or "Geysers push objects" feature in [Tweaks](https://www.nexusmods.com/subnautica/mods/2865), or anything similar in other mods dealing with Geysers. (Undocumented but found in the code.)
 - **Soft collision sound minimum mass**: Prevents the soft collision sound from playing for objects with very low mass, such as Brain Coral bubbles. (T&F removes the collision sound if the object has a mass lower than 6, Fixes just checks for mass <1, which is enough to filter out the bubbles.)
 - **Unmoveable props**: Prevents various objects from being moved with the Propulsion or Repulsion Cannon.
   - Full list of TechTypes: FarmingTray (undocumented but found in the code), BulboTree, PurpleBrainCoral, HangingFruitTree, SpikePlant.
