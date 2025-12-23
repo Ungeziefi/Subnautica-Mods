@@ -8,10 +8,13 @@ namespace Ungeziefi.Fixes
         [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.OnKill)), HarmonyPrefix]
         public static void SubRoot_OnKill(SubRoot __instance)
         {
-            var identifier = __instance.gameObject.GetComponent<PrefabIdentifier>();
-            if (identifier == null) return;
+            if (__instance == null) return;
 
-            string cyclopsId = identifier.Id;
+            var prefab = __instance.gameObject.GetComponent<PrefabIdentifier>();
+            if (prefab == null) return;
+
+            string cyclopsId = prefab.Id;
+
             Main.SaveData.CyclopsSpeedMode.Remove(cyclopsId);
             Main.SaveData.CyclopsesWithInternalLightOff.Remove(cyclopsId);
             Main.SaveData.CyclopsesWithFloodlightsOn.Remove(cyclopsId);
