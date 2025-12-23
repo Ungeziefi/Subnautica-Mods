@@ -9,7 +9,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(typeof(EnergyMixin), nameof(EnergyMixin.OnCraftEnd)), HarmonyPrefix]
         private static bool EnergyMixin_OnCraftEnd(ref EnergyMixin __instance)
         {
-            GameModeUtils.GetGameMode(out GameModeOption mode, out GameModeOption cheats);
+            GameModeUtils.GetGameMode(out GameModeOption mode, out _);
             var config = Main.Config.NoBundledBatteriesOption;
 
             if (config == NoBundledBatteriesOption.Disabled || mode == GameModeOption.Creative) return true;

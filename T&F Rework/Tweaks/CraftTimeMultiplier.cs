@@ -8,7 +8,7 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(typeof(CrafterLogic), nameof(CrafterLogic.Craft)), HarmonyPrefix]
         public static void CrafterLogic_Craft(ref float craftTime)
         {
-            GameModeUtils.GetGameMode(out GameModeOption mode, out GameModeOption cheats);
+            GameModeUtils.GetGameMode(out GameModeOption mode, out _);
             if (Main.Config.CraftTimeMultiplier == 1 || mode == GameModeOption.Creative)
             {
                 return;

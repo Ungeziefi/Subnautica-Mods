@@ -7,7 +7,7 @@ namespace Ungeziefi.Tweaks
     {
         private static bool ShouldPreventAction()
         {
-            GameModeUtils.GetGameMode(out GameModeOption mode, out GameModeOption cheats);
+            GameModeUtils.GetGameMode(out GameModeOption mode, out _);
             Exosuit exosuit = Player.main.GetVehicle() as Exosuit;
             var heldTool = Inventory.main.GetHeldTool();
 
