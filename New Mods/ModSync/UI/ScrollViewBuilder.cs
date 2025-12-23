@@ -42,7 +42,7 @@ namespace Ungeziefi.ModSync.UI
             scrollRectComponent.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHideAndExpandViewport;
 
             // Viewport
-            GameObject viewport = CreateViewport(scrollView.transform);
+            CreateViewport(scrollView.transform);
 
             // Scrollbar
             GameObject scrollbar = CreateScrollbar(scrollView.transform);
