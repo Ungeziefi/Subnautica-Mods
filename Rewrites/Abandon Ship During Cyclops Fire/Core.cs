@@ -10,15 +10,12 @@ namespace Ungeziefi.Abandon_Ship_During_Cyclops_Fire
         {
             if (!Main.Config.EnableFeature) return;
 
-            if (!__instance.isCyclops)
-                return;
+            if (!__instance.isCyclops) return;
 
-            if (__instance.gameObject.scene.name != "Cyclops")
-                return;
+            if (__instance.gameObject.scene.name != "Cyclops") return;
 
             var subFire = __instance.GetComponent<SubFire>();
-            if (subFire?.fireMusic == null)
-                return;
+            if (subFire == null) return;
 
             subFire.fireMusic.asset = new FMODAsset
             {
