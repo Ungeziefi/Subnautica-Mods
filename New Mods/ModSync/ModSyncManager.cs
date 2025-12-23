@@ -123,7 +123,7 @@ namespace Ungeziefi.ModSync
             // Warning
             message.AppendLine(
                 "Differences were found between the currently loaded mods and those used when this save was created. While updates and additions are generally safe, removed mods may cause unpredictable and potentially game-breaking side effects.\n\n" +
-                "Consult the changelogs of affected mods to understand what has changed and whether it may impact your save.\n\n" +
+                "Regarding updated mods - consult their description and change log to understand what has changed and whether it may impact your save.\n\n" +
                 "Continue anyway?\n"
             );
 
