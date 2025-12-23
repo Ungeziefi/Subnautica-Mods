@@ -7,7 +7,7 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch]
     public class UnmoveableProps
     {
-        static HashSet<TechType> techTypesToMakeUnmovable = new() {
+        static readonly HashSet<TechType> techTypesToMakeUnmovable = new() {
             TechType.FarmingTray,
             TechType.BulboTree,
             TechType.PurpleBrainCoral,
