@@ -6,10 +6,10 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch]
     public class SeamothStorageModulesGap
     {
-        private static readonly Vector3 originalLeftPosition = new Vector3(0f, 0f, 0f);
-        private static readonly Vector3 originalRightPosition = new Vector3(0f, 0f, 0f);
-        private static readonly Vector3 originalLeftEulerAngles = new Vector3(0f, 0f, 0f);
-        private static readonly Vector3 originalRightEulerAngles = new Vector3(0f, 0f, 0f);
+        private static readonly Vector3 originalLeftPosition = new(0f, 0f, 0f);
+        private static readonly Vector3 originalRightPosition = new(0f, 0f, 0f);
+        private static readonly Vector3 originalLeftEulerAngles = new(0f, 0f, 0f);
+        private static readonly Vector3 originalRightEulerAngles = new(0f, 0f, 0f);
 
         // Allow in-game toggling
         private static void ResetStoragePosition(SeaMoth seaMoth, int slotID)
