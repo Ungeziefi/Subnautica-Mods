@@ -206,11 +206,11 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "QQQ", Tooltip = "Quits the game without confirmation.")]
         public bool QQQ = false;
 
-        //[Toggle("<color=#FFAC09FF>Toggle PRAWN Suit lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        //public bool TogglePRAWNSuitLightsDivider;
+        [Toggle("<color=#FFAC09FF>Toggle PRAWN Suit lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool TogglePRAWNSuitLightsDivider;
 
-        //[Toggle(Label = "Enable feature")]
-        //public bool TPSLEnableFeature = false;
+        [Toggle(Label = "Enable feature")]
+        public bool TPSLEnableFeature = false;
 
         [Toggle("<color=#FFAC09FF>Base lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool BaseLightsDivider;
