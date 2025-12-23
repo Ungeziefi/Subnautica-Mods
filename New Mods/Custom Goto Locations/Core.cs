@@ -43,7 +43,7 @@ namespace Ungeziefi.Custom_Goto_Locations
         // Initializes  CustomGoto instance when the player starts
         [HarmonyPatch(typeof(Player), nameof(Player.Start)), HarmonyPostfix]
         public static void Player_Start()
-        {   
+        {
             if (!Main.Config.EnableFeature) return;
 
             if (instance == null)

@@ -91,7 +91,7 @@ namespace Ungeziefi.Tweaks
                 // If current selection is not found, or is invalid, default to first
                 if (currentIndex == -1)
                     currentIndex = -1; // Will become 0 after increment
-                
+
                 int nextIndex = (currentIndex + 1) % availableTorpedos.Count;
                 nextTorpedo = availableTorpedos[nextIndex];
             }
