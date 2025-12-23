@@ -134,6 +134,9 @@ namespace Ungeziefi.Container_Utilities
         [Toggle(Label = "Show full inventory warning")]
         public bool ShowFullInventoryWarning = true;
 
+        [Toggle(Label = "Full inventory audio cue")]
+        public bool FullInventoryAudioCue = true;
+
         #region JSON Converter
         [JsonConverter(typeof(CompactItemSizeOverrideConverter))]
         public class ItemSizeOverride

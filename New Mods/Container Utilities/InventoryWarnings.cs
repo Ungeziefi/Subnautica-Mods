@@ -48,13 +48,19 @@ namespace Ungeziefi.Container_Utilities
             if (Main.Config.ShowFullInventoryWarning && isFullNow && !wasInventoryFull)
             {
                 ErrorMessage.AddMessage("Inventory is now full");
+
+                if (Main.Config.FullInventoryAudioCue)
+                    FMODUWE.PlayOneShot(
+                    Nautilus.Utility.AudioUtils.GetFmodAsset("event:/interface/off_long"), // Still have to decide a better sound
+                    Player.main.transform.position);
             }
 
             // Show free slots warning if below threshold and the count has changed
             if (Main.Config.ShowFreeSlotWarnings &&
                 freeSlots > 0 &&
                 freeSlots <= Main.Config.FreeSlotWarningThreshold &&
-                freeSlots != lastFreeSlots)
+                freeSlots != lastFreeSlots &&
+                !WaitScreen.IsWaiting)
             {
                 string slotText = freeSlots == 1 ? "slot" : "slots";
                 ErrorMessage.AddMessage($"{freeSlots} inventory {slotText} remaining");
