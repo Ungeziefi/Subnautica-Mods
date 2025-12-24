@@ -6,8 +6,6 @@ namespace Ungeziefi.Cockpit_Free_Look
 {
     public partial class CockpitFreeLook
     {
-        // Caches
-        private static Camera mainCamera;
         private static List<AimIK> cachedAimIKComponents; // For the arms
 
         // State tracking

@@ -13,7 +13,7 @@ namespace Ungeziefi.Cockpit_Free_Look
     {
         public const string PLUGIN_GUID = "Ungeziefi.Cockpit_Free_Look";
         public const string PLUGIN_NAME = "Cockpit Free Look";
-        public const string PLUGIN_VERSION = "2.0.0";
+        public const string PLUGIN_VERSION = "2.1.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
@@ -29,7 +29,8 @@ namespace Ungeziefi.Cockpit_Free_Look
                 .CreateInput("Toggle free look")
                 .WithKeyboardBinding(InputPaths.Keyboard.F)
                 .WithControllerBinding(InputPaths.Gamepad.DpadUp)
-                .WithCategory("Cockpit Free Look");
+                .WithCategory("Cockpit Free Look")
+                .AvoidConflicts();
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
         }

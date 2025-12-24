@@ -15,14 +15,9 @@ namespace Ungeziefi.Cockpit_Free_Look
             if (!isValidVehicle) return;
 
             // Check for vehicle
-            if (__instance != Player.main?.currentMountedVehicle) return;
+            if (__instance != Player.main.currentMountedVehicle) return;
 
-            // Get camera
-            if (mainCamera == null)
-                mainCamera = MainCamera.camera;
-            if (mainCamera == null) return;
-
-            Transform cameraTransform = mainCamera.transform;
+            Transform cameraTransform = MainCamera.camera.transform;
 
             // Return to centre
             if (isReturning)

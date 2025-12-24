@@ -14,14 +14,11 @@ namespace Ungeziefi.Cockpit_Free_Look
                 isLooking = false;
                 isReturning = false;
 
-                if (mainCamera != null)
-                {
-                    mainCamera.transform.localRotation = originalRotation;
-                }
+                MainCamera.camera.transform.localRotation = originalRotation;
 
                 currentRotation = Vector2.zero;
 
-                if (Player.main?.currentMountedVehicle is Exosuit exosuit)
+                if (Player.main.currentMountedVehicle is Exosuit exosuit)
                 {
                     EnableExosuitArms(exosuit);
                 }
