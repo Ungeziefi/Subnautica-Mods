@@ -28,7 +28,8 @@ namespace Ungeziefi.Console_Autocompletion
             AutocompleteButton = EnumHandler.AddEntry<GameInput.Button>("AutocompleteButton")
                 .CreateInput("Autocomplete")
                 .WithKeyboardBinding(InputPaths.Keyboard.Tab)
-                .WithCategory("Console Autocompletion");
+                .WithCategory("Console Autocompletion")
+                .AvoidConflicts();
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
         }
