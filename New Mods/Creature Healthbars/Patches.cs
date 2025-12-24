@@ -74,11 +74,11 @@ namespace Ungeziefi.Creature_Healthbars
                 // Fade effect for last second
                 if (time < 1.0f && healthBars.TryGetValue(id, out GameObject bar) && bar != null)
                 {
-                    Transform bgTransform = bar.transform?.Find("CHB_Background");
+                    Transform bgTransform = bar.transform.Find("CHB_Background");
                     if (bgTransform == null) continue;
 
                     Image bgImage = bgTransform.GetComponent<Image>();
-                    Image healthImage = bgTransform.Find("CHB_Health")?.GetComponent<Image>();
+                    Image healthImage = bgTransform.Find("CHB_Health").GetComponent<Image>();
                     if (bgImage == null || healthImage == null) continue;
 
                     float alpha = time;

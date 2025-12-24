@@ -13,7 +13,7 @@ namespace Ungeziefi.Creature_Healthbars
     {
         public const string PLUGIN_GUID = "Ungeziefi.Creature_Healthbars";
         public const string PLUGIN_NAME = "Creature Healthbars";
-        public const string PLUGIN_VERSION = "2.0.0";
+        public const string PLUGIN_VERSION = "2.1.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
@@ -28,7 +28,8 @@ namespace Ungeziefi.Creature_Healthbars
             FreezeCreaturesToggleButton = EnumHandler.AddEntry<GameInput.Button>("FreezeCreaturesToggleButton")
                 .CreateInput("Toggle frozen creatures")
                 .WithKeyboardBinding(InputPaths.Keyboard.Backslash)
-                .WithCategory("Creature Healthbars (Debug)");
+                .WithCategory("Creature Healthbars (Debug)")
+                .AvoidConflicts();
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
         }

@@ -111,12 +111,12 @@ namespace Ungeziefi.Creature_Healthbars
 
         private void OnVisualChange()
         {
-            OnVisualSettingsChanged?.Invoke();
+            OnVisualSettingsChanged.Invoke();
         }
 
         private void OnSpriteChange()
         {
-            OnSpriteSettingsChanged?.Invoke();
+            OnSpriteSettingsChanged.Invoke();
         }
     }
 }
