@@ -29,12 +29,14 @@ namespace Ungeziefi.Container_Utilities
             TransferAllItemsButton = EnumHandler.AddEntry<GameInput.Button>("TransferAllItemsButton")
                 .CreateInput("Transfer all items", "Hold this key and click an item to transfer all items.")
                 .WithKeyboardBinding(InputPaths.Keyboard.Shift)
-                .WithCategory("Container Utilities");
+                .WithCategory("Container Utilities")
+                .AvoidConflicts();
 
             TransferAllSimilarItemsButton = EnumHandler.AddEntry<GameInput.Button>("TransferAllSimilarItemsButton")
                 .CreateInput("Transfer all similar items", "Hold this key and click an item to transfer all similar items.")
                 .WithKeyboardBinding(InputPaths.Keyboard.Ctrl)
-                .WithCategory("Container Utilities");
+                .WithCategory("Container Utilities")
+                .AvoidConflicts();
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
         }

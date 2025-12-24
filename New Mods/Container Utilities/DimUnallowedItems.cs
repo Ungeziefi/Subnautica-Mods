@@ -9,7 +9,7 @@ namespace Ungeziefi.Container_Utilities
         public static void OnOpenPDA(uGUI_InventoryTab __instance)
         {
             if (!Main.Config.DimUnallowedItems) return;
-            if (__instance?.inventory?.items == null) return;
+            if (__instance.inventory.items == null) return;
 
             IItemsContainer container = null;
             for (int i = 0; i < Inventory.main.usedStorage.Count; i++)
@@ -25,7 +25,7 @@ namespace Ungeziefi.Container_Utilities
                 InventoryItem invItem = pair.Key;
                 uGUI_ItemIcon icon = pair.Value;
 
-                if (invItem?.item == null || icon == null) continue;
+                if (invItem.item == null || icon == null) continue;
 
                 Pickupable pickupable = invItem.item;
                 TechType techType = invItem.item.GetTechType();
@@ -43,7 +43,7 @@ namespace Ungeziefi.Container_Utilities
         public static void OnClosePDA(uGUI_InventoryTab __instance)
         {
             if (!Main.Config.DimUnallowedItems) return;
-            if (__instance?.inventory?.items == null) return;
+            if (__instance.inventory.items == null) return;
 
             __instance.inventory.items.Values.ForEach(icon => icon.SetChroma(1f));
         }

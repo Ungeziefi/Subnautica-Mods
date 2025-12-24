@@ -186,12 +186,12 @@ namespace Ungeziefi.Container_Utilities.UI
         private static void CreateScrollbar(GameObject parent, ScrollRect scrollRect)
         {
             GameObject encyclopediaScrollbar = GameObject.Find("uGUI_PDAScreen(Clone)/Content/EncyclopediaTab/Content/Scrollbar");
-            Image scrollbarImage = encyclopediaScrollbar?.GetComponent<Image>();
-            Sprite scrollbarSprite = scrollbarImage?.sprite;
+            Image scrollbarImage = encyclopediaScrollbar.GetComponent<Image>();
+            Sprite scrollbarSprite = scrollbarImage.sprite;
 
             GameObject origSlidingAreaObj = GameObject.Find("uGUI_PDAScreen(Clone)/Content/EncyclopediaTab/Content/Scrollbar/Sliding Area");
-            Transform origHandle = origSlidingAreaObj?.transform.Find("Handle");
-            Image origHandleImage = origHandle?.GetComponent<Image>();
+            Transform origHandle = origSlidingAreaObj.transform.Find("Handle");
+            Image origHandleImage = origHandle.GetComponent<Image>();
 
             // Scrollbar
             GameObject scrollbar = new("Scrollbar");
@@ -232,7 +232,7 @@ namespace Ungeziefi.Container_Utilities.UI
             handleRect.sizeDelta = Vector2.zero;
 
             Image handleImage = handle.AddComponent<Image>();
-            if (origHandleImage?.sprite != null)
+            if (origHandleImage.sprite != null)
             {
                 handleImage.sprite = origHandleImage.sprite;
                 handleImage.type = origHandleImage.type;
