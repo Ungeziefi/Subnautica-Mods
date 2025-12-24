@@ -7,7 +7,7 @@ namespace Ungeziefi.Camera_Zoom
     public class PlayerCamera
     {
         private static Camera Camera => SNCameraRoot.main.mainCamera;
-        private static bool IsDroneCameraActive() => uGUI_CameraDrone.main?.activeCamera != null;
+        private static bool IsDroneCameraActive() => uGUI_CameraDrone.main.activeCamera != null;
         private static bool isZoomActive, isTransitioning;
         private static float originalFOV, transitionStartFOV, transitionTime;
 

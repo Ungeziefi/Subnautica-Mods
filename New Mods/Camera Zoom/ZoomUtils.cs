@@ -162,7 +162,7 @@ namespace Ungeziefi.Camera_Zoom
 
             if (zoomDirection == 0) return false;
 
-            Camera camera = SNCameraRoot.main?.mainCamera;
+            Camera camera = SNCameraRoot.main.mainCamera;
             if (camera == null) return false;
 
             float currentFOV = camera.fieldOfView;
@@ -184,7 +184,7 @@ namespace Ungeziefi.Camera_Zoom
         // Initialize camera mode
         public static void InitializeCameraMode(string cameraType, ref float previousFOV, ref int currentZoomStep, bool useBlinkEffect)
         {
-            if (SNCameraRoot.main?.mainCamera == null)
+            if (SNCameraRoot.main.mainCamera == null)
                 return;
 
             // Store current FOV as previous (for restoration later)
@@ -205,7 +205,7 @@ namespace Ungeziefi.Camera_Zoom
         // Handle camera switch (maintaining FOV settings)
         public static void SwitchCamera(string cameraType, bool useDefault = false)
         {
-            if (SNCameraRoot.main?.mainCamera == null)
+            if (SNCameraRoot.main.mainCamera == null)
                 return;
 
             // When switching cameras, we should maintain current FOV unless useDefault is true

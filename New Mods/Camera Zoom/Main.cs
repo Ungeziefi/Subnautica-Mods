@@ -13,7 +13,7 @@ namespace Ungeziefi.Camera_Zoom
     {
         public const string PLUGIN_GUID = "Ungeziefi.Camera_Zoom";
         public const string PLUGIN_NAME = "Camera Zoom";
-        public const string PLUGIN_VERSION = "3.0.0";
+        public const string PLUGIN_VERSION = "3.1.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
@@ -34,37 +34,43 @@ namespace Ungeziefi.Camera_Zoom
                 .CreateInput("Toggle player zoom")
                 .WithKeyboardBinding(InputPaths.Mouse.MiddleButton)
                 .WithControllerBinding(InputPaths.Gamepad.LeftStick)
-                .WithCategory("Camera Zoom");
+                .WithCategory("Camera Zoom")
+                .AvoidConflicts();
 
             VCZoomButton = EnumHandler.AddEntry<GameInput.Button>("VCZoomButton")
                 .CreateInput("Toggle vehicle zoom")
                 .WithKeyboardBinding(InputPaths.Mouse.MiddleButton)
                 .WithControllerBinding(InputPaths.Gamepad.LeftStick)
-                .WithCategory("Camera Zoom");
+                .WithCategory("Camera Zoom")
+                .AvoidConflicts();
 
             CCZoomInButton = EnumHandler.AddEntry<GameInput.Button>("CCZoomInButton")
                 .CreateInput("Cyclops cameras zoom in")
                 .WithKeyboardBinding(InputPaths.Keyboard.Shift)
                 .WithControllerBinding(InputPaths.Gamepad.ButtonNorth)
-                .WithCategory("Camera Zoom");
+                .WithCategory("Camera Zoom")
+                .AvoidConflicts();
 
             CCZoomOutButton = EnumHandler.AddEntry<GameInput.Button>("CCZoomOutButton")
                 .CreateInput("Cyclops cameras zoom out")
                 .WithKeyboardBinding(InputPaths.Keyboard.Ctrl)
                 .WithControllerBinding(InputPaths.Gamepad.ButtonWest)
-                .WithCategory("Camera Zoom");
+                .WithCategory("Camera Zoom")
+                .AvoidConflicts();
 
             CDZoomInButton = EnumHandler.AddEntry<GameInput.Button>("CDZoomInButton")
                 .CreateInput("Camera Drones zoom in")
                 .WithKeyboardBinding(InputPaths.Keyboard.Shift)
                 .WithControllerBinding(InputPaths.Gamepad.ButtonNorth)
-                .WithCategory("Camera Zoom");
+                .WithCategory("Camera Zoom")
+                .AvoidConflicts();
 
             CDZoomOutButton = EnumHandler.AddEntry<GameInput.Button>("CDZoomOutButton")
                 .CreateInput("Camera Drones zoom out")
                 .WithKeyboardBinding(InputPaths.Keyboard.Ctrl)
                 .WithControllerBinding(InputPaths.Gamepad.ButtonWest)
-                .WithCategory("Camera Zoom");
+                .WithCategory("Camera Zoom")
+                .AvoidConflicts();
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
         }

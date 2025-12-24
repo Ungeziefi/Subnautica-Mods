@@ -7,7 +7,7 @@ namespace Ungeziefi.Camera_Zoom
     public class CameraDrone
     {
         private static Camera Camera => SNCameraRoot.main.mainCamera;
-        private static bool IsCameraActive => uGUI_CameraDrone.main?.activeCamera != null;
+        private static bool IsCameraActive => uGUI_CameraDrone.main.activeCamera != null;
         private static float previousFOV;
         private static readonly float minFOV = Main.Config.CDMinimumFOV;
         private static readonly float maxFOV = Main.Config.CDMaximumFOV;
