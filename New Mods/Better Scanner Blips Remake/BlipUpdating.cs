@@ -69,7 +69,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             }
 
             // Adjust alpha for distant blips
-            components.renderer?.SetAlpha(distance >= Main.Config.MaximumRange ?
+            components.renderer.SetAlpha(distance >= Main.Config.MaximumRange ?
                 Main.Config.DistantAlpha : 1f);
         }
 
@@ -92,9 +92,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             bool isOutside = viewportPoint.x < 0 || viewportPoint.x > 1f ||
                             viewportPoint.y < 0 || viewportPoint.y > 1f || isBehindCamera;
 
-            string resourceId = resource?.uniqueId ?? "";
-
-            return isOutside ? CalculateEdgePosition(viewportPoint, isBehindCamera, resourceId)
+            return isOutside ? CalculateEdgePosition(viewportPoint, isBehindCamera, resource.uniqueId)
                               : new Vector2(viewportPoint.x, viewportPoint.y);
         }
 
@@ -111,7 +109,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             if (blip.text != null)
                 blip.text.color = ColorManagement.GetCachedTextColor();
 
-            if (components.graphic?.material != null)
+            if (components.graphic.material != null)
                 components.graphic.material.SetColor("_Color", ColorManagement.GetCachedBlipColor());
 #pragma warning restore Harmony003 // Harmony non-ref patch parameters modified
         }

@@ -10,7 +10,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
     {
         internal static bool blipsEnabled = true;
         private static readonly Dictionary<GameObject, (Graphic graphic, CanvasRenderer renderer)> blipComponents = new();
-        private static List<(ResourceTrackerDatabase.ResourceInfo resource, int count)> resourcePool = new(256);
+        private static readonly List<(ResourceTrackerDatabase.ResourceInfo resource, int count)> resourcePool = new(256);
 
         [HarmonyPatch(typeof(uGUI_ResourceTracker), nameof(uGUI_ResourceTracker.UpdateBlips)), HarmonyPostfix]
         private static void uGUI_ResourceTracker_UpdateBlips(
@@ -19,6 +19,8 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             bool ___visible)
         {
             if (!___visible) return;
+
+            resourcePool.Clear();
 
             if (GameInput.GetButtonDown(Main.ToggleBlipsButton) && !Cursor.visible && !IsInHiddenLocation())
             {
@@ -35,10 +37,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             }
 
             var camera = MainCamera.camera;
-
-            // Clear pool but keep capacity
-            resourcePool.Clear();
-
             if (Main.Config.GroupNearbyResources)
             {
                 GroupResourcesToPool(___nodes, camera.transform.position, resourcePool);
@@ -80,7 +78,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
         #region Helpers
         private static bool IsInHiddenLocation()
         {
-            bool inHabitat = Main.Config.HideBlipsInsideHabitats && Player.main.IsInBase() && uGUI_CameraDrone.main?.activeCamera == null;
+            bool inHabitat = Main.Config.HideBlipsInsideHabitats && Player.main.IsInBase() && uGUI_CameraDrone.main.activeCamera == null;
             bool inCyclops = Main.Config.HideBlipsInsideCyclops && Player.main.IsInSubmarine();
 
             return inHabitat || inCyclops;

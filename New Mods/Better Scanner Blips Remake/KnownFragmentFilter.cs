@@ -40,7 +40,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
             if (__instance == null)
                 return;
 
-            var uniqueId = __instance.GetComponent<UniqueIdentifier>()?.Id;
+            var uniqueId = __instance.GetComponent<UniqueIdentifier>().Id;
             if (string.IsNullOrEmpty(uniqueId) || FragmentTypeCache.ContainsKey(uniqueId))
                 return;
 
