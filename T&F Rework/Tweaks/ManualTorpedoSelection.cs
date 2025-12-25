@@ -64,6 +64,18 @@ namespace Ungeziefi.Tweaks
             return result;
         }
 
+        private static string GetVehicleId(Vehicle vehicle)
+        {
+            if (vehicle == null)
+                return null;
+
+            PrefabIdentifier prefabIdentifier = vehicle.GetComponent<PrefabIdentifier>();
+            if (prefabIdentifier == null)
+                return null;
+
+            return prefabIdentifier.Id;
+        }
+
         // Switch to next torpedo
         private static void CycleTorpedoSelection(Vehicle vehicle)
         {
@@ -72,7 +84,7 @@ namespace Ungeziefi.Tweaks
 
             lastSelectionTime = Time.time;
 
-            string vehicleId = vehicle.GetComponent<PrefabIdentifier>()?.Id ?? vehicle.name;
+            string vehicleId = GetVehicleId(vehicle);
 
             // Get available torpedoes
             List<TechType> availableTorpedos = GetAvailableTorpedoTypes(vehicle);
@@ -88,10 +100,6 @@ namespace Ungeziefi.Tweaks
             if (selectedTorpedoTypes.TryGetValue(vehicleId, out TechType currentSelection))
             {
                 int currentIndex = availableTorpedos.IndexOf(currentSelection);
-                // If current selection is not found, or is invalid, default to first
-                if (currentIndex == -1)
-                    currentIndex = -1; // Will become 0 after increment
-
                 int nextIndex = (currentIndex + 1) % availableTorpedos.Count;
                 nextTorpedo = availableTorpedos[nextIndex];
             }
@@ -101,35 +109,7 @@ namespace Ungeziefi.Tweaks
             }
 
             selectedTorpedoTypes[vehicleId] = nextTorpedo;
-            ShowSelectedTorpedoMessage(nextTorpedo);
-        }
-
-        // Show torpedo selection message
-        private static void ShowSelectedTorpedoMessage(TechType torpedoType)
-        {
-            ErrorMessage.AddMessage($"{Language.main.Get(torpedoType)} selected");
-        }
-
-        // Seamoth torpedo selection input
-        [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Update)), HarmonyPostfix]
-        public static void SeaMoth_Update(SeaMoth __instance)
-        {
-            if (!Main.Config.TCEnableFeature || !__instance.GetPilotingMode())
-                return;
-
-            if (GameInput.GetButtonDown(Main.SeamothCycleTorpedoButton))
-                CycleTorpedoSelection(__instance);
-        }
-
-        // Exosuit torpedo selection input
-        [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.Update)), HarmonyPostfix]
-        public static void Exosuit_Update(Exosuit __instance)
-        {
-            if (!Main.Config.TCEnableFeature || !__instance.GetPilotingMode())
-                return;
-
-            if (GameInput.GetButtonDown(Main.PRAWNSuitCycleTorpedoButton))
-                CycleTorpedoSelection(__instance);
+            ErrorMessage.AddMessage($"{Language.main.Get(nextTorpedo)} selected");
         }
 
         // Override torpedo firing to use selected type
@@ -147,7 +127,7 @@ namespace Ungeziefi.Tweaks
             if (__instance == null)
                 return true;
 
-            string vehicleId = __instance.GetComponent<PrefabIdentifier>()?.Id ?? __instance.name;
+            string vehicleId = GetVehicleId(__instance);
 
             // Use selected torpedo if available
             if (selectedTorpedoTypes.TryGetValue(vehicleId, out TechType selectedType) &&
@@ -164,6 +144,41 @@ namespace Ungeziefi.Tweaks
             }
 
             return true;
+        }
+
+        // Seamoth torpedo selection input
+        [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Update)), HarmonyPostfix]
+        public static void SeaMoth_Update(SeaMoth __instance)
+        {
+            if (!Main.Config.TCEnableFeature || !__instance.GetPilotingMode())
+                return;
+
+            if (GameInput.GetButtonDown(Main.SeamothCycleTorpedoButton))
+                CycleTorpedoSelection(__instance);
+
+            HandReticle.main.SetText(HandReticle.TextType.UseSubscript, $"Press {GameInput.FormatButton(Main.SeamothCycleTorpedoButton)} to change torpedo", false);
+        }
+
+        // Exosuit torpedo selection input
+        [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.Update)), HarmonyPostfix]
+        public static void Exosuit_Update(Exosuit __instance)
+        {
+            if (!Main.Config.TCEnableFeature || !__instance.GetPilotingMode())
+                return;
+
+            if (GameInput.GetButtonDown(Main.PRAWNSuitCycleTorpedoButton))
+                CycleTorpedoSelection(__instance);
+        }
+
+        [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.UpdateUIText)), HarmonyPostfix]
+        public static void Exosuit_UpdateUIText()
+        {
+            if (!Main.Config.TCEnableFeature) return;
+
+            Exosuit exosuit = Player.main.currentMountedVehicle as Exosuit;
+            if (exosuit == null) return;
+
+            HandReticle.main.SetText(HandReticle.TextType.UseSubscript, $"Press {GameInput.FormatButton(Main.PRAWNSuitCycleTorpedoButton)} to change torpedo", false);
         }
     }
 }

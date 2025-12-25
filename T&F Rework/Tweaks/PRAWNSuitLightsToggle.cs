@@ -27,13 +27,37 @@ namespace Ungeziefi.Tweaks
             soundsInitialized = true;
         }
 
-        private static string GetExosuitId(Exosuit exosuit) =>
-            exosuit?.gameObject?.GetComponent<PrefabIdentifier>()?.Id;
+        private static string GetExosuitId(Exosuit exosuit)
+        {
+            if (exosuit == null)
+                return null;
+
+            if (exosuit.gameObject == null)
+                return null;
+
+            PrefabIdentifier prefabIdentifier = exosuit.gameObject.GetComponent<PrefabIdentifier>();
+            if (prefabIdentifier == null)
+                return null;
+
+            return prefabIdentifier.Id;
+        }
 
         private static Transform GetLightsTransform(Exosuit exosuit)
         {
-            return exosuit?.leftArmAttach?.transform?.Find("lights_parent")
-                   ?? exosuit?.transform?.Find("lights_parent");
+            if (exosuit == null)
+                return null;
+
+            Transform lightsTransform = exosuit.transform.Find("lights_parent");
+            if (lightsTransform != null)
+                return lightsTransform;
+
+            if (exosuit.leftArmAttach == null)
+                return null;
+
+            if (exosuit.leftArmAttach.transform == null)
+                return null;
+
+            return exosuit.leftArmAttach.transform.Find("lights_parent"); // In case PRAWNSuitLightsFollowsCamera is enabled
         }
 
         private static void ToggleLights(Exosuit exosuit)

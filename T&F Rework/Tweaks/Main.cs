@@ -37,25 +37,29 @@ namespace Ungeziefi.Tweaks
                 .CreateInput("Seamoth cycle torpedo")
                 .WithKeyboardBinding(InputPaths.Keyboard.R)
                 .WithControllerBinding(InputPaths.Gamepad.DpadDown)
-                .WithCategory("Tweaks");
+                .WithCategory("Tweaks")
+                .AvoidConflicts();
 
             PRAWNSuitCycleTorpedoButton = EnumHandler.AddEntry<GameInput.Button>("PRAWNSuitCycleTorpedoButton")
                 .CreateInput("PRAWN Suit cycle torpedo")
                 .WithKeyboardBinding(InputPaths.Keyboard.R)
                 .WithControllerBinding(InputPaths.Gamepad.DpadDown)
-                .WithCategory("Tweaks");
+                .WithCategory("Tweaks")
+                .AvoidConflicts();
 
             PRAWNSuitLightsToggleButton = EnumHandler.AddEntry<GameInput.Button>("PRAWNSuitLightsToggleButton")
                 .CreateInput("PRAWN Suit lights toggle")
                 .WithKeyboardBinding(InputPaths.Keyboard.L)
                 .WithControllerBinding(InputPaths.Gamepad.RightBumper)
-                .WithCategory("Tweaks");
+                .WithCategory("Tweaks")
+                .AvoidConflicts();
 
             ToggleBaseLightsButton = EnumHandler.AddEntry<GameInput.Button>("ToggleBaseLightsButton")
                 .CreateInput("Base lights toggle")
                 .WithKeyboardBinding(InputPaths.Keyboard.L)
                 .WithControllerBinding(InputPaths.Gamepad.RightBumper)
-                .WithCategory("Tweaks");
+                .WithCategory("Tweaks")
+                .AvoidConflicts();
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
             MiscTweaks.ApplyAllTweaks();

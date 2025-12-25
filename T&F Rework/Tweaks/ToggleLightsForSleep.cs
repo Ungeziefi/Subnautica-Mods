@@ -7,7 +7,7 @@ namespace Ungeziefi.Tweaks
     [HarmonyPatch]
     public class ToggleLightsForSleep
     {
-        private static bool IsDroneCameraActive() => uGUI_CameraDrone.main?.activeCamera != null;
+        private static bool IsDroneCameraActive() => uGUI_CameraDrone.main.activeCamera != null;
 
         private static bool CanToggleLights(Player player, SubRoot sub)
         {
@@ -35,7 +35,7 @@ namespace Ungeziefi.Tweaks
             if (!Main.Config.ToggleLightsForSleep) return;
 
             Player player = Player.main;
-            if (!CanToggleLights(player, player?.currentSub))
+            if (!CanToggleLights(player, player.currentSub))
                 return;
 
             if (player.currentSub.subLightsOn)
@@ -51,7 +51,7 @@ namespace Ungeziefi.Tweaks
             if (!Main.Config.ToggleLightsForSleep) return;
 
             Player player = Player.main;
-            if (!CanToggleLights(player, player?.currentSub))
+            if (!CanToggleLights(player, player.currentSub))
                 return;
 
             Player.main.StartCoroutine(TurnLightsOnAfterDelay());
@@ -62,7 +62,7 @@ namespace Ungeziefi.Tweaks
             yield return new WaitForSeconds(Main.Config.LightsOnAfterSleepDelay);
 
             Player player = Player.main;
-            if (!CanToggleLights(player, player?.currentSub) || player.currentSub.subLightsOn)
+            if (!CanToggleLights(player, player.currentSub) || player.currentSub.subLightsOn)
                 yield break;
 
             player.currentSub.subLightsOn = true;

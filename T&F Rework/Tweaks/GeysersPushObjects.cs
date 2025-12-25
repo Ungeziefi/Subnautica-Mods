@@ -7,8 +7,8 @@ namespace Ungeziefi.Tweaks
     [HarmonyPatch]
     public class GeysersPushObjects
     {
-        private static Dictionary<Geyser, Vector3> eruptionForce = new();
-        private static Dictionary<Geyser, Vector3> rotationForce = new();
+        private static readonly Dictionary<Geyser, Vector3> eruptionForce = new();
+        private static readonly Dictionary<Geyser, Vector3> rotationForce = new();
 
         private static Vector3 CalculateGeyserForce()
         {

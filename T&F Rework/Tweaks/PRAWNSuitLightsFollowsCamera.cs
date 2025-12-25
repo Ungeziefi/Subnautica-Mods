@@ -6,18 +6,16 @@ namespace Ungeziefi.Tweaks
     [HarmonyPatch]
     public class PRAWNSuitLightsFollowsCamera
     {
-        private static Transform GetLightsTransform(Exosuit exosuit)
-        {
-            return exosuit?.leftArmAttach?.transform?.Find("lights_parent")
-                   ?? exosuit?.transform?.Find("lights_parent");
-        }
-
         [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.Start)), HarmonyPostfix]
         public static void Exosuit_Start(Exosuit __instance)
         {
-            if (Main.Config.PRAWNSuitLightsFollowCamera)
+            if (!Main.Config.PRAWNSuitLightsFollowCamera) return;
+
+            Transform lightsParent = __instance.transform.Find("lights_parent");
+            if (lightsParent != null)
             {
-                GetLightsTransform(__instance).SetParent(__instance.leftArmAttach);
+                lightsParent.SetParent(__instance.leftArmAttach);
+                Main.Logger.LogInfo("Changed parent to leftArmAttach");
             }
         }
     }

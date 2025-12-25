@@ -7,7 +7,7 @@ namespace Ungeziefi.Tweaks
     public class ToggleBaseLights
     {
         private static bool hasToggled = false; // Avoids spamming toggles while holding the button
-        private static bool IsDroneCameraActive() => uGUI_CameraDrone.main?.activeCamera != null;
+        private static bool IsDroneCameraActive() => uGUI_CameraDrone.main.activeCamera != null;
 
         private static bool CanToggleLights(Player player, SubRoot sub)
         {
@@ -67,7 +67,7 @@ namespace Ungeziefi.Tweaks
             if (!Main.Config.ToggleBaseLights) return;
 
             Player player = Player.main;
-            SubRoot currentSub = player?.currentSub;
+            SubRoot currentSub = player.currentSub;
             bool isHoldingItem = Inventory.main.GetHeldTool() != null;
             if (!CanToggleLights(player, currentSub) || isHoldingItem)
                 return;

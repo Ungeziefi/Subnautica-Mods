@@ -8,7 +8,7 @@ namespace Ungeziefi.Tweaks
     public class PowerCellChargeFromBatteries
     {
         private static bool crafting = false;
-        private static List<Battery> batteriesUsedForCrafting = new();
+        private static readonly List<Battery> batteriesUsedForCrafting = new();
 
         [HarmonyPatch(typeof(CrafterLogic), nameof(CrafterLogic.NotifyCraftEnd)), HarmonyPostfix]
         public static void CrafterLogic_NotifyCraftEnd(CrafterLogic __instance, GameObject target, TechType techType)

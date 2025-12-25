@@ -15,7 +15,7 @@ namespace Ungeziefi.Tweaks
             if (config == NoBundledBatteriesOption.Disabled || mode == GameModeOption.Creative) return true;
 
             GameObject obj = __instance.gameObject;
-            bool isVanillaRecipe = obj.GetComponentInParent<SubRoot>()?.isCyclops == true ||
+            bool isVanillaRecipe = (obj.GetComponentInParent<SubRoot>() != null && obj.GetComponentInParent<SubRoot>().isCyclops == true) ||
                                    obj.GetComponent<Exosuit>() != null ||
                                    obj.GetComponent<Welder>() != null;
 
