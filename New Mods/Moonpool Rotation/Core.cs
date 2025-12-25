@@ -19,7 +19,7 @@ namespace Ungeziefi.Moonpool_Rotation
             if (dockingVehicle == null) return true;
 
             // Find the moonpool animation transform
-            Transform moonpoolAnim = __instance.transform.parent?.Find("moon_pool_anim");
+            Transform moonpoolAnim = __instance.transform.parent.Find("moon_pool_anim");
             if (moonpoolAnim == null) return true;
 
             if (Main.Config.UseAdvancedRotation)

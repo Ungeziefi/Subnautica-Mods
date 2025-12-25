@@ -12,7 +12,7 @@ namespace Ungeziefi.Moonpool_Rotation
     {
         public const string PLUGIN_GUID = "Ungeziefi.Moonpool_Rotation";
         public const string PLUGIN_NAME = "Moonpool Rotation";
-        public const string PLUGIN_VERSION = "1.1.1";
+        public const string PLUGIN_VERSION = "1.1.2";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
