@@ -13,7 +13,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
     {
         public const string PLUGIN_GUID = "Ungeziefi.Cuddlefish_Renamer";
         public const string PLUGIN_NAME = "Cuddlefish Renamer";
-        public const string PLUGIN_VERSION = "2.0.0";
+        public const string PLUGIN_VERSION = "2.1.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
@@ -30,7 +30,8 @@ namespace Ungeziefi.Cuddlefish_Renamer
                 .CreateInput("Rename Cuddlefish")
                 .WithKeyboardBinding(InputPaths.Keyboard.R)
                 .WithControllerBinding(InputPaths.Gamepad.DpadUp)
-                .WithCategory("Cuddlefish Renamer");
+                .WithCategory("Cuddlefish Renamer")
+                .AvoidConflicts();
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
             SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();

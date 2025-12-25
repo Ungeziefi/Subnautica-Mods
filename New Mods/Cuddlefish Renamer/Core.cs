@@ -100,8 +100,14 @@ namespace Ungeziefi.Cuddlefish_Renamer
                 Main.Config.MaxNameLength,
                 (newName) =>
                 {
-                    isRenamingActive = false;
-                    SetCuddlefishName(cuddlefish, cuddlefishId, newName);
+                    try
+                    {
+                        SetCuddlefishName(cuddlefish, cuddlefishId, newName);
+                    }
+                    finally
+                    {
+                        isRenamingActive = false;
+                    }
                 });
         }
         #endregion
@@ -163,7 +169,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
 
         private static void UpdateLabelOpacity(GameObject labelObj, float distance, float fadeStartDistance)
         {
-            TMPro.TextMeshPro text = labelObj.GetComponent<TMPro.TextMeshPro>();
+            TMPro.TextMeshProUGUI text = labelObj.GetComponentInChildren<TMPro.TextMeshProUGUI>();
             if (text == null) return;
 
             float maxDistance = fadeStartDistance * 2;
@@ -196,7 +202,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
 
                 if (visible)
                 {
-                    TMPro.TextMeshPro text = label.GetComponent<TMPro.TextMeshPro>();
+                    TMPro.TextMeshProUGUI text = label.GetComponentInChildren<TMPro.TextMeshProUGUI>();
                     if (text != null) text.alpha = 1f;
                 }
             }
@@ -215,7 +221,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
 
                 entry.Value.transform.localPosition = new Vector3(0, Main.Config.NameLabelHeight, 0);
 
-                TMPro.TextMeshPro text = entry.Value.GetComponent<TMPro.TextMeshPro>();
+                TMPro.TextMeshProUGUI text = entry.Value.GetComponentInChildren<TMPro.TextMeshProUGUI>();
                 if (text != null)
                 {
                     text.fontSize = Main.Config.NameFontSize;
@@ -228,11 +234,11 @@ namespace Ungeziefi.Cuddlefish_Renamer
         #region Name Label Management
         private static void SetCuddlefishName(CuteFish cuddlefish, string cuddlefishId, string newName)
         {
-            if (string.IsNullOrEmpty(newName))
+            if (string.IsNullOrEmpty(newName) || string.IsNullOrWhiteSpace(newName))
             {
                 Main.SaveData.CuddlefishNames.Remove(cuddlefishId);
 
-                if (nameLabels.TryGetValue(cuddlefishId, out GameObject label))
+                if (nameLabels.TryGetValue(cuddlefishId, out GameObject label) && label != null)
                 {
                     GameObject.Destroy(label);
                     nameLabels.Remove(cuddlefishId);
@@ -242,7 +248,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
             {
                 Main.SaveData.CuddlefishNames[cuddlefishId] = newName;
 
-                if (Main.Config.ShowNameAbove)
+                if (Main.Config.ShowNameAbove && cuddlefish != null)
                 {
                     UpdateNameLabel(cuddlefish, newName);
                 }
@@ -259,7 +265,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
                 labelObj = CreateNameLabel(cuddlefish, cuddlefishId);
             }
 
-            TMPro.TextMeshPro text = labelObj.GetComponent<TMPro.TextMeshPro>();
+            TMPro.TextMeshProUGUI text = labelObj.GetComponentInChildren<TMPro.TextMeshProUGUI>();
             if (text != null)
             {
                 text.text = name;
@@ -290,22 +296,36 @@ namespace Ungeziefi.Cuddlefish_Renamer
 
         private static GameObject CreateNameLabel(CuteFish cuddlefish, string cuddlefishId)
         {
+            // Container object
             GameObject labelObj = new("CuddlefishNameLabel");
             labelObj.transform.SetParent(cuddlefish.transform, false);
             labelObj.transform.localPosition = new Vector3(0, Main.Config.NameLabelHeight, 0);
+            labelObj.AddComponent<FaceCamera>();
 
-            TMPro.TextMeshPro textMesh = labelObj.AddComponent<TMPro.TextMeshPro>();
+            // Canvas for UI rendering
+            Canvas canvas = labelObj.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.WorldSpace;
+            canvas.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+            // Text object
+            GameObject textObj = new("NameText");
+            textObj.transform.SetParent(labelObj.transform, false);
+
+            RectTransform rectTransform = textObj.AddComponent<RectTransform>();
+            rectTransform.anchoredPosition = Vector2.zero;
+
+            TMPro.TextMeshProUGUI textMesh = textObj.AddComponent<TMPro.TextMeshProUGUI>();
             textMesh.alignment = TMPro.TextAlignmentOptions.Center;
             textMesh.fontSize = Main.Config.NameFontSize;
+            textMesh.enableWordWrapping = false;
 
             ApplyTextFormatting(textMesh);
-            labelObj.AddComponent<FaceCamera>();
             nameLabels[cuddlefishId] = labelObj;
 
             return labelObj;
         }
 
-        private static void ApplyTextFormatting(TMPro.TextMeshPro textMesh)
+        private static void ApplyTextFormatting(TMPro.TextMeshProUGUI textMesh)
         {
             textMesh.color = Main.Config.NameColor;
             textMesh.fontStyle = Main.Config.BoldText ? TMPro.FontStyles.Bold : TMPro.FontStyles.Normal;
@@ -316,7 +336,12 @@ namespace Ungeziefi.Cuddlefish_Renamer
         private static string GetCuddlefishId(CuteFish cuddlefish)
         {
             UniqueIdentifier identifier = cuddlefish.GetComponent<UniqueIdentifier>();
-            return identifier?.Id;
+            if (identifier != null)
+            {
+                return identifier.id;
+            }
+
+            return null;
         }
 
         private static bool TryGetSavedName(string cuddlefishId, out string name)
