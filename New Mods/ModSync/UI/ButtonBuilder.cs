@@ -58,7 +58,7 @@ namespace Ungeziefi.ModSync.UI
             if (button != null)
             {
                 button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() => onClick?.Invoke());
+                button.onClick.AddListener(() => onClick.Invoke());
             }
 
             Transform textTransform = buttonObj.transform.Find("Text");

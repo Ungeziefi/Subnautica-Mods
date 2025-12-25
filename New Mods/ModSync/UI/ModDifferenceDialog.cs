@@ -75,7 +75,7 @@ namespace Ungeziefi.ModSync.UI
                 if (closeBtn != null)
                 {
                     closeBtn.onClick.RemoveAllListeners();
-                    closeBtn.onClick.AddListener(() => callback?.Invoke(false));
+                    closeBtn.onClick.AddListener(() => callback.Invoke(false));
                     closeBtn.onClick.AddListener(CloseDialog);
                 }
             }
@@ -95,8 +95,8 @@ namespace Ungeziefi.ModSync.UI
             {
                 ButtonBuilder.CreateDualButtons(
                     buttonObj,
-                    onContinue: () => { callback?.Invoke(true); CloseDialog(); },
-                    onCancel: () => { callback?.Invoke(false); CloseDialog(); }
+                    onContinue: () => { callback.Invoke(true); CloseDialog(); },
+                    onCancel: () => { callback.Invoke(false); CloseDialog(); }
                 );
             }
         }

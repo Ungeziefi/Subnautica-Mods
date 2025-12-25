@@ -101,19 +101,7 @@ namespace Ungeziefi.ModSync.UI
             contentRect.anchoredPosition = Vector2.zero;
             contentRect.sizeDelta = Vector2.zero;
 
-            VerticalLayoutGroup vlg = content.AddComponent<VerticalLayoutGroup>();
-            vlg.childControlWidth = true;
-            vlg.childControlHeight = false;
-            vlg.childForceExpandWidth = true;
-            vlg.childForceExpandHeight = false;
-            vlg.childAlignment = TextAnchor.UpperLeft;
-            vlg.spacing = 0;
-            vlg.padding = new RectOffset(
-                (int)DialogConfig.TEXT_PADDING,
-                (int)DialogConfig.TEXT_PADDING,
-                (int)DialogConfig.TEXT_PADDING,
-                (int)DialogConfig.TEXT_PADDING
-            );
+            content.AddComponent<VerticalLayoutGroup>();
 
             ContentSizeFitter contentFitter = content.AddComponent<ContentSizeFitter>();
             contentFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -139,7 +127,6 @@ namespace Ungeziefi.ModSync.UI
             textMesh.enableWordWrapping = true;
             textMesh.overflowMode = TextOverflowModes.Overflow;
             textMesh.fontSize = DialogConfig.TEXT_FONT_SIZE;
-            textMesh.margin = Vector4.zero;
 
             ContentSizeFitter textFitter = textObj.AddComponent<ContentSizeFitter>();
             textFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;

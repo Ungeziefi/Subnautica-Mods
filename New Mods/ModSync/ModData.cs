@@ -16,16 +16,6 @@ namespace Ungeziefi.ModSync
             Name = name;
             Version = version;
         }
-
-        public override bool Equals(object obj)
-        {
-            return obj is ModInfo other && Name == other.Name;
-        }
-
-        public override int GetHashCode()
-        {
-            return Name?.GetHashCode() ?? 0;
-        }
     }
 
     [Serializable]

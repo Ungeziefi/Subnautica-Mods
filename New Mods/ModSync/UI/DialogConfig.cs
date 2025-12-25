@@ -18,6 +18,5 @@ namespace Ungeziefi.ModSync.UI
         // Text
         public const float TEXT_FONT_SIZE = 22f;
         public const float BUTTON_FONT_SIZE = 30f;
-        public const float TEXT_PADDING = 10f;
     }
 }
