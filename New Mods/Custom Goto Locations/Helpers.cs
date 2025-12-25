@@ -90,7 +90,7 @@ namespace Ungeziefi.Custom_Goto_Locations
             StringBuilder customSb = new();
 
             // Get matching vanilla locations
-            if (GotoConsoleCommand.main?.data?.locations != null)
+            if (GotoConsoleCommand.main.data.locations != null)
             {
                 var matchingVanilla = GotoConsoleCommand.main.data.locations
                     .Where(loc => loc.name.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0)
