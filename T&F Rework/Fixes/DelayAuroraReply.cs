@@ -26,9 +26,7 @@ namespace Ungeziefi.Fixes
 
             radio.Invoke("PlayRadioRepairVO", 2f);
 
-            Main.Logger.LogInfo($"Delaying Aurora reply by {AURORA_REPLY_DELAY} seconds.");
             yield return new WaitForSeconds(AURORA_REPLY_DELAY);
-            Main.Logger.LogInfo("Playing Aurora reply after delay.");
 
             StoryGoalManager.main.PulsePendingMessages();
 

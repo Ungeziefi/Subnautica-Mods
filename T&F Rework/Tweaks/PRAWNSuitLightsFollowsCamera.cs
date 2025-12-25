@@ -15,7 +15,6 @@ namespace Ungeziefi.Tweaks
             if (lightsParent != null)
             {
                 lightsParent.SetParent(__instance.leftArmAttach);
-                Main.Logger.LogInfo("Changed parent to leftArmAttach");
             }
         }
     }

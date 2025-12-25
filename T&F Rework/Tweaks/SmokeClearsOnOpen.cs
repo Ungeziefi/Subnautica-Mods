@@ -25,7 +25,6 @@ namespace Ungeziefi.Tweaks
                     if (child.name.ToLower().Contains("smoke"))
                     {
                         child.gameObject.SetActive(false);
-                        Main.Logger.LogInfo($"Deactivated smoke effect: {child.name}");
                     }
                 }
             }
