@@ -6,10 +6,20 @@ namespace Ungeziefi.Fixes
     [HarmonyPatch]
     public class DeadPeepersCloseEyeLOD
     {
-        private static bool ShouldFixEyes(Creature creature) =>
-            Main.Config.DeadPeepersCloseEyeLOD &&
-            creature.GetComponent<LiveMixin>()?.IsAlive() == false &&
-            creature.name.Contains("Peeper");
+        private static bool ShouldFixEyes(Creature creature)
+        {
+            if (!Main.Config.DeadPeepersCloseEyeLOD)
+                return false;
+
+            LiveMixin liveMixin = creature.GetComponent<LiveMixin>();
+            if (liveMixin == null || liveMixin.IsAlive())
+                return false;
+
+            if (!creature.name.Contains("Peeper"))
+                return false;
+
+            return true;
+        }
 
         private static void FixPeeperEyes(Creature creature)
         {

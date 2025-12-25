@@ -1,14 +1,29 @@
-// To-Do: Fix not restoring on game reload
-
 using HarmonyLib;
+using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch]
     public class SaveCyclopsInternalLights
     {
-        private static string GetCyclopsId(CyclopsLightingPanel panel) =>
-            panel?.cyclopsRoot?.gameObject?.GetComponent<PrefabIdentifier>()?.Id;
+        private static string GetCyclopsId(CyclopsLightingPanel panel)
+        {
+            if (panel == null)
+                return null;
+
+            if (panel.cyclopsRoot == null)
+                return null;
+
+            GameObject gameObject = panel.cyclopsRoot.gameObject;
+            if (gameObject == null)
+                return null;
+
+            PrefabIdentifier prefabIdentifier = gameObject.GetComponent<PrefabIdentifier>();
+            if (prefabIdentifier == null)
+                return null;
+
+            return prefabIdentifier.Id;
+        }
 
         private static void UpdateInternalLightState(string cyclopsId, bool internalOff)
         {
@@ -36,17 +51,21 @@ namespace Ungeziefi.Fixes
             if (!Main.Config.SaveCyclopsInternalLights) return;
 
             string cyclopsId = GetCyclopsId(__instance);
-            if (cyclopsId != null)
-                UpdateInternalLightState(cyclopsId, !__instance.lightingOn);
+            if (cyclopsId == null) return;
+
+            UpdateInternalLightState(cyclopsId, !__instance.lightingOn);
         }
 
         // Load state
         [HarmonyPatch(typeof(CyclopsLightingPanel), nameof(CyclopsLightingPanel.Start)), HarmonyPostfix]
         public static void CyclopsLightingPanel_Start(CyclopsLightingPanel __instance)
         {
+            if (!Main.Config.SaveCyclopsInternalLights) return;
+
             string cyclopsId = GetCyclopsId(__instance);
-            if (!Main.Config.SaveCyclopsInternalLights || cyclopsId != null)
-                RestoreInternalLightState(__instance, cyclopsId);
+            if (cyclopsId == null) return;
+
+            RestoreInternalLightState(__instance, cyclopsId);
         }
     }
 }

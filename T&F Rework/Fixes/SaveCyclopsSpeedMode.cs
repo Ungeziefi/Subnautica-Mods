@@ -1,13 +1,29 @@
 ﻿using HarmonyLib;
+using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch]
     public class SaveCyclopsSpeedMode
     {
-        // Get Cyclops ID
-        private static string GetCyclopsId(CyclopsMotorModeButton button) =>
-            button?.subRoot?.gameObject?.GetComponent<PrefabIdentifier>()?.Id;
+        private static string GetCyclopsId(CyclopsMotorModeButton button)
+        {
+            if (button == null)
+                return null;
+
+            if (button.subRoot == null)
+                return null;
+
+            GameObject gameObject = button.subRoot.gameObject;
+            if (gameObject == null)
+                return null;
+
+            PrefabIdentifier prefabIdentifier = gameObject.GetComponent<PrefabIdentifier>();
+            if (prefabIdentifier == null)
+                return null;
+
+            return prefabIdentifier.Id;
+        }
 
         private static void UpdateSpeedMode(string cyclopsId, CyclopsMotorMode.CyclopsMotorModes mode)
         {

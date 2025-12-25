@@ -12,7 +12,7 @@ namespace Ungeziefi.Fixes
         {
             if (heatBladeParticles == null ||
                 heatBladeParticles.Length != 3 ||
-                heatBladeParticles[0]?.gameObject == null ||
+                heatBladeParticles[0].gameObject == null ||
                 !heatBladeParticles[0].gameObject.activeInHierarchy)
                 return;
 

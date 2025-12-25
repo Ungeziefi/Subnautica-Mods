@@ -13,12 +13,14 @@
 //        {
 //            // Save map off
 //            var seaglideMap = seaglide.GetComponent<VehicleInterface_MapController>();
-//            if (seaglideMap?.miniWorld != null)
-//                Main.SaveData.SeaglideMapOff = !seaglideMap.miniWorld.active;
+//            if (seaglideMap == null || seaglideMap.miniWorld == null) return;
+
+//            Main.SaveData.SeaglideMapOff = !seaglideMap.miniWorld.active;
 
 //            // Save light on
-//            if (seaglide.toggleLights != null)
-//                Main.SaveData.SeaglideLightOn = seaglide.toggleLights.lightsActive;
+//            if (seaglide.toggleLights == null) return;
+
+//            Main.SaveData.SeaglideLightOn = seaglide.toggleLights.lightsActive;
 //        }
 
 //        private static IEnumerator LoadSeaglideState(Seaglide seaglide)

@@ -10,7 +10,11 @@ namespace Ungeziefi.Fixes
         {
             if (Main.Config.NoUsedDataBoxLight)
             {
-                __instance.transform.Find("DataboxLightContainer")?.gameObject.SetActive(false);
+                var databoxLightContainer = __instance.transform.Find("DataboxLightContainer");
+                if (databoxLightContainer != null)
+                {
+                    databoxLightContainer.gameObject.SetActive(false);
+                }
             }
         }
     }

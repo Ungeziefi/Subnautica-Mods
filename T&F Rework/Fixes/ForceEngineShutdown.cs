@@ -10,12 +10,13 @@ namespace Ungeziefi.Fixes
         {
             if (!Main.Config.ForceEngineShutdown) return;
 
-            bool isPowered = __instance.GetComponentInParent<PowerRelay>()?.IsPowered() ?? false;
+            var powerRelay = __instance.GetComponentInParent<PowerRelay>();
+            if (powerRelay == null) return;
 
             // Force engine off when unpowered
             // The UI doesn't update though, seems like a vanilla bug also when the sub awakes with the engine off
             var motorMode = __instance.GetComponentInParent<CyclopsMotorMode>();
-            if (!isPowered && motorMode != null && motorMode.engineOn)
+            if (!powerRelay.IsPowered() && motorMode != null && motorMode.engineOn)
             {
                 motorMode.engineOn = false;
             }

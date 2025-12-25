@@ -1,14 +1,29 @@
-// To-Do: Fix not restoring on game reload
-
 using HarmonyLib;
+using UnityEngine;
 
 namespace Ungeziefi.Fixes
 {
     [HarmonyPatch]
     public class SaveCyclopsFloodlights
     {
-        private static string GetCyclopsId(CyclopsLightingPanel panel) =>
-            panel?.cyclopsRoot?.gameObject?.GetComponent<PrefabIdentifier>()?.Id;
+        private static string GetCyclopsId(CyclopsLightingPanel panel)
+        {
+            if (panel == null)
+                return null;
+
+            if (panel.cyclopsRoot == null)
+                return null;
+
+            GameObject gameObject = panel.cyclopsRoot.gameObject;
+            if (gameObject == null)
+                return null;
+
+            PrefabIdentifier prefabIdentifier = gameObject.GetComponent<PrefabIdentifier>();
+            if (prefabIdentifier == null)
+                return null;
+
+            return prefabIdentifier.Id;
+        }
 
         private static void UpdateExternalLightState(string cyclopsId, bool externalOn)
         {
@@ -39,8 +54,9 @@ namespace Ungeziefi.Fixes
             if (!Main.Config.SaveCyclopsFloodlights) return;
 
             string cyclopsId = GetCyclopsId(__instance);
-            if (cyclopsId != null)
-                UpdateExternalLightState(cyclopsId, __instance.floodlightsOn);
+            if (cyclopsId == null) return;
+
+            UpdateExternalLightState(cyclopsId, __instance.floodlightsOn);
         }
 
         // Save state on build
@@ -50,8 +66,9 @@ namespace Ungeziefi.Fixes
             if (!Main.Config.SaveCyclopsFloodlights) return;
 
             string cyclopsId = GetCyclopsId(__instance);
-            if (cyclopsId != null)
-                UpdateExternalLightState(cyclopsId, __instance.floodlightsOn);
+            if (cyclopsId == null) return;
+
+            UpdateExternalLightState(cyclopsId, __instance.floodlightsOn);
         }
 
         // Load state
@@ -61,8 +78,9 @@ namespace Ungeziefi.Fixes
             if (!Main.Config.SaveCyclopsFloodlights) return;
 
             string cyclopsId = GetCyclopsId(__instance);
-            if (cyclopsId != null)
-                RestoreExternalLightState(__instance, cyclopsId);
+            if (cyclopsId == null) return;
+
+            RestoreExternalLightState(__instance, cyclopsId);
         }
     }
 }

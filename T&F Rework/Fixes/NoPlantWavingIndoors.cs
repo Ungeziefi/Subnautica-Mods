@@ -40,8 +40,13 @@ namespace Ungeziefi.Fixes
 
             private static IEnumerator HandleGrownModel(GrowingPlant instance)
             {
-                yield return null;
-                if (instance.seed?.currentPlanter?.grownPlantsRoot is Transform root)
+                if (instance.seed == null)
+                    yield break;
+
+                if (instance.seed.currentPlanter == null)
+                    yield break;
+
+                if (instance.seed.currentPlanter.grownPlantsRoot is Transform root)
                 {
                     var activeChild = root.Cast<Transform>()
                         .FirstOrDefault(child => child.gameObject.activeSelf);

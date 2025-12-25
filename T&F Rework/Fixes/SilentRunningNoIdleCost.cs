@@ -15,7 +15,9 @@ namespace Ungeziefi.Fixes
             {
                 // Store original power cost
                 if (originalPowerCost == -1f)
+                {
                     originalPowerCost = subRoot.silentRunningPowerCost;
+                }
             }
         }
 
@@ -25,11 +27,14 @@ namespace Ungeziefi.Fixes
             if (!Main.Config.SilentRunningNoIdleCost) return;
 
             // Cost 0 when engine off
-            if (__instance.subRoot.noiseManager?.noiseScalar == 0f)
+            if (__instance.subRoot.noiseManager.noiseScalar == 0f)
+            {
                 __instance.subRoot.silentRunningPowerCost = 0f;
-            // Original cost when engine on
-            else
+            }
+            else // Original cost when engine on
+            {
                 __instance.subRoot.silentRunningPowerCost = originalPowerCost;
+            }
         }
     }
 }

@@ -12,13 +12,11 @@ namespace Ungeziefi.Fixes
 
             // Precursor terminal already used
             var precursorTerminal = __instance.GetComponent<PrecursorComputerTerminal>();
-            if (precursorTerminal?.used == true) return false;
+            if (precursorTerminal != null && precursorTerminal.used) return false;
 
-            // Generic console already used
             var genericConsole = __instance.GetComponent<GenericConsole>();
-            if (genericConsole?.gotUsed == true) return false;
+            if (genericConsole != null && genericConsole.gotUsed) return false;
 
-            // Not used yet, keep hover prompt
             return true;
         }
     }
