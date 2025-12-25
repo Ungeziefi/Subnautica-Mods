@@ -4,7 +4,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
 {
     public partial class SeamothBarrelRoll
     {
-        private static Dictionary<SeaMoth, RollState> activeRolls = new();
+        private static readonly Dictionary<SeaMoth, RollState> activeRolls = new();
 
         public class RollState
         {
@@ -13,6 +13,6 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
         }
 
         public static bool HasPower(Vehicle vehicle) =>
-            vehicle?.GetComponent<EnergyMixin>()?.charge > 0f;
+            vehicle.GetComponent<EnergyMixin>().charge > 0f;
     }
 }

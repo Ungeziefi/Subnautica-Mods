@@ -13,7 +13,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
     {
         public const string PLUGIN_GUID = "Ungeziefi.Seamoth_Barrel_Roll";
         public const string PLUGIN_NAME = "Seamoth Barrel Roll";
-        public const string PLUGIN_VERSION = "2.0.1";
+        public const string PLUGIN_VERSION = "2.1.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
@@ -29,12 +29,14 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             RollLeftButton = EnumHandler.AddEntry<GameInput.Button>("RollLeftButton")
                 .CreateInput("Roll left")
                 .WithKeyboardBinding(InputPaths.Keyboard.Ctrl)
-                .WithCategory("Seamoth Barrel Roll");
+                .WithCategory("Seamoth Barrel Roll")
+                .AvoidConflicts();
 
             RollRightButton = EnumHandler.AddEntry<GameInput.Button>("RollRightButton")
                 .CreateInput("Roll right")
                 .WithKeyboardBinding(InputPaths.Keyboard.Alt)
-                .WithCategory("Seamoth Barrel Roll");
+                .WithCategory("Seamoth Barrel Roll")
+                .AvoidConflicts();
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
         }
