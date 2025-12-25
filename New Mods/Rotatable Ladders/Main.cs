@@ -13,7 +13,7 @@ namespace Ungeziefi.Rotatable_Ladders
     {
         public const string PLUGIN_GUID = "Ungeziefi.Rotatable_Ladders";
         public const string PLUGIN_NAME = "Rotatable Ladders";
-        public const string PLUGIN_VERSION = "2.0.0";
+        public const string PLUGIN_VERSION = "2.1.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
@@ -30,7 +30,8 @@ namespace Ungeziefi.Rotatable_Ladders
                 .CreateInput("Rotate ladder")
                 .WithKeyboardBinding(InputPaths.Keyboard.R)
                 .WithControllerBinding(InputPaths.Gamepad.DpadUp)
-                .WithCategory("Rotatable Ladders");
+                .WithCategory("Rotatable Ladders")
+                .AvoidConflicts();
 
             Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
             SaveData = SaveDataHandler.RegisterSaveDataCache<SaveData>();

@@ -12,7 +12,7 @@ namespace Ungeziefi.Rotatable_Ladders
                 return;
 
             BaseLadder ladder = __instance.GetComponentInChildren<BaseLadder>();
-            if (ladder != null && ladder.transform?.parent != null)
+            if (ladder != null && ladder.transform.parent != null)
             {
                 string coords = GetLadderCoords(ladder.transform.parent);
                 bool isTopLadder = ladder.transform.parent.name.Contains("LadderTop");
