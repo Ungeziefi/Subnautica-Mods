@@ -6,7 +6,7 @@ A rework of [Tweaks and Fixes](https://www.nexusmods.com/subnautica/mods/722), f
 ---
 
 ### New Mods
-These are separate from the T&F rework because they don't fit its scope. More information in the respective Nexus Mods description.
+Standalones - more information in the respective Nexus Mods description.
 - [Seamoth Barrel Roll](https://www.nexusmods.com/subnautica/mods/2012)
 - [Camera Zoom](https://www.nexusmods.com/subnautica/mods/2013)
 - [Custom Sunbeam Countdown](https://www.nexusmods.com/subnautica/mods/2014)
