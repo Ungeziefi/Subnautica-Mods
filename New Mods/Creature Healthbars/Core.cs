@@ -21,8 +21,7 @@ namespace Ungeziefi.Creature_Healthbars
             if (collider != null)
             {
                 bounds = collider.bounds;
-                // Convert to local space
-                bounds.center = creature.transform.InverseTransformPoint(bounds.center);
+                bounds.center = creature.transform.InverseTransformPoint(bounds.center); // Local space
                 return bounds;
             }
 
@@ -100,11 +99,34 @@ namespace Ungeziefi.Creature_Healthbars
             textObj.SetActive(isActive);
             return textComponent;
         }
+
+        private static void UpdateOrCreateTextElement(
+            GameObject parent,
+            string textElementName,
+            string newText,
+            float fontSize,
+            Color color)
+        {
+            // Find
+            Transform existingTextTransform = parent.transform.Find(textElementName);
+            if (existingTextTransform != null)
+            {
+                // Update existing
+                var textComponent = existingTextTransform.GetComponent<TMPro.TextMeshProUGUI>();
+                if (textComponent != null)
+                {
+                    textComponent.text = newText;
+                    return;
+                }
+            }
+
+            // Doesn't exist, create new
+            CreateTextElement(parent, textElementName, newText, fontSize, color, true);
+        }
         #endregion
 
         private static void ShowHealthBar(Creature creature, string id, float healthPercent)
         {
-            // Calculate bar dimensions
             GetBarDimensions(creature, out float barWidth, out float barHeight);
 
             // Get health
@@ -180,37 +202,34 @@ namespace Ungeziefi.Creature_Healthbars
                     // Combine name and health numbers
                     string combinedText = $"{creatureName}: {Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
 
-                    CreateTextElement(
+                    UpdateOrCreateTextElement(
                         bar,
                         "CHB_HealthText",
                         combinedText,
                         fontSize,
-                        Main.Config.TextColor,
-                        true);
+                        Main.Config.TextColor);
                 }
                 else if (Main.Config.ShowHealthNumbers)
                 {
                     // Only health numbers
                     string healthNumbersText = $"{Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
 
-                    CreateTextElement(
+                    UpdateOrCreateTextElement(
                         bar,
                         "CHB_HealthText",
                         healthNumbersText,
                         fontSize,
-                        Main.Config.TextColor,
-                        true);
+                        Main.Config.TextColor);
                 }
                 else if (Main.Config.ShowName)
                 {
                     // Only name
-                    CreateTextElement(
+                    UpdateOrCreateTextElement(
                         bar,
                         "CHB_CreatureName",
                         creatureName,
                         fontSize,
-                        Main.Config.TextColor,
-                        true);
+                        Main.Config.TextColor);
                 }
 
                 // Update position

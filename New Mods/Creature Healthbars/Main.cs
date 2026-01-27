@@ -13,7 +13,7 @@ namespace Ungeziefi.Creature_Healthbars
     {
         public const string PLUGIN_GUID = "Ungeziefi.Creature_Healthbars";
         public const string PLUGIN_NAME = "Creature Healthbars";
-        public const string PLUGIN_VERSION = "2.1.0";
+        public const string PLUGIN_VERSION = "2.1.1";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
