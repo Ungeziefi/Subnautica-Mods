@@ -43,8 +43,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
         private static bool IsAirborne(SeaMoth seamoth)
         {
             return seamoth.transform.position.y > Ocean.GetOceanLevel() ||
-                   seamoth.precursorOutOfWater ||
-                   seamoth.onGround;
+                   seamoth.precursorOutOfWater;
         }
 
         private static RollState GetOrCreateRollState(SeaMoth seamoth)
@@ -71,9 +70,23 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             bool rollRight = GameInput.GetButtonHeld(Main.RollRightButton);
 
             state.isRolling = rollLeft || rollRight;
-            state.targetRollForce = rollLeft ? Main.Config.RollForce :
-                                   rollRight ? -Main.Config.RollForce :
-                                   0f;
+            
+            if (rollLeft && rollRight)
+            {
+                state.targetRollForce = state.currentRollForce != 0f ? state.currentRollForce : Main.Config.RollForce;
+            }
+            else if (rollLeft)
+            {
+                state.targetRollForce = Main.Config.RollForce;
+            }
+            else if (rollRight)
+            {
+                state.targetRollForce = -Main.Config.RollForce;
+            }
+            else
+            {
+                state.targetRollForce = 0f;
+            }
 
             // Interpolate towards target
             state.currentRollForce = Mathf.MoveTowards(

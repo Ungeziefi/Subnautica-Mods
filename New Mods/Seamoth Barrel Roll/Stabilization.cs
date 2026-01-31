@@ -28,20 +28,20 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
                 // Only stabilize when not rolling
                 if (Main.Config.StabilizationMode == StabilizationMode.OnlyWhenNotRolling)
                 {
-                    bool isRolling = GameInput.GetButtonDown(Main.RollLeftButton) || GameInput.GetButtonDown(Main.RollRightButton);
+                    bool isRolling = GameInput.GetButtonHeld(Main.RollLeftButton) || GameInput.GetButtonHeld(Main.RollRightButton);
                     return !isRolling;
                 }
 
                 // Only stabilize when not moving and not rolling
                 if (Main.Config.StabilizationMode == StabilizationMode.OnlyWhenIdle)
                 {
-                    bool isRolling = GameInput.GetButtonDown(Main.RollLeftButton) || GameInput.GetButtonDown(Main.RollRightButton);
-                    bool isMoving = GameInput.GetButtonDown(GameInput.Button.MoveForward) ||
-                                    GameInput.GetButtonDown(GameInput.Button.MoveBackward) ||
-                                    GameInput.GetButtonDown(GameInput.Button.MoveLeft) ||
-                                    GameInput.GetButtonDown(GameInput.Button.MoveRight) ||
-                                    GameInput.GetButtonDown(GameInput.Button.MoveUp) ||
-                                    GameInput.GetButtonDown(GameInput.Button.MoveDown);
+                    bool isRolling = GameInput.GetButtonHeld(Main.RollLeftButton) || GameInput.GetButtonHeld(Main.RollRightButton);
+                    bool isMoving = GameInput.GetButtonHeld(GameInput.Button.MoveForward) ||
+                                    GameInput.GetButtonHeld(GameInput.Button.MoveBackward) ||
+                                    GameInput.GetButtonHeld(GameInput.Button.MoveLeft) ||
+                                    GameInput.GetButtonHeld(GameInput.Button.MoveRight) ||
+                                    GameInput.GetButtonHeld(GameInput.Button.MoveUp) ||
+                                    GameInput.GetButtonHeld(GameInput.Button.MoveDown);
                     return !isRolling && !isMoving;
                 }
             }

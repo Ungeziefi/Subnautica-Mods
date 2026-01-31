@@ -16,18 +16,15 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
         public static bool HasPower(Vehicle vehicle) =>
             vehicle.GetComponent<EnergyMixin>().charge > 0f;
 
-        // Cleanup on exiting pilot mode
+        // Cleanup on exit
         [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.OnPilotModeEnd)), HarmonyPostfix]
         public static void SeaMoth_OnPilotModeEnd(SeaMoth __instance)
         {
-            if (!Main.Config.EnableFeature || !activeRolls.ContainsKey(__instance))
-                return;
-
-            // Reset engine sound
-            __instance.engineSound.AccelerateInput(1f);
-
-            // Remove tracking state
-            activeRolls.Remove(__instance);
+            if (activeRolls.ContainsKey(__instance))
+            {
+                __instance.engineSound.AccelerateInput(1f); // Reset engine sound
+                activeRolls.Remove(__instance); // Remove tracking state
+            }
         }
     }
 }
