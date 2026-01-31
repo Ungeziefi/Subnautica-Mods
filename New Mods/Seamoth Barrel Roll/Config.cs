@@ -7,7 +7,8 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
     {
         Disabled,
         Normal,
-        OnlyWhenEmpty,
+        OnlyWhenUnpiloted,
+        OnlyWhenNotRolling,
         OnlyWhenIdle
     }
 
@@ -18,9 +19,14 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
         public bool EnableFeature = true;
 
         [Choice(Label = "Stabilization mode",
-               Tooltip = "Disabled: No stabilization at all.\nNormal: Default game behaviour.\nOnly when empty: Only stabilizes when exiting the Seamoth.\nOnly when idle: Only stabilizes when not rolling.",
-                Options = new[] { "Disabled", "Normal", "Only when empty", "Only when idle" })]
-        public StabilizationMode StabilizationMode = StabilizationMode.OnlyWhenEmpty;
+               Tooltip =
+            "Disabled: No stabilization at all.\n" +
+            "Normal: Default game behaviour.\n" +
+            "Only when unpiloted: Only stabilizes when exiting the Seamoth.\n" +
+            "Only when not rolling: Only stabilizes when not rolling" +
+            "Only when idle: Only stabilizes when not rolling nor moving.",
+                Options = new[] { "Disabled", "Normal", "Only when not piloting", "Only when not rolling", "Only when idle" })]
+        public StabilizationMode StabilizationMode = StabilizationMode.OnlyWhenUnpiloted;
 
         [Slider(Label = "Roll force", Tooltip = "How strong the rolling motion is.", DefaultValue = 20f, Min = 10f, Max = 50f, Step = 1)]
         public float RollForce = 20f;

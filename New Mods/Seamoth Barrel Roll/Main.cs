@@ -13,7 +13,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
     {
         public const string PLUGIN_GUID = "Ungeziefi.Seamoth_Barrel_Roll";
         public const string PLUGIN_NAME = "Seamoth Barrel Roll";
-        public const string PLUGIN_VERSION = "2.1.0";
+        public const string PLUGIN_VERSION = "2.2.0";
 
         private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
         internal static new ManualLogSource Logger { get; private set; }
