@@ -11,7 +11,8 @@ namespace Ungeziefi.Fixes
             if (Main.Config.NoDepositPopIn == "Disabled") return;
 
             var drillable = __instance.GetComponent<Drillable>();
-            if (drillable != null)
+            var resource = __instance.GetComponent<ResourceTracker>(); // Check ResourceTracker to avoid breaking floating stones (they'd sink otherwise)
+            if (drillable && resource)
             {
                 __instance.cellLevel = Main.Config.NoDepositPopIn switch
                 {
