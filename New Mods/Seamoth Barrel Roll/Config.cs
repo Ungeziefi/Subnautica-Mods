@@ -23,7 +23,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             "Disabled: No stabilization at all.\n" +
             "Normal: Default game behaviour.\n" +
             "Only when unpiloted: Only stabilizes when exiting the Seamoth.\n" +
-            "Only when not rolling: Only stabilizes when not rolling" +
+            "Only when not rolling: Only stabilizes when not rolling." +
             "Only when idle: Only stabilizes when not rolling nor moving.",
                 Options = new[] { "Disabled", "Normal", "Only when not piloting", "Only when not rolling", "Only when idle" })]
         public StabilizationMode StabilizationMode = StabilizationMode.OnlyWhenUnpiloted;
