@@ -1,7 +1,7 @@
-﻿using System.Reflection;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using System.Reflection;
 
 namespace Ungeziefi.ModSync
 {

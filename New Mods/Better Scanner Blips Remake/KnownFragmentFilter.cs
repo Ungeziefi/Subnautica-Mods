@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using HarmonyLib;
+using System.Collections.Generic;
 
 namespace Ungeziefi.Better_Scanner_Blips_Remake
 {

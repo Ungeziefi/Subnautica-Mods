@@ -1,8 +1,8 @@
-﻿using System.Reflection;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
+using System.Reflection;
 using InputPaths = Nautilus.Handlers.GameInputHandler.Paths;
 
 namespace Ungeziefi.Better_Scanner_Blips_Remake

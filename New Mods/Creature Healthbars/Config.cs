@@ -1,5 +1,4 @@
-﻿using System;
-using Nautilus.Json;
+﻿using Nautilus.Json;
 using Nautilus.Options.Attributes;
 using UnityEngine;
 

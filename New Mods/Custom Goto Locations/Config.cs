@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Nautilus.Json;
+﻿using Nautilus.Json;
 using Nautilus.Options.Attributes;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ungeziefi.Custom_Goto_Locations

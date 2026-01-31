@@ -1,7 +1,7 @@
 ﻿// To-Do: Fix Kyanite and patch Language strings for drillable resources
 
-using System.Collections.Generic;
 using HarmonyLib;
+using System.Collections.Generic;
 
 namespace Ungeziefi.Drillable_Scan_Remake
 {

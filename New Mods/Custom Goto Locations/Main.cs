@@ -1,8 +1,8 @@
-﻿using System.Reflection;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
+using System.Reflection;
 
 namespace Ungeziefi.Custom_Goto_Locations
 {

@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using HarmonyLib;
+using System.Collections;
 using System.Linq;
-using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Custom_Hotkeys_Remake
