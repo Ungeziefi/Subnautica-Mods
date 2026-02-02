@@ -23,6 +23,8 @@ namespace Ungeziefi.Fixes
                 "Prison_Aquarium_Cave"
                 };
 
+            if (excludedBiomes.Contains(__instance.overrideBiome)) return;
+
             int noRayCastLayer = LayerMask.NameToLayer("Ignore Raycast");
             __instance.gameObject.layer = noRayCastLayer;
         }
