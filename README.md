@@ -20,6 +20,7 @@ Standalones - more information in the respective Nexus Mods description.
 - [Cuddlefish Renamer](https://www.nexusmods.com/subnautica/mods/2333)
 - [Creature Healthbars](https://www.nexusmods.com/subnautica/mods/2349)
 - [ModSync](https://www.nexusmods.com/subnautica/mods/2704)
+- [Console Autocompletion](https://www.nexusmods.com/subnautica/mods/3000)
 
 **Note**: I realized after release that [Mikjaw](https://next.nexusmods.com/profile/Mikjaw) already created mods with the same goal as Seamoth Barrel Roll and Cockpit Free Look. Check the originals and make your own choice!
 - [Roll Control](https://www.nexusmods.com/subnautica/mods/515)
@@ -31,7 +32,6 @@ Standalones - more information in the respective Nexus Mods description.
 These are just for **personal use** and to have public source code.
 - [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185) (Credits to [WhoTnT](https://next.nexusmods.com/profile/WhoTnT).)
 - [Abandon Ship During Cyclops Fire](https://www.nexusmods.com/subnautica/mods/1265) (Ported to Nautilus and added an in-game toggle, credits to [Aishsh506](https://next.nexusmods.com/profile/Aishsh506).)
-- Console Autocompletion (Ported to Nautilus from [Console Improved](https://www.nexusmods.com/subnautica/mods/341), credits to [zorgesho](https://next.nexusmods.com/profile/zorgesho).)
 
 ---
 
