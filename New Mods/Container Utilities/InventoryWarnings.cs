@@ -4,7 +4,7 @@ using System.Reflection;
 namespace Ungeziefi.Container_Utilities
 {
     [HarmonyPatch]
-    internal class InventoryWarnings
+    public class InventoryWarnings
     {
         private static bool wasInventoryFull;
         private static int lastFreeSlots = -1;
