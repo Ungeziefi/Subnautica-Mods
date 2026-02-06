@@ -43,10 +43,10 @@ namespace Ungeziefi.Container_Utilities
             {
                 ErrorMessage.AddMessage("Inventory is now full");
 
-                if (Main.Config.FullInventoryAudioCue)
-                    FMODUWE.PlayOneShot(
-                    Nautilus.Utility.AudioUtils.GetFmodAsset("event:/interface/off_long"), // Still have to decide a better sound
-                    Player.main.transform.position);
+                //if (Main.Config.FullInventoryAudioCue)
+                //    FMODUWE.PlayOneShot(
+                //    Nautilus.Utility.AudioUtils.GetFmodAsset("lorem"), // Still have to decide a better sound (https://github.com/SubnauticaModding/Nautilus/blob/master/Nautilus/Documentation/resources/SN1-FMODEvents.txt)
+                //    Player.main.transform.position);
             }
 
             // Show warning
