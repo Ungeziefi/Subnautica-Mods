@@ -140,6 +140,9 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Unmoveable props", Tooltip = "Prevents various objects from being moved with the Propulsion or Repulsion Cannon (list in the documentation).")]
         public bool UnmoveableProps = true;
 
+        [Toggle(Label = "Fire extinguisher fuel rounding", Tooltip = "Makes the Fire Extinguisher's fuel percentage display round to the nearest integer instead of flooring, allowing it to reach 0% instead of stopping at 1%.")]
+        public bool FireExtinguisherFuelRounding = true;
+
         [Toggle("<color=#FFAC09FF>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
 

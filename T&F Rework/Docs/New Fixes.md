@@ -3,3 +3,4 @@
 - **Delay Aurora reply**: Prevents the Aurora reply from being received before sending the distress signal.
 - **Oxygen Pipes across sub-biomes**: Allows Oxygen Pipes to be placed across sub-biomes such as caves or plateaus.
 - **Disable ghost helm buttons**: Disables the invisible (but still clickable) Cyclops helm HUD buttons when the HUD is off.
+- **Fire extinguisher fuel rounding**: Makes the Fire Extinguisher's fuel percentage display round to the nearest integer instead of flooring, allowing it to reach 0% instead of stopping at 1%.
