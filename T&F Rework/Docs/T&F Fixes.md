@@ -41,7 +41,7 @@
 - **Soft collision sound minimum mass**: Prevents the soft collision sound from playing for objects with very low mass, such as Brain Coral bubbles. (T&F removes the collision sound if the object has a mass lower than 6, Fixes just checks for mass <1, which is enough to filter out the bubbles.)
 - **Unmoveable props**: Prevents various objects from being moved with the Propulsion or Repulsion Cannon.
   - Full list of TechTypes: FarmingTray (undocumented but found in the code), BulboTree, PurpleBrainCoral, HangingFruitTree, SpikePlant.
-#### Persistence Fixes
+#### Persistence
 **Note**: I'm not sure if T&F does this but my implementation supports multiple Cyclopses by differentiating them by ID. It also cleans up the data when a Cyclops is destroyed.
 - **Save open wreck doors**.
 - **Save closed Cyclops doors**.
@@ -51,12 +51,12 @@
 - **Save last held item**. (Improved by supporting mid-game reloads.)
 ---
 
-### <span style="color: orange;">To-Do</span>
+### <span style="color: orange;">WIP</span>
 - **Save Seaglide toggles**.
 
 ---
 
-### <span style="color: red;">Won't Do</span>
+### <span style="color: red;">Won't add</span>
 #### Can't reproduce the bug
 - "Boulders that block some cave entrances in safe shallows now do not dissappear forever when you move away from them."
 - "Equipped dead fish's position changed if it was in your inventory when the game was loaded."

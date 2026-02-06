@@ -11,9 +11,12 @@
 #### Miscellaneous
 - **From "Use Trashcan" to "Use Trash can"**: Adds a missing space to the Trashcan prompt for consistency with its recipe name.
 - **Capitalize "Use"**: Capitalizes the "Use" prompt for consistency with other prompts.
-#### New Commands
+#### New commands
 - **RestoreHealth**.
 - **RestoreHunger**.
 - **RestoreThirst**.
 - **RestoreAll**.
 - **QQQ**: Quits the game without confirmation.
+- ### Day/night duration
+- Day duration: Real-time duration of the day in minutes.
+- Night duration: Real-time duration of the night in minutes.

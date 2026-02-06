@@ -32,11 +32,10 @@
 - **Build time multiplier**.
 - **Craft time multiplier**.
 - **Plant growth time multiplier**.
-- **Day/night cycle speed multiplier**.
 
 ---
 
-### <span style="color: orange;">To-Do</span>
+### <span style="color: orange;">WIP</span>
 - **No rotten food value**: Removes food value from rotten cooked fish.
 - **Torpedo launcher creature decoy**: Allows the Seamoth and PRAWN Suit to launch Creature Decoys.
 - **Propulsion Cannon fast transfer**: Allows moving various items directly to your inventory while holding them with the Propulsion or Repulsion Cannon.
@@ -46,7 +45,7 @@
 
 ---
 
-### <span style="color: red;">Won't Do</span>
+### <span style="color: red;">Won't add</span>
 #### Not interested
 - Most of what's under T&F's "Settings in the mod's options menu" section on [Nexus Mods](https://www.nexusmods.com/subnautica/mods/722).
 - "Key bind to select next or previous PDA tab."

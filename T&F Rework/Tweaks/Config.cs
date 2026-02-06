@@ -131,6 +131,37 @@ namespace Ungeziefi.Tweaks
         [Slider(Label = "Double door opening angle", DefaultValue = 90f, Min = 15f, Max = 135f, Step = 5f, Format = "{0:0}°")]
         public float DoubleDoorOpenAngle = 90f;
 
+        [Toggle("<color=#FFAC09FF>Toggle PRAWN Suit lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool TogglePRAWNSuitLightsDivider;
+
+        [Toggle(Label = "Enable feature")]
+        public bool TPSLEnableFeature = false;
+
+        [Toggle("<color=#FFAC09FF>Base lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool BaseLightsDivider;
+
+        [Toggle(Label = "Toggle base lights", Tooltip = "Allows toggling the lights in the current base. Keybind configurable in the \"Mod Input\" menu.")]
+        public bool ToggleBaseLights = false;
+
+        [Slider(Label = "Toggle hold duration", Tooltip = "The duration (in seconds) you need to hold the key to toggle base lights.", DefaultValue = 2, Min = 1, Max = 4, Step = 1, Format = "{0}s")]
+        public int ToggleHoldDuration = 2;
+
+        [Toggle(Label = "Toggle lights for sleep", Tooltip = "Automatically toggles the lights when going to bed and waking up.")]
+        public bool ToggleLightsForSleep = false;
+
+        [Slider(Label = "Lights on after sleep delay", Tooltip = "Delay (in seconds) before base lights turn back on after sleeping.", DefaultValue = 10, Min = 1, Max = 10, Step = 1, Format = "{0}s")]
+        public int LightsOnAfterSleepDelay = 10;
+
+        [Toggle("<color=#FFAC09FF>Geysers push objects</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool GeysersPushObjectsDivider;
+
+        [Toggle(Label = "Geysers push objects")]
+        public bool GPOEnableFeature = false;
+
+        [Slider(Label = "Eruption force", Tooltip = "The force applied to objects during geyser eruptions. Higher values push objects farther.",
+            DefaultValue = 50f, Min = 0f, Max = 200f, Step = 5f)]
+        public float GeyserEruptionForce = 50f;
+
         [Toggle("<color=#FFAC09FF>Miscellaneous</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool MiscellaneousTweaksDivider;
 
@@ -158,14 +189,11 @@ namespace Ungeziefi.Tweaks
             DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}x")]
         public float PlantGrowthTimeMultiplier = 1f;
 
-        [Slider(Label = "Day/night cycle speed multiplier", Tooltip = "Higher values make days and nights shorter. Lower values make days and nights longer.",
-            DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}x")]
-        public float DayNightCycleSpeedMultiplier = 1f;
-
         [Slider(Label = "Scanner Room speed multiplier", Tooltip = "Lower values mean faster scanning.",
             DefaultValue = 1f, Min = 0.01f, Max = 10f, Step = 0.01f, Format = "{0:0.00}x")]
         public float ScannerRoomSpeedMultiplier = 1f;
 
+        // New tweaks
         [Toggle("<color=#FFAC09FF>Creature size randomizer</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool CreatureSizeRandomizerDivider;
 
@@ -206,35 +234,15 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "QQQ", Tooltip = "Quits the game without confirmation.")]
         public bool QQQ = false;
 
-        [Toggle("<color=#FFAC09FF>Toggle PRAWN Suit lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool TogglePRAWNSuitLightsDivider;
+        [Toggle("<color=#FFAC09FF>Day/night duration</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+        public bool DayNightDurationDivider;
 
-        [Toggle(Label = "Enable feature")]
-        public bool TPSLEnableFeature = false;
+        [Slider(Label = "Day duration", Tooltip = "Real-time duration of the day in minutes.",
+            DefaultValue = 15f, Min = 1f, Max = 120f, Step = 1f, Format = "{0:0}m")]
+        public float DayDurationMinutes = 15f;
 
-        [Toggle("<color=#FFAC09FF>Base lights</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool BaseLightsDivider;
-
-        [Toggle(Label = "Toggle base lights", Tooltip = "Allows toggling the lights in the current base. Keybind configurable in the \"Mod Input\" menu.")]
-        public bool ToggleBaseLights = false;
-
-        [Slider(Label = "Toggle hold duration", Tooltip = "The duration (in seconds) you need to hold the key to toggle base lights.", DefaultValue = 2, Min = 1, Max = 4, Step = 1, Format = "{0}s")]
-        public int ToggleHoldDuration = 2;
-
-        [Toggle(Label = "Toggle lights for sleep", Tooltip = "Automatically toggles the lights when going to bed and waking up.")]
-        public bool ToggleLightsForSleep = false;
-
-        [Slider(Label = "Lights on after sleep delay", Tooltip = "Delay (in seconds) before base lights turn back on after sleeping.", DefaultValue = 10, Min = 1, Max = 10, Step = 1, Format = "{0}s")]
-        public int LightsOnAfterSleepDelay = 10;
-
-        [Toggle("<color=#FFAC09FF>Geysers push objects</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool GeysersPushObjectsDivider;
-
-        [Toggle(Label = "Geysers push objects")]
-        public bool GPOEnableFeature = false;
-
-        [Slider(Label = "Eruption force", Tooltip = "The force applied to objects during geyser eruptions. Higher values push objects farther.",
-            DefaultValue = 50f, Min = 0f, Max = 200f, Step = 5f)]
-        public float GeyserEruptionForce = 50f;
+        [Slider(Label = "Night duration", Tooltip = "Real-time duration of the night in minutes.",
+            DefaultValue = 5f, Min = 1f, Max = 120f, Step = 1f, Format = "{0:0}m")]
+        public float NightDurationMinutes = 5f;
     }
 }
