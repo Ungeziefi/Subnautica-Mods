@@ -41,6 +41,6 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="mkdir &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;&#xD;&#xA;mkdir &quot;C:\Modding\Subnautica\Subnautica-Mods\Release\Cuddlefish Renamer\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Modding\Subnautica\Subnautica-Mods\Release\Cuddlefish Renamer\BepInEx\plugins\$(TargetName)&quot;" />
+    <Exec Command="mkdir &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;&#xD;&#xA;mkdir &quot;C:\Modding\Repos\Subnautica-Mods\Release\Cuddlefish Renamer\BepInEx\plugins\$(TargetName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Modding\Repos\Subnautica-Mods\Release\Cuddlefish Renamer\BepInEx\plugins\$(TargetName)&quot;" />
   </Target>
 </Project>
