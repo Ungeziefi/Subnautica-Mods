@@ -9,7 +9,6 @@
 - **Beacon faces the player**: Makes the beacon face the player when deployed.
 - **No MVB climb on top**: Removes the prompt to climb the Mobile Vehicle Bay while already standing on it. (Improved by using GetOceanLevel instead of 1f for compatibility with mods that change water level.)
 - **Deadly Cyclops explosion**: Stops the player from respawning inside the Cyclops after its destruction.
-- **Smooth Cyclops wheel**: Makes the Cyclops' wheel movement smooth when using a controller.
 - **Silent Running no idle power drain**: Stops Silent Running from draining power when the engine is off. (Better compatibility by not using bool Prefix.)
 - **Seamoth storage modules gap**: Removes the gap between the Seamoth and its lower storage modules.
 - **Docking bay sound checks**: Stops the Cyclops docking bay sounds from playing if it's already occupied. (Better compatibility by not using bool Prefix.)

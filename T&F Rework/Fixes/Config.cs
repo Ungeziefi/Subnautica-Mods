@@ -36,9 +36,6 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Deadly Cyclops explosion", Tooltip = "Stops the player from respawning inside the Cyclops after its destruction.")]
         public bool DeadlyCyclopsExplosion = true;
 
-        [Toggle(Label = "Smooth Cyclops wheel", Tooltip = "Makes the Cyclops' wheel movement smooth when using a controller.")]
-        public bool SmoothCyclopsWheel = true;
-
         [Toggle(Label = "Silent Running no idle power drain", Tooltip = "Stops Silent Running from draining power when the engine is off.")]
         public bool SilentRunningNoIdleCost = true;
 
