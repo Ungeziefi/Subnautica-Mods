@@ -1,6 +1,4 @@
-﻿// To - Do: Fix not loading saved data on fresh game start
-
-using HarmonyLib;
+﻿using HarmonyLib;
 using UnityEngine;
 
 namespace Ungeziefi.Tweaks
