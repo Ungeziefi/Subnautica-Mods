@@ -107,6 +107,12 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Upgrade only when docked", Tooltip = "Prevents opening the Seamoth's or PRAWN Suit's upgrade panel unless docked.")]
         public bool UpgradeOnlyWhenDocked = false;
 
+        [Toggle(Label = "Disable oxygen warning")]
+        public bool DisableOxygenWarning = false;
+
+        [Toggle(Label = "Disable oxygen audio cue")]
+        public bool DisableOxygenAudioCue = false;
+
         [Toggle("<color=#FFAC09FF>Torpedo cycling</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TorpedoCyclingDivider;
 
