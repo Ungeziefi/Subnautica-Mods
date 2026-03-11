@@ -7,7 +7,7 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
     [Menu("Better Scanner Blips Remake")]
     public class Config : ConfigFile
     {
-        [Slider(Label = "Maximum range", DefaultValue = 150f, Min = 10f, Max = 300f, Step = 1f)]
+        [Slider(Label = "Maximum range", DefaultValue = 150f, Min = 10f, Max = 1000f, Step = 50f)]
         public float MaximumRange = 150f;
 
         [Slider(Label = "Minimum scale", DefaultValue = 0.3f, Min = 0.1f, Max = 1f, Step = 0.1f, Format = "{0:0.0}")]
