@@ -1,0 +1,126 @@
+﻿using HarmonyLib;
+using UnityEngine;
+
+namespace Ungeziefi.Tweaks.Vehicles
+{
+    [HarmonyPatch]
+    public class PRAWNSuitLightsToggle
+    {
+        private static FMODAsset lightsOnSound;
+        private static FMODAsset lightsOffSound;
+        private static bool soundsInitialized = false;
+
+        private static void InitializeLightsSounds()
+        {
+            if (soundsInitialized) return;
+
+            lightsOnSound = ScriptableObject.CreateInstance<FMODAsset>();
+            lightsOnSound.path = "event:/sub/seamoth/seaglide_light_on";
+            lightsOnSound.id = "{fe76457f-0c94-4245-a080-8a5b2f8853c4}";
+
+            lightsOffSound = ScriptableObject.CreateInstance<FMODAsset>();
+            lightsOffSound.path = "event:/sub/seamoth/seaglide_light_off";
+            lightsOffSound.id = "{b52592a9-19f5-45d1-ad56-7d355fc3dcc3}";
+
+            soundsInitialized = true;
+        }
+
+        private static string GetExosuitId(Exosuit exosuit)
+        {
+            if (exosuit == null)
+                return null;
+
+            if (exosuit.gameObject == null)
+                return null;
+
+            PrefabIdentifier prefabIdentifier = exosuit.gameObject.GetComponent<PrefabIdentifier>();
+            if (prefabIdentifier == null)
+                return null;
+
+            return prefabIdentifier.Id;
+        }
+
+        private static Transform GetLightsTransform(Exosuit exosuit)
+        {
+            if (exosuit == null)
+                return null;
+
+            Transform lightsTransform = exosuit.transform.Find("lights_parent");
+            if (lightsTransform != null)
+                return lightsTransform;
+
+            if (exosuit.leftArmAttach == null)
+                return null;
+
+            if (exosuit.leftArmAttach.transform == null)
+                return null;
+
+            return exosuit.leftArmAttach.transform.Find("lights_parent"); // In case PRAWNSuitLightsFollowsCamera is enabled
+        }
+
+        private static void ToggleLights(Exosuit exosuit)
+        {
+            Transform lightsTransform = GetLightsTransform(exosuit);
+
+            var lightsObject = lightsTransform.gameObject;
+            var isCurrentlyOn = lightsObject.activeSelf;
+            var exosuitId = GetExosuitId(exosuit);
+
+            if (!isCurrentlyOn && exosuit.energyInterface.hasCharge)
+            {
+                lightsObject.SetActive(true);
+                if (!string.IsNullOrEmpty(exosuitId))
+                {
+                    Main.SaveData.PRAWNSuitsWithLightOff.Remove(exosuitId);
+                }
+                if (lightsOnSound != null)
+                {
+                    FMODUWE.PlayOneShot(lightsOnSound, exosuit.transform.position);
+                }
+            }
+            else if (isCurrentlyOn)
+            {
+                lightsObject.SetActive(false);
+                if (!string.IsNullOrEmpty(exosuitId))
+                {
+                    Main.SaveData.PRAWNSuitsWithLightOff.Add(exosuitId);
+                }
+                if (lightsOffSound != null)
+                {
+                    FMODUWE.PlayOneShot(lightsOffSound, exosuit.transform.position);
+                }
+            }
+        }
+
+        // Load state on start
+        [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.Start)), HarmonyPostfix]
+        public static void Exosuit_Start(Exosuit __instance)
+        {
+            InitializeLightsSounds();
+
+            var exosuitId = GetExosuitId(__instance);
+            if (Main.SaveData.PRAWNSuitsWithLightOff.Contains(exosuitId))
+            {
+                var lightsTransform = GetLightsTransform(__instance);
+                if (lightsTransform != null)
+                {
+                    lightsTransform.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.Update)), HarmonyPostfix]
+        public static void Exosuit_Update(Exosuit __instance)
+        {
+            if (!Main.Config.TPSLEnableFeature) return;
+
+            if (!Cursor.visible &&
+                !WaitScreen.IsWaiting &&
+                Player.main.currentMountedVehicle == __instance &&
+                GameInput.GetButtonDown(Main.PRAWNSuitLightsToggleButton))
+            {
+                ToggleLights(__instance);
+            }
+        }
+    }
+}
