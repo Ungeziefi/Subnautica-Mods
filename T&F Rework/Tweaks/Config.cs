@@ -113,6 +113,9 @@ namespace Ungeziefi.Tweaks
         [Toggle(Label = "Disable oxygen audio cue")]
         public bool DisableOxygenAudioCue = false;
 
+        [Toggle(Label = "No Scanner icon if scanned", Tooltip = "Prevents the PDA Scanner icon from showing when hovering a fragment if the recipe is already known.")]
+        public bool NoScannerIconIfScanned = false;
+
         [Toggle("<color=#FFAC09FF>Torpedo cycling</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool TorpedoCyclingDivider;
 

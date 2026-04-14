@@ -150,21 +150,31 @@ namespace Ungeziefi.Tweaks
         [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Update)), HarmonyPostfix]
         public static void SeaMoth_Update(SeaMoth __instance)
         {
-            if (!Main.Config.TCEnableFeature || !__instance.GetPilotingMode())
-                return;
+            if (!Main.Config.TCEnableFeature) return;
+
+            bool isPausedOrLoading = WaitScreen.IsWaiting
+                || Cursor.visible
+                || UWE.FreezeTime.HasFreezers()
+                || Player.main.GetPDA().isOpen;
+
+            if (isPausedOrLoading || !__instance.GetPilotingMode()) return;
 
             if (GameInput.GetButtonDown(Main.SeamothCycleTorpedoButton))
                 CycleTorpedoSelection(__instance);
-
-            HandReticle.main.SetText(HandReticle.TextType.UseSubscript, $"Press {GameInput.FormatButton(Main.SeamothCycleTorpedoButton)} to change torpedo", false);
         }
 
         // Exosuit torpedo selection input
         [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.Update)), HarmonyPostfix]
         public static void Exosuit_Update(Exosuit __instance)
         {
-            if (!Main.Config.TCEnableFeature || !__instance.GetPilotingMode())
-                return;
+            if (!Main.Config.TCEnableFeature) return;
+
+            bool isPausedOrLoading = WaitScreen.IsWaiting
+                || Cursor.visible
+                || UWE.FreezeTime.HasFreezers()
+                || Player.main.GetPDA().isOpen;
+
+            if (isPausedOrLoading || !__instance.GetPilotingMode()) return;
 
             if (GameInput.GetButtonDown(Main.PRAWNSuitCycleTorpedoButton))
                 CycleTorpedoSelection(__instance);
@@ -179,6 +189,17 @@ namespace Ungeziefi.Tweaks
             if (exosuit == null) return;
 
             HandReticle.main.SetText(HandReticle.TextType.UseSubscript, $"Press {GameInput.FormatButton(Main.PRAWNSuitCycleTorpedoButton)} to change torpedo", false);
+        }
+
+        [HarmonyPatch(typeof(SeaMoth), nameof(SeaMoth.Update)), HarmonyPostfix]
+        public static void SeaMoth_Update()
+        {
+            if (!Main.Config.TCEnableFeature) return;
+
+            //SeaMoth seamoth = Player.main.currentMountedVehicle as SeaMoth;
+            //if (seamoth == null) return;
+
+            HandReticle.main.SetText(HandReticle.TextType.UseSubscript, $"Press {GameInput.FormatButton(Main.SeamothCycleTorpedoButton)} to change torpedo", false);
         }
     }
 }

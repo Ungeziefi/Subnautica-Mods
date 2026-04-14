@@ -114,10 +114,12 @@ namespace Ungeziefi.Tweaks.Vehicles
         {
             if (!Main.Config.TPSLEnableFeature) return;
 
-            if (!Cursor.visible &&
-                !WaitScreen.IsWaiting &&
-                Player.main.currentMountedVehicle == __instance &&
-                GameInput.GetButtonDown(Main.PRAWNSuitLightsToggleButton))
+            if (WaitScreen.IsWaiting 
+                || Cursor.visible 
+                || UWE.FreezeTime.HasFreezers() 
+                || Player.main.GetPDA().isOpen) return;
+
+            if (GameInput.GetButtonDown(Main.PRAWNSuitLightsToggleButton))
             {
                 ToggleLights(__instance);
             }

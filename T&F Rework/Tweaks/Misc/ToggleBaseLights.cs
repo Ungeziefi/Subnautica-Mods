@@ -9,25 +9,29 @@ namespace Ungeziefi.Tweaks
         private static bool hasToggled = false; // Avoids spamming toggles while holding the button
         private static bool IsDroneCameraActive() => uGUI_CameraDrone.main.activeCamera != null;
 
-        private static bool CanToggleLights(Player player, SubRoot sub)
+        private static bool CanToggleLights(SubRoot sub)
         {
-            // Only allow toggling lights if:
-            // - Player is in a base (Cyclops has its own toggle)
-            // - Base is not in Danger state
-            //   - lightingState: 0 = Operational, 1 = Danger (flooding), 2 = Damaged (no power or when lights are manually toggled off)
-            // - Base has power (not Offline)
-            // - Loading has finished
-            // - No menu is open
-            // - Not using a Camera Drone (CameraDrone is inactive)
-            return player != null
-                && sub != null
-                && sub.powerRelay != null
-                && player.IsInBase()
-                && sub.powerRelay.GetPowerStatus() != PowerSystem.Status.Offline
-                && sub.lightingState != 1
-                && !WaitScreen.IsWaiting
-                && !Cursor.visible
-                && !IsDroneCameraActive();
+            bool isPausedOrLoading = WaitScreen.IsWaiting
+                || Cursor.visible
+                || UWE.FreezeTime.HasFreezers()
+                || Player.main.GetPDA().isOpen;
+
+            Player player = Player.main;
+
+            if (player == null
+                || sub == null
+                || sub.powerRelay == null
+                || sub.powerRelay.GetPowerStatus() == PowerSystem.Status.Offline // - Base is Offline
+                || !player.IsInBase() // Cyclops has its own toggle, exclude it
+                || player.currentSub != sub
+                || sub.lightingState == 1 // - Base is not in Danger state
+                                          //   - lightingState: 0 = Operational, 1 = Danger (flooding), 2 = Damaged (no power or when lights are manually toggled off)
+                || isPausedOrLoading
+                || IsDroneCameraActive() // - Not using a Camera Drone (CameraDrone is inactive)
+                || Inventory.main.GetHeldTool() != null) // Not holding any tool
+                return false;
+
+            return true;
         }
 
         [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.Update)), HarmonyPostfix]
@@ -35,9 +39,7 @@ namespace Ungeziefi.Tweaks
         {
             if (!Main.Config.ToggleBaseLights) return;
 
-            Player player = Player.main;
-            if (!CanToggleLights(player, __instance) || player.currentSub != __instance)
-                return;
+            if (!CanToggleLights(__instance)) return;
 
             bool isHoldingButton = GameInput.GetButtonHeld(Main.ToggleBaseLightsButton);
             float holdTime = GameInput.GetButtonHeldTime(Main.ToggleBaseLightsButton);
@@ -66,11 +68,8 @@ namespace Ungeziefi.Tweaks
         {
             if (!Main.Config.ToggleBaseLights) return;
 
-            Player player = Player.main;
-            SubRoot currentSub = player.currentSub;
-            bool isHoldingItem = Inventory.main.GetHeldTool() != null;
-            if (!CanToggleLights(player, currentSub) || isHoldingItem)
-                return;
+            SubRoot currentSub = Player.main.currentSub;
+            if (!CanToggleLights(currentSub)) return;
 
             HandReticle.main.SetText(HandReticle.TextType.Use, $"Hold {GameInput.FormatButton(Main.ToggleBaseLightsButton)} to toggle base lights", false);
         }

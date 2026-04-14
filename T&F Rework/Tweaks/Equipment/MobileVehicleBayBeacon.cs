@@ -10,7 +10,10 @@ namespace Ungeziefi.Tweaks
         {
             if (!Main.Config.MobileVehicleBayBeacon) return;
 
-            __instance.gameObject.EnsureComponent<PingInstance>();
+            var pi = __instance.gameObject.EnsureComponent<PingInstance>();
+            pi.pingType = PingType.Signal;
+            pi.origin = __instance.transform;
+            pi.SetLabel(Language.main.Get("Constructor"));
         }
 
         [HarmonyPatch(typeof(PingInstance), nameof(PingInstance.Initialize)), HarmonyPostfix]
@@ -24,10 +27,6 @@ namespace Ungeziefi.Tweaks
                 UnityEngine.Object.Destroy(__instance);
                 return;
             }
-
-            __instance.pingType = PingType.Signal;
-            __instance.origin = constructor.transform;
-            __instance.SetLabel(Language.main.Get("Constructor"));
         }
     }
 }

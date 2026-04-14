@@ -83,7 +83,7 @@ namespace Ungeziefi.Tweaks.Misc
         }
         #endregion
 
-        #region Harmony Patches
+        #region Patches
         [HarmonyPatch(typeof(StorageContainer))]
         class StorageContainer_Patch
         {

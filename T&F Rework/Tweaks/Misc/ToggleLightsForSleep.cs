@@ -9,24 +9,21 @@ namespace Ungeziefi.Tweaks
     {
         private static bool IsDroneCameraActive() => uGUI_CameraDrone.main.activeCamera != null;
 
-        private static bool CanToggleLights(Player player, SubRoot sub)
+        private static bool CanToggleLights(SubRoot sub)
         {
-            // Only allow toggling lights if:
-            // - Player is in a base (Cyclops has its own toggle)
-            // - Base is not in Danger state
-            //   - lightingState: 0 = Operational, 1 = Danger (flooding), 2 = Damaged (no power or when lights are manually toggled off)
-            // - Base has power (not Offline)
-            // - Loading has finished
-            // - No menu is open
-            // - Not using a Camera Drone (CameraDrone is inactive)
-            return player != null
-                && sub != null
-                && player.IsInBase()
-                && sub.powerRelay.GetPowerStatus() != PowerSystem.Status.Offline
-                && sub.lightingState != 1
-                && !WaitScreen.IsWaiting
-                && !Cursor.visible
-                && !IsDroneCameraActive();
+            Player player = Player.main;
+
+            if (player == null
+                || sub == null
+                || sub.powerRelay == null
+                || sub.powerRelay.GetPowerStatus() == PowerSystem.Status.Offline // - Base is Offline
+                || !player.IsInBase() // Cyclops has its own toggle, exclude it
+                || player.currentSub != sub
+                || sub.lightingState == 1) // - Base is not in Danger state
+                                          //   - lightingState: 0 = Operational, 1 = Danger (flooding), 2 = Damaged (no power or when lights are manually toggled off)
+                return false;
+
+            return true;
         }
 
         [HarmonyPatch(typeof(Bed), nameof(Bed.ResetAnimParams)), HarmonyPostfix]
@@ -35,8 +32,7 @@ namespace Ungeziefi.Tweaks
             if (!Main.Config.ToggleLightsForSleep) return;
 
             Player player = Player.main;
-            if (!CanToggleLights(player, player.currentSub))
-                return;
+            if (!CanToggleLights(player.currentSub)) return;
 
             if (player.currentSub.subLightsOn)
             {
@@ -51,8 +47,7 @@ namespace Ungeziefi.Tweaks
             if (!Main.Config.ToggleLightsForSleep) return;
 
             Player player = Player.main;
-            if (!CanToggleLights(player, player.currentSub))
-                return;
+            if (!CanToggleLights(player.currentSub)) return;
 
             Player.main.StartCoroutine(TurnLightsOnAfterDelay());
         }
@@ -62,7 +57,7 @@ namespace Ungeziefi.Tweaks
             yield return new WaitForSeconds(Main.Config.LightsOnAfterSleepDelay);
 
             Player player = Player.main;
-            if (!CanToggleLights(player, player.currentSub) || player.currentSub.subLightsOn)
+            if (!CanToggleLights(player.currentSub) || player.currentSub.subLightsOn)
                 yield break;
 
             player.currentSub.subLightsOn = true;
