@@ -5,8 +5,8 @@ namespace Ungeziefi.Fixes.Misc
     [HarmonyPatch]
     public class DisableDeadTelemetry
     {
-        [HarmonyPatch(typeof(Telemetry), nameof(Telemetry.IsAnalyzingSession)), HarmonyPrefix]
-        public static bool Telemetry_IsAnalyzingSession()
+        [HarmonyPatch(typeof(Telemetry), nameof(Telemetry.SessionStart)), HarmonyPrefix]
+        public static bool Telemetry_SessionStart()
         {
             if (Main.Config.DisableDeadTelemetry)
             {
