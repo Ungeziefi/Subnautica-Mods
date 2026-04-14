@@ -20,10 +20,16 @@ namespace Ungeziefi.Camera_Zoom
         // Check for menu, piloting, Drone Camera, and building state
         private static bool IsValidState()
         {
+            bool isPausedOrLoading = WaitScreen.IsWaiting
+            || Cursor.visible
+            || UWE.FreezeTime.HasFreezers()
+            || Player.main.GetPDA().isOpen;
+
             var player = Player.main;
+
             return player != null &&
                    Camera != null &&
-                   !Cursor.visible &&
+                   !isPausedOrLoading &&
                    player.mode != Player.Mode.Piloting &&
                    !IsDroneCameraActive() &&
                    (Main.Config.PCAllowWhileBuilding || !Builder.isPlacing);
@@ -142,5 +148,9 @@ namespace Ungeziefi.Camera_Zoom
                 ZoomUtils.ApplyFOV(isZoomActive ? targetFOV : originalFOV);
             }
         }
+
+        // Reset on player death
+        [HarmonyPatch(typeof(Player), nameof(Player.ResetPlayerOnDeath)), HarmonyPostfix]
+        public static void Player_ResetPlayerOnDeath(Player __instance) => ResetZoomState();
     }
 }

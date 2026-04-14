@@ -59,6 +59,13 @@ namespace Ungeziefi.Camera_Zoom
             ResetAndDisable(false);
         }
 
+        // Reset on player death
+        [HarmonyPatch(typeof(Player), nameof(Player.ResetPlayerOnDeath)), HarmonyPostfix]
+        public static void Player_ResetPlayerOnDeath(Player __instance)
+        {
+            ResetAndDisable(true);
+        }
+
         // Zoom in/out
         [HarmonyPatch(typeof(MapRoomCamera), nameof(MapRoomCamera.HandleInput)), HarmonyPostfix]
         public static void MapRoomCamera_HandleInput()
@@ -67,8 +74,13 @@ namespace Ungeziefi.Camera_Zoom
             if (SNCameraRoot.main == null || Camera == null)
                 return;
 
+            bool isPausedOrLoading = WaitScreen.IsWaiting
+                || Cursor.visible
+                || UWE.FreezeTime.HasFreezers()
+                || Player.main.GetPDA().isOpen;
+
             // Zoom processing check
-            if (!Main.Config.CDEnableFeature || !IsCameraActive || Cursor.visible)
+            if (!Main.Config.CDEnableFeature || !IsCameraActive || isPausedOrLoading)
                 return;
 
             // Handle different zoom modes

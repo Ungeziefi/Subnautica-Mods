@@ -62,6 +62,10 @@ namespace Ungeziefi.Camera_Zoom
         [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.SetCamera)), HarmonyPostfix]
         public static void uGUI_CameraCyclops_SetCamera() => ResetAndDisable(false);
 
+        // Reset on player death
+        [HarmonyPatch(typeof(Player), nameof(Player.ResetPlayerOnDeath)), HarmonyPostfix]
+        public static void Player_ResetPlayerOnDeath(Player __instance) =>ResetAndDisable(true);
+
         // Zoom in/out
         [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.Update)), HarmonyPostfix]
         public static void uGUI_CameraCyclops_Update()
@@ -72,8 +76,13 @@ namespace Ungeziefi.Camera_Zoom
                 return;
             }
 
+            bool isPausedOrLoading = WaitScreen.IsWaiting
+                || Cursor.visible
+                || UWE.FreezeTime.HasFreezers()
+                || Player.main.GetPDA().isOpen;
+
             // Zoom processing check
-            if (!Main.Config.CCEnableFeature || !isCameraActive || Cursor.visible)
+            if (!Main.Config.CCEnableFeature || !isCameraActive || isPausedOrLoading)
                 return;
 
             // Handle different zoom modes
