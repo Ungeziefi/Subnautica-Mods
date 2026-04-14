@@ -7,19 +7,10 @@ namespace Ungeziefi.Cuddlefish_Renamer
     [HarmonyPatch]
     public class CuddlefishRenamer
     {
-        #region Fields
         private static readonly Dictionary<string, GameObject> nameLabels = new();
-        private static bool nameLabelsVisible = true;
         private static bool isRenamingActive = false;
 
-        // Settings tracking
-        private static float lastNameLabelHeight;
-        private static bool lastBoldText;
-        private static float lastNameFontSize;
-        private static Color lastNameColor;
-        #endregion
-
-        #region Harmony Patches
+        #region Patches
         [HarmonyPatch(typeof(CuteFish), nameof(CuteFish.Start)), HarmonyPostfix]
         public static void CuteFish_Start(CuteFish __instance)
         {
@@ -32,13 +23,16 @@ namespace Ungeziefi.Cuddlefish_Renamer
             }
         }
 
-        [HarmonyPatch(typeof(CuteFishHandTarget), nameof(CuteFishHandTarget.OnHandHover)), HarmonyPostfix]
-        public static void CuteFishHandTarget_OnHandHover(CuteFishHandTarget __instance)
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(CuteFishHandTarget), nameof(CuteFishHandTarget.OnHandHover))]
+        [HarmonyPatch(typeof(CuteFishHandTarget), nameof(CuteFishHandTarget.OnHandClick))]
+        public static void CuteFishHandTarget_Interaction(CuteFishHandTarget __instance)
         {
-            if (!ShouldProcessInteraction(__instance)) return;
+            if (!Main.Config.EnableFeature || (!__instance.AllowedToInteract() && isRenamingActive)) return;
 
             UpdateHandReticle(__instance);
-            CheckRenameInput(__instance);
+            if (GameInput.GetButtonDown(Main.RenameCuddlefishButton))
+                CheckRenameInput(__instance);
         }
 
         [HarmonyPatch(typeof(Player), nameof(Player.Update)), HarmonyPostfix]
@@ -46,20 +40,15 @@ namespace Ungeziefi.Cuddlefish_Renamer
         {
             if (!Main.Config.EnableFeature) return;
 
-            UpdateVisibilitySettings();
-            UpdateAppearanceSettings();
-            UpdateDistanceBasedVisibility();
+            if (Main.Config.ShowNameAbove)
+            {
+                UpdateAllNameLabelsVisibility();
+                UpdateAllNameLabelsAppearance();
+            }
         }
         #endregion
 
         #region Interaction Logic
-        private static bool ShouldProcessInteraction(CuteFishHandTarget handTarget)
-        {
-            return Main.Config.EnableFeature &&
-                   handTarget.AllowedToInteract() &&
-                   !isRenamingActive;
-        }
-
         private static void UpdateHandReticle(CuteFishHandTarget handTarget)
         {
             // Update play prompt with custom name
@@ -82,7 +71,7 @@ namespace Ungeziefi.Cuddlefish_Renamer
 
         private static void CheckRenameInput(CuteFishHandTarget handTarget)
         {
-            if (!GameInput.GetButtonDown(Main.RenameCuddlefishButton) || Cursor.visible) return;
+            if (!GameInput.GetButtonDown(Main.RenameCuddlefishButton)) return;
 
             CuteFish cuddlefish = handTarget.cuteFish;
             if (cuddlefish == null || !handTarget.liveMixin.IsAlive()) return;
@@ -113,57 +102,50 @@ namespace Ungeziefi.Cuddlefish_Renamer
         #endregion
 
         #region Settings Updates
-        private static void UpdateVisibilitySettings()
+        private static void UpdateAllNameLabelsAppearance()
         {
-            if (Main.Config.ShowNameAbove == nameLabelsVisible) return;
+            foreach (var label in nameLabels.Values)
+            {
+                if (label == null) continue;
 
-            nameLabelsVisible = Main.Config.ShowNameAbove;
-            UpdateAllNameLabelsVisibility(nameLabelsVisible);
-        }
+                label.transform.localPosition = new Vector3(0, Main.Config.NameLabelHeight, 0);
 
-        private static void UpdateAppearanceSettings()
-        {
-            bool settingsChanged = lastNameLabelHeight != Main.Config.NameLabelHeight ||
-                                   lastBoldText != Main.Config.BoldText ||
-                                   lastNameFontSize != Main.Config.NameFontSize ||
-                                   lastNameColor != Main.Config.NameColor;
-
-            if (!settingsChanged) return;
-
-            UpdateAllNameLabelsAppearance();
-
-            // Update cache
-            lastNameLabelHeight = Main.Config.NameLabelHeight;
-            lastBoldText = Main.Config.BoldText;
-            lastNameFontSize = Main.Config.NameFontSize;
-            lastNameColor = Main.Config.NameColor;
-        }
-
-        private static void UpdateDistanceBasedVisibility()
-        {
-            if (!Main.Config.ShowNameAbove || !Main.Config.FadeWithDistance) return;
-
-            UpdateNameLabelsDistanceVisibility();
+                var text = label.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+                if (text != null)
+                {
+                    text.fontSize = Main.Config.NameFontSize;
+                    text.color = Main.Config.NameColor;
+                    text.fontStyle = Main.Config.BoldText ? TMPro.FontStyles.Bold : TMPro.FontStyles.Normal;
+                }
+            }
         }
         #endregion
 
         #region Distance-Based Visibility
-        private static void UpdateNameLabelsDistanceVisibility()
+        private static void UpdateAllNameLabelsVisibility()
         {
             if (Player.main == null) return;
-
             Vector3 playerPosition = Player.main.transform.position;
-            float fadeStartDistance = Main.Config.FadeStartDistance;
 
-            foreach (var entry in nameLabels)
+            foreach (var label in nameLabels.Values)
             {
-                if (entry.Value == null) continue;
+                if (label == null) continue;
 
-                CuteFish cuddlefish = entry.Value.GetComponentInParent<CuteFish>();
-                if (cuddlefish == null) continue;
-
-                float distance = Vector3.Distance(playerPosition, cuddlefish.transform.position);
-                UpdateLabelOpacity(entry.Value, distance, fadeStartDistance);
+                if (Main.Config.FadeWithDistance)
+                {
+                    CuteFish cuddlefish = label.GetComponentInParent<CuteFish>();
+                    if (cuddlefish != null)
+                    {
+                        float distance = Vector3.Distance(playerPosition, cuddlefish.transform.position);
+                        UpdateLabelOpacity(label, distance, Main.Config.FadeStartDistance);
+                    }
+                }
+                else
+                {
+                    label.SetActive(true);
+                    TMPro.TextMeshProUGUI text = label.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+                    if (text != null) text.alpha = 1f;
+                }
             }
         }
 
@@ -191,50 +173,12 @@ namespace Ungeziefi.Cuddlefish_Renamer
                 labelObj.SetActive(true);
             }
         }
-
-        private static void UpdateAllNameLabelsVisibility(bool visible)
-        {
-            foreach (var label in nameLabels.Values)
-            {
-                if (label == null) continue;
-
-                label.SetActive(visible);
-
-                if (visible)
-                {
-                    TMPro.TextMeshProUGUI text = label.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                    if (text != null) text.alpha = 1f;
-                }
-            }
-
-            if (visible && Main.Config.FadeWithDistance)
-            {
-                UpdateNameLabelsDistanceVisibility();
-            }
-        }
-
-        private static void UpdateAllNameLabelsAppearance()
-        {
-            foreach (var entry in nameLabels)
-            {
-                if (entry.Value == null) continue;
-
-                entry.Value.transform.localPosition = new Vector3(0, Main.Config.NameLabelHeight, 0);
-
-                TMPro.TextMeshProUGUI text = entry.Value.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                if (text != null)
-                {
-                    text.fontSize = Main.Config.NameFontSize;
-                    ApplyTextFormatting(text);
-                }
-            }
-        }
         #endregion
 
         #region Name Label Management
         private static void SetCuddlefishName(CuteFish cuddlefish, string cuddlefishId, string newName)
         {
-            if (string.IsNullOrEmpty(newName) || string.IsNullOrWhiteSpace(newName))
+            if (string.IsNullOrEmpty(newName))
             {
                 Main.SaveData.CuddlefishNames.Remove(cuddlefishId);
 
@@ -314,21 +258,21 @@ namespace Ungeziefi.Cuddlefish_Renamer
             RectTransform rectTransform = textObj.AddComponent<RectTransform>();
             rectTransform.anchoredPosition = Vector2.zero;
 
-            TMPro.TextMeshProUGUI textMesh = textObj.AddComponent<TMPro.TextMeshProUGUI>();
-            textMesh.alignment = TMPro.TextAlignmentOptions.Center;
-            textMesh.fontSize = Main.Config.NameFontSize;
-            textMesh.enableWordWrapping = false;
+            TMPro.TextMeshProUGUI text = textObj.AddComponent<TMPro.TextMeshProUGUI>();
+            text.alignment = TMPro.TextAlignmentOptions.Center;
+            text.fontSize = Main.Config.NameFontSize;
+            text.enableWordWrapping = false;
 
-            ApplyTextFormatting(textMesh);
+            ApplyTextFormatting(text);
             nameLabels[cuddlefishId] = labelObj;
 
             return labelObj;
         }
 
-        private static void ApplyTextFormatting(TMPro.TextMeshProUGUI textMesh)
+        private static void ApplyTextFormatting(TMPro.TextMeshProUGUI text)
         {
-            textMesh.color = Main.Config.NameColor;
-            textMesh.fontStyle = Main.Config.BoldText ? TMPro.FontStyles.Bold : TMPro.FontStyles.Normal;
+            text.color = Main.Config.NameColor;
+            text.fontStyle = Main.Config.BoldText ? TMPro.FontStyles.Bold : TMPro.FontStyles.Normal;
         }
         #endregion
 
