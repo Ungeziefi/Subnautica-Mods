@@ -196,8 +196,8 @@ namespace Ungeziefi.Tweaks
         {
             if (!Main.Config.TCEnableFeature) return;
 
-            //SeaMoth seamoth = Player.main.currentMountedVehicle as SeaMoth;
-            //if (seamoth == null) return;
+            SeaMoth seamoth = Player.main.currentMountedVehicle as SeaMoth;
+            if (seamoth == null) return;
 
             HandReticle.main.SetText(HandReticle.TextType.UseSubscript, $"Press {GameInput.FormatButton(Main.SeamothCycleTorpedoButton)} to change torpedo", false);
         }
