@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drillable Scan Remake", "WI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Container Utilities", "WIP\Container Utilities\Container Utilities.csproj", "{5100BE86-E1EC-6855-357F-F35E687AD0F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mark as Read", "Rewrites\Mark as Read\Mark as Read.csproj", "{E368CF44-FCB0-02D1-E30A-571A61390079}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,10 @@ Global
 		{5100BE86-E1EC-6855-357F-F35E687AD0F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5100BE86-E1EC-6855-357F-F35E687AD0F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5100BE86-E1EC-6855-357F-F35E687AD0F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E368CF44-FCB0-02D1-E30A-571A61390079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E368CF44-FCB0-02D1-E30A-571A61390079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E368CF44-FCB0-02D1-E30A-571A61390079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E368CF44-FCB0-02D1-E30A-571A61390079}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,6 +177,7 @@ Global
 		{3F85FE59-D3DA-976C-4948-8A68EB2A8E55} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{B8B69AEC-27A1-8CB2-12D4-6F014394DB85} = {A58C4D27-C96D-49C3-8A09-F7BAA995FBB2}
 		{5100BE86-E1EC-6855-357F-F35E687AD0F4} = {A58C4D27-C96D-49C3-8A09-F7BAA995FBB2}
+		{E368CF44-FCB0-02D1-E30A-571A61390079} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64328EDE-8342-4276-8236-6A9D23D0BEBD}
