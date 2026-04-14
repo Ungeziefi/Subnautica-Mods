@@ -22,7 +22,12 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake
 
             resourcePool.Clear();
 
-            if (GameInput.GetButtonDown(Main.ToggleBlipsButton) && !Cursor.visible && !IsInHiddenLocation())
+            bool isPausedOrLoading = WaitScreen.IsWaiting
+                || Cursor.visible
+                || UWE.FreezeTime.HasFreezers()
+                || Player.main.GetPDA().isOpen;
+
+            if (GameInput.GetButtonDown(Main.ToggleBlipsButton) && !isPausedOrLoading && !IsInHiddenLocation())
             {
                 blipsEnabled = !blipsEnabled;
                 if (Main.Config.ShowBlipToggleMessage)
