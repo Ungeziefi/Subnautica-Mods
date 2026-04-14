@@ -71,7 +71,7 @@ namespace Ungeziefi.Container_Utilities
         }
         #endregion
 
-        #region Harmony Patches
+        #region Patches
         [HarmonyPatch(typeof(Inventory), "ExecuteItemAction", new System.Type[] { typeof(ItemAction), typeof(InventoryItem) }), HarmonyPrefix]
         public static bool Inventory_ExecuteItemAction(Inventory __instance, InventoryItem item, ItemAction action)
         {
