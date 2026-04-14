@@ -22,22 +22,19 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
 
         private static bool ShouldProcessRolling(Vehicle vehicle, out SeaMoth seamoth)
         {
-            seamoth = null;
-
-            if (!Main.Config.EnableFeature)
-                return false;
-
             seamoth = vehicle as SeaMoth;
-            if (seamoth == null || !seamoth.GetPilotingMode())
-                return false;
 
-            if (Main.Config.RollingRequiresPower && !HasPower(seamoth))
-                return false;
+            bool isPausedOrLoading = WaitScreen.IsWaiting
+                || Cursor.visible
+                || UWE.FreezeTime.HasFreezers()
+                || Player.main.GetPDA().isOpen;
 
-            if (!Main.Config.AllowAirborneRolling && IsAirborne(seamoth))
-                return false;
-
-            return true;
+            return seamoth != null &&
+                   seamoth.GetPilotingMode() &&
+                   Main.Config.EnableFeature &&
+                   !isPausedOrLoading &&
+                   (!Main.Config.RollingRequiresPower || HasPower(seamoth)) &&
+                   (Main.Config.AllowAirborneRolling || !IsAirborne(seamoth));
         }
 
         private static bool IsAirborne(SeaMoth seamoth)
@@ -70,7 +67,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             bool rollRight = GameInput.GetButtonHeld(Main.RollRightButton);
 
             state.isRolling = rollLeft || rollRight;
-            
+
             if (rollLeft && rollRight)
             {
                 state.targetRollForce = state.currentRollForce != 0f ? state.currentRollForce : Main.Config.RollForce;
@@ -89,10 +86,12 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
             }
 
             // Interpolate towards target
-            state.currentRollForce = Mathf.MoveTowards(
-                state.currentRollForce,
-                state.targetRollForce,
-                Main.Config.RollAcceleration * Time.fixedDeltaTime);
+            state.currentRollForce = Main.Config.RollAcceleration == 0
+                ? state.targetRollForce
+                : Mathf.MoveTowards(
+                    state.currentRollForce,
+                    state.targetRollForce,
+                    Main.Config.RollAcceleration * Time.fixedDeltaTime);
         }
 
         private static void ApplyRollPhysics(SeaMoth seamoth, RollState state)
@@ -148,7 +147,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
         {
             if (registeredSound) return;
 
-            CustomSoundSourceBase soundSource = new ModFolderSoundSource("SoundsFolder");
+            CustomSoundSourceBase soundSource = new ModFolderSoundSource("Sounds");
             new FModSoundBuilder(soundSource)
                 .CreateNewEvent("DoABarrelRoll", Nautilus.Utility.AudioUtils.BusPaths.UnderwaterAmbient)
                 .SetMode2D()

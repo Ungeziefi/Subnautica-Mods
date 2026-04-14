@@ -10,7 +10,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
         public class RollState
         {
             public float currentRollForce, targetRollForce;
-            public bool isRolling, wasRolling; // State tracking for sound effects
+            public bool isRolling, wasRolling;
         }
 
         public static bool HasPower(Vehicle vehicle) =>
