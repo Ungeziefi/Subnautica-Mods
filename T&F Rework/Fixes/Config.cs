@@ -140,6 +140,12 @@ namespace Ungeziefi.Fixes
         [Toggle(Label = "Fire extinguisher fuel rounding", Tooltip = "Makes the Fire Extinguisher's fuel percentage display round to the nearest integer instead of flooring, allowing it to reach 0% instead of stopping at 1%.")]
         public bool FireExtinguisherFuelRounding = true;
 
+        [Toggle(Label = "Disable dead telemetry", Tooltip = "Stops connection attempts to the inactive analytics server (https://analytics.unknownworlds.com/api).")]
+        public bool DisableDeadTelemetry = true;
+
+        [Toggle(Label = "Air Bladder requires power", Tooltip = "The Air Bladder will only refill inside habitats with active power.")]
+        public bool AirBladderRequiresPower = true;
+
         [Toggle("<color=#FFAC09FF>No fleeing to origin</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool NoFleeingToOriginDivider;
 
