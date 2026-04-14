@@ -47,7 +47,12 @@ namespace Ungeziefi.Cockpit_Free_Look
                 return;
             }
 
-            if (!isLooking || Cursor.visible) return;
+            bool isPausedOrLoading = WaitScreen.IsWaiting
+                || Cursor.visible
+                || UWE.FreezeTime.HasFreezers()
+                || Player.main.GetPDA().isOpen;
+
+            if (!isLooking || isPausedOrLoading) return;
 
             // Calculate look rotation
             Vector2 lookDelta = GameInput.GetLookDelta() * Main.Config.FreeLookSensitivity;

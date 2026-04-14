@@ -30,7 +30,11 @@ namespace Ungeziefi.Cockpit_Free_Look
                 return false;
 
             Player player = Player.main;
-            if (player == null || player.mode != Player.Mode.LockedPiloting || Cursor.visible)
+            if (player == null
+                || player.mode != Player.Mode.LockedPiloting
+                || Cursor.visible
+                || UWE.FreezeTime.HasFreezers()
+                || Player.main.GetPDA().isOpen)
                 return false;
 
             vehicle = player.currentMountedVehicle;
