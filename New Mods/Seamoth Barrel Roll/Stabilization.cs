@@ -10,7 +10,7 @@ namespace Ungeziefi.Seamoth_Barrel_Roll
         {
             if (__instance is SeaMoth seamoth)
             {
-                if (!Main.Config.EnableFeature || Main.Config.StabilizationMode == StabilizationMode.Normal)
+                if (!Main.Config.EnableFeature || Main.Config.StabilizationMode == StabilizationMode.Normal || GameInput.IsPrimaryDeviceGamepad())
                     return true;  // Use normal stabilization
 
                 if (Main.Config.StabilizationMode == StabilizationMode.Disabled)
