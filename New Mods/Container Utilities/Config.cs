@@ -35,43 +35,43 @@ namespace Ungeziefi.Container_Utilities
         [Slider(Label = "Standard locker width", DefaultValue = 6, Min = 1, Max = 8, Step = 1)]
         public int StandardLockerWidth = 6;
 
-        [Slider(Label = "Standard locker height", DefaultValue = 8, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Standard locker height", DefaultValue = 8, Min = 1, Max = 8, Step = 1)]
         public int StandardLockerHeight = 8;
 
         [Slider(Label = "Wall locker width", DefaultValue = 5, Min = 1, Max = 8, Step = 1)]
         public int WallLockerWidth = 5;
 
-        [Slider(Label = "Wall locker height", DefaultValue = 6, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Wall locker height", DefaultValue = 6, Min = 1, Max = 8, Step = 1)]
         public int WallLockerHeight = 6;
 
         [Slider(Label = "Waterproof locker width", DefaultValue = 3, Min = 1, Max = 8, Step = 1)]
         public int WaterproofLockerWidth = 3;
 
-        [Slider(Label = "Waterproof locker height", DefaultValue = 6, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Waterproof locker height", DefaultValue = 6, Min = 1, Max = 8, Step = 1)]
         public int WaterproofLockerHeight = 6;
 
         [Slider(Label = "Seamoth storage width", DefaultValue = 4, Min = 1, Max = 8, Step = 1)]
         public int SeamothStorageWidth = 4;
 
-        [Slider(Label = "Seamoth storage height", DefaultValue = 4, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Seamoth storage height", DefaultValue = 4, Min = 1, Max = 8, Step = 1)]
         public int SeamothStorageHeight = 4;
 
         [Slider(Label = "PRAWN suit storage width", DefaultValue = 6, Min = 1, Max = 8, Step = 1)]
         public int ExosuitStorageWidth = 6;
 
-        [Slider(Label = "PRAWN suit storage height", DefaultValue = 4, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "PRAWN suit storage height", DefaultValue = 4, Min = 1, Max = 8, Step = 1)]
         public int ExosuitStorageHeight = 4;
 
         [Slider(Label = "Escape pod locker width", DefaultValue = 4, Min = 1, Max = 8, Step = 1)]
         public int EscapePodLockerWidth = 4;
 
-        [Slider(Label = "Escape pod locker height", DefaultValue = 8, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Escape pod locker height", DefaultValue = 8, Min = 1, Max = 8, Step = 1)]
         public int EscapePodLockerHeight = 8;
 
         [Slider(Label = "Cyclops locker width", DefaultValue = 3, Min = 1, Max = 8, Step = 1)]
         public int CyclopsLockerWidth = 3;
 
-        [Slider(Label = "Cyclops locker height", DefaultValue = 6, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Cyclops locker height", DefaultValue = 6, Min = 1, Max = 8, Step = 1)]
         public int CyclopsLockerHeight = 6;
 
         [Slider(Label = "Bioreactor width", DefaultValue = 4, Min = 1, Max = 8, Step = 1)]
@@ -89,10 +89,10 @@ namespace Ungeziefi.Container_Utilities
         [Slider(Label = "Storage height", DefaultValue = 2, Min = 1, Max = 6, Step = 1)]
         public int FiltrationHeight = 2;
 
-        [Slider(Label = "Max water bottles", Tooltip = "Maximum water bottles that can be stored (shares space with salt).", DefaultValue = 2, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Max water bottles", Tooltip = "Maximum water bottles that can be stored (shares space with salt).", DefaultValue = 2, Min = 1, Max = 8, Step = 1)]
         public int FiltrationMaxWater = 2;
 
-        [Slider(Label = "Max salt", Tooltip = "Maximum salt that can be stored (shares space with water bottles).", DefaultValue = 2, Min = 1, Max = 10, Step = 1)]
+        [Slider(Label = "Max salt", Tooltip = "Maximum salt that can be stored (shares space with water bottles).", DefaultValue = 2, Min = 1, Max = 8, Step = 1)]
         public int FiltrationMaxSalt = 2;
 
         [Toggle("<color=#FFAC09FF>Trashcan</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
@@ -110,18 +110,6 @@ namespace Ungeziefi.Container_Utilities
         [Slider(Label = "Destruction interval (seconds)", Tooltip = "How frequently items are destroyed from the trashcan.", DefaultValue = 1, Min = 0.1f, Max = 5, Step = 0.1f)]
         public float TrashcanDestroyInterval = 1f;
 
-        //[Toggle("<color=#FFAC09FF>Custom inventory size</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        //public bool CustomInventorySizeDivider;
-
-        //[Toggle(Label = "Enable custom inventory size", Tooltip = "Enable resizing the player's personal inventory.")]
-        //public bool EnableCustomInventorySize = true;
-
-        //[Slider(Label = "Inventory width", DefaultValue = 6, Min = 1, Max = 6, Step = 1)]
-        //public int InventoryWidth = 6;
-
-        //[Slider(Label = "Inventory height", DefaultValue = 8, Min = 1, Max = 16, Step = 1)]
-        //public int InventoryHeight = 8;
-
         [Toggle("<color=#FFAC09FF>Inventory warnings</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
         public bool InventoryWarningsDivider;
 
@@ -134,8 +122,8 @@ namespace Ungeziefi.Container_Utilities
         [Toggle(Label = "Show full inventory warning")]
         public bool ShowFullInventoryWarning = true;
 
-        //[Toggle(Label = "Full inventory audio cue")]
-        //public bool FullInventoryAudioCue = true;
+        [Toggle(Label = "Full inventory audio cue")]
+        public bool FullInventoryAudioCue = true;
 
         #region JSON Converter
         [JsonConverter(typeof(CompactItemSizeOverrideConverter))]
