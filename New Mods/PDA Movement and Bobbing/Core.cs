@@ -45,14 +45,13 @@ namespace Ungeziefi.PDA_Movement_and_Bobbing
         [HarmonyPatch(typeof(GameInput), nameof(GameInput.GetMoveDirection)), HarmonyPrefix]
         public static bool GameInput_GetMoveDirection(ref Vector3 __result)
         {
-            if (Player.main != null && Player.main.GetPDA().isOpen)
+            if (!Player.main.GetPDA().isOpen) return true;
+
+            bool isSwimming = Player.main.IsSwimming();
+            if ((Main.Config.NoSwimmingInPDA && isSwimming) || (Main.Config.NoWalkingInPDA && !isSwimming))
             {
-                bool isSwimming = Player.main.IsSwimming();
-                if ((Main.Config.NoSwimmingInPDA && isSwimming) || (Main.Config.NoWalkingInPDA && !isSwimming))
-                {
-                    __result = Vector3.zero;
-                    return false;
-                }
+                __result = Vector3.zero;
+                return false;
             }
 
             return true;
