@@ -1,17 +1,14 @@
 ﻿using HarmonyLib;
 
-namespace Ungeziefi.Fixes.Vehicles
+namespace Ungeziefi.Fixes.Vehicles;
+
+[HarmonyPatch]
+public class NoSeamothDripParticles
 {
-    [HarmonyPatch]
-    public class NoSeamothDripParticles
+    [HarmonyPatch(typeof(VFXSeamothDamages), nameof(VFXSeamothDamages.Start))]
+    [HarmonyPostfix]
+    public static void VFXSeamothDamages_Start(VFXSeamothDamages __instance)
     {
-        [HarmonyPatch(typeof(VFXSeamothDamages), nameof(VFXSeamothDamages.Start)), HarmonyPostfix]
-        public static void VFXSeamothDamages_Start(VFXSeamothDamages __instance)
-        {
-            if (Main.Config.NoSeamothDripParticles)
-            {
-                __instance.dripsParticles = null;
-            }
-        }
+        if (Main.Config.NoSeamothDripParticles) __instance.dripsParticles = null;
     }
 }

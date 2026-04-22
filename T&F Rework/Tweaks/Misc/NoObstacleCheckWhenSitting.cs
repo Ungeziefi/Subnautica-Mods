@@ -1,17 +1,14 @@
 ﻿using HarmonyLib;
 
-namespace Ungeziefi.Tweaks
+namespace Ungeziefi.Tweaks;
+
+[HarmonyPatch]
+public class NoObstacleCheckWhenSitting
 {
-    [HarmonyPatch]
-    public class NoObstacleCheckWhenSitting
+    [HarmonyPatch(typeof(Bench), nameof(Bench.CanSit))]
+    [HarmonyPostfix]
+    public static void Bench_CanSit(ref bool __result)
     {
-        [HarmonyPatch(typeof(Bench), nameof(Bench.CanSit)), HarmonyPostfix]
-        public static void Bench_CanSit(ref bool __result)
-        {
-            if (Main.Config.NoObstacleCheckWhenSitting)
-            {
-                __result = true;
-            }
-        }
+        if (Main.Config.NoObstacleCheckWhenSitting) __result = true;
     }
 }

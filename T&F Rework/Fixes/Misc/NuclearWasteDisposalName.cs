@@ -1,18 +1,21 @@
 ﻿using HarmonyLib;
 
-namespace Ungeziefi.Fixes.Misc
+namespace Ungeziefi.Fixes.Misc;
+
+[HarmonyPatch]
+public class NuclearWasteDisposalName
 {
-    [HarmonyPatch]
-    public class NuclearWasteDisposalName
+    [HarmonyPatch(typeof(Trashcan), nameof(Trashcan.OnEnable))]
+    [HarmonyPrefix]
+    public static void Trashcan_OnEnable(Trashcan __instance)
     {
-        [HarmonyPatch(typeof(Trashcan), nameof(Trashcan.OnEnable)), HarmonyPrefix]
-        public static void Trashcan_OnEnable(Trashcan __instance)
+        if (Main.Config.NuclearWasteDisposalName)
         {
-            if (Main.Config.NuclearWasteDisposalName)
-            {
-                var usePrefix = Language.main.Get("Use") + " ";
-                __instance.storageContainer.hoverText = usePrefix + (__instance.biohazard ? Language.main.Get("LabTrashcan") : Language.main.Get("Trashcan"));
-            }
+            var usePrefix = Language.main.Get("Use") + " ";
+            __instance.storageContainer.hoverText = usePrefix +
+                                                    (__instance.biohazard
+                                                        ? Language.main.Get("LabTrashcan")
+                                                        : Language.main.Get("Trashcan"));
         }
     }
 }

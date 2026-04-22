@@ -1,20 +1,16 @@
 using HarmonyLib;
 
-namespace Ungeziefi.Fixes.Misc
+namespace Ungeziefi.Fixes.Misc;
+
+[HarmonyPatch]
+public class DisableDeadTelemetry
 {
-    [HarmonyPatch]
-    public class DisableDeadTelemetry
+    [HarmonyPatch(typeof(Telemetry), nameof(Telemetry.Start))]
+    [HarmonyPrefix]
+    public static bool Telemetry_Start()
     {
-        [HarmonyPatch(typeof(Telemetry), nameof(Telemetry.SessionStart)), HarmonyPrefix]
-        public static bool Telemetry_SessionStart()
-        {
-            if (Main.Config.DisableDeadTelemetry)
-            {
-                return false;
-            }
+        if (Main.Config.DisableDeadTelemetry) return false;
 
-            return true;
-        }
-
+        return true;
     }
 }

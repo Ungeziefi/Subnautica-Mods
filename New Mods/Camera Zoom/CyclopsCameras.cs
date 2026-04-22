@@ -1,130 +1,62 @@
 ﻿using HarmonyLib;
 using UnityEngine;
+using UWE;
 
-namespace Ungeziefi.Camera_Zoom
+namespace Ungeziefi.Camera_Zoom;
+
+[HarmonyPatch]
+public class CyclopsCameras
 {
-    [HarmonyPatch]
-    public class CyclopsCameras
+    private static int currentStep;
+    public static bool IsCameraActive { get; private set; }
+
+    // Enter camera
+    [HarmonyPatch(typeof(CyclopsExternalCamsButton), nameof(CyclopsExternalCamsButton.CameraButtonActivated))]
+    [HarmonyPrefix]
+    public static void CyclopsExternalCamsButton_CameraButtonActivated()
     {
-        private static Camera Camera => SNCameraRoot.main.mainCamera;
-        private static bool isCameraActive;
-        private static float previousFOV;
-        private static readonly float minFOV = Main.Config.CCMinimumFOV;
-        private static readonly float maxFOV = Main.Config.CCMaximumFOV;
-        private static readonly float zoomSpeed = Main.Config.CCZoomSpeed;
-        private static int currentZoomStep = 0;
-        private static Coroutine blackFadeCoroutine = null;
-        private const string CAMERA_TYPE = "CyclopsCameras";
+        ZoomUtils.PrepareForCameraMode();
+        currentStep = 0;
+    }
 
-        private static void ResetAndDisable(bool disable)
-        {
-            if (Camera == null || SNCameraRoot.main == null)
-            {
-                isCameraActive = false;
-                return;
-            }
+    // Flag state and exit if inactive
+    [HarmonyPatch(typeof(CyclopsExternalCams), nameof(CyclopsExternalCams.SetActive))]
+    [HarmonyPostfix]
+    public static void CyclopsExternalCams_SetActive(CyclopsExternalCams __instance)
+    {
+        IsCameraActive = __instance.active;
+        if (!IsCameraActive) ZoomUtils.ApplyFOV(ZoomUtils.DefaultFOV);
+    }
 
-            isCameraActive = !disable;
+    // Switch camera
+    [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.SetCamera))]
+    [HarmonyPostfix]
+    public static void uGUI_CameraCyclops_SetCamera()
+    {
+        ZoomUtils.ApplyFOV(ZoomUtils.DefaultFOV);
+        currentStep = 0;
+    }
 
-            if (disable)
-            {
-                // Restore FOV
-                ZoomUtils.DeactivateCamera(CAMERA_TYPE, previousFOV, ref currentZoomStep, ref blackFadeCoroutine);
-            }
-            else
-            {
-                // Switch camera without changing FOV
-                ZoomUtils.SwitchCamera(CAMERA_TYPE);
-            }
-        }
+    [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.Update))]
+    [HarmonyPostfix]
+    public static void uGUI_CameraCyclops_Update()
+    {
+        if (!Main.Config.CCEnableFeature) return;
 
-        // Save FOV on enter
-        [HarmonyPatch(typeof(CyclopsExternalCamsButton), nameof(CyclopsExternalCamsButton.CameraButtonActivated)), HarmonyPrefix]
-        public static void CyclopsExternalCamsButton_CameraButtonActivated()
-        {
-            ZoomUtils.InitializeCameraMode(
-                CAMERA_TYPE,
-                ref previousFOV,
-                ref currentZoomStep,
-                Main.Config.CCSteppedZoom && Main.Config.CCUseBlinkEffect
-            );
-        }
+        var isPausedOrLoading = WaitScreen.IsWaiting
+                                || Cursor.visible
+                                || FreezeTime.HasFreezers()
+                                || Player.main.GetPDA().isOpen;
 
-        // Set active state and reset on exit
-        [HarmonyPatch(typeof(CyclopsExternalCams), nameof(CyclopsExternalCams.SetActive)), HarmonyPostfix]
-        public static void CyclopsExternalCams_SetActive(CyclopsExternalCams __instance)
-        {
-            isCameraActive = __instance.active;
-            if (!isCameraActive) ResetAndDisable(true);
-        }
+        if (!IsCameraActive || isPausedOrLoading) return;
 
-        // Reset on camera switch
-        [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.SetCamera)), HarmonyPostfix]
-        public static void uGUI_CameraCyclops_SetCamera() => ResetAndDisable(false);
-
-        // Reset on player death
-        [HarmonyPatch(typeof(Player), nameof(Player.ResetPlayerOnDeath)), HarmonyPostfix]
-        public static void Player_ResetPlayerOnDeath(Player __instance) =>ResetAndDisable(true);
-
-        // Zoom in/out
-        [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.Update)), HarmonyPostfix]
-        public static void uGUI_CameraCyclops_Update()
-        {
-            if (SNCameraRoot.main == null || Camera == null)
-            {
-                isCameraActive = false;
-                return;
-            }
-
-            bool isPausedOrLoading = WaitScreen.IsWaiting
-                || Cursor.visible
-                || UWE.FreezeTime.HasFreezers()
-                || Player.main.GetPDA().isOpen;
-
-            // Zoom processing check
-            if (!Main.Config.CCEnableFeature || !isCameraActive || isPausedOrLoading)
-                return;
-
-            // Handle different zoom modes
-            if (Main.Config.CCSteppedZoom)
-            {
-                bool zoomInPressed = GameInput.GetButtonDown(Main.CCZoomInButton);
-                bool zoomOutPressed = GameInput.GetButtonDown(Main.CCZoomOutButton);
-
-                ZoomUtils.HandleSteppedZoom(
-                    zoomInPressed,
-                    zoomOutPressed,
-                    ref currentZoomStep,
-                    Main.Config.CCZoomSteps,
-                    Main.Config.CCUseBlinkEffect,
-                    Main.Config.CCBlinkSpeed,
-                    minFOV,
-                    maxFOV,
-                    CAMERA_TYPE,
-                    ref blackFadeCoroutine
-                );
-            }
-            else
-            {
-                ZoomUtils.HandleGradualZoom(
-                    Main.CCZoomInButton,
-                    Main.CCZoomOutButton,
-                    zoomSpeed,
-                    minFOV,
-                    maxFOV
-                );
-            }
-        }
-
-        // Add zoom controls to camera bindings display
-        [HarmonyPatch(typeof(uGUI_CameraCyclops), nameof(uGUI_CameraCyclops.UpdateBindings)), HarmonyPostfix]
-        public static void uGUI_CameraCyclops_UpdateBindings(uGUI_CameraCyclops __instance)
-        {
-            if (!Main.Config.CCEnableFeature) return;
-
-            string zoomIn = GameInput.FormatButton(Main.CCZoomInButton, false);
-            string zoomOut = GameInput.FormatButton(Main.CCZoomOutButton, false);
-            __instance.stringControls = __instance.stringControls.Insert(0, $"Use {zoomIn} and {zoomOut} to zoom\n");
-        }
+        if (Main.Config.CCSteppedZoom)
+            ZoomUtils.HandleSteppedZoom(GameInput.GetButtonDown(Main.CCZoomInButton),
+                GameInput.GetButtonDown(Main.CCZoomOutButton), ref currentStep, Main.Config.CCZoomSteps,
+                Main.Config.CCUseBlinkEffect, Main.Config.CCBlinkSpeed, Main.Config.CCMinimumFOV,
+                Main.Config.CCMaximumFOV);
+        else
+            ZoomUtils.HandleGradualZoom(Main.CCZoomInButton, Main.CCZoomOutButton, Main.Config.CCZoomSpeed,
+                Main.Config.CCMinimumFOV, Main.Config.CCMaximumFOV);
     }
 }

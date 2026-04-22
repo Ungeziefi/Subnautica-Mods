@@ -1,171 +1,174 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Ungeziefi.Better_Scanner_Blips_Remake
+namespace Ungeziefi.Better_Scanner_Blips_Remake;
+
+public partial class BetterScannerBlipsRemake
 {
-    public partial class BetterScannerBlipsRemake
+    private static readonly Dictionary<string, TechType> GroupingFragmentTypeCache = new();
+    private static readonly List<ResourceTrackerDatabase.ResourceInfo> filteredResourcesPool = new(256);
+
+    private static void GroupResourcesToPool(
+        HashSet<ResourceTrackerDatabase.ResourceInfo> resources,
+        Vector3 playerPosition,
+        List<(ResourceTrackerDatabase.ResourceInfo, int)> resultPool)
     {
-        private static readonly Dictionary<string, TechType> GroupingFragmentTypeCache = new();
-        private static readonly List<ResourceTrackerDatabase.ResourceInfo> filteredResourcesPool = new(256);
+        // Clear cache
+        GroupingFragmentTypeCache.Clear();
 
-        private static void GroupResourcesToPool(
-            HashSet<ResourceTrackerDatabase.ResourceInfo> resources,
-            Vector3 playerPosition,
-            List<(ResourceTrackerDatabase.ResourceInfo, int)> resultPool)
+        var processed = new HashSet<ResourceTrackerDatabase.ResourceInfo>();
+        resultPool.Clear(); // Clear pool
+
+        // Squared distances for performance
+        var groupingDistanceSquared = Main.Config.GroupingDistance * Main.Config.GroupingDistance;
+        var breakDistanceSquared = Main.Config.GroupBreakingDistance * Main.Config.GroupBreakingDistance;
+        var shouldBreakGroups = Main.Config.GroupNearbyResources && Main.Config.BreakGroupsWhenNearby;
+
+        var needsFiltering = ShouldApplyFiltering();
+        List<ResourceTrackerDatabase.ResourceInfo> activeResources;
+        activeResources = needsFiltering
+            ? FilterActiveResources(resources, playerPosition)
+            : new List<ResourceTrackerDatabase.ResourceInfo>(resources);
+
+        // Nothing to process
+        if (activeResources.Count == 0) return;
+
+        // Group resources
+        foreach (var currentResource in activeResources)
         {
-            // Clear cache
-            GroupingFragmentTypeCache.Clear();
+            if (processed.Contains(currentResource))
+                continue;
 
-            var processed = new HashSet<ResourceTrackerDatabase.ResourceInfo>();
-            resultPool.Clear(); // Clear pool
+            processed.Add(currentResource);
 
-            // Squared distances for performance
-            float groupingDistanceSquared = Main.Config.GroupingDistance * Main.Config.GroupingDistance;
-            float breakDistanceSquared = Main.Config.GroupBreakingDistance * Main.Config.GroupBreakingDistance;
-            bool shouldBreakGroups = Main.Config.GroupNearbyResources && Main.Config.BreakGroupsWhenNearby;
-
-            bool needsFiltering = ShouldApplyFiltering();
-            List<ResourceTrackerDatabase.ResourceInfo> activeResources;
-            activeResources = needsFiltering
-                ? FilterActiveResources(resources, playerPosition)
-                : new List<ResourceTrackerDatabase.ResourceInfo>(resources);
-
-            // Nothing to process
-            if (activeResources.Count == 0) return;
-
-            // Group resources
-            foreach (var currentResource in activeResources)
+            // Don't group resources near player
+            if (shouldBreakGroups)
             {
-                if (processed.Contains(currentResource))
-                    continue;
-
-                processed.Add(currentResource);
-
-                // Don't group resources near player
-                if (shouldBreakGroups)
-                {
-                    float distToPlayerSquared = Vector3.SqrMagnitude(currentResource.position - playerPosition);
-                    if (distToPlayerSquared <= breakDistanceSquared)
-                    {
-                        resultPool.Add((currentResource, 1));
-                        continue;
-                    }
-                }
-
-                // Get TechType for fragments and cache it
-                TechType currentSpecificType = TechType.None;
-                if (currentResource.techType == TechType.Fragment)
-                {
-                    currentSpecificType = GetOrCacheFragmentType(currentResource.uniqueId);
-                }
-
-                var groupMembers = new List<ResourceTrackerDatabase.ResourceInfo>(16) { currentResource };
-                foreach (var otherResource in activeResources)
-                {
-                    if (otherResource == currentResource || processed.Contains(otherResource))
-                        continue;
-
-                    if (CanGroupResources(currentResource, otherResource, currentSpecificType))
-                    {
-                        float distSquared = Vector3.SqrMagnitude(currentResource.position - otherResource.position);
-
-                        if (distSquared <= groupingDistanceSquared)
-                        {
-                            // Skip if too close to player
-                            if (shouldBreakGroups)
-                            {
-                                float otherDistToPlayerSquared = Vector3.SqrMagnitude(otherResource.position - playerPosition);
-                                if (otherDistToPlayerSquared <= breakDistanceSquared)
-                                    continue;
-                            }
-
-                            groupMembers.Add(otherResource);
-                            processed.Add(otherResource);
-                        }
-                    }
-                }
-
-                // Find primary resource in group (closest to player)
-                if (groupMembers.Count > 1)
-                {
-                    var primaryResource = FindClosestResourceToPlayer(groupMembers, playerPosition);
-                    resultPool.Add((primaryResource, groupMembers.Count));
-                }
-                else
+                var distToPlayerSquared = Vector3.SqrMagnitude(currentResource.position - playerPosition);
+                if (distToPlayerSquared <= breakDistanceSquared)
                 {
                     resultPool.Add((currentResource, 1));
+                    continue;
                 }
             }
-        }
 
-        #region Filtering Helpers
-        private static List<ResourceTrackerDatabase.ResourceInfo> FilterActiveResources(
-            HashSet<ResourceTrackerDatabase.ResourceInfo> resources,
-            Vector3 playerPosition)
-        {
-            // Clear pool
-            filteredResourcesPool.Clear();
+            // Get TechType for fragments and cache it
+            var currentSpecificType = TechType.None;
+            if (currentResource.techType == TechType.Fragment)
+                currentSpecificType = GetOrCacheFragmentType(currentResource.uniqueId);
 
-            foreach (var resource in resources)
+            var groupMembers = new List<ResourceTrackerDatabase.ResourceInfo>(16) { currentResource };
+            foreach (var otherResource in activeResources)
             {
-                float distance = Vector3.Distance(resource.position, playerPosition);
-
-                // Skip if general hide conditions apply
-                if (ShouldHideBlip(distance))
+                if (otherResource == currentResource || processed.Contains(otherResource))
                     continue;
 
-                // Skip if it's a known fragment that should be hidden
-                if (Main.Config.HideKnownFragmentBlips &&
-                    resource.techType == TechType.Fragment &&
-                    KnownFragmentFilter.IsKnownFragment(resource.uniqueId))
-                    continue;
-
-                filteredResourcesPool.Add(resource);
-            }
-
-            return filteredResourcesPool;
-        }
-
-        // Check if filtering is needed
-        private static bool ShouldApplyFiltering() =>
-            ShouldHideBlip(0f) || Main.Config.HideKnownFragmentBlips;
-
-        // Simplify the fragment type caching pattern
-        private static TechType GetOrCacheFragmentType(string uniqueId)
-        {
-            if (GroupingFragmentTypeCache.TryGetValue(uniqueId, out var cachedType))
-                return cachedType;
-
-            return GroupingFragmentTypeCache[uniqueId] = KnownFragmentFilter.GetFragmentType(uniqueId);
-        }
-
-        private static bool CanGroupResources(ResourceTrackerDatabase.ResourceInfo current, ResourceTrackerDatabase.ResourceInfo other, TechType currentSpecificType)
-        {
-            if (current.techType != other.techType) return false;
-
-            return current.techType != TechType.Fragment ||
-                   (currentSpecificType != TechType.None && currentSpecificType == GetOrCacheFragmentType(other.uniqueId));
-        }
-
-        private static ResourceTrackerDatabase.ResourceInfo FindClosestResourceToPlayer(
-            List<ResourceTrackerDatabase.ResourceInfo> resources,
-            Vector3 playerPosition)
-        {
-            float closestDistanceSqr = float.MaxValue;
-            var closestResource = resources[0];
-
-            foreach (var resource in resources)
-            {
-                float distSqr = Vector3.SqrMagnitude(resource.position - playerPosition);
-                if (distSqr < closestDistanceSqr)
+                if (CanGroupResources(currentResource, otherResource, currentSpecificType))
                 {
-                    closestDistanceSqr = distSqr;
-                    closestResource = resource;
+                    var distSquared = Vector3.SqrMagnitude(currentResource.position - otherResource.position);
+
+                    if (distSquared <= groupingDistanceSquared)
+                    {
+                        // Skip if too close to player
+                        if (shouldBreakGroups)
+                        {
+                            var otherDistToPlayerSquared =
+                                Vector3.SqrMagnitude(otherResource.position - playerPosition);
+                            if (otherDistToPlayerSquared <= breakDistanceSquared)
+                                continue;
+                        }
+
+                        groupMembers.Add(otherResource);
+                        processed.Add(otherResource);
+                    }
                 }
             }
 
-            return closestResource;
+            // Find primary resource in group (closest to player)
+            if (groupMembers.Count > 1)
+            {
+                var primaryResource = FindClosestResourceToPlayer(groupMembers, playerPosition);
+                resultPool.Add((primaryResource, groupMembers.Count));
+            }
+            else
+            {
+                resultPool.Add((currentResource, 1));
+            }
         }
-        #endregion
     }
+
+    #region Filtering Helpers
+
+    private static List<ResourceTrackerDatabase.ResourceInfo> FilterActiveResources(
+        HashSet<ResourceTrackerDatabase.ResourceInfo> resources,
+        Vector3 playerPosition)
+    {
+        // Clear pool
+        filteredResourcesPool.Clear();
+
+        foreach (var resource in resources)
+        {
+            var distance = Vector3.Distance(resource.position, playerPosition);
+
+            // Skip if general hide conditions apply
+            if (ShouldHideBlip(distance))
+                continue;
+
+            // Skip if it's a known fragment that should be hidden
+            if (Main.Config.HideKnownFragmentBlips &&
+                resource.techType == TechType.Fragment &&
+                KnownFragmentFilter.IsKnownFragment(resource.uniqueId))
+                continue;
+
+            filteredResourcesPool.Add(resource);
+        }
+
+        return filteredResourcesPool;
+    }
+
+    // Check if filtering is needed
+    private static bool ShouldApplyFiltering()
+    {
+        return ShouldHideBlip(0f) || Main.Config.HideKnownFragmentBlips;
+    }
+
+    // Simplify the fragment type caching pattern
+    private static TechType GetOrCacheFragmentType(string uniqueId)
+    {
+        if (GroupingFragmentTypeCache.TryGetValue(uniqueId, out var cachedType))
+            return cachedType;
+
+        return GroupingFragmentTypeCache[uniqueId] = KnownFragmentFilter.GetFragmentType(uniqueId);
+    }
+
+    private static bool CanGroupResources(ResourceTrackerDatabase.ResourceInfo current,
+        ResourceTrackerDatabase.ResourceInfo other, TechType currentSpecificType)
+    {
+        if (current.techType != other.techType) return false;
+
+        return current.techType != TechType.Fragment ||
+               (currentSpecificType != TechType.None && currentSpecificType == GetOrCacheFragmentType(other.uniqueId));
+    }
+
+    private static ResourceTrackerDatabase.ResourceInfo FindClosestResourceToPlayer(
+        List<ResourceTrackerDatabase.ResourceInfo> resources,
+        Vector3 playerPosition)
+    {
+        var closestDistanceSqr = float.MaxValue;
+        var closestResource = resources[0];
+
+        foreach (var resource in resources)
+        {
+            var distSqr = Vector3.SqrMagnitude(resource.position - playerPosition);
+            if (distSqr < closestDistanceSqr)
+            {
+                closestDistanceSqr = distSqr;
+                closestResource = resource;
+            }
+        }
+
+        return closestResource;
+    }
+
+    #endregion
 }

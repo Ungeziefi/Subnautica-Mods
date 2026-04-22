@@ -1,240 +1,254 @@
 ﻿using System.Collections.Generic;
+using HarmonyLib;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ungeziefi.Creature_Healthbars
+namespace Ungeziefi.Creature_Healthbars;
+
+[HarmonyPatch]
+public partial class CreatureHealthbars
 {
-    public partial class CreatureHealthbars
+    private const float WorldToUIScale = 10f;
+    private const float BaseWidth = 4.0f;
+    private static readonly Dictionary<string, GameObject> healthBars = new();
+    private static readonly Dictionary<string, float> timers = new();
+    private static Sprite roundedSprite;
+    private static readonly List<string> expiredBars = new();
+
+    private static void ShowHealthBar(Creature creature, string id, float healthPercent)
     {
-        private static readonly Dictionary<string, GameObject> healthBars = new();
-        private static readonly Dictionary<string, float> timers = new();
-        private static Sprite roundedSprite;
-        private static readonly float worldToUIScale = 10f; // Conversion factor
-        private static readonly float baseWidth = 4.0f;
+        GetBarDimensions(creature, out var barWidth, out var barHeight);
+        var liveMixin = creature.GetComponent<LiveMixin>();
 
-        #region Utility Methods
-        private static Bounds GetCreatureBounds(GameObject creature)
+        // 1. Get or create bar
+        if (!healthBars.TryGetValue(id, out var bar) || bar == null)
         {
-            Bounds bounds = new(Vector3.zero, Vector3.one);
+            bar = CreateHealthBarObject(creature.gameObject, barWidth, barHeight);
+            healthBars[id] = bar;
+        }
 
-            Collider collider = creature.GetComponent<Collider>();
-            if (collider != null)
+        // 2. Reset alpha if the bar is already visible
+        var canvasGroup = bar.GetComponent<CanvasGroup>();
+        if (canvasGroup != null) canvasGroup.alpha = 1f;
+
+        // 3. Update fill width
+        var healthRect = bar.transform.Find("CHB_Background/CHB_Health")?.GetComponent<RectTransform>();
+        if (healthRect != null)
+            healthRect.sizeDelta = new Vector2(barWidth * WorldToUIScale * healthPercent, barHeight * WorldToUIScale);
+
+        // 4. Update text
+        var parts = new List<string>();
+        if (Main.Config.ShowName) parts.Add(GetCreatureName(creature));
+        if (Main.Config.ShowHealthNumbers)
+            parts.Add($"{Mathf.RoundToInt(liveMixin.health)}/{Mathf.RoundToInt(liveMixin.maxHealth)}");
+
+        if (parts.Count > 0)
+            UpdateOrCreateTextElement(
+                bar,
+                "CHB_HealthText",
+                string.Join(": ", parts),
+                Mathf.Max(3f, barHeight * 6f),
+                Main.Config.TextColor);
+
+        // 5. Update position
+        bar.transform.localPosition = CalculateHealthBarPosition(creature.gameObject);
+    }
+
+    private static GameObject CreateHealthBarObject(GameObject creatureObj, float barWidth, float barHeight)
+    {
+        var bar = new GameObject("CHB_HealthBar");
+        bar.transform.SetParent(creatureObj.transform, false);
+        bar.AddComponent<FaceCamera>();
+        bar.AddComponent<CanvasGroup>();
+
+        var canvas = bar.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.transform.localScale = Vector3.one * 0.01f;
+        // Background
+        var bgObj = new GameObject("CHB_Background");
+        bgObj.transform.SetParent(bar.transform, false);
+
+        var bgRect = bgObj.AddComponent<RectTransform>();
+        bgRect.sizeDelta = new Vector2(barWidth * WorldToUIScale, barHeight * WorldToUIScale);
+        bgRect.anchoredPosition = Vector2.zero;
+
+        var bgImage = bgObj.AddComponent<Image>();
+        bgImage.sprite = roundedSprite;
+        bgImage.type = Image.Type.Sliced;
+        bgImage.color = Main.Config.BackgroundColor;
+
+        var mask = bgObj.AddComponent<Mask>();
+        mask.showMaskGraphic = true;
+
+        // Health fill
+        var healthObj = new GameObject("CHB_Health");
+        healthObj.transform.SetParent(bgObj.transform, false);
+
+        var healthRect = healthObj.AddComponent<RectTransform>();
+        healthRect.anchorMin = Vector2.zero;
+        healthRect.anchorMax = Vector2.up;
+        healthRect.pivot = new Vector2(0, 0.5f);
+        healthRect.anchoredPosition = Vector2.zero;
+
+        var healthImage = healthObj.AddComponent<Image>();
+        healthImage.sprite = roundedSprite;
+        healthImage.type = Image.Type.Sliced;
+        healthImage.color = Main.Config.HealthColor;
+
+        return bar;
+    }
+
+    #region Harmony Patches
+
+    [HarmonyPatch(typeof(LiveMixin), nameof(LiveMixin.TakeDamage))]
+    [HarmonyPrefix]
+    public static void LiveMixin_TakeDamage_Prefix(LiveMixin __instance, out bool __state)
+    {
+        // Check if target was alive before taking this hit
+        // Fixes the last hit not spawning a health bar
+        // Also prevents health bars from spawning when hitting an already dead target
+        __state = __instance.health > 0;
+    }
+
+    [HarmonyPatch(typeof(LiveMixin), nameof(LiveMixin.TakeDamage))]
+    [HarmonyPostfix]
+    public static void LiveMixin_TakeDamage_Postfix(LiveMixin __instance, float originalDamage, GameObject dealer,
+        bool __state)
+    {
+        if (!Main.Config.EnableFeature || originalDamage <= 0 || !__state) return;
+
+        if (!__instance.TryGetComponent<Creature>(out var creature)) return;
+
+        // Bleeder check
+        if (__instance.TryGetComponent<AttachAndSuck>(out var bleeder) &&
+            (bleeder.attached || bleeder.timeDetached + 4f < Time.time)) return;
+
+        if (Main.Config.OnlyShowForPlayerDamage && dealer != null) return;
+
+        // Predator check
+        var isPredator = creature.GetComponent<AggressiveWhenSeeTarget>() != null;
+        if (Main.Config.CreatureFilter == CreatureFilterOption.OnlyPredators && !isPredator) return;
+        if (Main.Config.CreatureFilter == CreatureFilterOption.OnlyNonPredators && isPredator) return;
+
+        var id = GetCreatureId(creature.gameObject);
+        if (string.IsNullOrEmpty(id)) return;
+
+        if (roundedSprite == null) CreateSprite();
+
+        timers[id] = Main.Config.DisplayDuration;
+
+        ShowHealthBar(creature, id, __instance.GetHealthFraction());
+    }
+
+    [HarmonyPatch(typeof(Player), nameof(Player.Update))]
+    [HarmonyPostfix]
+    public static void Player_Update()
+    {
+        if (!Main.Config.EnableFeature) return;
+
+        expiredBars.Clear();
+
+        var activeIds = new List<string>(timers.Keys);
+
+        foreach (var id in activeIds)
+        {
+            var timeRemaining = timers[id] - Time.deltaTime;
+            timers[id] = timeRemaining;
+
+            if (timeRemaining <= 0)
             {
-                bounds = collider.bounds;
-                bounds.center = creature.transform.InverseTransformPoint(bounds.center); // Local space
-                return bounds;
+                expiredBars.Add(id);
+                continue;
             }
 
-            // Fallback
-            Main.Logger.LogWarning($"Creature '{creature.name}' (ID: {GetCreatureId(creature)}) has no collider - this is abnormal and should be fixed! Using default bounds as fallback.");
-            bounds.center = Vector3.zero;
-            bounds.size = new Vector3(1f, 1f, 1f);
+            // Fade out
+            if (timeRemaining < 1.0f && healthBars.TryGetValue(id, out var bar) && bar != null)
+            {
+                var canvasGroup = bar.GetComponent<CanvasGroup>();
+                if (canvasGroup != null) canvasGroup.alpha = timeRemaining;
+            }
+        }
+
+        // Cleanup
+        foreach (var id in expiredBars)
+        {
+            if (healthBars.TryGetValue(id, out var bar) && bar != null)
+                Object.Destroy(bar);
+
+            timers.Remove(id);
+            healthBars.Remove(id);
+        }
+    }
+
+    #endregion
+
+    #region Utility Methods
+
+    private static Bounds GetCreatureBounds(GameObject creature)
+    {
+        if (creature.TryGetComponent<Collider>(out var collider))
+        {
+            var bounds = collider.bounds;
+            bounds.center = creature.transform.InverseTransformPoint(bounds.center);
             return bounds;
         }
 
-        private static string GetCreatureId(GameObject creature)
-        {
-            UniqueIdentifier id = creature.GetComponent<UniqueIdentifier>();
-            return id != null && !string.IsNullOrEmpty(id.Id) ? id.Id : creature.GetInstanceID().ToString();
-        }
-
-        private static string GetCreatureName(Creature creature)
-        {
-            TechType techType = CraftData.GetTechType(creature.gameObject);
-            if (techType != TechType.None)
-            {
-                return Language.main.Get(techType.AsString(false));
-            }
-            return "Unknown";
-        }
-
-        private static Vector3 CalculateHealthBarPosition(GameObject creature)
-        {
-            Bounds bounds = GetCreatureBounds(creature);
-
-            // Above creature's center + padding
-            float padding = bounds.size.y * Main.Config.HeightPadding;
-            return new Vector3(0, bounds.size.y + padding, 0);
-        }
-
-        private static void GetBarDimensions(Creature creature, out float width, out float height)
-        {
-            Bounds bounds = GetCreatureBounds(creature.gameObject);
-
-            // Average size based on bounds
-            float creatureSize = (bounds.size.y + bounds.size.x + bounds.size.z) / 3f;
-
-            // Linear scaling with multiplier and minimum size
-            float scaledSize = creatureSize * Main.Config.SizeMultiplier;
-            scaledSize = Mathf.Max(Main.Config.MinimumSize, scaledSize);
-
-            // Set dimensions (width and height with aspect ratio)
-            width = baseWidth * scaledSize;
-            height = width / Main.Config.BarRatio;
-        }
-
-        private static TMPro.TextMeshProUGUI CreateTextElement(
-            GameObject parent,
-            string name,
-            string text,
-            float fontSize,
-            Color color,
-            bool isActive)
-        {
-            // Create text object
-            GameObject textObj = new(name);
-            textObj.transform.SetParent(parent.transform, false);
-            textObj.transform.localPosition = Vector3.zero;
-
-            // Add text component
-            var textComponent = textObj.AddComponent<TMPro.TextMeshProUGUI>();
-
-            // Properties
-            textComponent.alignment = TMPro.TextAlignmentOptions.Center;
-            textComponent.enableWordWrapping = false;
-            textComponent.fontSize = fontSize;
-            textComponent.color = color;
-            textComponent.text = text;
-
-            textObj.SetActive(isActive);
-            return textComponent;
-        }
-
-        private static void UpdateOrCreateTextElement(
-            GameObject parent,
-            string textElementName,
-            string newText,
-            float fontSize,
-            Color color)
-        {
-            // Find
-            Transform existingTextTransform = parent.transform.Find(textElementName);
-            if (existingTextTransform != null)
-            {
-                // Update existing
-                var textComponent = existingTextTransform.GetComponent<TMPro.TextMeshProUGUI>();
-                if (textComponent != null)
-                {
-                    textComponent.text = newText;
-                    return;
-                }
-            }
-
-            // Doesn't exist, create new
-            CreateTextElement(parent, textElementName, newText, fontSize, color, true);
-        }
-        #endregion
-
-        private static void ShowHealthBar(Creature creature, string id, float healthPercent)
-        {
-            GetBarDimensions(creature, out float barWidth, out float barHeight);
-
-            // Get health
-            LiveMixin liveMixin = creature.GetComponent<LiveMixin>();
-            float currentHealth = liveMixin.health;
-            float maxHealth = liveMixin.maxHealth;
-
-            // Get name if enabled
-            string creatureName = Main.Config.ShowName ? GetCreatureName(creature) : null;
-
-            lock (healthBars)
-            {
-                if (!healthBars.TryGetValue(id, out GameObject bar) || bar == null)
-                {
-                    // Create health bar
-                    Vector3 position = CalculateHealthBarPosition(creature.gameObject);
-
-                    // Game object
-                    bar = new GameObject("CHB_HealthBar");
-                    bar.transform.SetParent(creature.transform, false);
-                    bar.transform.localPosition = position;
-                    bar.AddComponent<FaceCamera>();
-
-                    // Canvas
-                    Canvas canvas = bar.AddComponent<Canvas>();
-                    canvas.renderMode = RenderMode.WorldSpace;
-                    canvas.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-
-                    // Background
-                    GameObject bgObj = new("CHB_Background");
-                    bgObj.transform.SetParent(bar.transform, false);
-
-                    RectTransform bgRectTransform = bgObj.AddComponent<RectTransform>();
-                    bgRectTransform.sizeDelta = new Vector2(barWidth * worldToUIScale, barHeight * worldToUIScale);
-                    bgRectTransform.anchoredPosition = Vector2.zero;
-
-                    Image bgImageComponent = bgObj.AddComponent<Image>();
-                    bgImageComponent.sprite = roundedSprite;
-                    bgImageComponent.type = Image.Type.Sliced;
-                    bgImageComponent.color = Main.Config.BackgroundColor;
-
-                    // Health fill bar
-                    GameObject healthObj = new("CHB_Health");
-                    healthObj.transform.SetParent(bgObj.transform, false);
-
-                    RectTransform healthRectTransform = healthObj.AddComponent<RectTransform>();
-                    healthRectTransform.sizeDelta = new Vector2(barWidth * worldToUIScale * healthPercent, barHeight * worldToUIScale);
-
-                    // Anchor fill bar to left side
-                    healthRectTransform.anchorMin = new Vector2(0, 0);
-                    healthRectTransform.anchorMax = new Vector2(0, 1);
-                    healthRectTransform.pivot = new Vector2(0, 0.5f);
-                    healthRectTransform.anchoredPosition = Vector2.zero;
-
-                    Image healthImageComponent = healthObj.AddComponent<Image>();
-                    healthImageComponent.sprite = roundedSprite;
-                    healthImageComponent.type = Image.Type.Sliced;
-                    healthImageComponent.color = Main.Config.HealthColor;
-
-                    // Add mask to clip health bar
-                    Mask mask = bgObj.AddComponent<Mask>();
-                    mask.showMaskGraphic = true;
-
-                    healthBars[id] = bar;
-                }
-
-                // Calculate proper text positions based on the health bar height
-                float fontSize = Mathf.Max(3f, barHeight * 6f);
-
-                // Text display options
-                if (Main.Config.ShowHealthNumbers && Main.Config.ShowName)
-                {
-                    // Combine name and health numbers
-                    string combinedText = $"{creatureName}: {Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
-
-                    UpdateOrCreateTextElement(
-                        bar,
-                        "CHB_HealthText",
-                        combinedText,
-                        fontSize,
-                        Main.Config.TextColor);
-                }
-                else if (Main.Config.ShowHealthNumbers)
-                {
-                    // Only health numbers
-                    string healthNumbersText = $"{Mathf.RoundToInt(currentHealth)}/{Mathf.RoundToInt(maxHealth)}";
-
-                    UpdateOrCreateTextElement(
-                        bar,
-                        "CHB_HealthText",
-                        healthNumbersText,
-                        fontSize,
-                        Main.Config.TextColor);
-                }
-                else if (Main.Config.ShowName)
-                {
-                    // Only name
-                    UpdateOrCreateTextElement(
-                        bar,
-                        "CHB_CreatureName",
-                        creatureName,
-                        fontSize,
-                        Main.Config.TextColor);
-                }
-
-                // Update position
-                bar.transform.localPosition = CalculateHealthBarPosition(creature.gameObject);
-            }
-        }
+        Main.Logger.LogWarning(
+            $"Creature '{creature.name}' (ID: {GetCreatureId(creature)}) has no collider! Using fallback bounds.");
+        return new Bounds(Vector3.zero, Vector3.one);
     }
+
+    private static string GetCreatureId(GameObject creature)
+    {
+        var id = creature.GetComponent<UniqueIdentifier>();
+        return id != null && !string.IsNullOrEmpty(id.Id) ? id.Id : creature.GetInstanceID().ToString();
+    }
+
+    private static string GetCreatureName(Creature creature)
+    {
+        var techType = CraftData.GetTechType(creature.gameObject);
+        return techType != TechType.None ? Language.main.Get(techType.AsString()) : "Unknown";
+    }
+
+    private static Vector3 CalculateHealthBarPosition(GameObject creature)
+    {
+        var bounds = GetCreatureBounds(creature);
+        return new Vector3(0, bounds.size.y + bounds.size.y * Main.Config.HeightPadding, 0);
+    }
+
+    private static void GetBarDimensions(Creature creature, out float width, out float height)
+    {
+        var bounds = GetCreatureBounds(creature.gameObject);
+        var scaledSize = Mathf.Max(Main.Config.MinimumSize,
+            (bounds.size.y + bounds.size.x + bounds.size.z) * Main.Config.SizeMultiplier);
+
+        width = BaseWidth * scaledSize;
+        height = width / Main.Config.BarRatio;
+    }
+
+    private static void UpdateOrCreateTextElement(GameObject parent, string name, string text, float fontSize,
+        Color color)
+    {
+        var existingText = parent.transform.Find(name)?.GetComponent<TextMeshProUGUI>();
+
+        if (existingText != null)
+        {
+            existingText.text = text;
+            return;
+        }
+
+        var textObj = new GameObject(name);
+        textObj.transform.SetParent(parent.transform, false);
+        textObj.transform.localPosition = Vector3.zero;
+
+        var textComponent = textObj.AddComponent<TextMeshProUGUI>();
+        textComponent.alignment = TextAlignmentOptions.Center;
+        textComponent.enableWordWrapping = false;
+        textComponent.fontSize = fontSize;
+        textComponent.color = color;
+        textComponent.text = text;
+    }
+
+    #endregion
 }

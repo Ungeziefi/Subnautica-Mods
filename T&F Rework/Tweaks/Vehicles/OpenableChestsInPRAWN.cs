@@ -1,70 +1,121 @@
 using HarmonyLib;
-using System;
 using UnityEngine;
 
-namespace Ungeziefi.Tweaks.Vehicles
-{
-    [HarmonyPatch]
-    public class OpenableChestsInPRAWN
-    {
-        [HarmonyPatch(typeof(ExosuitClawArm), "IExosuitArm.GetInteractableRoot"), HarmonyPostfix]
-        public static void IExosuitArm_GetInteractableRoot(GameObject target, ref GameObject __result)
-        {
-            if (!Main.Config.OpenableChestsInPRAWN) return;
+namespace Ungeziefi.Tweaks.Vehicles;
 
-            // Return SupplyCrate as interactable
-            if (__result == null && target.GetComponent<SupplyCrate>())
-                __result = target;
+[HarmonyPatch]
+public class OpenableChestsInPRAWN
+{
+    [HarmonyPatch(typeof(ExosuitClawArm), "IExosuitArm.GetInteractableRoot")]
+    [HarmonyPostfix]
+    public static void IExosuitArm_GetInteractableRoot(GameObject target, ref GameObject __result)
+    {
+        if (!Main.Config.OpenableChestsInPRAWN) return;
+
+        // Return SupplyCrate as interactable
+        if (__result == null && target.GetComponent<SupplyCrate>())
+            __result = target;
+    }
+
+    [HarmonyPatch(typeof(ExosuitClawArm), "TryUse", new[] { typeof(float) }, new[] { ArgumentType.Out })]
+    [HarmonyPrefix]
+    public static bool ExosuitClawArm_TryUse(ExosuitClawArm __instance, ref float cooldownDuration, ref bool __result)
+    {
+        if (!Main.Config.OpenableChestsInPRAWN) return true;
+
+        if (Time.time - __instance.timeUsed < __instance.cooldownTime)
+        {
+            cooldownDuration = 0f;
+            __result = false;
+            return false;
         }
 
-        [HarmonyPatch(typeof(ExosuitClawArm), "TryUse", new Type[] { typeof(float) }, new[] { ArgumentType.Out }), HarmonyPrefix]
-        public static bool ExosuitClawArm_TryUse(ExosuitClawArm __instance, ref float cooldownDuration, ref bool __result)
-        {
-            if (!Main.Config.OpenableChestsInPRAWN) return true;
+        Pickupable pickupable = null;
+        PickPrefab pickPrefab = null;
+        SupplyCrate supplyCrate = null;
 
-            if (Time.time - __instance.timeUsed < __instance.cooldownTime)
+        var activeTarget = __instance.exosuit.GetActiveTarget();
+
+        if (activeTarget)
+        {
+            pickupable = activeTarget.GetComponent<Pickupable>();
+            pickPrefab = activeTarget.GetComponent<PickPrefab>();
+            supplyCrate = activeTarget.GetComponent<SupplyCrate>(); // Add SupplyCrate component check
+        }
+
+        if (pickupable != null && pickupable.isPickupable)
+        {
+            if (__instance.exosuit.storageContainer.container.HasRoomFor(pickupable))
+            {
+                __instance.animator.SetTrigger("use_tool");
+                __instance.cooldownTime = cooldownDuration = __instance.cooldownPickup;
+                if (__instance.shownNoRoomNotification)
+                    __instance.shownNoRoomNotification = false;
+                __result = true;
+                return false;
+            }
+
+            if (!__instance.shownNoRoomNotification)
+            {
+                ErrorMessage.AddMessage(Language.main.Get("ContainerCantFit"));
+                __instance.shownNoRoomNotification = true;
+            }
+
+            cooldownDuration = 0f;
+            __result = false;
+            return false;
+        }
+
+        if (pickPrefab != null)
+        {
+            __instance.animator.SetTrigger("use_tool");
+            __instance.cooldownTime = cooldownDuration = __instance.cooldownPickup;
+            __result = true;
+            return false;
+        }
+
+        // Supply crate handling
+        if (supplyCrate != null)
+        {
+            // Check if sealed
+            if (supplyCrate.sealedComp && supplyCrate.sealedComp.IsSealed())
             {
                 cooldownDuration = 0f;
                 __result = false;
                 return false;
             }
 
-            Pickupable pickupable = null;
-            PickPrefab pickPrefab = null;
-            SupplyCrate supplyCrate = null;
+            var playAnim = false;
 
-            GameObject activeTarget = __instance.exosuit.GetActiveTarget();
-
-            if (activeTarget)
+            if (!supplyCrate.open)
             {
-                pickupable = activeTarget.GetComponent<Pickupable>();
-                pickPrefab = activeTarget.GetComponent<PickPrefab>();
-                supplyCrate = activeTarget.GetComponent<SupplyCrate>(); // Add SupplyCrate component check
+                // Open crate
+                supplyCrate.ToggleOpenState();
+                playAnim = true;
             }
-
-            if (pickupable != null && pickupable.isPickupable)
+            else if (supplyCrate.open && supplyCrate.itemInside)
             {
-                if (__instance.exosuit.storageContainer.container.HasRoomFor(pickupable))
+                // Take item from crate
+                if (__instance.exosuit.storageContainer.container.HasRoomFor(supplyCrate.itemInside))
                 {
-                    __instance.animator.SetTrigger("use_tool");
-                    __instance.cooldownTime = cooldownDuration = __instance.cooldownPickup;
-                    if (__instance.shownNoRoomNotification)
-                        __instance.shownNoRoomNotification = false;
-                    __result = true;
-                    return false;
+                    var container = __instance.exosuit.storageContainer.container;
+                    supplyCrate.itemInside.Initialize();
+                    InventoryItem inventoryItem = new(supplyCrate.itemInside);
+                    container.UnsafeAdd(inventoryItem);
+                    FMODUWE.PlayOneShot(__instance.pickupSound, __instance.front.position, 5f);
+                    supplyCrate.itemInside = null;
+                    playAnim = true;
                 }
-
-                if (!__instance.shownNoRoomNotification)
+                else
                 {
                     ErrorMessage.AddMessage(Language.main.Get("ContainerCantFit"));
-                    __instance.shownNoRoomNotification = true;
+                    cooldownDuration = 0f;
+                    __result = false;
+                    return false;
                 }
-                cooldownDuration = 0f;
-                __result = false;
-                return false;
             }
 
-            if (pickPrefab != null)
+            if (playAnim)
             {
                 __instance.animator.SetTrigger("use_tool");
                 __instance.cooldownTime = cooldownDuration = __instance.cooldownPickup;
@@ -72,65 +123,15 @@ namespace Ungeziefi.Tweaks.Vehicles
                 return false;
             }
 
-            // Supply crate handling
-            if (supplyCrate != null)
-            {
-                // Check if sealed
-                if (supplyCrate.sealedComp && supplyCrate.sealedComp.IsSealed())
-                {
-                    cooldownDuration = 0f;
-                    __result = false;
-                    return false;
-                }
-
-                bool playAnim = false;
-
-                if (!supplyCrate.open)
-                {
-                    // Open crate
-                    supplyCrate.ToggleOpenState();
-                    playAnim = true;
-                }
-                else if (supplyCrate.open && supplyCrate.itemInside)
-                {
-                    // Take item from crate
-                    if (__instance.exosuit.storageContainer.container.HasRoomFor(supplyCrate.itemInside))
-                    {
-                        ItemsContainer container = __instance.exosuit.storageContainer.container;
-                        supplyCrate.itemInside.Initialize();
-                        InventoryItem inventoryItem = new(supplyCrate.itemInside);
-                        container.UnsafeAdd(inventoryItem);
-                        FMODUWE.PlayOneShot(__instance.pickupSound, __instance.front.position, 5f);
-                        supplyCrate.itemInside = null;
-                        playAnim = true;
-                    }
-                    else
-                    {
-                        ErrorMessage.AddMessage(Language.main.Get("ContainerCantFit"));
-                        cooldownDuration = 0f;
-                        __result = false;
-                        return false;
-                    }
-                }
-
-                if (playAnim)
-                {
-                    __instance.animator.SetTrigger("use_tool");
-                    __instance.cooldownTime = cooldownDuration = __instance.cooldownPickup;
-                    __result = true;
-                    return false;
-                }
-
-                cooldownDuration = 0f;
-                __result = false;
-                return false;
-            }
-
-            __instance.animator.SetTrigger("bash");
-            __instance.cooldownTime = cooldownDuration = __instance.cooldownPunch;
-            __instance.fxControl.Play(0);
-            __result = true;
+            cooldownDuration = 0f;
+            __result = false;
             return false;
         }
+
+        __instance.animator.SetTrigger("bash");
+        __instance.cooldownTime = cooldownDuration = __instance.cooldownPunch;
+        __instance.fxControl.Play(0);
+        __result = true;
+        return false;
     }
 }

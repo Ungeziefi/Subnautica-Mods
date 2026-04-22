@@ -1,21 +1,18 @@
 ﻿using HarmonyLib;
 
-namespace Ungeziefi.Fixes.Misc
+namespace Ungeziefi.Fixes.Misc;
+
+[HarmonyPatch]
+public class NoUsedDataBoxLight
 {
-    [HarmonyPatch]
-    public class NoUsedDataBoxLight
+    [HarmonyPatch(typeof(BlueprintHandTarget), nameof(BlueprintHandTarget.UnlockBlueprint))]
+    [HarmonyPostfix]
+    public static void BlueprintHandTarget_UnlockBlueprint(BlueprintHandTarget __instance)
     {
-        [HarmonyPatch(typeof(BlueprintHandTarget), nameof(BlueprintHandTarget.UnlockBlueprint)), HarmonyPostfix]
-        public static void BlueprintHandTarget_UnlockBlueprint(BlueprintHandTarget __instance)
+        if (Main.Config.NoUsedDataBoxLight)
         {
-            if (Main.Config.NoUsedDataBoxLight)
-            {
-                var databoxLightContainer = __instance.transform.Find("DataboxLightContainer");
-                if (databoxLightContainer != null)
-                {
-                    databoxLightContainer.gameObject.SetActive(false);
-                }
-            }
+            var databoxLightContainer = __instance.transform.Find("DataboxLightContainer");
+            if (databoxLightContainer != null) databoxLightContainer.gameObject.SetActive(false);
         }
     }
 }

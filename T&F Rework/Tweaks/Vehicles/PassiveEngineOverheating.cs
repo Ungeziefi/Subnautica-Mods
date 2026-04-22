@@ -1,32 +1,33 @@
-﻿using HarmonyLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection.Emit;
+using HarmonyLib;
 
-namespace Ungeziefi.Tweaks.Vehicles
+namespace Ungeziefi.Tweaks.Vehicles;
+
+[HarmonyPatch]
+public class PassiveEngineOverheating
 {
-    [HarmonyPatch]
-    public class PassiveEngineOverheating
+    [HarmonyPatch(typeof(SubFire), nameof(SubFire.EngineOverheatSimulation))]
+    [HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> SubFire_EngineOverheatSimulation(
+        IEnumerable<CodeInstruction> instructions)
     {
-        [HarmonyPatch(typeof(SubFire), nameof(SubFire.EngineOverheatSimulation)), HarmonyTranspiler]
-        public static IEnumerable<CodeInstruction> SubFire_EngineOverheatSimulation(IEnumerable<CodeInstruction> instructions)
-        {
-            if (!Main.Config.PassiveEngineOverheating) return instructions;
+        if (!Main.Config.PassiveEngineOverheating) return instructions;
 
-            var matcher = new CodeMatcher(instructions);
-            matcher.MatchForward(false,
-                new CodeMatch(OpCodes.Ldarg_0),
-                new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(SubFire), "subControl")),
-                new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(SubControl), "appliedThrottle")),
-                new CodeMatch(OpCodes.Brfalse)
-            );
+        var matcher = new CodeMatcher(instructions);
+        matcher.MatchForward(false,
+            new CodeMatch(OpCodes.Ldarg_0),
+            new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(SubFire), "subControl")),
+            new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(SubControl), "appliedThrottle")),
+            new CodeMatch(OpCodes.Brfalse)
+        );
 
-            // Replace with NOPs
-            matcher.SetOpcodeAndAdvance(OpCodes.Nop);
-            matcher.SetOpcodeAndAdvance(OpCodes.Nop);
-            matcher.SetOpcodeAndAdvance(OpCodes.Nop);
-            matcher.SetOpcodeAndAdvance(OpCodes.Nop);
+        // Replace with NOPs
+        matcher.SetOpcodeAndAdvance(OpCodes.Nop);
+        matcher.SetOpcodeAndAdvance(OpCodes.Nop);
+        matcher.SetOpcodeAndAdvance(OpCodes.Nop);
+        matcher.SetOpcodeAndAdvance(OpCodes.Nop);
 
-            return matcher.InstructionEnumeration();
-        }
+        return matcher.InstructionEnumeration();
     }
 }

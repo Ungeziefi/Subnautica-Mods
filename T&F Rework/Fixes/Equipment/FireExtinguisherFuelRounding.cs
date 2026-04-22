@@ -1,26 +1,27 @@
-﻿using HarmonyLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection.Emit;
+using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Fixes.Equipment
+namespace Ungeziefi.Fixes.Equipment;
+
+[HarmonyPatch]
+public class FireExtinguisherFuelRounding
 {
-    [HarmonyPatch]
-    public class FireExtinguisherFuelRounding
+    [HarmonyPatch(typeof(FireExtinguisher), nameof(FireExtinguisher.GetFuelValueText))]
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction> FireExtinguisher_GetFuelValueText(
+        IEnumerable<CodeInstruction> instructions)
     {
-        [HarmonyPatch(typeof(FireExtinguisher), nameof(FireExtinguisher.GetFuelValueText)), HarmonyTranspiler]
-        static IEnumerable<CodeInstruction> FireExtinguisher_GetFuelValueText(IEnumerable<CodeInstruction> instructions)
-        {
-            if (!Main.Config.FireExtinguisherFuelRounding) return instructions;
+        if (!Main.Config.FireExtinguisherFuelRounding) return instructions;
 
-            var matcher = new CodeMatcher(instructions);
+        var matcher = new CodeMatcher(instructions);
 
-            matcher.MatchForward(false,
-                    new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(Mathf), nameof(Mathf.FloorToInt)))
-                )
-                .SetOperandAndAdvance(AccessTools.Method(typeof(Mathf), nameof(Mathf.RoundToInt)));
+        matcher.MatchForward(false,
+                new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(Mathf), nameof(Mathf.FloorToInt)))
+            )
+            .SetOperandAndAdvance(AccessTools.Method(typeof(Mathf), nameof(Mathf.RoundToInt)));
 
-            return matcher.InstructionEnumeration();
-        }
+        return matcher.InstructionEnumeration();
     }
 }

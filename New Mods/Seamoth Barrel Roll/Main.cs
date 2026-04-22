@@ -1,44 +1,44 @@
-﻿using BepInEx;
+﻿using System.Reflection;
+using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
-using System.Reflection;
 using InputPaths = Nautilus.Handlers.GameInputHandler.Paths;
 
-namespace Ungeziefi.Seamoth_Barrel_Roll
+namespace Ungeziefi.Seamoth_Barrel_Roll;
+
+[BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus")]
+public class Main : BaseUnityPlugin
 {
-    [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
-    [BepInDependency("com.snmodding.nautilus")]
-    public class Main : BaseUnityPlugin
+    public const string PLUGIN_GUID = "Ungeziefi.Seamoth_Barrel_Roll";
+    public const string PLUGIN_NAME = "Seamoth Barrel Roll";
+    public const string PLUGIN_VERSION = "2.2.2";
+
+    public static GameInput.Button RollLeftButton;
+    public static GameInput.Button RollRightButton;
+
+    private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
+    internal new static ManualLogSource Logger { get; private set; }
+    internal new static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+
+    public void Awake()
     {
-        public const string PLUGIN_GUID = "Ungeziefi.Seamoth_Barrel_Roll";
-        public const string PLUGIN_NAME = "Seamoth Barrel Roll";
-        public const string PLUGIN_VERSION = "2.2.2";
+        Logger = base.Logger;
+        Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
 
-        private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
-        internal static new ManualLogSource Logger { get; private set; }
-        internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-        public static GameInput.Button RollLeftButton;
-        public static GameInput.Button RollRightButton;
+        RollLeftButton = EnumHandler.AddEntry<GameInput.Button>("RollLeftButton")
+            .CreateInput("Roll left")
+            .WithKeyboardBinding(InputPaths.Keyboard.Ctrl)
+            .WithCategory("Seamoth Barrel Roll")
+            .AvoidConflicts();
 
-        public void Awake()
-        {
-            Logger = base.Logger;
-            Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
+        RollRightButton = EnumHandler.AddEntry<GameInput.Button>("RollRightButton")
+            .CreateInput("Roll right")
+            .WithKeyboardBinding(InputPaths.Keyboard.Alt)
+            .WithCategory("Seamoth Barrel Roll")
+            .AvoidConflicts();
 
-            RollLeftButton = EnumHandler.AddEntry<GameInput.Button>("RollLeftButton")
-                .CreateInput("Roll left")
-                .WithKeyboardBinding(InputPaths.Keyboard.Ctrl)
-                .WithCategory("Seamoth Barrel Roll")
-                .AvoidConflicts();
-
-            RollRightButton = EnumHandler.AddEntry<GameInput.Button>("RollRightButton")
-                .CreateInput("Roll right")
-                .WithKeyboardBinding(InputPaths.Keyboard.Alt)
-                .WithCategory("Seamoth Barrel Roll")
-                .AvoidConflicts();
-
-            Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
-        }
+        Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
     }
 }

@@ -1,30 +1,27 @@
 using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Cockpit_Free_Look
+namespace Ungeziefi.Cockpit_Free_Look;
+
+[HarmonyPatch]
+public partial class CockpitFreeLook
 {
-    [HarmonyPatch]
-    public partial class CockpitFreeLook
+    [HarmonyPatch(typeof(Player), nameof(Player.ExitLockedMode))]
+    [HarmonyPrefix]
+    public static void OnExitLockedMode()
     {
-        [HarmonyPatch(typeof(Player), nameof(Player.ExitLockedMode)), HarmonyPrefix]
-        public static void OnExitLockedMode()
+        if (isLooking || isReturning)
         {
-            if (isLooking || isReturning)
-            {
-                isLooking = false;
-                isReturning = false;
+            isLooking = false;
+            isReturning = false;
 
-                MainCamera.camera.transform.localRotation = originalRotation;
+            MainCamera.camera.transform.localRotation = originalRotation;
 
-                currentRotation = Vector2.zero;
+            currentRotation = Vector2.zero;
 
-                if (Player.main.currentMountedVehicle is Exosuit exosuit)
-                {
-                    EnableExosuitArms(exosuit);
-                }
-            }
-
-            cachedAimIKComponents = null;
+            if (Player.main.currentMountedVehicle is Exosuit exosuit) EnableExosuitArms(exosuit);
         }
+
+        cachedAimIKComponents = null;
     }
 }

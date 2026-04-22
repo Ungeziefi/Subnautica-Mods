@@ -1,25 +1,25 @@
 using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Fixes.Flora
+namespace Ungeziefi.Fixes.Flora;
+
+[HarmonyPatch]
+public class MatchingBulboTreeLOD
 {
-    [HarmonyPatch]
-    public class MatchingBulboTreeLOD
+    [HarmonyPatch(typeof(LargeWorldEntity), nameof(LargeWorldEntity.Awake))]
+    [HarmonyPostfix]
+    private static void LargeWorldEntity_Awake(LargeWorldEntity __instance)
     {
-        [HarmonyPatch(typeof(LargeWorldEntity), nameof(LargeWorldEntity.Awake)), HarmonyPostfix]
-        private static void LargeWorldEntity_Awake(LargeWorldEntity __instance)
-        {
-            if (!Main.Config.MatchingBulboTreeLOD)
-                return;
+        if (!Main.Config.MatchingBulboTreeLOD)
+            return;
 
-            if (__instance == null || __instance.gameObject == null)
-                return;
+        if (__instance == null || __instance.gameObject == null)
+            return;
 
-            if (!__instance.gameObject.name.StartsWith("land_plant_middle_01"))
-                return;
+        if (!__instance.gameObject.name.StartsWith("land_plant_middle_01"))
+            return;
 
-            LODGroup lodGroup = __instance.gameObject.GetComponent<LODGroup>();
-            if (lodGroup != null) lodGroup.enabled = false;
-        }
+        var lodGroup = __instance.gameObject.GetComponent<LODGroup>();
+        if (lodGroup != null) lodGroup.enabled = false;
     }
 }

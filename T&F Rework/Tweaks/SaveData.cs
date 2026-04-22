@@ -1,10 +1,9 @@
-﻿using Nautilus.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Nautilus.Json;
 
-namespace Ungeziefi.Tweaks
+namespace Ungeziefi.Tweaks;
+
+public class SaveData : SaveDataCache
 {
-    public class SaveData : SaveDataCache
-    {
-        public HashSet<string> PRAWNSuitsWithLightOff { get; set; } = new();
-    }
+    public HashSet<string> PRAWNSuitsWithLightOff { get; set; } = new();
 }

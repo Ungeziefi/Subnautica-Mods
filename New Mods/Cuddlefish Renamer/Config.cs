@@ -2,48 +2,40 @@
 using Nautilus.Options.Attributes;
 using UnityEngine;
 
-namespace Ungeziefi.Cuddlefish_Renamer
+namespace Ungeziefi.Cuddlefish_Renamer;
+
+[Menu("Cuddlefish Renamer")]
+public class Config : ConfigFile
 {
-    [Menu("Cuddlefish Renamer")]
-    public class Config : ConfigFile
-    {
-        [Toggle(Label = "Enable feature")]
-        public bool EnableFeature = true;
+    [Toggle(Label = "Enable feature")] public bool EnableFeature = true;
 
-        [Keybind(Label = "Rename key", Tooltip = "Configurable key in addition to Alt Tool when using a controller.")]
-        public KeyCode RenameKey = KeyCode.R;
+    [Toggle(Label = "Show name above")] public bool ShowNameAbove = true;
 
-        [Toggle(Label = "Show name above")]
-        public bool ShowNameAbove = true;
+    [Toggle(Label = "Use name in play prompt")]
+    public bool UseNameInPlayPrompt = true;
 
-        [Toggle(Label = "Use name in play prompt")]
-        public bool UseNameInPlayPrompt = true;
+    [Slider(Label = "Name label height", Tooltip = "Height of the name label above the Cuddlefish.",
+        DefaultValue = 0.5f, Min = 0.2f, Max = 1.0f, Step = 0.1f, Format = "{0:0.0}")]
+    public float NameLabelHeight = 0.5f;
 
-        [Slider(Label = "Name label height", Tooltip = "Height of the name label above the Cuddlefish.",
-            DefaultValue = 0.5f, Min = 0.2f, Max = 1.0f, Step = 0.1f, Format = "{0:0.0}")]
-        public float NameLabelHeight = 0.5f;
+    [Toggle(Label = "Bold text")] public bool BoldText = false;
 
-        [Toggle(Label = "Bold text")]
-        public bool BoldText = false;
+    [Slider(Label = "Font size", DefaultValue = 2f, Min = 1f, Max = 5f, Step = 0.1f, Format = "{0:0.0}")]
+    public float NameFontSize = 2f;
 
-        [Slider(Label = "Font size", DefaultValue = 2f, Min = 1f, Max = 5f, Step = 0.1f, Format = "{0:0.0}")]
-        public float NameFontSize = 2f;
+    [Toggle(Label = "Fade name with distance", Tooltip = "Gradually fade the name opacity based on distance.")]
+    public bool FadeWithDistance = true;
 
-        [Slider(Label = "Maximum name length", Tooltip = "Maximum number of characters allowed while naming a Cuddlefish.",
-            DefaultValue = 25, Min = 10, Max = 50, Step = 5)]
-        public int MaxNameLength = 25;
+    [Slider(Label = "Fade start distance",
+        Tooltip =
+            "Distance at which names begin fading out. Names are fully visible within this range and completely invisible at twice this distance.",
+        DefaultValue = 10f, Min = 5f, Max = 45f, Step = 1f, Format = "{0:0}m")]
+    public float FadeStartDistance = 10f;
 
-        [Toggle(Label = "Fade name with distance", Tooltip = "Gradually fade the name opacity based on distance.")]
-        public bool FadeWithDistance = true;
+    [Toggle(
+        "<color=#FFAC09FF>Name color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
+    public bool NameColorDivider;
 
-        [Slider(Label = "Fade start distance", Tooltip = "Distance at which names begin fading out. Names are fully visible within this range and completely invisible at twice this distance.",
-            DefaultValue = 10f, Min = 5f, Max = 45f, Step = 1f, Format = "{0:0}m")]
-        public float FadeStartDistance = 10f;
-
-        [Toggle("<color=#FFAC09FF>Name color</color> <alpha=#00>----------------------------------------------------------------------------</alpha>")]
-        public bool NameColorDivider;
-
-        [ColorPicker(Label = "Preview", Advanced = true)]
-        public Color NameColor = Color.white;
-    }
+    [ColorPicker(Label = "Preview", Advanced = true)]
+    public Color NameColor = Color.white;
 }

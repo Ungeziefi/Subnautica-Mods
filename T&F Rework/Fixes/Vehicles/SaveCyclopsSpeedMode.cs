@@ -1,57 +1,57 @@
 ﻿using HarmonyLib;
-using UnityEngine;
 
-namespace Ungeziefi.Fixes.Vehicles
+namespace Ungeziefi.Fixes.Vehicles;
+
+[HarmonyPatch]
+public class SaveCyclopsSpeedMode
 {
-    [HarmonyPatch]
-    public class SaveCyclopsSpeedMode
+    private static string GetCyclopsId(CyclopsMotorModeButton button)
     {
-        private static string GetCyclopsId(CyclopsMotorModeButton button)
-        {
-            if (button == null)
-                return null;
+        if (button == null)
+            return null;
 
-            if (button.subRoot == null)
-                return null;
+        if (button.subRoot == null)
+            return null;
 
-            GameObject gameObject = button.subRoot.gameObject;
-            if (gameObject == null)
-                return null;
+        var gameObject = button.subRoot.gameObject;
+        if (gameObject == null)
+            return null;
 
-            PrefabIdentifier prefabIdentifier = gameObject.GetComponent<PrefabIdentifier>();
-            if (prefabIdentifier == null)
-                return null;
+        var prefabIdentifier = gameObject.GetComponent<PrefabIdentifier>();
+        if (prefabIdentifier == null)
+            return null;
 
-            return prefabIdentifier.Id;
-        }
+        return prefabIdentifier.Id;
+    }
 
-        private static void UpdateSpeedMode(string cyclopsId, CyclopsMotorMode.CyclopsMotorModes mode)
-        {
-            // Remove when default, save otherwise
-            if (mode == CyclopsMotorMode.CyclopsMotorModes.Standard)
-                Main.SaveData.CyclopsSpeedMode.Remove(cyclopsId);
-            else
-                Main.SaveData.CyclopsSpeedMode[cyclopsId] = (int)mode;
-        }
+    private static void UpdateSpeedMode(string cyclopsId, CyclopsMotorMode.CyclopsMotorModes mode)
+    {
+        // Remove when default, save otherwise
+        if (mode == CyclopsMotorMode.CyclopsMotorModes.Standard)
+            Main.SaveData.CyclopsSpeedMode.Remove(cyclopsId);
+        else
+            Main.SaveData.CyclopsSpeedMode[cyclopsId] = (int)mode;
+    }
 
-        [HarmonyPatch(typeof(CyclopsMotorModeButton), nameof(CyclopsMotorModeButton.OnClick)), HarmonyPostfix]
-        public static void CyclopsMotorModeButton_OnClick(CyclopsMotorModeButton __instance)
-        {
-            string cyclopsId = GetCyclopsId(__instance);
-            if (!Main.Config.SaveCyclopsSpeedMode || cyclopsId == null) return;
+    [HarmonyPatch(typeof(CyclopsMotorModeButton), nameof(CyclopsMotorModeButton.OnClick))]
+    [HarmonyPostfix]
+    public static void CyclopsMotorModeButton_OnClick(CyclopsMotorModeButton __instance)
+    {
+        var cyclopsId = GetCyclopsId(__instance);
+        if (!Main.Config.SaveCyclopsSpeedMode || cyclopsId == null) return;
 
-            UpdateSpeedMode(cyclopsId, __instance.motorModeIndex);
-        }
+        UpdateSpeedMode(cyclopsId, __instance.motorModeIndex);
+    }
 
-        [HarmonyPatch(typeof(CyclopsMotorModeButton), nameof(CyclopsMotorModeButton.Start)), HarmonyPostfix]
-        public static void CyclopsMotorModeButton_Start(CyclopsMotorModeButton __instance)
-        {
-            string cyclopsId = GetCyclopsId(__instance);
-            if (!Main.Config.SaveCyclopsSpeedMode || cyclopsId == null) return;
+    [HarmonyPatch(typeof(CyclopsMotorModeButton), nameof(CyclopsMotorModeButton.Start))]
+    [HarmonyPostfix]
+    public static void CyclopsMotorModeButton_Start(CyclopsMotorModeButton __instance)
+    {
+        var cyclopsId = GetCyclopsId(__instance);
+        if (!Main.Config.SaveCyclopsSpeedMode || cyclopsId == null) return;
 
-            // Restore the saved speed mode state
-            if (Main.SaveData.CyclopsSpeedMode.TryGetValue(cyclopsId, out int savedMode))
-                __instance.SetCyclopsMotorMode((CyclopsMotorMode.CyclopsMotorModes)savedMode);
-        }
+        // Restore the saved speed mode state
+        if (Main.SaveData.CyclopsSpeedMode.TryGetValue(cyclopsId, out var savedMode))
+            __instance.SetCyclopsMotorMode((CyclopsMotorMode.CyclopsMotorModes)savedMode);
     }
 }

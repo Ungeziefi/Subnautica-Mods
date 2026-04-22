@@ -21,17 +21,17 @@ Standalones - more information in the respective Nexus Mods description.
 - [Creature Healthbars](https://www.nexusmods.com/subnautica/mods/2349)
 - [ModSync](https://www.nexusmods.com/subnautica/mods/2704)
 - [Console Autocompletion](https://www.nexusmods.com/subnautica/mods/3000)
-
-**Note**: I realized after release that [Mikjaw](https://next.nexusmods.com/profile/Mikjaw) already created mods with the same goal as Seamoth Barrel Roll and Cockpit Free Look. Check the originals and make your own choice!
-- [Roll Control](https://www.nexusmods.com/subnautica/mods/515)
-- [Free Look](https://www.nexusmods.com/subnautica/mods/517)
+- Container Utilities
 
 ---
 
 ### Rewrites
-These are just for **personal use** and to have public source code.
-- [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185) (Credits to [WhoTnT](https://next.nexusmods.com/profile/WhoTnT).)
-- [Abandon Ship During Cyclops Fire](https://www.nexusmods.com/subnautica/mods/1265) (Ported to Nautilus and added an in-game toggle, credits to [Aishsh506](https://next.nexusmods.com/profile/Aishsh506).)
+These are just for **personal use** and to tackle the same feature with my own tweaks. Some were made to solve the lack of public source code from the original mod.
+- [Anisotropic Fix](https://www.nexusmods.com/subnautica/mods/185) (Credits to [WhoTnT](https://next.nexusmods.com/profile/WhoTnT))
+- [Abandon Ship During Cyclops Fire](https://www.nexusmods.com/subnautica/mods/1265) (Ported to Nautilus and added an in-game toggle, credits to [Aishsh506](https://next.nexusmods.com/profile/Aishsh506))
+- [Mark As Read](https://www.nexusmods.com/subnautica/mods/1588) (Credits to [KnownIssueJosh](https://www.nexusmods.com/profile/KnownIssueJosh))
+- [Lose Everything](https://www.nexusmods.com/subnautica/mods/1308) (Credits to [Kallie23](https://www.nexusmods.com/profile/Kallie23))
+- [Stasis Rifle Freeze Fix (BepInEx)](https://www.nexusmods.com/subnautica/mods/1255) (Credits to [Indigocoder](https://www.nexusmods.com/profile/Indigocoder))
 
 ---
 
@@ -40,4 +40,4 @@ These are just for **personal use** and to have public source code.
 
 ---
 
-Built with [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Templates) and [Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/community/).
+Built with [JetBrains Rider](https://www.jetbrains.com/rider/) and [Subnautica.Templates](https://www.nuget.org/packages/Subnautica.Templates).

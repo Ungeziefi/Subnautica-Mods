@@ -1,39 +1,38 @@
-using HarmonyLib;
 using System.Collections.Generic;
+using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Fixes.Misc
+namespace Ungeziefi.Fixes.Misc;
+
+[HarmonyPatch]
+public class UnmoveableProps
 {
-    [HarmonyPatch]
-    public class UnmoveableProps
+    private static readonly HashSet<TechType> techTypesToMakeUnmovable = new()
     {
-        static readonly HashSet<TechType> techTypesToMakeUnmovable = new() {
-            TechType.FarmingTray,
-            TechType.BulboTree,
-            TechType.PurpleBrainCoral,
-            TechType.HangingFruitTree,
-            TechType.SpikePlant};
+        TechType.FarmingTray,
+        TechType.BulboTree,
+        TechType.PurpleBrainCoral,
+        TechType.HangingFruitTree,
+        TechType.SpikePlant
+    };
 
-        private static void MakeUnmovable(LargeWorldEntity lwe)
-        {
-            Rigidbody rb = lwe.GetComponent<Rigidbody>();
-            if (rb != null) Object.Destroy(rb);
+    private static void MakeUnmovable(LargeWorldEntity lwe)
+    {
+        var rb = lwe.GetComponent<Rigidbody>();
+        if (rb != null) Object.Destroy(rb);
 
-            // For instances already affected by a cannon
-            WorldForces wf = lwe.GetComponent<WorldForces>();
-            if (wf != null) Object.Destroy(wf);
-        }
+        // For instances already affected by a cannon
+        var wf = lwe.GetComponent<WorldForces>();
+        if (wf != null) Object.Destroy(wf);
+    }
 
-        [HarmonyPatch(typeof(LargeWorldEntity), nameof(LargeWorldEntity.Awake)), HarmonyPostfix]
-        private static void LargeWorldEntity_Awake(LargeWorldEntity __instance)
-        {
-            if (!Main.Config.UnmoveableProps) return;
+    [HarmonyPatch(typeof(LargeWorldEntity), nameof(LargeWorldEntity.Awake))]
+    [HarmonyPostfix]
+    private static void LargeWorldEntity_Awake(LargeWorldEntity __instance)
+    {
+        if (!Main.Config.UnmoveableProps) return;
 
-            TechType tt = CraftData.GetTechType(__instance.gameObject);
-            if (techTypesToMakeUnmovable.Contains(tt))
-            {
-                MakeUnmovable(__instance);
-            }
-        }
+        var tt = CraftData.GetTechType(__instance.gameObject);
+        if (techTypesToMakeUnmovable.Contains(tt)) MakeUnmovable(__instance);
     }
 }

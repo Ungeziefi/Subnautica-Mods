@@ -1,23 +1,20 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Fixes.Vehicles
+namespace Ungeziefi.Fixes.Vehicles;
+
+[HarmonyPatch]
+public class CyclopsSoftCollisionSoundMinimumMass
 {
-    [HarmonyPatch]
-    public class CyclopsSoftCollisionSoundMinimumMass
+    [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.OnCollisionEnter))]
+    [HarmonyPrefix]
+    public static bool SubRoot_OnCollisionEnter(SubRoot __instance, Collision col)
     {
-        [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.OnCollisionEnter)), HarmonyPrefix]
-        public static bool SubRoot_OnCollisionEnter(SubRoot __instance, Collision col)
-        {
-            if (!Main.Config.SoftCollisionSoundMinimumMass) return true;
+        if (!Main.Config.SoftCollisionSoundMinimumMass) return true;
 
-            var rb = col.gameObject.GetComponent<Rigidbody>();
-            if (rb != null && rb.mass < 1f)
-            {
-                return false;
-            }
+        var rb = col.gameObject.GetComponent<Rigidbody>();
+        if (rb != null && rb.mass < 1f) return false;
 
-            return true;
-        }
+        return true;
     }
 }

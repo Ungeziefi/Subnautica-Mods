@@ -1,23 +1,23 @@
 ﻿using HarmonyLib;
 
-namespace Ungeziefi.Fixes.Misc
+namespace Ungeziefi.Fixes.Misc;
+
+[HarmonyPatch]
+public class NoUsedTerminalPrompt
 {
-    [HarmonyPatch]
-    public class NoUsedTerminalPrompt
+    [HarmonyPatch(typeof(StoryHandTarget), nameof(StoryHandTarget.OnHandHover))]
+    [HarmonyPrefix]
+    public static bool StoryHandTarget_OnHandHover(StoryHandTarget __instance)
     {
-        [HarmonyPatch(typeof(StoryHandTarget), nameof(StoryHandTarget.OnHandHover)), HarmonyPrefix]
-        public static bool StoryHandTarget_OnHandHover(StoryHandTarget __instance)
-        {
-            if (!Main.Config.NoUsedTerminalPrompt) return true;
+        if (!Main.Config.NoUsedTerminalPrompt) return true;
 
-            // Precursor terminal already used
-            var precursorTerminal = __instance.GetComponent<PrecursorComputerTerminal>();
-            if (precursorTerminal != null && precursorTerminal.used) return false;
+        // Precursor terminal already used
+        var precursorTerminal = __instance.GetComponent<PrecursorComputerTerminal>();
+        if (precursorTerminal != null && precursorTerminal.used) return false;
 
-            var genericConsole = __instance.GetComponent<GenericConsole>();
-            if (genericConsole != null && genericConsole.gotUsed) return false;
+        var genericConsole = __instance.GetComponent<GenericConsole>();
+        if (genericConsole != null && genericConsole.gotUsed) return false;
 
-            return true;
-        }
+        return true;
     }
 }

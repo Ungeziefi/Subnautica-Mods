@@ -1,34 +1,33 @@
-﻿using BepInEx;
+﻿using System.Reflection;
+using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
-using System.Reflection;
 
-namespace Ungeziefi.Custom_Goto_Locations
+namespace Ungeziefi.Custom_Goto_Locations;
+
+[BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus")]
+public class Main : BaseUnityPlugin
 {
-    [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
-    [BepInDependency("com.snmodding.nautilus")]
-    public class Main : BaseUnityPlugin
+    public const string PLUGIN_GUID = "Ungeziefi.Custom_Goto_Locations";
+    public const string PLUGIN_NAME = "Custom Goto Locations";
+    public const string PLUGIN_VERSION = "1.1.2";
+
+    private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
+    internal new static ManualLogSource Logger { get; private set; }
+    internal new static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+
+    public void Awake()
     {
-        public const string PLUGIN_GUID = "Ungeziefi.Custom_Goto_Locations";
-        public const string PLUGIN_NAME = "Custom Goto Locations";
-        public const string PLUGIN_VERSION = "1.1.2";
+        Logger = base.Logger;
+        Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
 
-        private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
-        internal static new ManualLogSource Logger { get; private set; }
-        internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
+    }
 
-        public static void SaveConfig()
-        {
-            Config.Save();
-        }
-
-        public void Awake()
-        {
-            Logger = base.Logger;
-            Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
-
-            Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
-        }
+    public static void SaveConfig()
+    {
+        Config.Save();
     }
 }

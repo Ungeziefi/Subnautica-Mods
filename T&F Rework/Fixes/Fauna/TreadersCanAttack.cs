@@ -1,21 +1,22 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Fixes.Fauna
-{
-    [HarmonyPatch]
-    public class TreadersCanAttack
-    {
-        [HarmonyPatch(typeof(SeaTreaderMeleeAttack), nameof(SeaTreaderMeleeAttack.GetCanAttack)), HarmonyPostfix]
-        static void SeaTreaderMeleeAttack_GetCanAttack(SeaTreaderMeleeAttack __instance, GameObject otherGameObject, ref bool __result)
-        {
-            if (!Main.Config.TreadersCanAttack) return;
+namespace Ungeziefi.Fixes.Fauna;
 
-            // Removed onSurface condition
-            __result = !__instance.frozen &&
-                      !__instance.treader.cinematicMode &&
-                      Time.time > __instance.lastAttackTime + __instance.attackInterval &&
-                      __instance.GetCanHit(otherGameObject);
-        }
+[HarmonyPatch]
+public class TreadersCanAttack
+{
+    [HarmonyPatch(typeof(SeaTreaderMeleeAttack), nameof(SeaTreaderMeleeAttack.GetCanAttack))]
+    [HarmonyPostfix]
+    private static void SeaTreaderMeleeAttack_GetCanAttack(SeaTreaderMeleeAttack __instance, GameObject otherGameObject,
+        ref bool __result)
+    {
+        if (!Main.Config.TreadersCanAttack) return;
+
+        // Removed onSurface condition
+        __result = !__instance.frozen &&
+                   !__instance.treader.cinematicMode &&
+                   Time.time > __instance.lastAttackTime + __instance.attackInterval &&
+                   __instance.GetCanHit(otherGameObject);
     }
 }

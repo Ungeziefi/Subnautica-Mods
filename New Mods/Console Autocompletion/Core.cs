@@ -1,107 +1,106 @@
-﻿using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HarmonyLib;
 
-namespace Ungeziefi.Console_Autocompletion
+namespace Ungeziefi.Console_Autocompletion;
+
+[HarmonyPatch]
+public class Console_Autocompletion
 {
-    [HarmonyPatch]
-    public class Console_Autocompletion
+    private static HashSet<string> commandCache = new();
+    private static HashSet<string> techtypeCache = new();
+    private static HashSet<string> gotoLocationCache = new();
+
+    // Start caching
+    [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.Start))]
+    [HarmonyPostfix]
+    public static void SubRoot_Start()
     {
-        private static HashSet<string> commandCache = new();
-        private static HashSet<string> techtypeCache = new();
-        private static HashSet<string> gotoLocationCache = new();
+        if (Main.Config.EnableFeature) InitializeCaches();
+    }
 
-        // Start caching
-        [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.Start)), HarmonyPostfix]
-        public static void SubRoot_Start()
+    [HarmonyPatch(typeof(ConsoleInput), nameof(ConsoleInput.KeyPressedOverride))]
+    [HarmonyPrefix]
+    public static bool ConsoleInput_KeyPressedOverride(ConsoleInput __instance, ref bool __result)
+    {
+        if (!Main.Config.EnableFeature) return true;
+
+        // Only handle tab completion at end of text
+        if (!GameInput.GetButtonDown(Main.AutocompleteButton)
+            || string.IsNullOrEmpty(__instance.text)
+            || __instance.caretPosition != __instance.text.Length)
+            return true;
+
+        // Complete
+        var completion = TryCompleteText(__instance.text);
+        if (!string.IsNullOrEmpty(completion))
         {
-            if (Main.Config.EnableFeature) InitializeCaches();
+            __instance.text = completion;
+            __instance.caretPosition = __instance.text.Length;
         }
 
-        [HarmonyPatch(typeof(ConsoleInput), nameof(ConsoleInput.KeyPressedOverride)), HarmonyPrefix]
-        public static bool ConsoleInput_KeyPressedOverride(ConsoleInput __instance, ref bool __result)
-        {
-            if (!Main.Config.EnableFeature) return true;
+        __result = true;
+        return false;
+    }
 
-            // Only handle tab completion at end of text
-            if (!GameInput.GetButtonDown(Main.AutocompleteButton)
-                || string.IsNullOrEmpty(__instance.text)
-                || __instance.caretPosition != __instance.text.Length)
-                return true;
+    // Build caches
+    private static void InitializeCaches()
+    {
+        commandCache = new HashSet<string>(DevConsole.commands.Keys.Select(k => k.ToLower()));
 
-            // Complete
-            string completion = TryCompleteText(__instance.text);
-            if (!string.IsNullOrEmpty(completion))
-            {
-                __instance.text = completion;
-                __instance.caretPosition = __instance.text.Length;
-            }
+        // Item TechTypes
+        techtypeCache = new HashSet<string>(
+            Enum.GetValues(typeof(TechType))
+                .Cast<TechType>()
+                .Select(t => t.ToString().ToLower())
+        );
 
-            __result = true;
-            return false;
-        }
-
-        // Build caches
-        private static void InitializeCaches()
-        {
-            commandCache = new HashSet<string>(DevConsole.commands.Keys.Select(k => k.ToLower()));
-
-            // Item TechTypes
-            techtypeCache = new HashSet<string>(
-                System.Enum.GetValues(typeof(TechType))
-                    .Cast<TechType>()
-                    .Select(t => t.ToString().ToLower())
+        // TeleportCommandData locations
+        if (GotoConsoleCommand.main != null && GotoConsoleCommand.main.data != null)
+            gotoLocationCache = new HashSet<string>(
+                GotoConsoleCommand.main.data.locations
+                    .Select(loc => loc.name.ToLower())
             );
+    }
 
-            // TeleportCommandData locations
-            if (GotoConsoleCommand.main != null && GotoConsoleCommand.main.data != null)
-            {
-                gotoLocationCache = new HashSet<string>(
-                    GotoConsoleCommand.main.data.locations
-                        .Select(loc => loc.name.ToLower())
-                );
-            }
-        }
+    private static string TryCompleteText(string text)
+    {
+        var lastSpace = text.LastIndexOf(' ');
 
-        private static string TryCompleteText(string text)
+        // Complete command if no space
+        if (lastSpace == -1) return TryCompleteString(text, commandCache);
+
+        // Complete parameter if after space
+        var cmd = text[..lastSpace].Trim().ToLower();
+        var targetCache = cmd switch
         {
-            int lastSpace = text.LastIndexOf(' ');
+            "spawn" => techtypeCache,
+            "goto" => gotoLocationCache,
+            "gotofast" => gotoLocationCache,
+            "item" => techtypeCache,
+            "unlock" => techtypeCache,
+            _ => null
+        };
 
-            // Complete command if no space
-            if (lastSpace == -1) return TryCompleteString(text, commandCache);
+        // Return original if no cache
+        if (targetCache == null) return text;
 
-            // Complete parameter if after space
-            string cmd = text[..lastSpace].Trim().ToLower();
-            var targetCache = cmd switch
-            {
-                "spawn" => techtypeCache,
-                "goto" => gotoLocationCache,
-                "gotofast" => gotoLocationCache,
-                "item" => techtypeCache,
-                "unlock" => techtypeCache,
-                _ => null
-            };
+        var param = text[(lastSpace + 1)..];
 
-            // Return original if no cache
-            if (targetCache == null) return text;
+        // Don't complete if no parameter
+        if (string.IsNullOrWhiteSpace(param)) return text;
 
-            string param = text[(lastSpace + 1)..];
+        var completion = TryCompleteString(param, targetCache);
+        return string.IsNullOrEmpty(completion) ? text : $"{cmd} {completion}";
+    }
 
-            // Don't complete if no parameter
-            if (string.IsNullOrWhiteSpace(param)) return text;
+    private static string TryCompleteString(string input, HashSet<string> cache)
+    {
+        var matches = cache.Where(c => c.StartsWith(input, StringComparison.OrdinalIgnoreCase)).ToList();
 
-            string completion = TryCompleteString(param, targetCache);
-            return string.IsNullOrEmpty(completion) ? text : $"{cmd} {completion}";
-        }
+        if (!matches.Any()) return string.Empty;
 
-        private static string TryCompleteString(string input, HashSet<string> cache)
-        {
-            var matches = cache.Where(c => c.StartsWith(input, StringComparison.OrdinalIgnoreCase)).ToList();
-
-            if (!matches.Any()) return string.Empty;
-
-            return matches[0];
-        }
+        return matches[0];
     }
 }

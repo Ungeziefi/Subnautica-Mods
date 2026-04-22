@@ -1,4 +1,4 @@
-﻿// To-Do: Fix delayed save due to OnHolster
+﻿// TODO: Fix delayed save due to OnHolster
 
 //using HarmonyLib;
 //using System.Collections;
@@ -55,3 +55,4 @@
 //        }
 //    }
 //}
+

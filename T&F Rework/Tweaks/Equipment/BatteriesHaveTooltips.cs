@@ -1,31 +1,26 @@
-﻿using HarmonyLib;
-using System.Text;
+﻿using System.Text;
+using HarmonyLib;
 
-namespace Ungeziefi.Tweaks
+namespace Ungeziefi.Tweaks;
+
+[HarmonyPatch]
+public class BatteriesHaveTooltips
 {
-    [HarmonyPatch]
-    public class BatteriesHaveTooltips
+    [HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.ItemCommons))]
+    [HarmonyPostfix]
+    private static void TooltipFactory_ItemCommons(StringBuilder sb, TechType techType)
     {
-        [HarmonyPatch(typeof(TooltipFactory), nameof(TooltipFactory.ItemCommons)), HarmonyPostfix]
-        private static void TooltipFactory_ItemCommons(StringBuilder sb, TechType techType)
-        {
-            if (!Main.Config.BatteriesHaveTooltips) return;
+        if (!Main.Config.BatteriesHaveTooltips) return;
 
-            switch (techType)
-            {
-                case TechType.Battery:
-                    TooltipFactory.WriteDescription(sb, Language.main.Get("Tooltip_Battery"));
-                    break;
-                case TechType.PowerCell:
-                    TooltipFactory.WriteDescription(sb, Language.main.Get("Tooltip_PowerCell"));
-                    break;
-                case TechType.PrecursorIonBattery:
-                    TooltipFactory.WriteDescription(sb, Language.main.Get("Tooltip_PrecursorIonBattery"));
-                    break;
-                case TechType.PrecursorIonPowerCell:
-                    TooltipFactory.WriteDescription(sb, Language.main.Get("Tooltip_PrecursorIonPowerCell"));
-                    break;
-            }
-        }
+        var key = techType switch
+        {
+            TechType.Battery => "Tooltip_Battery",
+            TechType.PowerCell => "Tooltip_PowerCell",
+            TechType.PrecursorIonBattery => "Tooltip_PrecursorIonBattery",
+            TechType.PrecursorIonPowerCell => "Tooltip_PrecursorIonPowerCell",
+            _ => null
+        };
+
+        if (key != null) TooltipFactory.WriteDescription(sb, Language.main.Get(key));
     }
 }

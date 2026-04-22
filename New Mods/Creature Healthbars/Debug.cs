@@ -1,51 +1,51 @@
 using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Creature_Healthbars
+namespace Ungeziefi.Creature_Healthbars;
+
+[HarmonyPatch]
+public class Debug
 {
-    [HarmonyPatch]
-    public class Debug
+    private static bool freezeActive;
+
+    [HarmonyPatch(typeof(Player), nameof(Player.Update))]
+    [HarmonyPostfix]
+    public static void Player_Update()
     {
-        private static bool freezeActive = false;
+        if (!Main.Config.EnableFeature || !Main.Config.EnableFreezeCreaturesToggle) return;
 
-        [HarmonyPatch(typeof(Player), nameof(Player.Update)), HarmonyPostfix]
-        public static void Player_Update()
+        if (GameInput.GetButtonDown(Main.FreezeCreaturesToggleButton))
         {
-            if (!Main.Config.EnableFeature || !Main.Config.EnableFreezeCreaturesToggle) return;
+            freezeActive = !freezeActive;
 
-            if (GameInput.GetButtonDown(Main.FreezeCreaturesToggleButton))
+            if (freezeActive)
             {
-                freezeActive = !freezeActive;
-
-                if (freezeActive)
-                {
-                    SetCreaturesFrozen(true);
-                    ErrorMessage.AddMessage("Creatures frozen");
-                }
-                else
-                {
-                    SetCreaturesFrozen(false);
-                    ErrorMessage.AddMessage("Creatures unfrozen");
-                }
+                SetCreaturesFrozen(true);
+                ErrorMessage.AddMessage("Creatures frozen");
+            }
+            else
+            {
+                SetCreaturesFrozen(false);
+                ErrorMessage.AddMessage("Creatures unfrozen");
             }
         }
+    }
 
-        private static void SetCreaturesFrozen(bool freeze)
+    private static void SetCreaturesFrozen(bool freeze)
+    {
+        var creatures = Object.FindObjectsOfType<Creature>();
+
+        foreach (var creature in creatures)
         {
-            Creature[] creatures = Object.FindObjectsOfType<Creature>();
-
-            foreach (Creature creature in creatures)
+            var rb = creature.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                Rigidbody rb = creature.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.isKinematic = freeze;
+                rb.isKinematic = freeze;
 
-                    if (freeze)
-                    {
-                        rb.velocity = Vector3.zero;
-                        rb.angularVelocity = Vector3.zero;
-                    }
+                if (freeze)
+                {
+                    rb.velocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
                 }
             }
         }

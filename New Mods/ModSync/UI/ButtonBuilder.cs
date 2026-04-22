@@ -2,86 +2,86 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
-namespace Ungeziefi.ModSync.UI
+namespace Ungeziefi.ModSync.UI;
+
+public static class ButtonBuilder
 {
-    public static class ButtonBuilder
+    public static void CreateDualButtons(Transform originalButton, Action onContinue, Action onCancel)
     {
-        public static void CreateDualButtons(Transform originalButton, Action onContinue, Action onCancel)
+        var parent = originalButton.parent;
+        var originalRect = originalButton.GetComponent<RectTransform>();
+        var originalLayout = originalButton.GetComponent<LayoutElement>();
+
+        GameObject container = new("ButtonContainer");
+        container.transform.SetParent(parent, false);
+        container.transform.SetSiblingIndex(originalButton.GetSiblingIndex());
+
+        var containerRect = container.AddComponent<RectTransform>();
+        containerRect.anchorMin = originalRect.anchorMin;
+        containerRect.anchorMax = originalRect.anchorMax;
+        containerRect.anchoredPosition = originalRect.anchoredPosition;
+        containerRect.sizeDelta = originalRect.sizeDelta;
+        containerRect.pivot = originalRect.pivot;
+
+        var hlg = container.AddComponent<HorizontalLayoutGroup>();
+        hlg.spacing = DialogConfig.DUAL_BUTTONS_SPACING;
+        hlg.childAlignment = TextAnchor.MiddleCenter;
+        hlg.childControlWidth = true;
+        hlg.childControlHeight = true;
+        hlg.childForceExpandWidth = true;
+        hlg.childForceExpandHeight = true;
+
+        var containerLayout = container.AddComponent<LayoutElement>();
+        if (originalLayout != null)
         {
-            Transform parent = originalButton.parent;
-            RectTransform originalRect = originalButton.GetComponent<RectTransform>();
-            LayoutElement originalLayout = originalButton.GetComponent<LayoutElement>();
-
-            GameObject container = new("ButtonContainer");
-            container.transform.SetParent(parent, false);
-            container.transform.SetSiblingIndex(originalButton.GetSiblingIndex());
-
-            RectTransform containerRect = container.AddComponent<RectTransform>();
-            containerRect.anchorMin = originalRect.anchorMin;
-            containerRect.anchorMax = originalRect.anchorMax;
-            containerRect.anchoredPosition = originalRect.anchoredPosition;
-            containerRect.sizeDelta = originalRect.sizeDelta;
-            containerRect.pivot = originalRect.pivot;
-
-            HorizontalLayoutGroup hlg = container.AddComponent<HorizontalLayoutGroup>();
-            hlg.spacing = DialogConfig.DUAL_BUTTONS_SPACING;
-            hlg.childAlignment = TextAnchor.MiddleCenter;
-            hlg.childControlWidth = true;
-            hlg.childControlHeight = true;
-            hlg.childForceExpandWidth = true;
-            hlg.childForceExpandHeight = true;
-
-            LayoutElement containerLayout = container.AddComponent<LayoutElement>();
-            if (originalLayout != null)
-            {
-                containerLayout.ignoreLayout = originalLayout.ignoreLayout;
-                containerLayout.minHeight = originalLayout.minHeight;
-                containerLayout.preferredHeight = originalLayout.preferredHeight;
-                containerLayout.flexibleHeight = originalLayout.flexibleHeight;
-                containerLayout.layoutPriority = originalLayout.layoutPriority;
-            }
-
-            ConfigureButton(UnityEngine.Object.Instantiate(originalButton.gameObject, container.transform), "Continue", onContinue);
-            ConfigureButton(UnityEngine.Object.Instantiate(originalButton.gameObject, container.transform), "Cancel", onCancel);
-
-            // Remove original
-            UnityEngine.Object.Destroy(originalButton.gameObject);
+            containerLayout.ignoreLayout = originalLayout.ignoreLayout;
+            containerLayout.minHeight = originalLayout.minHeight;
+            containerLayout.preferredHeight = originalLayout.preferredHeight;
+            containerLayout.flexibleHeight = originalLayout.flexibleHeight;
+            containerLayout.layoutPriority = originalLayout.layoutPriority;
         }
 
-        private static void ConfigureButton(GameObject buttonObj, string text, Action onClick)
+        ConfigureButton(Object.Instantiate(originalButton.gameObject, container.transform), "Continue", onContinue);
+        ConfigureButton(Object.Instantiate(originalButton.gameObject, container.transform), "Cancel", onCancel);
+
+        // Remove original
+        Object.Destroy(originalButton.gameObject);
+    }
+
+    private static void ConfigureButton(GameObject buttonObj, string text, Action onClick)
+    {
+        buttonObj.name = $"{text}Button";
+
+        // Button click
+        var button = buttonObj.GetComponent<Button>();
+        if (button != null)
         {
-            buttonObj.name = $"{text}Button";
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(() => onClick.Invoke());
+        }
 
-            // Button click
-            Button button = buttonObj.GetComponent<Button>();
-            if (button != null)
+        var textTransform = buttonObj.transform.Find("Text");
+        if (textTransform != null)
+        {
+            var textMesh = textTransform.GetComponent<TextMeshProUGUI>();
+            if (textMesh != null)
             {
-                button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(() => onClick.Invoke());
+                textMesh.text = text;
+                textMesh.alignment = TextAlignmentOptions.Center;
+                textMesh.fontSize = DialogConfig.BUTTON_FONT_SIZE;
+                textMesh.fontStyle = FontStyles.Bold;
             }
+        }
 
-            Transform textTransform = buttonObj.transform.Find("Text");
-            if (textTransform != null)
-            {
-                TextMeshProUGUI textMesh = textTransform.GetComponent<TextMeshProUGUI>();
-                if (textMesh != null)
-                {
-                    textMesh.text = text;
-                    textMesh.alignment = TextAlignmentOptions.Center;
-                    textMesh.fontSize = DialogConfig.BUTTON_FONT_SIZE;
-                    textMesh.fontStyle = FontStyles.Bold;
-                }
-            }
-
-            LayoutElement layout = buttonObj.GetComponent<LayoutElement>();
-            if (layout != null)
-            {
-                layout.ignoreLayout = false;
-                layout.minWidth = -1;
-                layout.preferredWidth = -1;
-                layout.flexibleWidth = 1;
-            }
+        var layout = buttonObj.GetComponent<LayoutElement>();
+        if (layout != null)
+        {
+            layout.ignoreLayout = false;
+            layout.minWidth = -1;
+            layout.preferredWidth = -1;
+            layout.flexibleWidth = 1;
         }
     }
 }

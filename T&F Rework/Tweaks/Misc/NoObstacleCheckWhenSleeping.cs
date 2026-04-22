@@ -1,17 +1,14 @@
 ﻿using HarmonyLib;
 
-namespace Ungeziefi.Tweaks
+namespace Ungeziefi.Tweaks;
+
+[HarmonyPatch]
+public class NoObstacleCheckWhenSleeping
 {
-    [HarmonyPatch]
-    public class NoObstacleCheckWhenSleeping
+    [HarmonyPatch(typeof(Bed), nameof(Bed.CheckForSpace))]
+    [HarmonyPostfix]
+    public static void Bed_CheckForSpace(ref bool __result)
     {
-        [HarmonyPatch(typeof(Bed), nameof(Bed.CheckForSpace)), HarmonyPostfix]
-        public static void Bed_CheckForSpace(ref bool __result)
-        {
-            if (Main.Config.NoObstacleCheckWhenSitting)
-            {
-                __result = true;
-            }
-        }
+        if (Main.Config.NoObstacleCheckWhenSitting) __result = true;
     }
 }

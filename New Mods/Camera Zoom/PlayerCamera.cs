@@ -1,156 +1,85 @@
 using HarmonyLib;
 using UnityEngine;
+using UWE;
 
-namespace Ungeziefi.Camera_Zoom
+namespace Ungeziefi.Camera_Zoom;
+
+[HarmonyPatch]
+public class PlayerCamera
 {
-    [HarmonyPatch]
-    public class PlayerCamera
+    private static bool isZoomed, isTweening;
+    private static float startFOV, zoomT, baseFOV;
+
+    private static bool canZoom()
     {
-        private static Camera Camera => SNCameraRoot.main.mainCamera;
-        private static bool IsDroneCameraActive() => uGUI_CameraDrone.main.activeCamera != null;
-        private static bool isZoomActive, isTransitioning;
-        private static float originalFOV, transitionStartFOV, transitionTime;
+        var isPausedOrLoading = WaitScreen.IsWaiting
+                                || Cursor.visible
+                                || FreezeTime.HasFreezers()
+                                || Player.main.GetPDA().isOpen;
 
-        private static bool IsInVehicle()
+        var player = Player.main;
+
+        return player != null &&
+               SNCameraRoot.main.mainCamera != null &&
+               !isPausedOrLoading &&
+               !uGUI_CameraDrone.main.activeCamera &&
+               !CyclopsCameras.IsCameraActive &&
+               (Main.Config.PCAllowWhileBuilding || !Builder.isPlacing);
+    }
+
+    public static void ForceReset()
+    {
+        if (!isZoomed && !isTweening) return;
+
+        ZoomUtils.ApplyFOV(baseFOV);
+        isZoomed = isTweening = false;
+    }
+
+    [HarmonyPatch(typeof(SNCameraRoot), nameof(SNCameraRoot.Update))]
+    [HarmonyPrefix]
+    public static void SNCameraRoot_Update()
+    {
+        if (SNCameraRoot.main == null) return;
+        var config = Main.Config;
+        var inVehicle = Player.main.mode == Player.Mode.LockedPiloting;
+        if (inVehicle ? !config.VCEnableFeature : !config.PCEnableFeature) return;
+
+        var key = inVehicle ? Main.VCZoomButton : Main.PCZoomButton;
+        var target = inVehicle ? config.VCTargetFOV : config.PCTargetFOV;
+        var speed = inVehicle ? config.VCZoomSpeed : config.PCZoomSpeed;
+        var instant = inVehicle ? config.VCInstantZoom : config.PCInstantZoom;
+
+        if (canZoom() && GameInput.GetButtonDown(key))
         {
-            var player = Player.main;
-            return player != null && player.mode == Player.Mode.LockedPiloting;
-        }
-
-        // Check for menu, piloting, Drone Camera, and building state
-        private static bool IsValidState()
-        {
-            bool isPausedOrLoading = WaitScreen.IsWaiting
-            || Cursor.visible
-            || UWE.FreezeTime.HasFreezers()
-            || Player.main.GetPDA().isOpen;
-
-            var player = Player.main;
-
-            return player != null &&
-                   Camera != null &&
-                   !isPausedOrLoading &&
-                   player.mode != Player.Mode.Piloting &&
-                   !IsDroneCameraActive() &&
-                   (Main.Config.PCAllowWhileBuilding || !Builder.isPlacing);
-        }
-
-        // Prevent PDACameraFOVControl from interfering
-        [HarmonyPatch(typeof(PDACameraFOVControl), nameof(PDACameraFOVControl.Update)), HarmonyPrefix]
-        public static bool PDACameraFOVControl_Update() => !(isZoomActive || isTransitioning);
-
-        // Update mask anchors during zoom
-        [HarmonyPatch(typeof(PlayerMask), nameof(PlayerMask.UpdateForCamera)), HarmonyPrefix]
-        public static bool PlayerMask_UpdateForCamera(PlayerMask __instance)
-        {
-            if (isZoomActive || isTransitioning)
+            if (!isZoomed && !isTweening) baseFOV = SNCameraRoot.main.mainCamera.fieldOfView;
+            isZoomed = !isZoomed;
+            if (instant)
             {
-                __instance.GetViewSpaceAnchors(originalFOV, Camera.aspect,
-                    out var topLeftAnchor, out var topMiddleAnchor, out var topRightAnchor,
-                    out var bottomLeftAnchor, out var bottomMiddleAnchor, out var bottomRightAnchor);
-
-                __instance.topLeft.localPosition = topLeftAnchor - __instance.topLeftOffset + __instance.topLeftStartPosition;
-                __instance.topMiddle.localPosition = topMiddleAnchor - __instance.topMiddleOffset + __instance.topMiddleStartPosition;
-                __instance.topRight.localPosition = topRightAnchor - __instance.topRightOffset + __instance.topRightStartPosition;
-                __instance.bottomLeft.localPosition = bottomLeftAnchor - __instance.bottomLeftOffset + __instance.bottomLeftStartPosition;
-                __instance.bottomMiddle.localPosition = bottomMiddleAnchor - __instance.bottomMiddleOffset + __instance.bottomMiddleStartPosition;
-                __instance.bottomRight.localPosition = bottomRightAnchor - __instance.bottomRightOffset + __instance.bottomRightStartPosition;
-
-                __instance.currentFov = Camera.fieldOfView;
-                __instance.currentAspect = Camera.aspect;
-                return false;
+                ZoomUtils.ApplyFOV(isZoomed ? target : baseFOV);
             }
-            return true;
-        }
-
-        // Zoom
-        [HarmonyPatch(typeof(SNCameraRoot), nameof(SNCameraRoot.Update)), HarmonyPrefix]
-        public static void SNCameraRoot_Update()
-        {
-            var config = Main.Config;
-            if (Camera == null) return;
-
-            bool isVehicle = IsInVehicle();
-
-            if ((!config.PCEnableFeature && !isVehicle) ||
-                (!config.VCEnableFeature && isVehicle))
-                return;
-
-            // Reset when invalid state
-            if (!IsValidState() && (isZoomActive || isTransitioning))
+            else
             {
-                ResetZoomState();
-                return;
-            }
-
-            // Get context-specific settings
-            bool instantZoom = isVehicle ? config.VCInstantZoom : config.PCInstantZoom;
-            GameInput.Button zoomKey = isVehicle ? Main.VCZoomButton : Main.PCZoomButton;
-            float targetFOV = isVehicle ? config.VCTargetFOV : config.PCTargetFOV;
-            float zoomSpeed = isVehicle ? config.VCZoomSpeed : config.PCZoomSpeed;
-
-            // Input and set original FOV
-            if (IsValidState() && GameInput.GetButtonDown(zoomKey))
-            {
-                if (!isZoomActive && !isTransitioning) originalFOV = Camera.fieldOfView;
-                isZoomActive = !isZoomActive;
-
-                if (instantZoom)
-                {
-                    ZoomUtils.ApplyFOV(isZoomActive ? targetFOV : originalFOV);
-                }
-                else
-                {
-                    StartTransition();
-                }
-            }
-
-            // Reset if invalid during transition
-            if (isTransitioning && !instantZoom)
-            {
-                if (!IsValidState())
-                {
-                    ResetZoomState();
-                    return;
-                }
-                UpdateTransition(targetFOV, zoomSpeed);
+                isTweening = true;
+                startFOV = SNCameraRoot.main.mainCamera.fieldOfView;
+                zoomT = 0;
             }
         }
 
-        private static void ResetZoomState()
+        if (isTweening)
         {
-            ZoomUtils.ApplyFOV(originalFOV);
-            isTransitioning = isZoomActive = false;
-            transitionTime = 0f;
+            zoomT = Mathf.MoveTowards(zoomT, 1f, Time.deltaTime * speed);
+            ZoomUtils.ApplyFOV(Mathf.Lerp(startFOV, isZoomed ? target : baseFOV, zoomT * zoomT * (3f - 2f * zoomT)));
+            if (zoomT >= 1f) isTweening = false;
         }
 
-        private static void StartTransition()
-        {
-            isTransitioning = true;
-            transitionStartFOV = Camera.fieldOfView;
-            transitionTime = 0f;
-        }
+        if (!canZoom() && (isZoomed || isTweening)) ForceReset();
+    }
 
-        private static void UpdateTransition(float targetFOV, float zoomSpeed)
-        {
-            float transitionDuration = 1f / zoomSpeed;
-            transitionTime += Time.deltaTime;
-            float t = Mathf.Clamp01(transitionTime / transitionDuration);
-            t = t * t * (3f - 2f * t); // Smoothstep interpolation
-            float newFOV = Mathf.Lerp(transitionStartFOV, isZoomActive ? targetFOV : originalFOV, t);
-
-            ZoomUtils.ApplyFOV(newFOV);
-
-            if (t >= 1f)
-            {
-                isTransitioning = false;
-                transitionTime = 0f;
-                ZoomUtils.ApplyFOV(isZoomActive ? targetFOV : originalFOV);
-            }
-        }
-
-        // Reset on player death
-        [HarmonyPatch(typeof(Player), nameof(Player.ResetPlayerOnDeath)), HarmonyPostfix]
-        public static void Player_ResetPlayerOnDeath(Player __instance) => ResetZoomState();
+    // Don't update mask anchors during zoom
+    [HarmonyPatch(typeof(PlayerMask), nameof(PlayerMask.UpdateForCamera))]
+    [HarmonyPrefix]
+    public static bool PlayerMask_UpdateForCamera(PlayerMask __instance)
+    {
+        return !isZoomed && !isTweening;
     }
 }

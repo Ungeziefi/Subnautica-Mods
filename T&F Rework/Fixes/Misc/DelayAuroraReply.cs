@@ -1,42 +1,50 @@
+using System.Collections;
 using HarmonyLib;
 using Story;
-using System.Collections;
 using UnityEngine;
 
-namespace Ungeziefi.Fixes.Misc
+namespace Ungeziefi.Fixes.Misc;
+
+[HarmonyPatch]
+public class DelayAuroraReply
 {
-    [HarmonyPatch]
-    public class DelayAuroraReply
+    private const float AURORA_REPLY_DELAY = 20f;
+    private static bool isPlayingRepairVO;
+
+    [HarmonyPatch(typeof(Radio), nameof(Radio.OnRepair))]
+    [HarmonyPrefix]
+    public static bool Radio_OnRepair(Radio __instance)
     {
-        private static bool isPlayingRepairVO = false;
-        private const float AURORA_REPLY_DELAY = 20f;
+        if (!Main.Config.DelayAuroraReply) return true;
 
-        [HarmonyPatch(typeof(Radio), nameof(Radio.OnRepair)), HarmonyPrefix]
-        public static bool Radio_OnRepair(Radio __instance)
-        {
-            if (!Main.Config.DelayAuroraReply) return true;
+        __instance.StartCoroutine(DelayedRadioRepair(__instance));
+        return false;
+    }
 
-            __instance.StartCoroutine(DelayedRadioRepair(__instance));
-            return false;
-        }
+    private static IEnumerator DelayedRadioRepair(Radio radio)
+    {
+        isPlayingRepairVO = true;
 
-        private static IEnumerator DelayedRadioRepair(Radio radio)
-        {
-            isPlayingRepairVO = true;
+        radio.Invoke("PlayRadioRepairVO", 2f);
 
-            radio.Invoke("PlayRadioRepairVO", 2f);
+        yield return new WaitForSeconds(AURORA_REPLY_DELAY);
 
-            yield return new WaitForSeconds(AURORA_REPLY_DELAY);
+        StoryGoalManager.main.PulsePendingMessages();
 
-            StoryGoalManager.main.PulsePendingMessages();
+        isPlayingRepairVO = false;
+    }
 
-            isPlayingRepairVO = false;
-        }
+    [HarmonyPatch(typeof(Radio), nameof(Radio.OnHandClick))]
+    [HarmonyPrefix]
+    public static bool BlockRadioInteraction()
+    {
+        return !Main.Config.DelayAuroraReply || !isPlayingRepairVO;
+    }
 
-        [HarmonyPatch(typeof(Radio), nameof(Radio.OnHandClick)), HarmonyPrefix]
-        public static bool BlockRadioInteraction() => !Main.Config.DelayAuroraReply || !isPlayingRepairVO;
-
-        [HarmonyPatch(typeof(Radio), nameof(Radio.OnHandHover)), HarmonyPrefix]
-        public static bool BlockRadioHover() => !Main.Config.DelayAuroraReply || !isPlayingRepairVO;
+    [HarmonyPatch(typeof(Radio), nameof(Radio.OnHandHover))]
+    [HarmonyPrefix]
+    public static bool BlockRadioHover()
+    {
+        return !Main.Config.DelayAuroraReply || !isPlayingRepairVO;
     }
 }

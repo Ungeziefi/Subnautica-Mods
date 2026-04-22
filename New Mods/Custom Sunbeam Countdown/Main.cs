@@ -1,29 +1,28 @@
-﻿using BepInEx;
+﻿using System.Reflection;
+using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using Nautilus.Handlers;
-using System.Reflection;
 
-namespace Ungeziefi.Custom_Sunbeam_Countdown
+namespace Ungeziefi.Custom_Sunbeam_Countdown;
+
+[BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
+[BepInDependency("com.snmodding.nautilus")]
+public class Main : BaseUnityPlugin
 {
-    [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
-    [BepInDependency("com.snmodding.nautilus")]
-    public class Main : BaseUnityPlugin
+    public const string PLUGIN_GUID = "Ungeziefi.Custom_Sunbeam_Countdown";
+    public const string PLUGIN_NAME = "Custom Sunbeam Countdown";
+    public const string PLUGIN_VERSION = "1.1.1";
+
+    private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
+    internal new static ManualLogSource Logger { get; private set; }
+    internal new static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+
+    public void Awake()
     {
-        public const string PLUGIN_GUID = "Ungeziefi.Custom_Sunbeam_Countdown";
-        public const string PLUGIN_NAME = "Custom Sunbeam Countdown";
-        public const string PLUGIN_VERSION = "1.1.1";
+        Logger = base.Logger;
+        Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
 
-        private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
-        internal static new ManualLogSource Logger { get; private set; }
-        internal static new Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
-
-        public void Awake()
-        {
-            Logger = base.Logger;
-            Logger.LogInfo($"Plugin {PLUGIN_GUID} is loaded!");
-
-            Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
-        }
+        Harmony.CreateAndPatchAll(Assembly, $"{PLUGIN_GUID}");
     }
 }

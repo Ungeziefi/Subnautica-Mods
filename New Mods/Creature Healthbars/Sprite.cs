@@ -1,84 +1,47 @@
 using UnityEngine;
 
-namespace Ungeziefi.Creature_Healthbars
+namespace Ungeziefi.Creature_Healthbars;
+
+public partial class CreatureHealthbars
 {
-    public partial class CreatureHealthbars
+    private static void CreateSprite()
     {
-        private static void CreateSprite()
+        if (roundedSprite != null) return;
+
+        var width = Main.Config.SpriteWidth;
+        var height = Main.Config.SpriteHeight;
+        Texture2D texture = new(width, height, TextureFormat.RGBA32, true);
+        var pixels = new Color[width * height];
+
+        var radiusPercentage = Main.Config.CornerRoundness;
+        var radius = Mathf.Min(height, width) * radiusPercentage;
+        radius = Mathf.Clamp(radius, 0, Mathf.Min(height, width) / 2f);
+
+        for (var y = 0; y < height; y++)
+        for (var x = 0; x < width; x++)
         {
-            if (roundedSprite != null) return;
+            // Calculate distance to the nearest inner corner point
+            var dx = Mathf.Max(radius - x, 0, x - (width - 1 - radius));
+            var dy = Mathf.Max(radius - y, 0, y - (height - 1 - radius));
+            var dist = Mathf.Sqrt(dx * dx + dy * dy);
 
-            int width = Main.Config.SpriteWidth;
-            int height = Main.Config.SpriteHeight;
-            Texture2D texture = new(width, height, TextureFormat.RGBA32, true);
-            Color[] pixels = new Color[width * height];
-
-            // Fill with transparent pixels initially
-            for (int i = 0; i < pixels.Length; i++)
-                pixels[i] = Color.clear;
-
-            float radiusPercentage = Main.Config.CornerRoundness;
-
-            // Radius based on smaller dimension, then clamp to half of it
-            int radius = Mathf.RoundToInt(Mathf.Min(height, width) * radiusPercentage);
-            radius = Mathf.Clamp(radius, 0, Mathf.Min(height, width) / 2);
-
-            // Draw rounded rectangle
-            for (int y = 0; y < height; y++)
+            if (dist <= radius)
             {
-                for (int x = 0; x < width; x++)
-                {
-                    // If radius is 0, just fill the entire rectangle
-                    if (radius == 0)
-                    {
-                        pixels[y * width + x] = Color.white;
-                        continue;
-                    }
-
-                    // Corner regions
-                    bool isInTopLeftCorner = x < radius && y < radius;
-                    bool isInTopRightCorner = x >= width - radius && y < radius;
-                    bool isInBottomLeftCorner = x < radius && y >= height - radius;
-                    bool isInBottomRightCorner = x >= width - radius && y >= height - radius;
-
-                    // Apply rounded corners based on distance from corner center
-                    if (isInTopLeftCorner)
-                    {
-                        float distance = Vector2.Distance(new Vector2(x, y), new Vector2(radius, radius));
-                        if (distance <= radius)
-                            pixels[y * width + x] = Color.white;
-                    }
-                    else if (isInTopRightCorner)
-                    {
-                        float distance = Vector2.Distance(new Vector2(x, y), new Vector2(width - radius - 1, radius));
-                        if (distance <= radius)
-                            pixels[y * width + x] = Color.white;
-                    }
-                    else if (isInBottomLeftCorner)
-                    {
-                        float distance = Vector2.Distance(new Vector2(x, y), new Vector2(radius, height - radius - 1));
-                        if (distance <= radius)
-                            pixels[y * width + x] = Color.white;
-                    }
-                    else if (isInBottomRightCorner)
-                    {
-                        float distance = Vector2.Distance(new Vector2(x, y), new Vector2(width - radius - 1, height - radius - 1));
-                        if (distance <= radius)
-                            pixels[y * width + x] = Color.white;
-                    }
-                    else
-                    {
-                        // Fill non-corner areas
-                        pixels[y * width + x] = Color.white;
-                    }
-                }
+                // Fade alpha between the edge of the radius and 1 pixel inward for some AA
+                var alpha = Mathf.Clamp01(radius - dist + 0.5f);
+                pixels[y * width + x] = new Color(1, 1, 1, alpha);
             }
-
-            texture.SetPixels(pixels);
-            texture.Apply();
-
-            texture.filterMode = FilterMode.Trilinear;
-            roundedSprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100);
+            else
+            {
+                pixels[y * width + x] = Color.clear;
+            }
         }
+
+        texture.SetPixels(pixels);
+        texture.Apply();
+
+        // Prevent edge bleeding
+        texture.wrapMode = TextureWrapMode.Clamp;
+        roundedSprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100);
     }
 }

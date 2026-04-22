@@ -1,30 +1,29 @@
 using HarmonyLib;
-using UnityEngine;
 
-namespace Ungeziefi.Fixes.Misc
+namespace Ungeziefi.Fixes.Misc;
+
+[HarmonyPatch]
+public class AddMissingVFXSurfaces
 {
-    [HarmonyPatch]
-    public class AddMissingVFXSurfaces
+    [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.Start))]
+    [HarmonyPostfix]
+    private static void SubRoot_Start(SubRoot __instance)
     {
-        [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.Start)), HarmonyPostfix]
-        private static void SubRoot_Start(SubRoot __instance)
+        if (!Main.Config.AddMissingVFXSurfaces) return;
+
+        // Add metal to main body
+        if (!__instance.gameObject.GetComponent<VFXSurface>())
         {
-            if (!Main.Config.AddMissingVFXSurfaces) return;
+            var vfxSurface = __instance.gameObject.AddComponent<VFXSurface>();
+            vfxSurface.surfaceType = VFXSurfaceTypes.metal;
+        }
 
-            // Add metal to main body
-            if (!__instance.gameObject.GetComponent<VFXSurface>())
-            {
-                VFXSurface vfxSurface = __instance.gameObject.AddComponent<VFXSurface>();
-                vfxSurface.surfaceType = VFXSurfaceTypes.metal;
-            }
-
-            // Add glass to helm windows
-            Transform helmGroup = __instance.transform.Find("CyclopsCollision/helmGroup");
-            if (helmGroup && !helmGroup.gameObject.GetComponent<VFXSurface>())
-            {
-                VFXSurface vfxSurface = helmGroup.gameObject.AddComponent<VFXSurface>();
-                vfxSurface.surfaceType = VFXSurfaceTypes.glass;
-            }
+        // Add glass to helm windows
+        var helmGroup = __instance.transform.Find("CyclopsCollision/helmGroup");
+        if (helmGroup && !helmGroup.gameObject.GetComponent<VFXSurface>())
+        {
+            var vfxSurface = helmGroup.gameObject.AddComponent<VFXSurface>();
+            vfxSurface.surfaceType = VFXSurfaceTypes.glass;
         }
     }
 }

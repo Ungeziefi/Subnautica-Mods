@@ -1,18 +1,18 @@
 ﻿using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Fixes.Vehicles
-{
-    [HarmonyPatch]
-    public class CyclopsPowerPercentageClamp
-    {
-        [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update)), HarmonyPostfix]
-        static void CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
-        {
-            if (!Main.Config.CyclopsPowerPercentageClamp) return;
+namespace Ungeziefi.Fixes.Vehicles;
 
-            __instance.lastPowerPctUsedForString = Mathf.Clamp(__instance.lastPowerPctUsedForString, 0, 100);
-            __instance.powerText.text = string.Format("{0}%", __instance.lastPowerPctUsedForString);
-        }
+[HarmonyPatch]
+public class CyclopsPowerPercentageClamp
+{
+    [HarmonyPatch(typeof(CyclopsHelmHUDManager), nameof(CyclopsHelmHUDManager.Update))]
+    [HarmonyPostfix]
+    private static void CyclopsHelmHUDManager_Update(CyclopsHelmHUDManager __instance)
+    {
+        if (!Main.Config.CyclopsPowerPercentageClamp) return;
+
+        __instance.lastPowerPctUsedForString = Mathf.Clamp(__instance.lastPowerPctUsedForString, 0, 100);
+        __instance.powerText.text = string.Format("{0}%", __instance.lastPowerPctUsedForString);
     }
 }

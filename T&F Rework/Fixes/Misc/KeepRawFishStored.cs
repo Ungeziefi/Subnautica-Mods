@@ -1,52 +1,52 @@
-using HarmonyLib;
 using System.Collections.Generic;
+using HarmonyLib;
 using UnityEngine;
 
-namespace Ungeziefi.Fixes.Misc
+namespace Ungeziefi.Fixes.Misc;
+
+[HarmonyPatch]
+public class KeepRawFishStored
 {
-    [HarmonyPatch]
-    public class KeepRawFishStored
+    // Track corpses
+    private static readonly HashSet<CreatureDeath> creatureDeathsToDestroy = new();
+
+    public static void TryRemoveCorpses()
     {
-        // Track corpses
-        private static readonly HashSet<CreatureDeath> creatureDeathsToDestroy = new();
+        if (!Main.Config.KeepDeadRawFishStored || creatureDeathsToDestroy.Count == 0)
+            return;
 
-        public static void TryRemoveCorpses()
+        foreach (var cd in creatureDeathsToDestroy)
         {
-            if (!Main.Config.KeepDeadRawFishStored || creatureDeathsToDestroy.Count == 0)
-                return;
-
-            foreach (var cd in creatureDeathsToDestroy)
+            // Check if stored
+            var pickupable = cd.GetComponent<Pickupable>();
+            if (pickupable && (pickupable._isInSub || pickupable.inventoryItem != null))
             {
-                // Check if stored
-                Pickupable pickupable = cd.GetComponent<Pickupable>();
-                if (pickupable && (pickupable._isInSub || pickupable.inventoryItem != null))
-                {
-                    // Reset decay state
-                    var eatable = pickupable.GetComponent<Eatable>();
-                    if (eatable != null && eatable.timeDecayStart == 0f)
-                    {
-                        eatable.SetDecomposes(true);
-                    }
-                    continue; // Keep it
-                }
-                // Not stored - clean it up
-                Object.Destroy(cd.gameObject);
+                // Reset decay state
+                var eatable = pickupable.GetComponent<Eatable>();
+                if (eatable != null && eatable.timeDecayStart == 0f) eatable.SetDecomposes(true);
+                continue; // Keep it
             }
-            creatureDeathsToDestroy.Clear(); // Reset for next load
+
+            // Not stored - clean it up
+            Object.Destroy(cd.gameObject);
         }
 
-        [HarmonyPatch(typeof(CreatureDeath), nameof(CreatureDeath.RemoveCorpse)), HarmonyPrefix]
-        static bool RemoveCorpsePrefix(CreatureDeath __instance)
-        {
-            if (!Main.Config.KeepDeadRawFishStored) return true;
+        creatureDeathsToDestroy.Clear(); // Reset for next load
+    }
 
-            // During loading: track corpse without destroying
-            if (WaitScreen.IsWaiting)
-            {
-                creatureDeathsToDestroy.Add(__instance);
-                return false; // Prevent destruction
-            }
-            return true; // Outside loading: let vanilla handle it
+    [HarmonyPatch(typeof(CreatureDeath), nameof(CreatureDeath.RemoveCorpse))]
+    [HarmonyPrefix]
+    private static bool RemoveCorpsePrefix(CreatureDeath __instance)
+    {
+        if (!Main.Config.KeepDeadRawFishStored) return true;
+
+        // During loading: track corpse without destroying
+        if (WaitScreen.IsWaiting)
+        {
+            creatureDeathsToDestroy.Add(__instance);
+            return false; // Prevent destruction
         }
+
+        return true; // Outside loading: let vanilla handle it
     }
 }

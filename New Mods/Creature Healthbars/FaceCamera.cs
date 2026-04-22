@@ -1,17 +1,19 @@
 using UnityEngine;
 
-namespace Ungeziefi.Creature_Healthbars
+namespace Ungeziefi.Creature_Healthbars;
+
+public class FaceCamera : MonoBehaviour
 {
-    public class FaceCamera : MonoBehaviour
+    private Transform cameraTransform;
+
+    private void Start()
     {
-        private Transform cameraTransform;
+        cameraTransform = MainCamera.camera.transform;
+    }
 
-        void Start() => cameraTransform = MainCamera.camera.transform;
-
-        void LateUpdate()
-        {
-            if (cameraTransform != null)
-                transform.rotation = Quaternion.LookRotation(transform.position - cameraTransform.position);
-        }
+    private void LateUpdate()
+    {
+        if (cameraTransform)
+            transform.rotation = Quaternion.LookRotation(transform.position - cameraTransform.position);
     }
 }

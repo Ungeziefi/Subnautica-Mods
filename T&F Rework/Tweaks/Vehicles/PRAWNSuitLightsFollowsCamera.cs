@@ -1,21 +1,17 @@
 ﻿using HarmonyLib;
-using UnityEngine;
 
-namespace Ungeziefi.Tweaks.Vehicles
+namespace Ungeziefi.Tweaks.Vehicles;
+
+[HarmonyPatch]
+public class PRAWNSuitLightsFollowsCamera
 {
-    [HarmonyPatch]
-    public class PRAWNSuitLightsFollowsCamera
+    [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.Start))]
+    [HarmonyPostfix]
+    public static void Exosuit_Start(Exosuit __instance)
     {
-        [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.Start)), HarmonyPostfix]
-        public static void Exosuit_Start(Exosuit __instance)
-        {
-            if (!Main.Config.PRAWNSuitLightsFollowCamera) return;
+        if (!Main.Config.PRAWNSuitLightsFollowCamera) return;
 
-            Transform lightsParent = __instance.transform.Find("lights_parent");
-            if (lightsParent != null)
-            {
-                lightsParent.SetParent(__instance.leftArmAttach);
-            }
-        }
+        var lightsParent = __instance.transform.Find("lights_parent");
+        if (lightsParent != null) lightsParent.SetParent(__instance.leftArmAttach);
     }
 }
