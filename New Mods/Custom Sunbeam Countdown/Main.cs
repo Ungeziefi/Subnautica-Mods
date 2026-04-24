@@ -12,7 +12,7 @@ public class Main : BaseUnityPlugin
 {
     public const string PLUGIN_GUID = "Ungeziefi.Custom_Sunbeam_Countdown";
     public const string PLUGIN_NAME = "Custom Sunbeam Countdown";
-    public const string PLUGIN_VERSION = "1.1.1";
+    public const string PLUGIN_VERSION = "1.2.0";
 
     private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
     internal new static ManualLogSource Logger { get; private set; }
