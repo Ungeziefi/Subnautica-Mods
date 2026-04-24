@@ -7,18 +7,11 @@ namespace Ungeziefi.Fixes.Equipment;
 [HarmonyPatch]
 public class AirBladderRequiresPower
 {
-    public static bool ShouldRefillOxygen()
+    private static bool CanBreathe()
     {
-        var player = Player.main;
+        if (Player.main.CanBreathe()) return true;
 
-        if (player.IsInBase())
-        {
-            var sub = player.currentSub;
-            if (sub != null && sub.powerRelay.GetPowerStatus() == PowerSystem.Status.Offline)
-                return false;
-        }
-
-        return true;
+        return false;
     }
 
     [HarmonyPatch(typeof(AirBladder), nameof(AirBladder.UpdateInflateState))]
@@ -37,7 +30,7 @@ public class AirBladderRequiresPower
 
         matcher.Advance(1);
 
-        matcher.InsertAndAdvance(Transpilers.EmitDelegate(ShouldRefillOxygen));
+        matcher.InsertAndAdvance(Transpilers.EmitDelegate(CanBreathe));
         matcher.InsertAndAdvance(new CodeInstruction(OpCodes.Brfalse_S, skipLabel));
 
         return matcher.InstructionEnumeration();
