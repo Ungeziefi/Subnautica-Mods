@@ -13,7 +13,7 @@ public class Main : BaseUnityPlugin
 {
     public const string PLUGIN_GUID = "Ungeziefi.Rotatable_Ladders";
     public const string PLUGIN_NAME = "Rotatable Ladders";
-    public const string PLUGIN_VERSION = "2.1.0";
+    public const string PLUGIN_VERSION = "2.2.0";
 
     public static GameInput.Button RotateLadderButton;
 

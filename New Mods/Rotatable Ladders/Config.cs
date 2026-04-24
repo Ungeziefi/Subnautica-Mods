@@ -11,4 +11,13 @@ public class Config : ConfigFile
     [Toggle(Label = "Empty hands only",
         Tooltip = "When enabled, the rotation prompt will only appear when you're not holding any tools or items.")]
     public bool EmptyHandsOnly = true;
+
+    [Toggle(Label = "Affect connected ladder")]
+    public bool AffectConnectedLadder = true;
+
+    [Toggle(Label = "Smooth rotation")] public bool SmoothRotation = true;
+
+    [Slider(Label = "Rotation duration", DefaultValue = 0.5f, Min = 0.1f, Max = 5.0f, Step = 0.1f,
+        Format = "{0:0.0}s")]
+    public float RotationDuration = 0.5f;
 }
