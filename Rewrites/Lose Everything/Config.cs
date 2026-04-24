@@ -12,5 +12,5 @@ public class Config : ConfigFile
     public bool LoseEquipmentOnDeath = true;
 
     [Toggle(Label = "Keep tools on death")]
-    public bool KeepToolsOnDeath = true;
+    public bool KeepToolsOnDeath = false;
 }
