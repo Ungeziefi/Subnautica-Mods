@@ -16,11 +16,11 @@ public class PRAWNSuitClawDamage
         if (Main.Config.PRAWNSuitClawDamage == 50f) return instructions;
 
         matcher.MatchForward(false,
-                new CodeMatch(i => i.opcode == OpCodes.Ldloc_S),
+                new CodeMatch(OpCodes.Ldloc_S),
                 new CodeMatch(OpCodes.Ldc_R4, 50f),
-                new CodeMatch(i => i.opcode == OpCodes.Ldloc_1),
-                new CodeMatch(i => i.opcode == OpCodes.Ldc_I4_0),
-                new CodeMatch(i => i.opcode == OpCodes.Ldnull)
+                new CodeMatch(OpCodes.Ldloc_1),
+                new CodeMatch(OpCodes.Ldc_I4_0),
+                new CodeMatch(OpCodes.Ldnull)
             )
             .Advance(1)
             .RemoveInstruction()

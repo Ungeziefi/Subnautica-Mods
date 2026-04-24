@@ -15,9 +15,9 @@ public class NoPDADelay
 
         var matcher = new CodeMatcher(instructions)
             .MatchForward(true,
-                new CodeMatch(i => i.opcode == OpCodes.Callvirt),
-                new CodeMatch(i => i.opcode == OpCodes.Ldarg_0),
-                new CodeMatch(i => i.opcode == OpCodes.Ldfld),
+                new CodeMatch(OpCodes.Callvirt),
+                new CodeMatch(OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Ldfld),
                 new CodeMatch(OpCodes.Ldc_R4, 0.5f)
             )
             .SetOperandAndAdvance(0f);
@@ -33,8 +33,8 @@ public class NoPDADelay
 
         var matcher = new CodeMatcher(instructions)
             .MatchForward(true,
-                new CodeMatch(i => i.opcode == OpCodes.Ldarg_0),
-                new CodeMatch(i => i.opcode == OpCodes.Ldfld),
+                new CodeMatch(OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Ldfld),
                 new CodeMatch(OpCodes.Ldc_R4, 0.3f)
             )
             .SetOperandAndAdvance(0f);

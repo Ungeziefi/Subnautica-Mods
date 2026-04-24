@@ -77,7 +77,7 @@ public class DayNightDuration
         var matcher = new CodeMatcher(instructions);
 
         matcher.MatchForward(false,
-                new CodeMatch(i => i.opcode == OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Ldarg_0),
                 new CodeMatch(OpCodes.Ldc_R4, 1f),
                 new CodeMatch(OpCodes.Stfld)
             )
@@ -99,7 +99,7 @@ public class DayNightDuration
         var matcher = new CodeMatcher(instructions);
 
         matcher.MatchForward(false,
-                new CodeMatch(i => i.opcode == OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Ldarg_0),
                 new CodeMatch(OpCodes.Ldc_R4, 1f),
                 new CodeMatch(OpCodes.Stfld)
             )
@@ -120,7 +120,7 @@ public class DayNightDuration
         var matcher = new CodeMatcher(instructions);
 
         matcher.MatchForward(false,
-                new CodeMatch(i => i.opcode == OpCodes.Ldarg_0),
+                new CodeMatch(OpCodes.Ldarg_0),
                 new CodeMatch(OpCodes.Ldc_R4, 1f),
                 new CodeMatch(OpCodes.Stfld)
             )
