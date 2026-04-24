@@ -9,4 +9,4 @@
 - **Disable dead telemetry**: Stops connection attempts to the inactive analytics
   server (https://analytics.unknownworlds.com/api).
 - **Air Bladder requires power**: The Air Bladder will only refill inside habitats with active power.
-- **Reset camera on death**: Resets the camera position when the player dies.
+- **Reset camera on death**: Resets the camera angle when the player dies.
