@@ -13,7 +13,7 @@ public class Main : BaseUnityPlugin
 {
     public const string PLUGIN_GUID = "Ungeziefi.Seamoth_Barrel_Roll";
     public const string PLUGIN_NAME = "Seamoth Barrel Roll";
-    public const string PLUGIN_VERSION = "2.2.2";
+    public const string PLUGIN_VERSION = "2.2.3";
 
     public static GameInput.Button RollLeftButton;
     public static GameInput.Button RollRightButton;
@@ -29,13 +29,13 @@ public class Main : BaseUnityPlugin
 
         RollLeftButton = EnumHandler.AddEntry<GameInput.Button>("RollLeftButton")
             .CreateInput("Roll left")
-            .WithKeyboardBinding(InputPaths.Keyboard.Ctrl)
+            .WithKeyboardBinding(InputPaths.Keyboard.Q)
             .WithCategory("Seamoth Barrel Roll")
             .AvoidConflicts();
 
         RollRightButton = EnumHandler.AddEntry<GameInput.Button>("RollRightButton")
             .CreateInput("Roll right")
-            .WithKeyboardBinding(InputPaths.Keyboard.Alt)
+            .WithKeyboardBinding(InputPaths.Keyboard.T)
             .WithCategory("Seamoth Barrel Roll")
             .AvoidConflicts();
 
