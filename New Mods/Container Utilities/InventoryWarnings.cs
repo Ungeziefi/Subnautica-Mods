@@ -19,7 +19,7 @@ public class InventoryWarnings
     {
         if (!Main.Config.ShowFreeSlotWarnings && !Main.Config.ShowFullInventoryWarning) return;
 
-        if (__instance != Inventory.main) return;
+        if (__instance != Inventory.main || WaitScreen.IsWaiting) return;
 
         UpdateWarnings(__instance);
     }
