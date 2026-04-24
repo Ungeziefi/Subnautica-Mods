@@ -12,7 +12,7 @@ public class Main : BaseUnityPlugin
 {
     public const string PLUGIN_GUID = "Ungeziefi.Moonpool_Rotation";
     public const string PLUGIN_NAME = "Moonpool Rotation";
-    public const string PLUGIN_VERSION = "1.1.2";
+    public const string PLUGIN_VERSION = "1.1.3";
 
     private static Assembly Assembly { get; } = Assembly.GetExecutingAssembly();
     internal new static ManualLogSource Logger { get; private set; }

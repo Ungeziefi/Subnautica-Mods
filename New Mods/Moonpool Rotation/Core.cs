@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using DG.Tweening;
 using HarmonyLib;
 using UnityEngine;
 
@@ -32,77 +32,51 @@ public class MoonpoolRotation
 
         if (moonpoolAnim == null) return true;
 
-        // Match vehicle rotation then flip accordingly
         if (Main.Config.UseAdvancedRotation)
         {
-            isRotatingAny = true;
-            __instance.StartCoroutine(RotationSequenceWrapper(moonpoolAnim, dockingVehicle.transform, true));
+            Rotate(moonpoolAnim, dockingVehicle.transform, true);
             return false;
         }
 
-        // Flip 180 after automatic alignment to either end
+        // If facing the other way
         if (Vector3.Dot(dockingVehicle.transform.right, moonpoolAnim.right) < 0)
         {
-            isRotatingAny = true;
-            __instance.StartCoroutine(RotationSequenceWrapper(moonpoolAnim, null, false));
+            Rotate(moonpoolAnim, null, false);
             return false;
         }
 
         return true;
     }
 
-    private static IEnumerator RotationSequenceWrapper(Transform moonpoolAnim, Transform vehicleTransform,
-        bool isAdvanced)
+    private static void Rotate(Transform moonpoolAnim, Transform vehicleTransform, bool isAdvanced)
     {
-        var originalRotation = moonpoolAnim.rotation;
+        isRotatingAny = true;
+
+        var originalLocalEuler = moonpoolAnim.localEulerAngles;
         Quaternion targetRotation;
 
         if (isAdvanced)
         {
-            // Advanced: Match vehicle's forward direction
             var targetForward = new Vector3(vehicleTransform.forward.x, 0, vehicleTransform.forward.z).normalized;
             targetRotation = Quaternion.LookRotation(targetForward, Vector3.up);
         }
         else
         {
-            // Simple: 180-degree flip
-            targetRotation = originalRotation * Quaternion.Euler(0f, 180f, 0f);
+            targetRotation = moonpoolAnim.rotation * Quaternion.Euler(0f, 180f, 0f);
         }
 
-        // 1. Instant jump to target
         moonpoolAnim.rotation = targetRotation;
 
-        // 2. Wait
-        yield return new WaitForSeconds(Main.Config.WaitBeforeRotation);
-
-        // 3. Calculate duration for the return
-        var angle = Quaternion.Angle(targetRotation, originalRotation);
+        // Calculate duration
+        var angle = Quaternion.Angle(moonpoolAnim.rotation, Quaternion.Euler(originalLocalEuler));
         var duration = isAdvanced
             ? Mathf.Max(Main.Config.MinReturnRotationDuration,
                 Mathf.Lerp(0.2f, Main.Config.MaxReturnRotationDuration, angle / 180f))
             : Main.Config.MaxReturnRotationDuration;
 
-        // 4. Return
-        yield return RotateTransform(moonpoolAnim, originalRotation, duration);
-
-        isRotatingAny = false;
-    }
-
-    private static IEnumerator RotateTransform(Transform moonpoolAnim, Quaternion targetRotation, float duration)
-    {
-        float elapsedTime = 0;
-        var startRotation = moonpoolAnim.rotation;
-
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            var t = Mathf.SmoothStep(0, 1, elapsedTime / duration);
-
-            moonpoolAnim.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
-
-            yield return null;
-        }
-
-        moonpoolAnim.rotation = targetRotation;
+        DOTween.Sequence()
+            .AppendInterval(Main.Config.WaitBeforeRotation)
+            .Append(moonpoolAnim.DOLocalRotate(originalLocalEuler, duration).SetEase(Ease.InOutQuad))
+            .OnComplete(() => { isRotatingAny = false; });
     }
 }

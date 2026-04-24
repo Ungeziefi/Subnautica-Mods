@@ -40,7 +40,13 @@
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Reference Include="DOTween">
+            <HintPath>DOTween\DOTween.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="mkdir &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xA;&#xA;mkdir &quot;$(SolutionDir)\Release\$(TargetName)\BepInEx\plugins\$(TargetName)&quot;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\Release\$(TargetName)\BepInEx\plugins\$(TargetName)&quot;" />
+        <Exec Command="mkdir &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xA;&#xA;mkdir &quot;$(SolutionDir)\Release\$(TargetName)\BepInEx\plugins\$(TargetName)&quot;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\Release\$(TargetName)\BepInEx\plugins\$(TargetName)&quot;"/>
     </Target>
 </Project>
