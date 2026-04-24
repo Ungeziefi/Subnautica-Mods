@@ -9,8 +9,6 @@ namespace Ungeziefi.Better_Scanner_Blips_Remake;
 
 [BepInPlugin(PLUGIN_GUID, PLUGIN_NAME, PLUGIN_VERSION)]
 [BepInDependency("com.snmodding.nautilus")]
-
-// Incompatible plugins (GUID)
 [BepInIncompatibility("BetterScannerBlips")]
 [BepInIncompatibility("com.whotnt.subnautica.dynamicscannerblips.mod")]
 public class Main : BaseUnityPlugin
