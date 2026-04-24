@@ -6,7 +6,7 @@ using HarmonyLib;
 namespace Ungeziefi.Console_Autocompletion;
 
 [HarmonyPatch]
-public class Console_Autocompletion
+public class ConsoleAutocompletion
 {
     private static HashSet<string> commandCache = new();
     private static HashSet<string> techtypeCache = new();
@@ -17,7 +17,7 @@ public class Console_Autocompletion
     [HarmonyPostfix]
     public static void SubRoot_Start()
     {
-        if (Main.Config.EnableFeature) InitializeCaches();
+        InitializeCaches();
     }
 
     [HarmonyPatch(typeof(ConsoleInput), nameof(ConsoleInput.KeyPressedOverride))]

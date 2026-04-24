@@ -13,7 +13,7 @@ public class Main : BaseUnityPlugin
 {
     public const string PLUGIN_GUID = "Ungeziefi.Console_Autocompletion";
     public const string PLUGIN_NAME = "Console Autocompletion";
-    public const string PLUGIN_VERSION = "1.0.0";
+    public const string PLUGIN_VERSION = "1.0.1";
 
     public static GameInput.Button AutocompleteButton;
 
