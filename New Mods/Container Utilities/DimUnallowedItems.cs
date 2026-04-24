@@ -43,6 +43,7 @@ public class DimUnallowedItems
     public static void OnClosePDA(uGUI_InventoryTab __instance)
     {
         if (!Main.Config.DimUnallowedItems) return;
+
         if (__instance.inventory.items == null) return;
 
         __instance.inventory.items.Values.ForEach(icon => icon.SetChroma(1f));
