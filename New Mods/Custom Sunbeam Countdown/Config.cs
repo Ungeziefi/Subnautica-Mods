@@ -18,7 +18,7 @@ public class Config : ConfigFile
     [Slider(Label = "Scale", DefaultValue = 0.70f, Min = 0.5f, Max = 2f, Step = 0.01f, Format = "{0:0.00}")]
     public float Scale = 0.70f;
 
-    [Slider(Label = "Countdown duration (in minutes)", DefaultValue = 40f, Min = 5f, Max = 600f, Step = 1f,
+    [Slider(Label = "Countdown duration (minutes)", DefaultValue = 40f, Min = 5f, Max = 600f, Step = 1f,
         Format = "{0:0}m")]
     public float CountdownDuration = 40f;
 }
