@@ -17,7 +17,7 @@ public class Config : ConfigFile
 
     [Toggle(Label = "Smooth rotation")] public bool SmoothRotation = true;
 
-    [Slider(Label = "Rotation duration", DefaultValue = 0.5f, Min = 0.1f, Max = 5.0f, Step = 0.1f,
+    [Slider(Label = "Rotation duration", DefaultValue = 1f, Min = 0.1f, Max = 5.0f, Step = 0.1f,
         Format = "{0:0.0}s")]
-    public float RotationDuration = 0.5f;
+    public float RotationDuration = 1f;
 }
