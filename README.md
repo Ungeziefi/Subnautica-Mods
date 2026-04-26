@@ -21,7 +21,7 @@ Standalones - more information in the respective Nexus Mods description.
 - [Creature Healthbars](https://www.nexusmods.com/subnautica/mods/2349)
 - [ModSync](https://www.nexusmods.com/subnautica/mods/2704)
 - [Console Autocompletion](https://www.nexusmods.com/subnautica/mods/3000)
-- Container Utilities
+- [Container Utilities](https://www.nexusmods.com/subnautica/mods/3331)
 
 ---
 
