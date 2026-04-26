@@ -50,9 +50,9 @@ public class InventoryWarnings
 
             if (Main.Config.FullInventoryAudioCue)
                 FMODUWE.PlayOneShot(
-                    AudioUtils.GetFmodAsset(
-                        "event:/interface/ping"), // https://github.com/SubnauticaModding/Nautilus/blob/master/Nautilus/Documentation/resources/SN1-FMODEvents.txt
-                    Player.main.transform.position);
+                    // TODO: Choose a better sound
+                    // https://github.com/SubnauticaModding/Nautilus/blob/master/Nautilus/Documentation/resources/SN1-FMODEvents.txt
+                    AudioUtils.GetFmodAsset("event:/interface/ping"), Player.main.transform.position);
         }
 
         // Show warning
