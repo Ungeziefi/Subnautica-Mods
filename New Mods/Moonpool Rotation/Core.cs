@@ -76,7 +76,8 @@ public class MoonpoolRotation
 
         DOTween.Sequence()
             .AppendInterval(Main.Config.WaitBeforeRotation)
-            .Append(moonpoolAnim.DOLocalRotate(originalLocalEuler, duration).SetEase(Ease.InOutQuad))
+            .Append(moonpoolAnim.DOLocalRotate(originalLocalEuler, duration)
+                .SetEase(Ease.InOutQuad))
             .OnComplete(() => { isRotatingAny = false; });
     }
 }
