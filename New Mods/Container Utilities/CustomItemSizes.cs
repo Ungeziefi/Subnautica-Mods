@@ -31,9 +31,6 @@ public static class CustomItemSizes
             }
         }
 
-        if (Main.Config.AllItems1x1)
-        {
-            __result = new Vector2int(1, 1);
-        }
+        if (Main.Config.AllItems1x1) __result = new Vector2int(1, 1);
     }
 }

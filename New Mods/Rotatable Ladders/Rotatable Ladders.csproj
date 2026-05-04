@@ -47,6 +47,6 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="mkdir &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;C:\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)&quot;&#xA;&#xA;mkdir &quot;$(SolutionDir)\Release\$(TargetName)\BepInEx\plugins\$(TargetName)&quot;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\Release\$(TargetName)\BepInEx\plugins\$(TargetName)&quot;"/>
+      <Exec Command="&quot;$(SolutionDir)/deploy.sh&quot; &quot;$(TargetName)&quot; &quot;$(TargetPath)&quot; &quot;$(SolutionDir)&quot;" />
     </Target>
 </Project>

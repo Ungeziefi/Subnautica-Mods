@@ -29,7 +29,7 @@ internal class CustomContainerSizes
     {
         return instance.gameObject.GetComponent<SmallStorage>() != null;
     }
-    
+
     [HarmonyPatch(typeof(StorageContainer), nameof(StorageContainer.Awake))]
     [HarmonyPrefix]
     private static void StorageContainer_Awake(StorageContainer __instance)
@@ -60,14 +60,14 @@ internal class CustomContainerSizes
 
         __instance.container.Resize(Main.Config.SeamothStorageWidth, Main.Config.SeamothStorageHeight);
     }
-    
+
     [HarmonyPatch(typeof(Exosuit), nameof(Exosuit.UpdateStorageSize))]
     [HarmonyPrefix]
     private static bool Exosuit_UpdateStorageSize(Exosuit __instance)
     {
         if (!Main.Config.EnableCustomContainerSizes) return true;
 
-        int num = Main.Config.ExosuitStorageHeight + __instance.modules.GetCount(TechType.VehicleStorageModule);
+        var num = Main.Config.ExosuitStorageHeight + __instance.modules.GetCount(TechType.VehicleStorageModule);
         __instance.storageContainer.Resize(Main.Config.ExosuitStorageWidth, num);
 
         return false;
