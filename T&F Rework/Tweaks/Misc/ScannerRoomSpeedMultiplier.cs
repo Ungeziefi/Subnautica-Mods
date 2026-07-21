@@ -12,8 +12,8 @@ public class ScannerRoomSpeedMultiplier
     [HarmonyPrefix]
     public static bool MapRoomFunctionality_UpdateScanRangeAndInterval_Prefix(MapRoomFunctionality __instance)
     {
-        var previousInterval = __instance.scanInterval;
-
+        if (Main.Config.ScannerRoomSpeedMultiplier == 1) return true;
+        
         var rangeUpgradeCount = __instance.storageContainer.container.GetCount(TechType.MapRoomUpgradeScanRange);
         __instance.scanRange = Mathf.Min(500f, 300f + rangeUpgradeCount * 50f);
 
