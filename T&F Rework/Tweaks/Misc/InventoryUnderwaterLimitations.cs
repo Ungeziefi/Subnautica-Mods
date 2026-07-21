@@ -16,7 +16,7 @@ public class InventoryUnderwaterLimitations
             __result = ItemAction.None;
 
         // No medkits underwater
-        if (Main.Config.NoEatingUnderwater &&
+        if (Main.Config.NoMedkitsUnderwater &&
             !Player.main.CanBreathe() &&
             __result == ItemAction.Use && item.item.GetTechType() == TechType.FirstAidKit)
             __result = ItemAction.None;

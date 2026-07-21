@@ -14,7 +14,7 @@ public class Main : BaseUnityPlugin
 {
     public const string PLUGIN_GUID = "Ungeziefi.Tweaks";
     public const string PLUGIN_NAME = "Tweaks";
-    public const string PLUGIN_VERSION = "1.2.0";
+    public const string PLUGIN_VERSION = "1.2.1";
 
     public static GameInput.Button SeamothCycleTorpedoButton;
     public static GameInput.Button PRAWNSuitCycleTorpedoButton;
