@@ -61,6 +61,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lose Everything", "Rewrites
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stasis Rifle Freeze Fix", "Rewrites\Stasis Rifle Freeze Fix\Stasis Rifle Freeze Fix.csproj", "{4110E410-5E66-49BF-B32B-409087F1396D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Below Zero", "Below Zero", "{C40328BC-E134-2846-9398-761CDD4C7BB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rotatable Ladders", "Below Zero\Rotatable Ladders\Rotatable Ladders.csproj", "{0673D14E-176C-4C65-85AA-B721C8BC53E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +159,10 @@ Global
 		{4110E410-5E66-49BF-B32B-409087F1396D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4110E410-5E66-49BF-B32B-409087F1396D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4110E410-5E66-49BF-B32B-409087F1396D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0673D14E-176C-4C65-85AA-B721C8BC53E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0673D14E-176C-4C65-85AA-B721C8BC53E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0673D14E-176C-4C65-85AA-B721C8BC53E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0673D14E-176C-4C65-85AA-B721C8BC53E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -183,6 +191,7 @@ Global
 		{FBE22281-EDAA-02BC-A762-9256879B7F53} = {36E2ADDC-F21A-4F50-8C65-996E182C459A}
 		{3C36CEE8-EB07-4DA5-AF4A-C68E731355FC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{4110E410-5E66-49BF-B32B-409087F1396D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{0673D14E-176C-4C65-85AA-B721C8BC53E8} = {C40328BC-E134-2846-9398-761CDD4C7BB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64328EDE-8342-4276-8236-6A9D23D0BEBD}
